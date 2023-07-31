@@ -1,0 +1,174 @@
+
+@media only screen and (min-width:200px) and (max-width:767px) {
+    header.header {
+        position: relative;
+        background: #2D313D;
+    }
+    .top-header p {
+        font-size: 14px;
+    }
+    a.menu-toggle {
+        color: #fff !important;
+    }
+  
+    .header-info {
+        justify-content: center;
+        flex-direction: column;
+    }
+    .header-info ul {
+        display: flex;
+        justify-content: center;
+    }
+	.stellarnav.dark.right.mobile {
+    text-align: right;
+}
+.stellarnav.mobile.right > ul {
+    z-index: 99;
+    background: #2d313d;
+}
+a.close-menu.half {
+    color: #fff;
+}
+.banner-content h1 {
+    font-size: 16px;
+}
+.banner-content h3 {
+    font-size: 14px;
+    margin: 0 0 5px 0;
+}
+.top-header ul li:last-child p {
+    font-size: 13px;
+}
+.top-header ul {
+    flex-direction: column;
+    justify-content: center;
+    gap: 10px;
+}
+.class-list {
+    padding: 20px;
+    margin-top: 30px;
+}
+.service-card {
+    width: 100%;
+}
+.info-bg h3 {
+    font-size: 22px;
+}
+.info-bg h5 {
+    font-size: 22px;
+}
+
+
+
+
+.theme-btn {
+    padding: 5px 17px;
+    font-size: 12px;
+}
+.class-list h3 {
+    font-size: 20px;
+}
+.class-list ul li a {
+    font-size: 16px;
+    padding: 10px 15px;
+    min-height: auto;
+}
+.class-list ul li {
+    width: 100%;
+}
+.about-left h3 {
+    font-size: 20px;
+}
+.about-right {
+    margin-top: 0;
+}
+.evalution h4 {
+    font-size: 20px;
+}
+.eve-btn h5 {
+    font-size: 15px;
+}
+.eve-btn h5 label {
+    font-size: 11px;
+}
+.evalution p {
+    font-size: 17px;
+}
+.orl {
+    margin: 15px 0;
+}
+.copy-right ul {
+    flex-direction: column-reverse;
+    justify-content: center;
+    text-align: center;
+}
+.copy-right ul li:last-child {
+    margin-left: inherit;
+}
+}
+
+
+@media only screen and (min-width:768px) and (max-width:991px) {
+	.stellarnav.light.right.mobile {
+    text-align: right;
+}
+	.stellarnav.mobile.right > ul {
+    z-index: 99;
+}
+.banner-content h1 {
+    font-size: 27px;
+}
+.banner-content h2 {
+    font-size: 29px;
+}
+.top-header ul li:last-child p {
+    color: #484848;
+    font-size: 14px;
+}
+.class-list h3 {
+    font-size: 30px;
+}
+.class-list ul li a {
+
+    font-size: 13px;
+}
+.about-left h3 {
+    font-weight: 600;
+    font-size: 24px;
+}
+.evalution p {
+    color: #606060;
+    font-size: 23px;
+}
+.footer-menu ul a {
+
+    padding: 5px 16px;
+}
+.copy-right ul p {
+    font-size: 13px;
+}
+.copy-right ul a {
+    font-size: 13px;
+}
+}
+@media only screen and (min-width:992px) and (max-width:1199px) {
+    .stellarnav > ul > li > a {
+        font-size: 15px;
+        padding: 9px 14px;
+    }
+.banner-content h1 {
+    font-size: 57px;
+}
+.top-header ul li:last-child p {
+    font-size: 20px;
+}
+}
+
+
+
+	
+/********************@media only screen and (min-width:1201px)********************/
+
+	
+
+/********************@media only screen and (min-width:1201px)********************/
