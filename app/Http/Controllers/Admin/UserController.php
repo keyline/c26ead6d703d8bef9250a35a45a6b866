@@ -1,0 +1,348 @@
+<?php
+namespace App\Http\Controllers\Admin;
+use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
+use App\Models\GeneralSetting;
+use App\Models\Admin;
+use Auth;
+use Session;
+use Helper;
+use Hash;
+
+class UserController extends Controller
+{
+    /* authentication */
+        public function login(Request $request){
+            if($request->isMethod('post')){
+                $postData = $request->all();
+                
+                $rules = [
+                    'email' => 'required|email|max:255',
+                    'password' => 'required|max:30',
+                ];
+                if($this->validate($request, $rules)){
+                    if(Auth::guard('admin')->attempt(['email' => $postData['email'], 'password' => $postData['password'], 'status' => 1])){
+                        // Helper::pr(Auth::guard('admin')->user());
+                        $sessionData = Auth::guard('admin')->user();
+                        $request->session()->push('user_id', $sessionData->id);
+                        $request->session()->push('name', $sessionData->name);
+                        $request->session()->push('type', $sessionData->type);
+                        $request->session()->push('email', $sessionData->email);
+                        return redirect('admin/dashboard');
+                    } else {
+                        return redirect()->back()->with('error_message', 'Invalid Email Or Password !!!');
+                    }
+                } else {
+                    return redirect()->back()->with('error_message', 'All Fields Required !!!');
+                }
+            }
+            $data                           = [];
+            $title                          = 'Sign In';
+            $page_name                      = 'signin';
+            echo $this->admin_before_login_layout($title,$page_name,$data);
+        }
+        public function logout(){
+            Auth::guard('admin')->logout();
+            return redirect()->back()->with('success_message', 'You Are Successfully Logged Out !!!');
+        }
+    /* authentication */
+    /* dashboard */
+        public function dashboard(){
+            $data                           = [];
+            $title                          = 'Dashboard';
+            $page_name                      = 'dashboard';
+            echo $this->admin_after_login_layout($title,$page_name,$data);
+        }
+    /* dashboard */
+    /* settings */
+        public function settings(Request $request){
+            $uId                            = $request->session()->get('user_id')[0];
+            $data['setting']                = GeneralSetting::where('id', '=', 1)->first();
+            $data['admin']                  = Admin::where('id', '=', $uId)->first();
+            $title                          = 'Settings';
+            $page_name                      = 'settings';
+            echo $this->admin_after_login_layout($title,$page_name,$data);
+        }
+
+        public function profile_settings(Request $request){
+            $uId        = $request->session()->get('user_id')[0];
+            $row        = Admin::where('id', '=', $uId)->first();
+            $postData   = $request->all();
+            $rules      = [
+                'name'            => 'required',
+                'mobile'             => 'required',
+                'email'             => 'required',
+            ];
+            if($this->validate($request, $rules)){
+                /* profile image */
+                $imageFile      = $request->file('image');
+                if($imageFile != ''){
+                    $imageName      = $imageFile->getClientOriginalName();
+                    $uploadedFile   = $this->upload_single_file('image', $imageName, '', 'image');
+                    if($uploadedFile['status']){
+                        $image = $uploadedFile['newFilename'];
+                    } else {
+                        return redirect()->back()->with(['error_message' => $uploadedFile['message']]);
+                    }
+                } else {
+                    $image = $row->image;
+                }
+                /* profile image */
+                $fields = [
+                    'name'                  => $postData['name'],
+                    'mobile'                => $postData['mobile'],
+                    'email'                 => $postData['email'],
+                    'image'                 => $image
+                ];
+                // Helper::pr($fields);
+                Admin::where('id', '=', $uId)->update($fields);
+                return redirect()->back()->with('success_message', 'Profile Settings Updated Successfully !!!');
+            } else {
+                return redirect()->back()->with('error_message', 'All Fields Required !!!');
+            }
+        }
+        public function general_settings(Request $request){
+            $row        = GeneralSetting::where('id', '=', 1)->first();
+            $postData   = $request->all();
+            $rules      = [
+                'site_name'            => 'required',
+                'site_phone'           => 'required',
+                'site_mail'            => 'required',
+                'system_email'         => 'required',
+                'site_url'             => 'required',
+            ];
+            if($this->validate($request, $rules)){
+                /* site logo */
+                    $imageFile      = $request->file('site_logo');
+                    if($imageFile != ''){
+                        $imageName      = $imageFile->getClientOriginalName();
+                        $uploadedFile   = $this->upload_single_file('site_logo', $imageName, '', 'image');
+                        if($uploadedFile['status']){
+                            $site_logo = $uploadedFile['newFilename'];
+                        } else {
+                            return redirect()->back()->with(['error_message' => $uploadedFile['message']]);
+                        }
+                    } else {
+                        $site_logo = $row->site_logo;
+                    }
+                /* site logo */
+                /* site favicon */
+                    $imageFile      = $request->file('site_favicon');
+                    if($imageFile != ''){
+                        $imageName      = $imageFile->getClientOriginalName();
+                        $uploadedFile   = $this->upload_single_file('site_favicon', $imageName, '', 'image');
+                        if($uploadedFile['status']){
+                            $site_favicon = $uploadedFile['newFilename'];
+                        } else {
+                            return redirect()->back()->with(['error_message' => $uploadedFile['message']]);
+                        }
+                    } else {
+                        $site_favicon = $row->site_favicon;
+                    }
+                /* site favicon */
+                $fields = [
+                    'site_name'                         => $postData['site_name'],
+                    'site_phone'                        => $postData['site_phone'],
+                    'site_mail'                         => $postData['site_mail'],
+                    'system_email'                      => $postData['system_email'],
+                    'site_url'                          => $postData['site_url'],
+                    'description'                       => $postData['description'],
+                    'copyright_statement'               => $postData['copyright_statement'],
+                    'google_map_api_code'               => $postData['google_map_api_code'],
+                    'google_analytics_code'             => $postData['google_analytics_code'],
+                    'google_pixel_code'                 => $postData['google_pixel_code'],
+                    'facebook_tracking_code'            => $postData['facebook_tracking_code'],
+                    'theme_color'                       => $postData['theme_color'],
+                    'font_color'                        => $postData['font_color'],
+                    'twitter_profile'                   => $postData['twitter_profile'],
+                    'facebook_profile'                  => $postData['facebook_profile'],
+                    'instagram_profile'                 => $postData['instagram_profile'],
+                    'linkedin_profile'                  => $postData['linkedin_profile'],
+                    'youtube_profile'                   => $postData['youtube_profile'],
+                    'site_logo'                         => $site_logo,
+                    'site_favicon'                      => $site_favicon,
+                ];
+                // Helper::pr($fields);
+                GeneralSetting::where('id', '=', 1)->update($fields);
+                return redirect()->back()->with('success_message', 'General Settings Updated Successfully !!!');
+            } else {
+                return redirect()->back()->with('error_message', 'All Fields Required !!!');
+            }
+        }
+        public function change_password(Request $request){
+            $uId        = $request->session()->get('user_id')[0];
+            $adminData  = Admin::where('id', '=', $uId)->first();
+            $postData   = $request->all();
+            $rules      = [
+                'old_password'            => 'required',
+                'new_password'            => 'required',
+                'confirm_password'        => 'required',
+            ];
+            if($this->validate($request, $rules)){
+                $old_password       = $postData['old_password'];
+                $new_password       = $postData['new_password'];
+                $confirm_password   = $postData['confirm_password'];
+                if(Hash::check($old_password, $adminData->password)){
+                    if($new_password == $confirm_password){
+                        $fields = [
+                            'password'            => Hash::make($new_password)
+                        ];
+                        Admin::where('id', '=', $uId)->update($fields);
+                        return redirect()->back()->with('success_message', 'Password Changed Successfully !!!');
+                    } else {
+                        return redirect()->back()->with('error_message', 'New & Confirm Password Does Not Matched !!!');
+                    }
+                } else {
+                    return redirect()->back()->with('error_message', 'Current Password Is Incorrect !!!');
+                }
+            } else {
+                return redirect()->back()->with('error_message', 'All Fields Required !!!');
+            }
+        }
+        public function email_settings(Request $request){
+            $postData = $request->all();
+            $rules = [
+                'from_email'            => 'required',
+                'from_name'             => 'required',
+                'smtp_host'             => 'required',
+                'smtp_username'         => 'required',
+                'smtp_password'         => 'required',
+                'smtp_port'             => 'required',
+            ];
+            if($this->validate($request, $rules)){
+                $fields = [
+                    'from_email'            => $postData['from_email'],
+                    'from_name'             => $postData['from_name'],
+                    'smtp_host'             => $postData['smtp_host'],
+                    'smtp_username'         => $postData['smtp_username'],
+                    'smtp_password'         => $postData['smtp_password'],
+                    'smtp_port'             => $postData['smtp_port'],
+                ];
+                GeneralSetting::where('id', '=', 1)->update($fields);
+                return redirect()->back()->with('success_message', 'Email Settings Updated Successfully !!!');
+            } else {
+                return redirect()->back()->with('error_message', 'All Fields Required !!!');
+            }
+        }
+        public function sms_settings(Request $request){
+            $postData = $request->all();
+            $rules = [
+                'sms_authentication_key'            => 'required',
+                'sms_sender_id'                     => 'required',
+                'sms_base_url'                      => 'required',
+            ];
+            if($this->validate($request, $rules)){
+                $fields = [
+                    'sms_authentication_key'            => $postData['sms_authentication_key'],
+                    'sms_sender_id'                     => $postData['sms_sender_id'],
+                    'sms_base_url'                      => $postData['sms_base_url'],
+                ];
+                GeneralSetting::where('id', '=', 1)->update($fields);
+                return redirect()->back()->with('success_message', 'SMS Settings Updated Successfully !!!');
+            } else {
+                return redirect()->back()->with('error_message', 'All Fields Required !!!');
+            }
+        }
+        public function footer_settings(Request $request){
+            $postData = $request->all();
+            $rules = [
+                'footer_text'            => 'required',
+            ];
+            if($this->validate($request, $rules)){
+                $footer_link_name_array = $postData['footer_link_name'];
+                $footer_link_name       = [];
+                if(!empty($footer_link_name_array)){
+                    for($f=0;$f<count($footer_link_name_array);$f++){
+                        if($footer_link_name_array[$f]){
+                            $footer_link_name[]       = $footer_link_name_array[$f];
+                        }
+                    }
+                }
+                $footer_link_array = $postData['footer_link'];
+                $footer_link       = [];
+                if(!empty($footer_link_array)){
+                    for($f=0;$f<count($footer_link_array);$f++){
+                        if($footer_link_array[$f]){
+                            $footer_link[]       = $footer_link_array[$f];
+                        }
+                    }
+                }
+
+                $footer_link_name_array2 = $postData['second_col_link_text'];
+                $footer_link_name2       = [];
+                if(!empty($footer_link_name_array2)){
+                    for($f=0;$f<count($footer_link_name_array2);$f++){
+                        if($footer_link_name_array2[$f]){
+                            $footer_link_name2[]       = $footer_link_name_array2[$f];
+                        }
+                    }
+                }
+                $footer_link_array2 = $postData['second_col_link'];
+                $footer_link2       = [];
+                if(!empty($footer_link_array2)){
+                    for($f=0;$f<count($footer_link_array2);$f++){
+                        if($footer_link_array2[$f]){
+                            $footer_link2[]       = $footer_link_array2[$f];
+                        }
+                    }
+                }
+
+                $fields = [
+                    'footer_text'                   => $postData['footer_text'],
+                    'footer_link_name'              => json_encode($footer_link_name),
+                    'footer_link'                   => json_encode($footer_link),
+                    'footer_link_name2'             => json_encode($footer_link_name2),
+                    'footer_link2'                  => json_encode($footer_link2),
+                ];
+                // Helper::pr($fields);
+                GeneralSetting::where('id', '=', 1)->update($fields);
+                return redirect()->back()->with('success_message', 'Footer Settings Updated Successfully !!!');
+            } else {
+                return redirect()->back()->with('error_message', 'All Fields Required !!!');
+            }
+        }
+        public function seo_settings(Request $request){
+            $postData = $request->all();
+            $rules = [
+                'meta_title'            => 'required',
+                'meta_description'      => 'required'
+            ];
+            if($this->validate($request, $rules)){
+                $fields = [
+                    'meta_title'            => $postData['meta_title'],
+                    'meta_description'      => $postData['meta_description']
+                ];
+                GeneralSetting::where('id', '=', 1)->update($fields);
+                return redirect()->back()->with('success_message', 'SEO Settings Updated Successfully !!!');
+            } else {
+                return redirect()->back()->with('error_message', 'All Fields Required !!!');
+            }
+        }
+        public function payment_settings(Request $request){
+            $postData = $request->all();
+            $rules = [
+                'stripe_payment_type'   => 'required',
+                'stripe_sandbox_sk'     => 'required',
+                'stripe_sandbox_pk'     => 'required',
+                'stripe_live_sk'        => 'required',
+                'stripe_live_pk'        => 'required',
+            ];
+            if($this->validate($request, $rules)){
+                $fields = [
+                    'stripe_payment_type'   => $postData['stripe_payment_type'],
+                    'stripe_sandbox_sk'     => $postData['stripe_sandbox_sk'],
+                    'stripe_sandbox_pk'     => $postData['stripe_sandbox_pk'],
+                    'stripe_live_sk'        => $postData['stripe_live_sk'],
+                    'stripe_live_pk'        => $postData['stripe_live_pk'],
+                ];
+                GeneralSetting::where('id', '=', 1)->update($fields);
+                return redirect()->back()->with('success_message', 'Payment Settings Updated Successfully !!!');
+            } else {
+                return redirect()->back()->with('error_message', 'All Fields Required !!!');
+            }
+        }
+    /* settings */
+}
