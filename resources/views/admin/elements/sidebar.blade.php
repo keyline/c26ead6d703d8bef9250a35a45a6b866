@@ -23,7 +23,7 @@
       </li>
       <li>
         <a href="javascript:void(0);">
-          <i class="bi bi-circle"></i><span>Access Management</span>
+          <i class="bi bi-circle"></i><span>Give Access</span>
         </a>
       </li>
     </ul>
