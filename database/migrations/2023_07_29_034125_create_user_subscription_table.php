@@ -20,7 +20,8 @@ class CreateUserSubscriptionTable extends Migration
             $table->integer('status');
             $table->date('start_date');
             $table->date('end_date');
-            $table->timestamp('created_ts')->default('current_timestamp()');
+            $table->timestamp('created_at')->useCurrent();
+            $table->timestamp('updated_at')->nullable()->useCurrentOnUpdate();
         });
     }
 

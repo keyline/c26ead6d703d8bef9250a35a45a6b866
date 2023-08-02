@@ -20,7 +20,8 @@ class CreateUserDevicesTable extends Migration
             $table->string('device_token', 250)->nullable();
             $table->longText('app_access_token')->nullable();
             $table->boolean('published')->default(1);
-            $table->timestamps()->default('current_timestamp()');
+            $table->timestamp('created_at')->useCurrent();
+            $table->timestamp('updated_at')->nullable()->useCurrentOnUpdate();
         });
     }
 

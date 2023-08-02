@@ -19,7 +19,8 @@ class CreateUserAccessTable extends Migration
             $table->longText('module_id')->nullable();
             $table->enum('module_panel', ['admin', 'newspaper admin'])->default('ADMIN');
             $table->boolean('status')->default(1);
-            $table->timestamps()->default('current_timestamp()');
+            $table->timestamp('created_at')->useCurrent();
+            $table->timestamp('updated_at')->nullable()->useCurrentOnUpdate();
         });
     }
 

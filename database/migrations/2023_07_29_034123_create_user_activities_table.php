@@ -22,7 +22,8 @@ class CreateUserActivitiesTable extends Migration
             $table->boolean('activity_type')->default(0);
             $table->longText('activity_details')->nullable();
             $table->enum('platform_type', ['web', 'mobile', 'android', 'ios'])->default('WEB');
-            $table->timestamps()->default('current_timestamp()');
+            $table->timestamp('created_at')->useCurrent();
+            $table->timestamp('updated_at')->nullable()->useCurrentOnUpdate();
         });
     }
 
