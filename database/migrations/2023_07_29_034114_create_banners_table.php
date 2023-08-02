@@ -18,7 +18,7 @@ class CreateBannersTable extends Migration
             $table->string('banner_text', 250)->nullable();
             $table->string('banner_image', 250)->nullable();
             $table->boolean('status')->default(1);
-            $table->timestamps()->default('current_timestamp()');
+            $table->timestamp('created_at')->useCurrent();
         });
     }
 

@@ -18,7 +18,7 @@ class CreateCountriesTable extends Migration
             $table->string('sortname', 3);
             $table->string('name', 150);
             $table->boolean('status')->default(1);
-            $table->timestamps()->default('current_timestamp()');
+            $table->timestamp('created_at')->useCurrent();
         });
     }
 
