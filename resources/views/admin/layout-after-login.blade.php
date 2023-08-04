@@ -1,7 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <?=$head?> 
+  <?=$head?>
+  <style type="text/css">
+    a.nav-link.active {
+      color: #4154f1;
+      background: #f6f9ff;
+    }
+    .sidebar-nav .nav-link {
+      background: none;
+      color: #012970;
+    }
+  </style>
 </head>
 <body>
   <!-- ======= Header ======= -->

@@ -6,20 +6,20 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use App\Models\GeneralSetting;
-use App\Models\Page;
+use App\Models\Admin;
 use Auth;
 use Session;
 use Helper;
 use Hash;
 
-class PageController extends Controller
+class SubUserController extends Controller
 {
     public function __construct()
     {        
         $this->data = array(
-            'title'             => 'Page',
-            'controller'        => 'PageController',
-            'controller_route'  => 'page',
+            'title'             => 'Admin Sub User',
+            'controller'        => 'SubUserController',
+            'controller_route'  => 'sub-user',
             'primary_key'       => 'id',
         );
     }
@@ -27,9 +27,8 @@ class PageController extends Controller
         public function list(){
             $data['module']                 = $this->data;
             $title                          = $this->data['title'].' List';
-            $page_name                      = 'page.list';
-            $data['rows']                   = Page::where('status', '!=', 3)->orderBy('id', 'DESC')->get();
-            // Helper::pr($data['rows']);
+            $page_name                      = 'sub-user.list';
+            $data['rows']                   = Admin::where('status', '!=', 3)->where('type', '!=', 'MA')->orderBy('id', 'DESC')->get();
             echo $this->admin_after_login_layout($title,$page_name,$data);
         }
     /* list */
@@ -39,16 +38,20 @@ class PageController extends Controller
             if($request->isMethod('post')){
                 $postData = $request->all();
                 $rules = [
-                    'page_name'             => 'required',
-                    'page_content'          => 'required'
+                    'name'                  => 'required',
+                    'mobile'                => 'required',
+                    'email'                 => 'required',
+                    'password'              => 'required',
                 ];
                 if($this->validate($request, $rules)){
                     $fields = [
-                        'page_name'             => $postData['page_name'],
-                        'page_slug'             => Helper::clean($postData['page_name']),
-                        'page_content'          => $postData['page_content']
+                        'name'              => $postData['name'],
+                        'mobile'            => $postData['mobile'],
+                        'email'             => $postData['email'],
+                        'type'              => 'SU',
+                        'password'          => Hash::make($postData['password']),
                     ];
-                    Page::insert($fields);
+                    Admin::insert($fields);
                     return redirect("admin/" . $this->data['controller_route'] . "/list")->with('success_message', $this->data['title'].' Inserted Successfully !!!');
                 } else {
                     return redirect()->back()->with('error_message', 'All Fields Required !!!');
@@ -56,7 +59,7 @@ class PageController extends Controller
             }
             $data['module']                 = $this->data;
             $title                          = $this->data['title'].' Add';
-            $page_name                      = 'page.add-edit';
+            $page_name                      = 'sub-user.add-edit';
             $data['row']                    = [];
             echo $this->admin_after_login_layout($title,$page_name,$data);
         }
@@ -65,27 +68,40 @@ class PageController extends Controller
         public function edit(Request $request, $id){
             $data['module']                 = $this->data;
             $id                             = Helper::decoded($id);
+            $title                          = $this->data['title'].' Update';
+            $page_name                      = 'sub-user.add-edit';
+            $data['row']                    = Admin::where($this->data['primary_key'], '=', $id)->first();
+
             if($request->isMethod('post')){
                 $postData = $request->all();
                 $rules = [
-                    'page_name'             => 'required',
-                    'page_content'          => 'required'
+                    'name'                  => 'required',
+                    'mobile'                => 'required',
+                    'email'                 => 'required'
                 ];
                 if($this->validate($request, $rules)){
-                    $fields = [
-                        'page_name'             => $postData['page_name'],
-                        'page_slug'             => Helper::clean($postData['page_name']),
-                        'page_content'          => $postData['page_content']
-                    ];
-                    Page::where($this->data['primary_key'], '=', $id)->update($fields);
+                    if($postData['password'] != ''){
+                        $fields = [
+                            'name'                  => $postData['name'],
+                            'mobile'                => $postData['mobile'],
+                            'email'                 => $postData['email'],
+                            'password'              => Hash::make($postData['password']),
+                            'updated_at'            => date('Y-m-d H:i:s')
+                        ];
+                    } else {
+                        $fields = [
+                            'name'                  => $postData['name'],
+                            'mobile'                => $postData['mobile'],
+                            'email'                 => $postData['email'],
+                            'updated_at'            => date('Y-m-d H:i:s')
+                        ];
+                    }
+                    Admin::where($this->data['primary_key'], '=', $id)->update($fields);
                     return redirect("admin/" . $this->data['controller_route'] . "/list")->with('success_message', $this->data['title'].' Updated Successfully !!!');
                 } else {
                     return redirect()->back()->with('error_message', 'All Fields Required !!!');
                 }
             }
-            $title                          = $this->data['title'].' Update';
-            $page_name                      = 'page.add-edit';
-            $data['row']                    = Page::where($this->data['primary_key'], '=', $id)->first();
             echo $this->admin_after_login_layout($title,$page_name,$data);
         }
     /* edit */
@@ -95,14 +111,14 @@ class PageController extends Controller
             $fields = [
                 'status'             => 3
             ];
-            Page::where($this->data['primary_key'], '=', $id)->update($fields);
+            Admin::where($this->data['primary_key'], '=', $id)->update($fields);
             return redirect("admin/" . $this->data['controller_route'] . "/list")->with('success_message', $this->data['title'].' Deleted Successfully !!!');
         }
     /* delete */
     /* change status */
         public function change_status(Request $request, $id){
             $id                             = Helper::decoded($id);
-            $model                          = Page::find($id);
+            $model                          = Admin::find($id);
             if ($model->status == 1)
             {
                 $model->status  = 0;

@@ -168,7 +168,7 @@ class TestimonialController extends Controller
             return redirect("admin/" . $this->data['controller_route'] . "/list")->with('success_message', $this->data['title'].' Deleted Successfully !!!');
         }
     /* delete */
-    /* change password */
+    /* change status */
         public function change_status(Request $request, $id){
             $id                             = Helper::decoded($id);
             $model                          = Testimonial::find($id);
@@ -183,5 +183,5 @@ class TestimonialController extends Controller
             $model->save();
             return redirect("admin/" . $this->data['controller_route'] . "/list")->with('success_message', $this->data['title'].' '.$msg.' Successfully !!!');
         }
-    /* change password */
+    /* change status */
 }

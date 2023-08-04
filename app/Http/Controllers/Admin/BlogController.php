@@ -6,20 +6,21 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use App\Models\GeneralSetting;
-use App\Models\Banner;
+use App\Models\BlogCategory;
+use App\Models\Blog;
 use Auth;
 use Session;
 use Helper;
 use Hash;
 
-class BannerController extends Controller
+class BlogController extends Controller
 {
     public function __construct()
     {        
         $this->data = array(
-            'title'             => 'Banner',
-            'controller'        => 'BannerController',
-            'controller_route'  => 'banner',
+            'title'             => 'Blog',
+            'controller'        => 'BlogController',
+            'controller_route'  => 'blog',
             'primary_key'       => 'id',
         );
     }
@@ -27,9 +28,8 @@ class BannerController extends Controller
         public function list(){
             $data['module']                 = $this->data;
             $title                          = $this->data['title'].' List';
-            $page_name                      = 'banner.list';
-            $data['rows']                   = Banner::where('status', '!=', 3)->orderBy('id', 'DESC')->get();
-            // Helper::pr($data['rows']);
+            $page_name                      = 'blog.list';
+            $data['rows']                   = Blog::where('status', '!=', 3)->orderBy('id', 'DESC')->get();
             echo $this->admin_after_login_layout($title,$page_name,$data);
         }
     /* list */
@@ -39,28 +39,37 @@ class BannerController extends Controller
             if($request->isMethod('post')){
                 $postData = $request->all();
                 $rules = [
-                    'banner_text'             => 'required',
+                    'blog_category'             => 'required',
+                    'title'                     => 'required',
+                    'content_date'              => 'required',
+                    'short_description'         => 'required',
+                    'description'               => 'required',
                 ];
                 if($this->validate($request, $rules)){
-                    /* banner image */
-                        $imageFile      = $request->file('banner_image');
+                    /* blog image */
+                        $imageFile      = $request->file('image');
                         if($imageFile != ''){
                             $imageName      = $imageFile->getClientOriginalName();
-                            $uploadedFile   = $this->upload_single_file('banner_image', $imageName, 'banner', 'image');
+                            $uploadedFile   = $this->upload_single_file('image', $imageName, 'blog', 'image');
                             if($uploadedFile['status']){
-                                $banner_image = $uploadedFile['newFilename'];
+                                $image = $uploadedFile['newFilename'];
                             } else {
                                 return redirect()->back()->with(['error_message' => $uploadedFile['message']]);
                             }
                         } else {
-                            return redirect()->back()->with(['error_message' => 'Please Upload Banner Image !!!']);
+                            return redirect()->back()->with(['error_message' => 'Please Upload Blog Image !!!']);
                         }
-                    /* banner image */
+                    /* blog image */
                     $fields = [
-                        'banner_text'           => $postData['banner_text'],
-                        'banner_image'          => $banner_image
+                        'blog_category'             => $postData['blog_category'],
+                        'title'                     => $postData['title'],
+                        'slug'                      => Helper::clean($postData['title']),
+                        'content_date'              => date_format(date_create($postData['content_date']), "Y-m-d"),
+                        'short_description'         => $postData['short_description'],
+                        'description'               => $postData['description'],
+                        'image'                     => $image
                     ];
-                    Banner::insert($fields);
+                    Blog::insert($fields);
                     return redirect("admin/" . $this->data['controller_route'] . "/list")->with('success_message', $this->data['title'].' Inserted Successfully !!!');
                 } else {
                     return redirect()->back()->with('error_message', 'All Fields Required !!!');
@@ -68,8 +77,9 @@ class BannerController extends Controller
             }
             $data['module']                 = $this->data;
             $title                          = $this->data['title'].' Add';
-            $page_name                      = 'banner.add-edit';
+            $page_name                      = 'blog.add-edit';
             $data['row']                    = [];
+            $data['blogCats']               = BlogCategory::where('status', '=', 1)->get();
             echo $this->admin_after_login_layout($title,$page_name,$data);
         }
     /* add */
@@ -78,34 +88,45 @@ class BannerController extends Controller
             $data['module']                 = $this->data;
             $id                             = Helper::decoded($id);
             $title                          = $this->data['title'].' Update';
-            $page_name                      = 'banner.add-edit';
-            $data['row']                    = Banner::where($this->data['primary_key'], '=', $id)->first();
+            $page_name                      = 'blog.add-edit';
+            $data['row']                    = Blog::where($this->data['primary_key'], '=', $id)->first();
+            $data['blogCats']               = BlogCategory::where('status', '=', 1)->get();
 
             if($request->isMethod('post')){
                 $postData = $request->all();
                 $rules = [
-                    'banner_text'             => 'required',
+                    'blog_category'             => 'required',
+                    'title'                     => 'required',
+                    'content_date'              => 'required',
+                    'short_description'         => 'required',
+                    'description'               => 'required',
                 ];
                 if($this->validate($request, $rules)){
-                    /* banner image */
-                        $imageFile      = $request->file('banner_image');
+                    /* blog image */
+                        $imageFile      = $request->file('image');
                         if($imageFile != ''){
                             $imageName      = $imageFile->getClientOriginalName();
-                            $uploadedFile   = $this->upload_single_file('banner_image', $imageName, 'banner', 'image');
+                            $uploadedFile   = $this->upload_single_file('image', $imageName, 'blog', 'image');
                             if($uploadedFile['status']){
-                                $banner_image = $uploadedFile['newFilename'];
+                                $image = $uploadedFile['newFilename'];
                             } else {
                                 return redirect()->back()->with(['error_message' => $uploadedFile['message']]);
                             }
                         } else {
-                            $banner_image = $data['row']->banner_image;
+                            $image = $data['row']->image;
                         }
-                    /* banner image */
+                    /* blog image */
                     $fields = [
-                        'banner_text'           => $postData['banner_text'],
-                        'banner_image'          => $banner_image
+                        'blog_category'             => $postData['blog_category'],
+                        'title'                     => $postData['title'],
+                        'slug'                      => Helper::clean($postData['title']),
+                        'content_date'              => date_format(date_create($postData['content_date']), "Y-m-d"),
+                        'short_description'         => $postData['short_description'],
+                        'description'               => $postData['description'],
+                        'image'                     => $image,
+                        'updated_at'                => date('Y-m-d H:i:s')
                     ];
-                    Banner::where($this->data['primary_key'], '=', $id)->update($fields);
+                    Blog::where($this->data['primary_key'], '=', $id)->update($fields);
                     return redirect("admin/" . $this->data['controller_route'] . "/list")->with('success_message', $this->data['title'].' Updated Successfully !!!');
                 } else {
                     return redirect()->back()->with('error_message', 'All Fields Required !!!');
@@ -120,14 +141,14 @@ class BannerController extends Controller
             $fields = [
                 'status'             => 3
             ];
-            Banner::where($this->data['primary_key'], '=', $id)->update($fields);
+            Blog::where($this->data['primary_key'], '=', $id)->update($fields);
             return redirect("admin/" . $this->data['controller_route'] . "/list")->with('success_message', $this->data['title'].' Deleted Successfully !!!');
         }
     /* delete */
     /* change status */
         public function change_status(Request $request, $id){
             $id                             = Helper::decoded($id);
-            $model                          = Banner::find($id);
+            $model                          = Blog::find($id);
             if ($model->status == 1)
             {
                 $model->status  = 0;
