@@ -129,6 +129,20 @@ class UserController extends Controller
                         $site_logo = $row->site_logo;
                     }
                 /* site logo */
+                /* site footer logo */
+                    $imageFile      = $request->file('site_footer_logo');
+                    if($imageFile != ''){
+                        $imageName      = $imageFile->getClientOriginalName();
+                        $uploadedFile   = $this->upload_single_file('site_footer_logo', $imageName, '', 'image');
+                        if($uploadedFile['status']){
+                            $site_footer_logo = $uploadedFile['newFilename'];
+                        } else {
+                            return redirect()->back()->with(['error_message' => $uploadedFile['message']]);
+                        }
+                    } else {
+                        $site_footer_logo = $row->site_footer_logo;
+                    }
+                /* site footer logo */
                 /* site favicon */
                     $imageFile      = $request->file('site_favicon');
                     if($imageFile != ''){
@@ -143,6 +157,8 @@ class UserController extends Controller
                         $site_favicon = $row->site_favicon;
                     }
                 /* site favicon */
+                $home_page_youtube_link = explode("watch?v=", $postData['home_page_youtube_link']);
+                $home_page_youtube_code = $home_page_youtube_link[1];
                 $fields = [
                     'site_name'                         => $postData['site_name'],
                     'site_phone'                        => $postData['site_phone'],
@@ -157,12 +173,19 @@ class UserController extends Controller
                     'facebook_tracking_code'            => $postData['facebook_tracking_code'],
                     'theme_color'                       => $postData['theme_color'],
                     'font_color'                        => $postData['font_color'],
+                    'home_page_youtube_link'            => $postData['home_page_youtube_link'],
+                    'home_page_youtube_code'            => $home_page_youtube_code,
+                    'cgst_percent'                      => $postData['cgst_percent'],
+                    'sgst_percent'                      => $postData['sgst_percent'],
+                    'igst_percent'                      => $postData['igst_percent'],
+                    'stumento_commision_percent'        => $postData['stumento_commision_percent'],
                     'twitter_profile'                   => $postData['twitter_profile'],
                     'facebook_profile'                  => $postData['facebook_profile'],
                     'instagram_profile'                 => $postData['instagram_profile'],
                     'linkedin_profile'                  => $postData['linkedin_profile'],
                     'youtube_profile'                   => $postData['youtube_profile'],
                     'site_logo'                         => $site_logo,
+                    'site_footer_logo'                  => $site_footer_logo,
                     'site_favicon'                      => $site_favicon,
                 ];
                 // Helper::pr($fields);

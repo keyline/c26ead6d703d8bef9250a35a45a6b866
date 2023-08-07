@@ -27,7 +27,7 @@ class ServiceController extends Controller
         public function list(){
             $data['module']                 = $this->data;
             $title                          = $this->data['title'].' List';
-            $page_name                      = 'service-type.list';
+            $page_name                      = 'service.list';
             $data['rows']                   = Service::where('status', '!=', 3)->orderBy('id', 'DESC')->get();
             echo $this->admin_after_login_layout($title,$page_name,$data);
         }
@@ -40,12 +40,29 @@ class ServiceController extends Controller
                 $rules = [
                     'name'                      => 'required',
                     'description'               => 'required',
+                    'mentor_background_color'   => 'required',
                 ];
                 if($this->validate($request, $rules)){
+                    /* image */
+                        $imageFile      = $request->file('image');
+                        if($imageFile != ''){
+                            $imageName      = $imageFile->getClientOriginalName();
+                            $uploadedFile   = $this->upload_single_file('image', $imageName, 'service', 'image');
+                            if($uploadedFile['status']){
+                                $image = $uploadedFile['newFilename'];
+                            } else {
+                                return redirect()->back()->with(['error_message' => $uploadedFile['message']]);
+                            }
+                        } else {
+                            return redirect()->back()->with(['error_message' => 'Please Upload Banner Image !!!']);
+                        }
+                    /* image */
                     $fields = [
-                        'name'                     => $postData['name'],
+                        'name'                      => $postData['name'],
                         'slug'                      => Helper::clean($postData['name']),
                         'description'               => $postData['description'],
+                        'mentor_background_color'   => $postData['mentor_background_color'],
+                        'image'                     => $image,
                     ];
                     Service::insert($fields);
                     return redirect("admin/" . $this->data['controller_route'] . "/list")->with('success_message', $this->data['title'].' Inserted Successfully !!!');
@@ -55,7 +72,7 @@ class ServiceController extends Controller
             }
             $data['module']                 = $this->data;
             $title                          = $this->data['title'].' Add';
-            $page_name                      = 'service-type.add-edit';
+            $page_name                      = 'service.add-edit';
             $data['row']                    = [];
             echo $this->admin_after_login_layout($title,$page_name,$data);
         }
@@ -65,7 +82,7 @@ class ServiceController extends Controller
             $data['module']                 = $this->data;
             $id                             = Helper::decoded($id);
             $title                          = $this->data['title'].' Update';
-            $page_name                      = 'service-type.add-edit';
+            $page_name                      = 'service.add-edit';
             $data['row']                    = Service::where($this->data['primary_key'], '=', $id)->first();
             
             if($request->isMethod('post')){
@@ -73,12 +90,29 @@ class ServiceController extends Controller
                 $rules = [
                     'name'                      => 'required',
                     'description'               => 'required',
+                    'mentor_background_color'   => 'required',
                 ];
                 if($this->validate($request, $rules)){
+                    /* image */
+                        $imageFile      = $request->file('image');
+                        if($imageFile != ''){
+                            $imageName      = $imageFile->getClientOriginalName();
+                            $uploadedFile   = $this->upload_single_file('image', $imageName, 'service', 'image');
+                            if($uploadedFile['status']){
+                                $image = $uploadedFile['newFilename'];
+                            } else {
+                                return redirect()->back()->with(['error_message' => $uploadedFile['message']]);
+                            }
+                        } else {
+                            $image = $data['row']->image;
+                        }
+                    /* image */
                     $fields = [
                         'name'                      => $postData['name'],
                         'slug'                      => Helper::clean($postData['name']),
                         'description'               => $postData['description'],
+                        'mentor_background_color'   => $postData['mentor_background_color'],
+                        'image'                     => $image,
                         'updated_at'                => date('Y-m-d H:i:s')
                     ];
                     Service::where($this->data['primary_key'], '=', $id)->update($fields);

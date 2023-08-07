@@ -140,6 +140,7 @@ Route::get('/', function () {
                 Route::match(['get', 'post'], 'faq/edit/{id}', 'FaqController@edit');
                 Route::get('faq/delete/{id}', 'FaqController@delete');
                 Route::get('faq/change-status/{id}', 'FaqController@change_status');
+                Route::get('faq/change-home-page-status/{id}', 'FaqController@change_home_page_status');
             /* faq */
             /* blog */
                 /* blog category */

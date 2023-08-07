@@ -42,10 +42,25 @@ class ServiceTypeController extends Controller
                     'description'               => 'required',
                 ];
                 if($this->validate($request, $rules)){
+                    /* image */
+                        $imageFile      = $request->file('image');
+                        if($imageFile != ''){
+                            $imageName      = $imageFile->getClientOriginalName();
+                            $uploadedFile   = $this->upload_single_file('image', $imageName, 'service_type', 'image');
+                            if($uploadedFile['status']){
+                                $image = $uploadedFile['newFilename'];
+                            } else {
+                                return redirect()->back()->with(['error_message' => $uploadedFile['message']]);
+                            }
+                        } else {
+                            return redirect()->back()->with(['error_message' => 'Please Upload Banner Image !!!']);
+                        }
+                    /* image */
                     $fields = [
-                        'name'                     => $postData['name'],
+                        'name'                      => $postData['name'],
                         'slug'                      => Helper::clean($postData['name']),
                         'description'               => $postData['description'],
+                        'image'                     => $image,
                     ];
                     ServiceType::insert($fields);
                     return redirect("admin/" . $this->data['controller_route'] . "/list")->with('success_message', $this->data['title'].' Inserted Successfully !!!');
@@ -75,10 +90,25 @@ class ServiceTypeController extends Controller
                     'description'               => 'required',
                 ];
                 if($this->validate($request, $rules)){
+                    /* image */
+                        $imageFile      = $request->file('image');
+                        if($imageFile != ''){
+                            $imageName      = $imageFile->getClientOriginalName();
+                            $uploadedFile   = $this->upload_single_file('image', $imageName, 'service_type', 'image');
+                            if($uploadedFile['status']){
+                                $image = $uploadedFile['newFilename'];
+                            } else {
+                                return redirect()->back()->with(['error_message' => $uploadedFile['message']]);
+                            }
+                        } else {
+                            $image = $data['row']->image;
+                        }
+                    /* image */
                     $fields = [
                         'name'                      => $postData['name'],
                         'slug'                      => Helper::clean($postData['name']),
                         'description'               => $postData['description'],
+                        'image'                     => $image,
                         'updated_at'                => date('Y-m-d H:i:s')
                     ];
                     ServiceType::where($this->data['primary_key'], '=', $id)->update($fields);

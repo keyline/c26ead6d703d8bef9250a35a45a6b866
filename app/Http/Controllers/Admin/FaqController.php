@@ -46,6 +46,7 @@ class FaqController extends Controller
                     $fields = [
                         'question'         => $postData['question'],
                         'answer'           => $postData['answer'],
+                        'is_home_page'     => $postData['is_home_page'],
                     ];
                     Faq::insert($fields);
                     return redirect("admin/" . $this->data['controller_route'] . "/list")->with('success_message', $this->data['title'].' Inserted Successfully !!!');
@@ -78,6 +79,7 @@ class FaqController extends Controller
                     $fields = [
                         'question'              => $postData['question'],
                         'answer'                => $postData['answer'],
+                        'is_home_page'          => $postData['is_home_page'],
                         'updated_at'            => date('Y-m-d H:i:s')
                     ];
                     Faq::where($this->data['primary_key'], '=', $id)->update($fields);
@@ -115,4 +117,20 @@ class FaqController extends Controller
             return redirect("admin/" . $this->data['controller_route'] . "/list")->with('success_message', $this->data['title'].' '.$msg.' Successfully !!!');
         }
     /* change status */
+    /* change home page status */
+        public function change_home_page_status(Request $request, $id){
+            $id                             = Helper::decoded($id);
+            $model                          = Faq::find($id);
+            if ($model->is_home_page == 1)
+            {
+                $model->is_home_page  = 0;
+                $msg            = 'Hide From Home Page';
+            } else {
+                $model->is_home_page  = 1;
+                $msg            = 'Show In Home Page';
+            }            
+            $model->save();
+            return redirect("admin/" . $this->data['controller_route'] . "/list")->with('success_message', $this->data['title'].' '.$msg.' Successfully !!!');
+        }
+    /* change home page status */
 }

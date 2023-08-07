@@ -40,6 +40,8 @@ class BannerController extends Controller
                 $postData = $request->all();
                 $rules = [
                     'banner_text'             => 'required',
+                    'banner_text2'            => 'required',
+                    'banner_link'             => 'required',
                 ];
                 if($this->validate($request, $rules)){
                     /* banner image */
@@ -58,6 +60,8 @@ class BannerController extends Controller
                     /* banner image */
                     $fields = [
                         'banner_text'           => $postData['banner_text'],
+                        'banner_text2'          => $postData['banner_text2'],
+                        'banner_link'           => $postData['banner_link'],
                         'banner_image'          => $banner_image
                     ];
                     Banner::insert($fields);
@@ -85,6 +89,8 @@ class BannerController extends Controller
                 $postData = $request->all();
                 $rules = [
                     'banner_text'             => 'required',
+                    'banner_text2'            => 'required',
+                    'banner_link'             => 'required',
                 ];
                 if($this->validate($request, $rules)){
                     /* banner image */
@@ -103,6 +109,8 @@ class BannerController extends Controller
                     /* banner image */
                     $fields = [
                         'banner_text'           => $postData['banner_text'],
+                        'banner_text2'          => $postData['banner_text2'],
+                        'banner_link'           => $postData['banner_link'],
                         'banner_image'          => $banner_image
                     ];
                     Banner::where($this->data['primary_key'], '=', $id)->update($fields);

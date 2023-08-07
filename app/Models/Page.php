@@ -14,5 +14,6 @@ class Page extends Authenticatable
     protected $fillable = [
         'page_name',
         'page_content',
+        'page_image',
     ];
 }
