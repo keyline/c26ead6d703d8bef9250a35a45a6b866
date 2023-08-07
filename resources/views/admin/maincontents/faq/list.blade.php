@@ -40,6 +40,7 @@ $controllerRoute = $module['controller_route'];
                 <th scope="col">#</th>
                 <th scope="col">Question</th>
                 <th scope="col">Answer</th>
+                <th scope="col">Home Page</th>
                 <th scope="col">Action</th>
               </tr>
             </thead>
@@ -49,6 +50,13 @@ $controllerRoute = $module['controller_route'];
                   <th scope="row"><?=$sl++?></th>
                   <td><?=wordwrap($row->question,50,"<br>\n")?></td>
                   <td><?=wordwrap($row->answer,50,"<br>\n")?></td>
+                  <td>
+                    <?php if($row->is_home_page){?>
+                      <a href="<?=url('admin/' . $controllerRoute . '/change-home-page-status/'.Helper::encoded($row->id))?>" class="badge bg-success" title="Activate <?=$module['title']?>"><i class="fa fa-check"></i> YES</a>
+                    <?php } else {?>
+                      <a href="<?=url('admin/' . $controllerRoute . '/change-home-page-status/'.Helper::encoded($row->id))?>" class="badge bg-danger" title="Deactivate <?=$module['title']?>"><i class="fa fa-times"></i> NO</a>
+                    <?php }?>
+                  </td>
                   <td>
                     <a href="<?=url('admin/' . $controllerRoute . '/edit/'.Helper::encoded($row->id))?>" class="btn btn-outline-primary btn-sm" title="Edit <?=$module['title']?>"><i class="fa fa-edit"></i></a>
                     <a href="<?=url('admin/' . $controllerRoute . '/delete/'.Helper::encoded($row->id))?>" class="btn btn-outline-danger btn-sm" title="Delete <?=$module['title']?>" onclick="return confirm('Do You Want To Delete This <?=$module['title']?>');"><i class="fa fa-trash"></i></a>

@@ -32,9 +32,11 @@ $controllerRoute = $module['controller_route'];
     if($row){
       $name               = $row->name;
       $description        = $row->description;
+      $image              = $row->image;
     } else {
       $name               = '';
       $description        = '';
+      $image              = '';
     }
     ?>
     <div class="col-xl-12">
@@ -52,6 +54,23 @@ $controllerRoute = $module['controller_route'];
               <label for="description" class="col-md-2 col-lg-2 col-form-label">Description</label>
               <div class="col-md-10 col-lg-10">
                 <textarea name="description" class="form-control" id="description" rows="5" required><?=$description?></textarea>
+              </div>
+            </div>
+            <div class="row mb-3">
+              <label for="image" class="col-md-2 col-lg-2 col-form-label">Image</label>
+              <div class="col-md-10 col-lg-10">
+                <input type="file" name="image" class="form-control" id="image">
+                <small class="text-info">* Only JPG, JPEG, ICO, SVG, PNG files are allowed</small><br>
+                <?php if($image != ''){?>
+                  <img src="<?=env('UPLOADS_URL').'service_type/'.$image?>" class="img-thumbnail" alt="<?=$name?>" style="width: 150px; height: 150px; margin-top: 10px;">
+                <?php } else {?>
+                  <img src="<?=env('NO_IMAGE')?>" alt="<?=$name?>" class="img-thumbnail" style="width: 150px; height: 150px; margin-top: 10px;">
+                <?php }?>
+                
+                <div class="pt-2">
+                  <!-- <a href="#profile_image" class="btn btn-primary btn-sm" title="Upload new profile image"><i class="bi bi-upload"></i></a> -->
+                  <a href="javascript:void(0);" class="btn btn-danger btn-sm" title="Remove my profile image"><i class="bi bi-trash"></i></a>
+                </div>
               </div>
             </div>
             <div class="text-center">

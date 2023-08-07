@@ -31,10 +31,14 @@ $controllerRoute = $module['controller_route'];
     <?php
     if($row){
       $banner_text    = $row->banner_text;
-      $banner_image = $row->banner_image;
+      $banner_text2   = $row->banner_text2;
+      $banner_link    = $row->banner_link;
+      $banner_image   = $row->banner_image;
     } else {
       $banner_text    = '';
-      $banner_image = '';
+      $banner_text2   = '';
+      $banner_link    = '';
+      $banner_image   = '';
     }
     ?>
     <div class="col-xl-12">
@@ -43,9 +47,21 @@ $controllerRoute = $module['controller_route'];
           <form method="POST" action="" enctype="multipart/form-data">
             @csrf
             <div class="row mb-3">
-              <label for="banner_text" class="col-md-2 col-lg-2 col-form-label">Banner Text</label>
+              <label for="banner_text" class="col-md-2 col-lg-2 col-form-label">Banner Title Text</label>
               <div class="col-md-10 col-lg-10">
-                <input type="text" name="banner_text" class="form-control" id="banner_text" rows="5" value="<?=$banner_text?>" required>
+                <input type="text" name="banner_text" class="form-control" id="banner_text" value="<?=$banner_text?>" required>
+              </div>
+            </div>
+            <div class="row mb-3">
+              <label for="banner_text2" class="col-md-2 col-lg-2 col-form-label">Banner Short Description Text</label>
+              <div class="col-md-10 col-lg-10">
+                <input type="text" name="banner_text2" class="form-control" id="banner_text2" value="<?=$banner_text2?>" required>
+              </div>
+            </div>
+            <div class="row mb-3">
+              <label for="banner_link" class="col-md-2 col-lg-2 col-form-label">Banner Link</label>
+              <div class="col-md-10 col-lg-10">
+                <input type="text" name="banner_link" class="form-control" id="banner_link" value="<?=$banner_link?>" required>
               </div>
             </div>
             <div class="row mb-3">
@@ -54,7 +70,7 @@ $controllerRoute = $module['controller_route'];
                 <input type="file" name="banner_image" class="form-control" id="banner_image">
                 <small class="text-info">* Only JPG, JPEG, ICO, SVG, PNG files are allowed</small><br>
                 <?php if($banner_image != ''){?>
-                  <img src="<?=env('UPLOADS_URL').'banner/'.$banner_image?>" alt="<?=$banner_text?>" style="width: 150px; height: 150px; margin-top: 10px;">
+                  <img src="<?=env('UPLOADS_URL').'banner/'.$banner_image?>" class="img-thumbnail" alt="<?=$banner_text?>" style="width: 150px; height: 150px; margin-top: 10px;">
                 <?php } else {?>
                   <img src="<?=env('NO_IMAGE')?>" alt="<?=$banner_text?>" class="img-thumbnail" style="width: 150px; height: 150px; margin-top: 10px;">
                 <?php }?>

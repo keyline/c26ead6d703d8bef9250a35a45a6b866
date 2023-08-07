@@ -12,6 +12,7 @@ class ServiceType extends Model{
         'name',
         'slug',
         'description',
+        'image',
         'status',
         'created_at',
         'updated_at',

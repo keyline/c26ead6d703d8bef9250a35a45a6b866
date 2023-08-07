@@ -38,7 +38,9 @@ $controllerRoute = $module['controller_route'];
             <thead>
               <tr>
                 <th scope="col">#</th>
-                <th scope="col">Banner Text</th>
+                <th scope="col">Banner Title Text</th>
+                <th scope="col">Banner Short Description Text</th>
+                <th scope="col">Banner Link</th>
                 <th scope="col">Banner Image</th>
                 <th scope="col">Action</th>
               </tr>
@@ -48,9 +50,11 @@ $controllerRoute = $module['controller_route'];
                 <tr>
                   <th scope="row"><?=$sl++?></th>
                   <td><?=$row->banner_text?></td>
+                  <td><?=$row->banner_text2?></td>
+                  <td><a href="<?=$row->banner_link?>" target="_blank"><span class="badge bg-info"><i class="bi bi-link me-1"></i> Link</span></a></td>
                   <td>
                     <?php if($row->banner_image != ''){?>
-                      <img src="<?=env('UPLOADS_URL').'banner/'.$row->banner_image?>" alt="<?=$row->banner_text?>" style="width: 150px; height: 150px; margin-top: 10px;">
+                      <img src="<?=env('UPLOADS_URL').'banner/'.$row->banner_image?>" class="img-thumbnail" alt="<?=$row->banner_text?>" style="width: 150px; height: 150px; margin-top: 10px;">
                     <?php } else {?>
                       <img src="<?=env('NO_IMAGE')?>" alt="<?=$row->banner_text?>" class="img-thumbnail" style="width: 150px; height: 150px; margin-top: 10px;">
                     <?php }?>

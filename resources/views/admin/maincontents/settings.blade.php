@@ -199,6 +199,65 @@
                     <input name="font_color" type="color" class="form-control" id="font_color" value="<?=$setting->font_color?>">
                   </div>
                 </div>
+
+                <div class="row mb-3">
+                  <label for="home_page_youtube_link" class="col-md-4 col-lg-3 col-form-label">Home Page Youtube Video</label>
+                  <div class="col-md-8 col-lg-9">
+                    <input name="home_page_youtube_link" type="text" class="form-control" id="home_page_youtube_link" value="<?=$setting->home_page_youtube_link?>">
+                    <?php if($setting->home_page_youtube_link != ''){?>
+                      <p class="mt-3">
+                        <iframe width="560" height="315" src="https://www.youtube.com/embed/<?=$setting->home_page_youtube_code?>" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                      </p>
+                    <?php }?>
+                  </div>
+                </div>
+
+                <div class="row mb-3">
+                  <label for="cgst_percent" class="col-md-4 col-lg-3 col-form-label">CGST Percentage</label>
+                  <div class="col-md-8 col-lg-9">
+                    <select class="form-control" name="cgst_percent" id="cgst_percent">
+                      <option value="" selected>Select CGST Percentage</option>
+                      <option value="0.00" <?=(($setting->cgst_percent == '0.00')?'selected':'')?>>0 %</option>
+                      <option value="2.50" <?=(($setting->cgst_percent == '2.50')?'selected':'')?>>2.5 %</option>
+                      <option value="6.00" <?=(($setting->cgst_percent == '6.00')?'selected':'')?>>6 %</option>
+                      <option value="9.00" <?=(($setting->cgst_percent == '9.00')?'selected':'')?>>9 %</option>
+                      <option value="14.00" <?=(($setting->cgst_percent == '14.00')?'selected':'')?>>14 %</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="row mb-3">
+                  <label for="sgst_percent" class="col-md-4 col-lg-3 col-form-label">SGST Percentage</label>
+                  <div class="col-md-8 col-lg-9">
+                    <select class="form-control" name="sgst_percent" id="sgst_percent">
+                      <option value="" selected>Select CGST Percentage</option>
+                      <option value="0.00" <?=(($setting->sgst_percent == '0.00')?'selected':'')?>>0 %</option>
+                      <option value="2.50" <?=(($setting->sgst_percent == '2.50')?'selected':'')?>>2.5 %</option>
+                      <option value="6.00" <?=(($setting->sgst_percent == '6.00')?'selected':'')?>>6 %</option>
+                      <option value="9.00" <?=(($setting->sgst_percent == '9.00')?'selected':'')?>>9 %</option>
+                      <option value="14.00" <?=(($setting->sgst_percent == '14.00')?'selected':'')?>>14 %</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="row mb-3">
+                  <label for="igst_percent" class="col-md-4 col-lg-3 col-form-label">IGST Percentage</label>
+                  <div class="col-md-8 col-lg-9">
+                    <select class="form-control" name="igst_percent" id="igst_percent">
+                      <option value="" selected>Select CGST Percentage</option>
+                      <option value="0.00" <?=(($setting->igst_percent == '0.00')?'selected':'')?>>0 %</option>
+                      <option value="5.00" <?=(($setting->igst_percent == '5.00')?'selected':'')?>>5 %</option>
+                      <option value="12.00" <?=(($setting->igst_percent == '12.00')?'selected':'')?>>12 %</option>
+                      <option value="18.00" <?=(($setting->igst_percent == '18.00')?'selected':'')?>>18 %</option>
+                      <option value="28.00" <?=(($setting->igst_percent == '28.00')?'selected':'')?>>28 %</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="row mb-3">
+                  <label for="stumento_commision_percent" class="col-md-4 col-lg-3 col-form-label">Stumento Commission Percentage</label>
+                  <div class="col-md-8 col-lg-9">
+                    <input name="stumento_commision_percent" type="text" class="form-control" id="stumento_commision_percent" value="<?=$setting->stumento_commision_percent?>">
+                  </div>
+                </div>
+
                 <div class="row mb-3">
                   <label for="twitter_profile" class="col-md-4 col-lg-3 col-form-label">Twitter Profile</label>
                   <div class="col-md-8 col-lg-9">
@@ -237,6 +296,22 @@
                     <small class="text-info">* Only jpg, jpeg, png, ico files are allowed</small><br>
                     <?php if($setting->site_logo != ''){?>
                       <img src="<?=env('UPLOADS_URL').$setting->site_logo?>" alt="<?=$setting->site_name?>">
+                    <?php } else {?>
+                      <img src="<?=env('NO_IMAGE')?>" alt="<?=$setting->site_name?>" class="img-thumbnail" style="width: 150px; height: 150px; margin-top: 10px;">
+                    <?php }?>
+                    
+                    <div class="pt-2">
+                      <a href="javascript:void(0);" class="btn btn-danger btn-sm" title="Remove Image"><i class="bi bi-trash"></i></a>
+                    </div>
+                  </div>
+                </div>
+                <div class="row mb-3">
+                  <label for="site_footer_logo" class="col-md-4 col-lg-3 col-form-label">Footer Logo</label>
+                  <div class="col-md-8 col-lg-9">
+                    <input type="file" name="site_footer_logo" class="form-control" id="site_footer_logo">
+                    <small class="text-info">* Only jpg, jpeg, png, ico files are allowed</small><br>
+                    <?php if($setting->site_footer_logo != ''){?>
+                      <img src="<?=env('UPLOADS_URL').$setting->site_footer_logo?>" alt="<?=$setting->site_name?>">
                     <?php } else {?>
                       <img src="<?=env('NO_IMAGE')?>" alt="<?=$setting->site_name?>" class="img-thumbnail" style="width: 150px; height: 150px; margin-top: 10px;">
                     <?php }?>

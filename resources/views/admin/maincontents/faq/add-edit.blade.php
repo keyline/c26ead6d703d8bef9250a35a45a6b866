@@ -32,9 +32,11 @@ $controllerRoute = $module['controller_route'];
     if($row){
       $question     = $row->question;
       $answer       = $row->answer;
+      $is_home_page       = $row->is_home_page;
     } else {
       $question     = '';
       $answer       = '';
+      $is_home_page       = 0;
     }
     ?>
     <div class="col-xl-12">
@@ -52,6 +54,16 @@ $controllerRoute = $module['controller_route'];
               <label for="answer" class="col-md-2 col-lg-2 col-form-label">Answer</label>
               <div class="col-md-10 col-lg-10">
                 <textarea name="answer" class="form-control" id="answer" rows="5" required><?=$answer?></textarea>
+              </div>
+            </div>
+            <div class="row mb-3">
+              <label for="is_home_page" class="col-md-2 col-lg-2 col-form-label">Home Page Show/Hide</label>
+              <div class="col-md-10 col-lg-10">
+                <select name="is_home_page" class="form-control" id="is_home_page" required>
+                  <option value="" selected>Select Home Page Show/Hide</option>
+                  <option value="1" <?=(($is_home_page == 1)?'selected':'')?>>YES</option>
+                  <option value="0" <?=(($is_home_page == 0)?'selected':'')?>>NO</option>
+                </select>
               </div>
             </div>
             <div class="text-center">

@@ -12,6 +12,8 @@ class Service extends Model{
         'name',
         'slug',
         'description',
+        'image',
+        'mentor_background_color',
         'status',
         'created_at',
         'updated_at',
