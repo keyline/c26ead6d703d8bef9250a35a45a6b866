@@ -64,7 +64,6 @@ class UserController extends Controller
                         $subject = "Reset Password";
                         $message = "Your Reset Password is :" . $otp;
                         // $this->sendMail('avijit@keylines.net',$subject,$message);
-                        // dd("Email is sent successfully.");
                         return redirect('/admin/validateOtp/'.Helper::encoded($row->id))->with('success_message', 'OTP Sent To Your Registered Email !!!');
                     }else{
                         return redirect()->back()->with('error_message', 'Please Enter a Registered Email !!!');
