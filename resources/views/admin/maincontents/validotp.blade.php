@@ -12,8 +12,7 @@
           <div class="card mb-3">
             <div class="card-body">
               <div class="pt-4 pb-2">
-                <h5 class="card-title text-center pb-0 fs-4">Sign In to Your Account</h5>
-                <p class="text-center small">Enter your email & password to login</p>
+                <h5 class="card-title text-center pb-0 fs-4">Please enter your OTP</h5>
               </div>
               @if(session('success_message'))
                 <div class="alert alert-success bg-success text-light border-0 alert-dismissible fade show autohide" role="alert">
@@ -27,37 +26,20 @@
                   <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
               @endif
-              <form method="POST" action="" class="row g-3">
+              <form id="otpForm" method="POST" action="" class="row g-3">
                 @csrf
                 <div class="col-12">
-                  <label for="email" class="form-label">Email</label>
                   <div class="input-group has-validation">
-                    <span class="input-group-text" id="inputGroupPrepend"><i class="fas fa-envelope"></i></span>
-                    <input type="email" name="email" class="form-control" id="email" required>
-                    <div class="invalid-feedback">Please enter your email.</div>
+                    <input type="text" style="margin: 10px;height: 60px;border: 2px solid black;" name="otp1" class="form-control otpInput" id="otp1" maxlength="1" required>
+                    <input type="text" style="margin: 10px;height: 60px;border: 2px solid black;" name="otp2" class="form-control otpInput" id="otp2" maxlength="1" required>
+                    <input type="text" style="margin: 10px;height: 60px;border: 2px solid black;" name="otp3" class="form-control otpInput" id="otp3" maxlength="1" required>
+                    <input type="text" style="margin: 10px;height: 60px;border: 2px solid black;" name="otp4" class="form-control otpInput" id="otp4" maxlength="1" required>
+                    <div class="invalid-feedback">Please enter your otp.</div>
                   </div>
                 </div>
                 <div class="col-12">
-                  <label for="password" class="form-label">Password</label>
-                  <div class="input-group has-validation">
-                    <span class="input-group-text" id="inputGroupPrepend"><i class="fas fa-lock"></i></span>
-                    <input type="password" name="password" class="form-control" id="password" required>
-                    <div class="invalid-feedback">Please enter your password.</div>
-                  </div>
+                  <button class="btn btn-primary w-100" type="submit">Submit</button>
                 </div>
-                <!-- <div class="col-12">
-                  <div class="form-check">
-                    <input class="form-check-input" type="checkbox" name="remember" value="true" id="rememberMe">
-                    <label class="form-check-label" for="rememberMe">Remember me</label>
-                  </div>
-                </div> -->
-                <div class="col-12">
-                  <button class="btn btn-primary w-100" type="submit">Sign In</button>
-                </div>
-                <div class="col-12">
-                  <p class="small mb-0">Forgot Password? <a href="{{ url('/admin/forgot-password') }}">Click Here</a></p>
-                </div>
-              </form>
             </div>
           </div>
           <div class="credits">
@@ -68,3 +50,22 @@
     </div>
   </section>
 </div>
+<script>
+  const otpInputs = document.querySelectorAll(".otpInput");
+  otpInputs.forEach((input, index) => {
+      input.addEventListener("input", function() {
+          if (this.value.length >= 1) {
+              if (index < otpInputs.length - 1) {
+                  otpInputs[index + 1].focus();
+              }
+          }
+      });
+      input.addEventListener("keydown", function(event) {
+          if (event.key === "Backspace" && this.value.length === 0) {
+              if (index > 0) {
+                  otpInputs[index - 1].focus();
+              }
+          }
+      });
+  });
+</script>

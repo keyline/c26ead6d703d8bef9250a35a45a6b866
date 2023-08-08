@@ -8,6 +8,8 @@ use Illuminate\Validation\Rule;
 use App\Models\GeneralSetting;
 use App\Models\Admin;
 use Auth;
+use Mail;
+use App\Mail\ForgotPwdMail;
 use Session;
 use Helper;
 use Hash;
@@ -18,11 +20,10 @@ class UserController extends Controller
         public function login(Request $request){
             if($request->isMethod('post')){
                 $postData = $request->all();
-                
                 $rules = [
-                    'email' => 'required|email|max:255',
-                    'password' => 'required|max:30',
-                ];
+                            'email'     => 'required|email|max:255',
+                            'password'  => 'required|max:30',
+                        ];
                 if($this->validate($request, $rules)){
                     if(Auth::guard('admin')->attempt(['email' => $postData['email'], 'password' => $postData['password'], 'status' => 1])){
                         // Helper::pr(Auth::guard('admin')->user());
@@ -42,6 +43,99 @@ class UserController extends Controller
             $data                           = [];
             $title                          = 'Sign In';
             $page_name                      = 'signin';
+            echo $this->admin_before_login_layout($title,$page_name,$data);
+        }
+        public function forgotPassword(Request $request){
+            if($request->isMethod('post')){
+                $postData = $request->all();
+                $rules = [
+                            'email' => 'required|email|max:255',
+                        ];
+                if($this->validate($request, $rules)){
+                    $checkEmail                   = Admin::where('email','=',$postData['email'])->get();
+                    if(count($checkEmail) > 0){
+                        $row     =  Admin::where('email', '=', $postData['email'])->first();
+                        $otp     =  rand(999,10000);
+                        $fields  =  [
+                                        'otp' => $otp
+                                    ];
+                        Admin::where('id', '=', $row->id)->update($fields);
+                        $to = $row->email;
+                        $subject = "Reset Password";
+                        $message = "Your Reset Password is :" . $otp;
+                        // $this->sendMail('avijit@keylines.net',$subject,$message);
+                        // dd("Email is sent successfully.");
+                        return redirect('/admin/validateOtp/'.Helper::encoded($row->id))->with('success_message', 'OTP Sent To Your Registered Email !!!');
+                    }else{
+                        return redirect()->back()->with('error_message', 'Please Enter a Registered Email !!!');
+                    }
+                } else {
+                    return redirect()->back()->with('error_message', 'All Fields Required !!!');
+                }
+            }
+            $data                           = [];
+            $title                          = 'Forgot Password';
+            $page_name                      = 'forgot-password';
+            echo $this->admin_before_login_layout($title,$page_name,$data);
+        }
+        public function validateOtp(Request $request, $id){
+            $id                             = Helper::decoded($id);
+            $data['id']                     = $id;
+            if($request->isMethod('post')){
+                $postData = $request->all();
+                $rules = [
+                            'otp1'     => 'required|max:1',
+                            'otp2'     => 'required|max:1',
+                            'otp3'     => 'required|max:1',
+                            'otp4'     => 'required|max:1',
+                        ];
+                if($this->validate($request, $rules)){
+                    // $id     = $postData['id'];
+                    $otp1   = $postData['otp1'];
+                    $otp2   = $postData['otp2'];
+                    $otp3   = $postData['otp3'];
+                    $otp4   = $postData['otp4'];
+                    $newotp    = ($otp1.$otp2.$otp3.$otp4);
+                    $checkUser = Admin::where('id', '=', $id)->first();
+                    if($checkUser){
+                        $otp = $checkUser->otp;
+                        if($otp == $newotp){
+                            $postData = [
+                                            'otp'        => '',
+                                        ];
+                            Admin::where('id', '=', $checkUser->id)->update($postData);
+                            return redirect('/admin/changePassword/'.Helper::encoded($checkUser->id))->with('success_message', 'OTP Validated. Just Reset Your Password !!!');
+                        } else {
+                            return redirect()->back()->with('error_message', 'OTP Mismatched !!!');
+                        }
+                    } else {
+                        return redirect()->back()->with('error_message', 'We Don\'t Recognize You !!!');
+                    }
+                } else {
+                    return redirect()->back()->with('error_message', 'All Fields Required !!!');
+                }
+            }
+            $title                          = 'OTP';
+            $page_name                      = 'validotp';
+            echo $this->admin_before_login_layout($title,$page_name,$data);
+        }
+        public function changePassword(Request $request ,$id){
+            $ID = Helper::decoded($id);
+            if($request->isMethod('post')){
+                $postData = $request->all();
+                if($postData['new_password'] != $postData['old_password'] ){
+                    return redirect()->back()->with('error_message', 'Password Doesn\'t match !!!');
+                } else {
+                    $postData = [
+                                    'password'        => Hash::make($postData['new_password']),
+                                ];
+                    Admin::where('id', '=', $ID)->update($postData);
+                    return redirect('/admin')->with('success_message', 'Password Reset Successfully. Please Sign In !!!');
+                }
+            }
+            $data                           = [];
+            $title                          = 'Change Password';
+            $page_name                      = 'change-password';
             echo $this->admin_before_login_layout($title,$page_name,$data);
         }
         public function logout(){
@@ -73,8 +167,8 @@ class UserController extends Controller
             $postData   = $request->all();
             $rules      = [
                 'name'            => 'required',
-                'mobile'             => 'required',
-                'email'             => 'required',
+                'mobile'          => 'required',
+                'email'           => 'required',
             ];
             if($this->validate($request, $rules)){
                 /* profile image */

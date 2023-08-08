@@ -21,15 +21,15 @@ class Controller extends BaseController
         $mailLibrary->CharSet       = 'UTF-8';
         $mailLibrary->SMTPDebug     = 0;
         //$mailLibrary->IsSMTP();
-        $mailLibrary->Host          = 'no-reply@itiffy.in';
+        $mailLibrary->Host          = $generalSetting->smtp_host;
         $mailLibrary->SMTPAuth      = true;
-        $mailLibrary->Port          = '465';
-        $mailLibrary->Username      = 'no-reply@itiffy.in';
-        $mailLibrary->Password      = 'b&b;,Rd)G~6)';
+        $mailLibrary->Port          = $generalSetting->smtp_port;
+        $mailLibrary->Username      = $generalSetting->smtp_username;
+        $mailLibrary->Password      = $generalSetting->smtp_password;
         $mailLibrary->SMTPSecure    = 'ssl';
-        $mailLibrary->From          = 'no-reply@itiffy.in';
-        $mailLibrary->FromName      = 'PHP Experts';
-        $mailLibrary->AddReplyTo('no-reply@itiffy.in', 'PHP Experts');
+        $mailLibrary->From          = $generalSetting->from_email;
+        $mailLibrary->FromName      = $generalSetting->from_name;
+        $mailLibrary->AddReplyTo($generalSetting->from_email, $generalSetting->from_name);
         if(is_array($email)) :
             foreach($email as $eml):
                 $mailLibrary->addAddress($eml);

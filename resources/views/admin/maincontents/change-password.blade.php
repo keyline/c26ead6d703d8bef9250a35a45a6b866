@@ -12,8 +12,7 @@
           <div class="card mb-3">
             <div class="card-body">
               <div class="pt-4 pb-2">
-                <h5 class="card-title text-center pb-0 fs-4">Sign In to Your Account</h5>
-                <p class="text-center small">Enter your email & password to login</p>
+                <h5 class="card-title text-center pb-0 fs-4">Reset Your Account</h5>
               </div>
               @if(session('success_message'))
                 <div class="alert alert-success bg-success text-light border-0 alert-dismissible fade show autohide" role="alert">
@@ -30,32 +29,21 @@
               <form method="POST" action="" class="row g-3">
                 @csrf
                 <div class="col-12">
-                  <label for="email" class="form-label">Email</label>
+                  <label for="new_password" class="form-label">New Password</label>
                   <div class="input-group has-validation">
-                    <span class="input-group-text" id="inputGroupPrepend"><i class="fas fa-envelope"></i></span>
-                    <input type="email" name="email" class="form-control" id="email" required>
-                    <div class="invalid-feedback">Please enter your email.</div>
+                    <span class="input-group-text" id="inputGroupPrepend"><i class="fas fa-key"></i></span>
+                    <input type="password" name="new_password" class="form-control" id="new_password" required>
                   </div>
                 </div>
                 <div class="col-12">
-                  <label for="password" class="form-label">Password</label>
+                  <label for="old_password" class="form-label">Confirm Password</label>
                   <div class="input-group has-validation">
-                    <span class="input-group-text" id="inputGroupPrepend"><i class="fas fa-lock"></i></span>
-                    <input type="password" name="password" class="form-control" id="password" required>
-                    <div class="invalid-feedback">Please enter your password.</div>
+                    <span class="input-group-text" id="inputGroupPrepend"><i class="fas fa-key"></i></span>
+                    <input type="password" name="old_password" class="form-control" id="old_password" required>
                   </div>
                 </div>
-                <!-- <div class="col-12">
-                  <div class="form-check">
-                    <input class="form-check-input" type="checkbox" name="remember" value="true" id="rememberMe">
-                    <label class="form-check-label" for="rememberMe">Remember me</label>
-                  </div>
-                </div> -->
                 <div class="col-12">
-                  <button class="btn btn-primary w-100" type="submit">Sign In</button>
-                </div>
-                <div class="col-12">
-                  <p class="small mb-0">Forgot Password? <a href="{{ url('/admin/forgot-password') }}">Click Here</a></p>
+                  <button class="btn btn-primary w-100" type="submit">Submit</button>
                 </div>
               </form>
             </div>

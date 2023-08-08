@@ -180,7 +180,7 @@ class Helper{
     }
     // specific word search check in a string
     public static function searchWordInString($sentence, $word){
-        if (str_contains($sentence, $word)) { 
+        if (str_contains($sentence, $word)) {
             return TRUE;
         } else {
             return FALSE;
