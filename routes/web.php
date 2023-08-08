@@ -1,6 +1,5 @@
 <?php
 use Illuminate\Support\Facades\Route;
-// use App\Http\Controllers\FrontController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -11,7 +10,6 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-
 Route::get('/', function () {
     return view('welcome');
 });
@@ -44,8 +42,12 @@ Route::get('/', function () {
     });    
 /* API */
 /* Admin Panel */
+    
     Route::prefix('/admin')->namespace('App\Http\Controllers\Admin')->group(function(){
         Route::match(['get', 'post'], '/', 'UserController@login');
+        Route::match(['get','post'],'/forgot-password', 'UserController@forgotPassword');
+        Route::match(['get','post'],'/validateOtp/{id}', 'UserController@validateOtp');
+        Route::match(['get','post'],'/changePassword/{id}', 'UserController@changePassword');
         Route::group(['middleware' => ['admin']], function(){
             Route::get('dashboard', 'UserController@dashboard');
             Route::get('logout', 'UserController@logout');
@@ -177,6 +179,8 @@ Route::get('/', function () {
             /* survey */
         });
     });
+
+
 /* Admin Panel */
 /* Front Panel */
 
