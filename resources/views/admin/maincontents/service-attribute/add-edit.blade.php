@@ -32,7 +32,7 @@ $controllerRoute = $module['controller_route'];
     if($row){
       $service_type_id    = $row->service_type_id;
       $service_id         = $row->service_id;
-      $name               = $row->name;
+      $title              = $row->title;
       $description        = $row->description;
       $duration           = $row->duration;
       $actual_amount      = $row->actual_amount;
@@ -40,7 +40,7 @@ $controllerRoute = $module['controller_route'];
     } else {
       $service_type_id    = '';
       $service_id         = '';
-      $name               = '';
+      $title               = '';
       $description        = '';
       $duration           = '';
       $actual_amount      = '';
@@ -75,9 +75,9 @@ $controllerRoute = $module['controller_route'];
               </div>
             </div>
             <div class="row mb-3">
-              <label for="name" class="col-md-2 col-lg-2 col-form-label">Name</label>
+              <label for="title" class="col-md-2 col-lg-2 col-form-label">Title</label>
               <div class="col-md-10 col-lg-10">
-                <input type="text" name="name" class="form-control" id="name" value="<?=$name?>" required>
+                <input type="text" name="title" class="form-control" id="title" value="<?=$title?>" required>
               </div>
             </div>
             <div class="row mb-3">

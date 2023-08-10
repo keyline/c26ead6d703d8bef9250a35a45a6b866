@@ -2,6 +2,7 @@
 use App\Helpers\Helper;
 use App\Models\ServiceType;
 use App\Models\Service;
+use App\Models\ServiceTypeAttribute;
 $controllerRoute = $module['controller_route'];
 ?>
 <div class="pagetitle">
@@ -54,19 +55,9 @@ $controllerRoute = $module['controller_route'];
               <?php if($rows){ $sl=1; foreach($rows as $row){?>
                 <tr>
                   <th scope="row"><?=$sl++?></th>
-                  <td>
-                    <?php
-                    $service_type = ServiceType::where('id', '=', $row->service_type_id)->first();
-                    echo (($service_type)?$service_type->name:'');
-                    ?>
-                  </td>
-                  <td>
-                    <?php
-                    $service = Service::where('id', '=', $row->service_id)->first();
-                    echo (($service)?$service->name:'');
-                    ?>
-                  </td>
-                  <td><?=$row->name?></td>
+                  <td><?=$row->service_type_name?></td>
+                  <td><?=$row->service_name?></td>
+                  <td><?=$row->title?></td>
                   <td><?=wordwrap($row->description,40,"<br>\n")?></td>
                   <td><?=$row->duration?> Mins</td>
                   <td><?=number_format($row->actual_amount,2)?></td>
