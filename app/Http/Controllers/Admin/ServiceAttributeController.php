@@ -4,11 +4,13 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
 use App\Models\GeneralSetting;
 use App\Models\ServiceType;
 use App\Models\Service;
 use App\Models\ServiceAttribute;
+use App\Models\ServiceTypeAttribute;
 use Auth;
 use Session;
 use Helper;
@@ -30,7 +32,15 @@ class ServiceAttributeController extends Controller
             $data['module']                 = $this->data;
             $title                          = $this->data['title'].' List';
             $page_name                      = 'service-attribute.list';
-            $data['rows']                   = ServiceAttribute::where('status', '!=', 3)->orderBy('id', 'DESC')->get();
+            // $data['rows']                   = ServiceAttribute::where('status', '!=', 3)->orderBy('id', 'DESC')->get();
+            $data['rows']                   = DB::table('service_type_attribute')
+                                                ->join('service_types', 'service_type_attribute.service_type_id', '=', 'service_types.id')
+                                                ->join('services', 'service_type_attribute.service_id', '=', 'services.id')
+                                                ->join('service_attributes', 'service_type_attribute.service_attribute_id', '=', 'service_attributes.id')
+                                                ->select('service_attributes.*', 'service_types.name AS service_type_name', 'services.name AS service_name')
+                                                ->where('service_attributes.status', '!=', 3)
+                                                ->orderBy('service_attributes.id', 'DESC')
+                                                ->get();
             echo $this->admin_after_login_layout($title,$page_name,$data);
         }
     /* list */
@@ -42,7 +52,7 @@ class ServiceAttributeController extends Controller
                 $rules = [
                     'service_type_id'           => 'required',
                     'service_id'                => 'required',
-                    'name'                      => 'required',
+                    'title'                     => 'required',
                     'description'               => 'required',
                     'duration'                  => 'required',
                     'actual_amount'             => 'required',
@@ -50,16 +60,22 @@ class ServiceAttributeController extends Controller
                 ];
                 if($this->validate($request, $rules)){
                     $fields = [
-                        'service_type_id'           => $postData['service_type_id'],
-                        'service_id'                => $postData['service_id'],
-                        'name'                      => $postData['name'],
-                        'slug'                      => Helper::clean($postData['name']),
+                        'title'                     => $postData['title'],
+                        'slug'                      => Helper::clean($postData['title']),
                         'description'               => $postData['description'],
                         'duration'                  => $postData['duration'],
                         'actual_amount'             => $postData['actual_amount'],
                         'slashed_amount'            => $postData['slashed_amount'],
                     ];
-                    ServiceAttribute::insert($fields);
+                    $service_attribute_id  = ServiceAttribute::insertGetId($fields);
+                    /* service type attribute table insertion */
+                        $fields2 = [
+                            'service_type_id'           => $postData['service_type_id'],
+                            'service_attribute_id'      => $service_attribute_id,
+                            'service_id'                => $postData['service_id']
+                        ];
+                        ServiceTypeAttribute::insert($fields2);
+                    /* service type attribute table insertion */
                     return redirect("admin/" . $this->data['controller_route'] . "/list")->with('success_message', $this->data['title'].' Inserted Successfully !!!');
                 } else {
                     return redirect()->back()->with('error_message', 'All Fields Required !!!');
@@ -80,7 +96,14 @@ class ServiceAttributeController extends Controller
             $id                             = Helper::decoded($id);
             $title                          = $this->data['title'].' Update';
             $page_name                      = 'service-attribute.add-edit';
-            $data['row']                    = ServiceAttribute::where($this->data['primary_key'], '=', $id)->first();
+            // $data['row']                    = ServiceAttribute::where($this->data['primary_key'], '=', $id)->first();
+            $data['row']                    = DB::table('service_type_attribute')
+                                                ->join('service_attributes', 'service_type_attribute.service_attribute_id', '=', 'service_attributes.id')
+                                                ->select('*')
+                                                ->where('service_attributes.id', '=', $id)
+                                                ->first();
+            // Helper::pr($data['row']);
+
             $data['serviceTypes']           = ServiceType::where('status', '=', 1)->get();
             $data['services']               = Service::where('status', '=', 1)->get();
 
@@ -89,7 +112,7 @@ class ServiceAttributeController extends Controller
                 $rules = [
                     'service_type_id'           => 'required',
                     'service_id'                => 'required',
-                    'name'                      => 'required',
+                    'title'                      => 'required',
                     'description'               => 'required',
                     'duration'                  => 'required',
                     'actual_amount'             => 'required',
@@ -97,10 +120,8 @@ class ServiceAttributeController extends Controller
                 ];
                 if($this->validate($request, $rules)){
                     $fields = [
-                        'service_type_id'           => $postData['service_type_id'],
-                        'service_id'                => $postData['service_id'],
-                        'name'                      => $postData['name'],
-                        'slug'                      => Helper::clean($postData['name']),
+                        'title'                     => $postData['title'],
+                        'slug'                      => Helper::clean($postData['title']),
                         'description'               => $postData['description'],
                         'duration'                  => $postData['duration'],
                         'actual_amount'             => $postData['actual_amount'],
@@ -108,6 +129,15 @@ class ServiceAttributeController extends Controller
                         'updated_at'                => date('Y-m-d H:i:s')
                     ];
                     ServiceAttribute::where($this->data['primary_key'], '=', $id)->update($fields);
+
+                    /* service type attribute table insertion */
+                        $fields2 = [
+                            'service_type_id'           => $postData['service_type_id'],
+                            'service_id'                => $postData['service_id']
+                        ];
+                        ServiceTypeAttribute::where('service_attribute_id', '=', $id)->update($fields2);
+                    /* service type attribute table insertion */
+
                     return redirect("admin/" . $this->data['controller_route'] . "/list")->with('success_message', $this->data['title'].' Updated Successfully !!!');
                 } else {
                     return redirect()->back()->with('error_message', 'All Fields Required !!!');

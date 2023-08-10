@@ -21,6 +21,7 @@ class StudentProfileFactory extends Factory
             'first_name'=> fake()->firstName,
             'last_name' => fake()->lastName,
             'full_name' => fake()->name,
+            'profile_pic' => fake()->imageUrl(100, 100, 'dogs'),
 
         ];
     }

@@ -33,12 +33,12 @@ $controllerRoute = $module['controller_route'];
       $name                           = $row->name;
       $description                    = $row->description;
       $image                          = $row->image;
-      $mentor_background_color        = $row->mentor_background_color;
+      $mentor_bg_color        = $row->mentor_bg_color;
     } else {
       $name                           = '';
       $description                    = '';
       $image                          = '';
-      $mentor_background_color        = '';
+      $mentor_bg_color        = '';
     }
     ?>
     <div class="col-xl-12">
@@ -59,9 +59,9 @@ $controllerRoute = $module['controller_route'];
               </div>
             </div>
             <div class="row mb-3">
-              <label for="mentor_background_color" class="col-md-2 col-lg-2 col-form-label">Mentor Background Color</label>
+              <label for="mentor_bg_color" class="col-md-2 col-lg-2 col-form-label">Mentor Background Color</label>
               <div class="col-md-10 col-lg-10">
-                <input type="color" name="mentor_background_color" id="mentor_background_color" value="<?=$mentor_background_color?>" required>
+                <input type="color" name="mentor_bg_color" id="mentor_bg_color" value="<?=$mentor_bg_color?>" required>
 
               </div>
             </div>

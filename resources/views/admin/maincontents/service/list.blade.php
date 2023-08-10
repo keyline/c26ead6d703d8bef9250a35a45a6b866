@@ -51,7 +51,7 @@ $controllerRoute = $module['controller_route'];
                   <th scope="row"><?=$sl++?></th>
                   <td><?=$row->name?></td>
                   <td><?=wordwrap($row->description,40,"<br>\n")?></td>
-                  <td><p style="background-color: <?=$row->mentor_background_color?>; border-radius: 50%; width: 20px; height:20px;padding: 5px; margin-top:10px;">&nbsp;</p></td>
+                  <td><p style="background-color: <?=$row->mentor_bg_color?>; border-radius: 50%; width: 20px; height:20px;padding: 5px; margin-top:10px;">&nbsp;</p></td>
                   <td>
                     <?php if($row->image != ''){?>
                       <img src="<?=env('UPLOADS_URL').'service/'.$row->image?>" class="img-thumbnail" alt="<?=$row->name?>" style="width: 150px; height: 150px; margin-top: 10px;">

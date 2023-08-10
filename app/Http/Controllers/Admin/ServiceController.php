@@ -40,7 +40,7 @@ class ServiceController extends Controller
                 $rules = [
                     'name'                      => 'required',
                     'description'               => 'required',
-                    'mentor_background_color'   => 'required',
+                    'mentor_bg_color'           => 'required',
                 ];
                 if($this->validate($request, $rules)){
                     /* image */
@@ -61,7 +61,7 @@ class ServiceController extends Controller
                         'name'                      => $postData['name'],
                         'slug'                      => Helper::clean($postData['name']),
                         'description'               => $postData['description'],
-                        'mentor_background_color'   => $postData['mentor_background_color'],
+                        'mentor_bg_color'           => $postData['mentor_bg_color'],
                         'image'                     => $image,
                     ];
                     Service::insert($fields);
@@ -90,7 +90,7 @@ class ServiceController extends Controller
                 $rules = [
                     'name'                      => 'required',
                     'description'               => 'required',
-                    'mentor_background_color'   => 'required',
+                    'mentor_bg_color'           => 'required',
                 ];
                 if($this->validate($request, $rules)){
                     /* image */
@@ -111,7 +111,7 @@ class ServiceController extends Controller
                         'name'                      => $postData['name'],
                         'slug'                      => Helper::clean($postData['name']),
                         'description'               => $postData['description'],
-                        'mentor_background_color'   => $postData['mentor_background_color'],
+                        'mentor_bg_color'           => $postData['mentor_bg_color'],
                         'image'                     => $image,
                         'updated_at'                => date('Y-m-d H:i:s')
                     ];
