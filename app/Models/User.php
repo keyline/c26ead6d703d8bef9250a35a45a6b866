@@ -67,4 +67,20 @@ class User extends Authenticatable
     {
         $this->attributes['password'] = bcrypt($value);
     }
+
+    /**
+     * Get the profile of the student associated with the user.
+     */
+    public function studentProfile(): HasOne
+    {
+        return $this->hasOne(StudentProfile::class);
+    }
+
+    /**
+     * Get the profile of the mentor associated with the user.
+     */
+    public function mentorProfile(): HasOne
+    {
+        return $this->hasOne(MentorProfile::class);
+    }
 }

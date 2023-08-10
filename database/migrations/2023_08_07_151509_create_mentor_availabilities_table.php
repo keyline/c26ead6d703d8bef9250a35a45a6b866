@@ -11,9 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->enum('role', array('1','2'));
-			$table->boolean('valid')->default(false);
+        Schema::create('mentor_availabilities', function (Blueprint $table) {
+            $table->id();
+            $table->timestamps();
         });
     }
 
@@ -22,9 +22,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn('role');
-            $table->dropColumn('valid');
-        });
+        Schema::dropIfExists('mentor_availabilities');
     }
 };

@@ -18,6 +18,20 @@ class DatabaseSeeder extends Seeder
         //     'name' => 'Test User',
         //     'email' => 'test@example.com',
         // ]);
-        $this->call(AdminsTableSeeder::class);
+        $this->call([
+            AdminsTableSeeder::class,
+            ServiceSeeder::class,
+            ServiceTypeSeeder::class,
+            ServiceAttributeSeeder::class,
+            GeneralSettingSeeder::class,
+        ]);
+
+        //Creating 50 students
+        \App\Models\StudentProfile::factory(50)->create();
+
+        \App\Models\MentorProfile::factory(50)->create();
+
+
+
     }
 }
