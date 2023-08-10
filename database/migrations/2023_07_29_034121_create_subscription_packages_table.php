@@ -22,8 +22,8 @@ class CreateSubscriptionPackagesTable extends Migration
             $table->float('subscription_price', 10, 2)->default(0.00);
             $table->enum('status', ['1', '0', '3'])->default('1')->comment("1=acitve,0=inactive,2=deleted");
             $table->integer('created_by');
-            $table->timestamp('created_on')->default('current_timestamp()');
-            $table->timestamp('updated_on')->default('current_timestamp()');
+            $table->timestamp('created_on')->useCurrent();
+            $table->timestamp('updated_on')->useCurrent();
         });
     }
 

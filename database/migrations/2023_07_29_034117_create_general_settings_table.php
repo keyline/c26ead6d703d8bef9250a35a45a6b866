@@ -58,8 +58,9 @@ class CreateGeneralSettingsTable extends Migration
             $table->longText('stripe_live_sk')->nullable();
             $table->longText('stripe_live_pk')->nullable();
             $table->float('partner_commission', 10, 2)->default(0.00);
-            $table->timestamps()->default('current_timestamp()');
             $table->boolean('published')->default(1);
+            $table->timestamp('created_at')->useCurrent();
+            $table->timestamp('updated_at')->nullable()->useCurrentOnUpdate();
         });
     }
 

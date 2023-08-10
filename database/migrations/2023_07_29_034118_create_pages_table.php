@@ -18,7 +18,8 @@ class CreatePagesTable extends Migration
             $table->string('page_name', 250)->nullable();
             $table->longText('page_content')->nullable();
             $table->boolean('status')->default(1);
-            $table->timestamps()->default('current_timestamp()');
+            $table->timestamp('created_at')->useCurrent();
+            $table->timestamp('updated_at')->nullable()->useCurrentOnUpdate();
         });
     }
 

@@ -10,7 +10,16 @@ use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasApiTokens;
+    use HasFactory;
+    use Notifiable;
+
+    /**
+     * The database table used by the model.
+     *
+     * @var string
+     */
+    protected $table = 'users';
 
     /**
      * The attributes that are mass assignable.
@@ -24,6 +33,8 @@ class User extends Authenticatable
         'phone',
         'country',
         'password',
+        'role',
+        'valid'
     ];
 
     /**
@@ -43,6 +54,33 @@ class User extends Authenticatable
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
-        'password' => 'hashed',
+        //'password' => 'hashed',
     ];
+
+    /**
+     * Always encrypt the password when it is updated.
+     *
+     * @param $value
+    * @return string
+    */
+    public function setPasswordAttribute($value)
+    {
+        $this->attributes['password'] = bcrypt($value);
+    }
+
+    /**
+     * Get the profile of the student associated with the user.
+     */
+    public function studentProfile(): HasOne
+    {
+        return $this->hasOne(StudentProfile::class);
+    }
+
+    /**
+     * Get the profile of the mentor associated with the user.
+     */
+    public function mentorProfile(): HasOne
+    {
+        return $this->hasOne(MentorProfile::class);
+    }
 }
