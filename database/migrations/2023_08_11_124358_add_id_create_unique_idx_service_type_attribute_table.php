@@ -10,11 +10,8 @@ return new class () extends Migration {
      */
     public function up(): void
     {
-        Schema::create('slots', function (Blueprint $table) {
-            $table->id();
-            $table->time('from');
-            $table->time('to');
-            $table->timestamps();
+        Schema::table('service_type_attribute', function (Blueprint $table) {
+            $table->unique(['service_type_id', 'service_attribute_id', 'service_id'], 'service_type_attribute_uniq');
         });
     }
 
@@ -23,6 +20,8 @@ return new class () extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('slots');
+        Schema::table('service_type_attribute', function (Blueprint $table) {
+            //
+        });
     }
 };
