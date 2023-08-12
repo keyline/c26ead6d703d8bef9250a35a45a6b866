@@ -128,6 +128,20 @@ Route::get('/', function () {
                     Route::get('source/delete/{id}', 'SourceController@delete');
                     Route::get('source/change-status/{id}', 'SourceController@change_status');
                 /* source */
+                /* expertise */
+                    Route::get('expertise/list', 'ExpertiseController@list');
+                    Route::match(['get', 'post'], 'expertise/add', 'ExpertiseController@add');
+                    Route::match(['get', 'post'], 'expertise/edit/{id}', 'ExpertiseController@edit');
+                    Route::get('expertise/delete/{id}', 'ExpertiseController@delete');
+                    Route::get('expertise/change-status/{id}', 'ExpertiseController@change_status');
+                /* expertise */
+                /* currency */
+                    Route::get('currency/list', 'CurrencyController@list');
+                    Route::match(['get', 'post'], 'currency/add', 'CurrencyController@add');
+                    Route::match(['get', 'post'], 'currency/edit/{id}', 'CurrencyController@edit');
+                    Route::get('currency/delete/{id}', 'CurrencyController@delete');
+                    Route::get('currency/change-status/{id}', 'CurrencyController@change_status');
+                /* currency */
             /* master */
             /* page */
                 Route::get('page/list', 'PageController@list');
@@ -160,7 +174,18 @@ Route::get('/', function () {
                     Route::get('blog/change-status/{id}', 'BlogController@change_status');
                 /* blogs */
             /* blog */
+            /* mentor */
+                Route::get('mentor/list', 'MentorController@list');
 
+                Route::get('mentor/delete/{id}', 'MentorController@delete');
+                Route::get('mentor/change-status/{id}', 'MentorController@change_status');
+            /* mentor */
+            /* student */
+                Route::get('student/list', 'StudentController@list');
+
+                Route::get('student/delete/{id}', 'StudentController@delete');
+                Route::get('student/change-status/{id}', 'StudentController@change_status');
+            /* student */
             /* survey */
                 /* question type */
                     Route::get('question-type/list', 'QuestionTypeController@list');

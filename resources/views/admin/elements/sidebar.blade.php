@@ -3,6 +3,7 @@ use Illuminate\Support\Facades\Route;;
 $routeName    = Route::current();
 $pageName     = explode("/", $routeName->uri());
 $pageSegment  = $pageName[1];
+$pageFunction = $pageName[2];
 // dd($routeName);
 ?>
 <ul class="sidebar-nav" id="sidebar-nav">
@@ -12,6 +13,7 @@ $pageSegment  = $pageName[1];
       <span>Dashboard</span>
     </a>
   </li><!-- End Dashboard Nav -->
+
   <!-- <li class="nav-heading">Access & Permission</li> -->
   <li class="nav-item">
     <a class="nav-link <?=(($pageSegment == 'module' || $pageSegment == 'sub-user' || $pageSegment == 'access')?'':'collapsed')?> <?=(($pageSegment == 'module' || $pageSegment == 'sub-user' || $pageSegment == 'access')?'active':'')?>" data-bs-target="#permission-nav" data-bs-toggle="collapse" href="#">
@@ -35,12 +37,13 @@ $pageSegment  = $pageName[1];
       </li>
     </ul>
   </li><!-- End Masters Nav -->
+
   <!-- <li class="nav-heading">Masters</li> -->
   <li class="nav-item">
-    <a class="nav-link <?=(($pageSegment == 'banner' || $pageSegment == 'service-type' || $pageSegment == 'service' || $pageSegment == 'service-attribute' || $pageSegment == 'source')?'':'collapsed')?> <?=(($pageSegment == 'banner' || $pageSegment == 'service-type' || $pageSegment == 'service' || $pageSegment == 'service-attribute' || $pageSegment == 'source')?'active':'')?>" data-bs-target="#master-nav" data-bs-toggle="collapse" href="#">
+    <a class="nav-link <?=(($pageSegment == 'banner' || $pageSegment == 'service-type' || $pageSegment == 'service' || $pageSegment == 'service-attribute' || $pageSegment == 'source' || $pageSegment == 'expertise' || $pageSegment == 'currency')?'':'collapsed')?> <?=(($pageSegment == 'banner' || $pageSegment == 'service-type' || $pageSegment == 'service' || $pageSegment == 'service-attribute' || $pageSegment == 'source' || $pageSegment == 'expertise' || $pageSegment == 'currency')?'active':'')?>" data-bs-target="#master-nav" data-bs-toggle="collapse" href="#">
       <i class="bi bi-menu-button-wide"></i><span>Master Management</span><i class="bi bi-chevron-down ms-auto"></i>
     </a>
-    <ul id="master-nav" class="nav-content collapse <?=(($pageSegment == 'banner' || $pageSegment == 'service-type' || $pageSegment == 'service' || $pageSegment == 'service-attribute' || $pageSegment == 'source')?'show':'')?>" data-bs-parent="#sidebar-nav">
+    <ul id="master-nav" class="nav-content collapse <?=(($pageSegment == 'banner' || $pageSegment == 'service-type' || $pageSegment == 'service' || $pageSegment == 'service-attribute' || $pageSegment == 'source' || $pageSegment == 'expertise' || $pageSegment == 'currency')?'show':'')?>" data-bs-parent="#sidebar-nav">
       <li>
         <a class="<?=(($pageSegment == 'banner')?'active':'')?>" href="{{ url('admin/banner/list') }}">
           <i class="bi bi-arrow-right"></i><span>Banners</span>
@@ -66,8 +69,19 @@ $pageSegment  = $pageName[1];
           <i class="bi bi-arrow-right"></i><span>Sources</span>
         </a>
       </li>
+      <li>
+        <a class="<?=(($pageSegment == 'expertise')?'active':'')?>" href="{{ url('admin/expertise/list') }}">
+          <i class="bi bi-arrow-right"></i><span>Expertises</span>
+        </a>
+      </li>
+      <li>
+        <a class="<?=(($pageSegment == 'currency')?'active':'')?>" href="{{ url('admin/currency/list') }}">
+          <i class="bi bi-arrow-right"></i><span>Currencies</span>
+        </a>
+      </li>
     </ul>
   </li><!-- End Masters Nav -->
+
   <!-- <li class="nav-heading">Modules</li> -->
   <li class="nav-item">
     <a class="nav-link <?=(($pageSegment == 'page')?'active':'')?>" href="{{ url('admin/page/list') }}">
@@ -75,12 +89,14 @@ $pageSegment  = $pageName[1];
       <span>CMS Pages</span>
     </a>
   </li><!-- End Profile Page Nav -->
+
   <li class="nav-item">
     <a class="nav-link <?=(($pageSegment == 'faq')?'active':'')?>" href="{{ url('admin/faq/list') }}">
       <i class="bi bi-question"></i>
       <span>FAQs</span>
     </a>
   </li><!-- End Profile Page Nav -->
+
   <li class="nav-item">
     <a class="nav-link <?=(($pageSegment == 'blog-category' || $pageSegment == 'blog')?'':'collapsed')?> <?=(($pageSegment == 'blog-category' || $pageSegment == 'blog')?'active':'')?>" data-bs-target="#blog-nav" data-bs-toggle="collapse" href="#">
       <i class="bi bi-menu-button-wide"></i><span>Blog Management</span><i class="bi bi-chevron-down ms-auto"></i>
@@ -98,13 +114,14 @@ $pageSegment  = $pageName[1];
       </li>
     </ul>
   </li><!-- End Masters Nav -->
-  <li class="nav-item">
+
+  <li class="nav-item <?=(($pageSegment == 'mentor')?'':'collapsed')?> <?=(($pageSegment == 'mentor')?'active':'')?>">
     <a class="nav-link collapsed" data-bs-target="#mentor-nav" data-bs-toggle="collapse" href="#">
       <i class="bi bi-menu-button-wide"></i><span>Mentor Management</span><i class="bi bi-chevron-down ms-auto"></i>
     </a>
-    <ul id="mentor-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+    <ul id="mentor-nav" class="nav-content collapse <?=(($pageSegment == 'mentor')?'show':'')?>" data-bs-parent="#sidebar-nav">
       <li>
-        <a href="javascript:void(0);">
+        <a class="<?=(($pageSegment == 'mentor' && $pageFunction == 'list')?'active':'')?>" href="{{ url('admin/mentor/list') }}">
           <i class="bi bi-arrow-right"></i><span>List</span>
         </a>
       </li>
@@ -120,13 +137,14 @@ $pageSegment  = $pageName[1];
       </li>
     </ul>
   </li><!-- End Masters Nav -->
-  <li class="nav-item">
+
+  <li class="nav-item <?=(($pageSegment == 'student')?'':'collapsed')?> <?=(($pageSegment == 'student')?'active':'')?>">
     <a class="nav-link collapsed" data-bs-target="#student-nav" data-bs-toggle="collapse" href="#">
       <i class="bi bi-menu-button-wide"></i><span>Student Management</span><i class="bi bi-chevron-down ms-auto"></i>
     </a>
-    <ul id="student-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+    <ul id="student-nav" class="nav-content collapse <?=(($pageSegment == 'student')?'show':'')?>" data-bs-parent="#sidebar-nav">
       <li>
-        <a href="javascript:void(0);">
+        <a class="<?=(($pageSegment == 'student' && $pageFunction == 'list')?'active':'')?>" href="{{ url('admin/student/list') }}">
           <i class="bi bi-arrow-right"></i><span>List</span>
         </a>
       </li>
@@ -142,6 +160,7 @@ $pageSegment  = $pageName[1];
       </li>
     </ul>
   </li><!-- End Masters Nav -->
+
   <li class="nav-item">
     <a class="nav-link <?=(($pageSegment == 'question-type' || $pageSegment == 'grade')?'':'collapsed')?> <?=(($pageSegment == 'question-type' || $pageSegment == 'grade')?'active':'')?>" data-bs-target="#survey-nav" data-bs-toggle="collapse" href="#">
       <i class="bi bi-menu-button-wide"></i><span>Survey Management</span><i class="bi bi-chevron-down ms-auto"></i>
@@ -152,11 +171,11 @@ $pageSegment  = $pageName[1];
           <i class="bi bi-arrow-right"></i><span>Question Type</span>
         </a>
       </li>
-      <li>
+      <!-- <li>
         <a class="<?=(($pageSegment == 'grade')?'active':'')?>" href="{{ url('admin/grade/list') }}">
           <i class="bi bi-arrow-right"></i><span>Grade</span>
         </a>
-      </li>
+      </li> -->
       <li>
         <a href="javascript:void(0);">
           <i class="bi bi-arrow-right"></i><span>Survey</span>
@@ -164,4 +183,5 @@ $pageSegment  = $pageName[1];
       </li>
     </ul>
   </li><!-- End Masters Nav -->
+
 </ul>

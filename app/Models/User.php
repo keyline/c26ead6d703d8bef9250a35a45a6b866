@@ -31,8 +31,8 @@ class User extends Authenticatable
         'email',
         'email_verified_at',
         'phone',
-        'country',
-        'password',
+        // 'password',
+        // 'remember_token',
         'role',
         'valid'
     ];
@@ -71,9 +71,9 @@ class User extends Authenticatable
     /**
      * Get the profile of the student associated with the user.
      */
-    public function studentProfile(): HasOne
+    public function studentprofiles()
     {
-        return $this->hasOne(StudentProfile::class);
+        return $this->hasOne(StudentProfile::class, 'user_id', 'id');
     }
 
     /**
