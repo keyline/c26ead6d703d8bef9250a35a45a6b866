@@ -11,14 +11,17 @@ class StudentProfile extends Model
 
     protected $fillable = [
         'user_id',
-
+        'first_name',
+        'last_name',
+        'full_name',
+        'profile_pic',
     ];
 
     /**
      * Get the user that owns this profile.
      */
-    public function user(): BelongsTo
+    public function user()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'user_id');
     }
 }
