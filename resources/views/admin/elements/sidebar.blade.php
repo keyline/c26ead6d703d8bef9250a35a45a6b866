@@ -3,7 +3,7 @@ use Illuminate\Support\Facades\Route;;
 $routeName    = Route::current();
 $pageName     = explode("/", $routeName->uri());
 $pageSegment  = $pageName[1];
-$pageFunction = $pageName[2];
+$pageFunction = ((count($pageName)>2)?$pageName[2]:'');
 // dd($routeName);
 ?>
 <ul class="sidebar-nav" id="sidebar-nav">
@@ -121,11 +121,11 @@ $pageFunction = $pageName[2];
     </a>
     <ul id="mentor-nav" class="nav-content collapse <?=(($pageSegment == 'mentor')?'show':'')?>" data-bs-parent="#sidebar-nav">
       <li>
-        <a class="<?=(($pageSegment == 'mentor' && $pageFunction == 'list')?'active':'')?>" href="{{ url('admin/mentor/list') }}">
+        <a class="<?=(($pageSegment == 'mentor')?'active':'')?>" href="{{ url('admin/mentor/list') }}">
           <i class="bi bi-arrow-right"></i><span>List</span>
         </a>
       </li>
-      <li>
+      <!-- <li>
         <a href="javascript:void(0);">
           <i class="bi bi-arrow-right"></i><span>Appointments</span>
         </a>
@@ -134,7 +134,7 @@ $pageFunction = $pageName[2];
         <a href="javascript:void(0);">
           <i class="bi bi-arrow-right"></i><span>Transactions</span>
         </a>
-      </li>
+      </li> -->
     </ul>
   </li><!-- End Masters Nav -->
 
@@ -144,20 +144,20 @@ $pageFunction = $pageName[2];
     </a>
     <ul id="student-nav" class="nav-content collapse <?=(($pageSegment == 'student')?'show':'')?>" data-bs-parent="#sidebar-nav">
       <li>
-        <a class="<?=(($pageSegment == 'student' && $pageFunction == 'list')?'active':'')?>" href="{{ url('admin/student/list') }}">
+        <a class="<?=(($pageSegment == 'student')?'active':'')?>" href="{{ url('admin/student/list') }}">
           <i class="bi bi-arrow-right"></i><span>List</span>
         </a>
       </li>
-      <li>
-        <a href="javascript:void(0);">
+      <!-- <li>
+        <a class="<?=(($pageSegment == 'student' && $pageFunction == 'bookings')?'active':'')?>" href="{{ url('admin/student/bookings') }}">
           <i class="bi bi-arrow-right"></i><span>Booked Sessions</span>
         </a>
       </li>
       <li>
-        <a href="javascript:void(0);">
+        <a class="<?=(($pageSegment == 'student' && $pageFunction == 'transactions')?'active':'')?>" href="{{ url('admin/student/transactions') }}">
           <i class="bi bi-arrow-right"></i><span>Transactions</span>
         </a>
-      </li>
+      </li> -->
     </ul>
   </li><!-- End Masters Nav -->
 
@@ -183,5 +183,19 @@ $pageFunction = $pageName[2];
       </li>
     </ul>
   </li><!-- End Masters Nav -->
+
+  <li class="nav-item">
+    <a class="nav-link <?=(($pageSegment == 'bookings')?'active':'')?>" href="{{ url('admin/bookings/list') }}">
+      <i class="bi bi-menu-button-wide"></i>
+      <span>Bookings</span>
+    </a>
+  </li><!-- End Profile Page Nav -->
+
+  <li class="nav-item">
+    <a class="nav-link <?=(($pageSegment == 'transactions')?'active':'')?>" href="{{ url('admin/transactions/list') }}">
+      <i class="bi bi-menu-button-wide"></i>
+      <span>Transactions</span>
+    </a>
+  </li><!-- End Profile Page Nav -->
 
 </ul>

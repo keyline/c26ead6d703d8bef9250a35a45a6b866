@@ -93,4 +93,24 @@ class StudentController extends Controller
             return redirect("admin/" . $this->data['controller_route'] . "/list")->with('success_message', $this->data['title'].' '.$msg.' Successfully !!!');
         }
     /* change status */
+    /* bookings */
+        public function bookings($id){
+            $id                             = Helper::decoded($id);
+            $data['student']                = StudentProfile::where('user_id', '=', $id)->first();
+            $data['module']                 = $this->data;
+            $title                          = 'Booking List Of '.(($data['student'])?$data['student']->first_name.' '.$data['student']->last_name:'');
+            $page_name                      = 'student.bookings';
+            echo $this->admin_after_login_layout($title,$page_name,$data);
+        }
+    /* bookings */
+    /* transactions */
+        public function transactions($id){
+            $id                             = Helper::decoded($id);
+            $data['student']                = StudentProfile::where('user_id', '=', $id)->first();
+            $data['module']                 = $this->data;
+            $title                          = 'Transactions List Of '.(($data['student'])?$data['student']->first_name.' '.$data['student']->last_name:'');
+            $page_name                      = 'student.transactions';
+            echo $this->admin_after_login_layout($title,$page_name,$data);
+        }
+    /* transactions */
 }

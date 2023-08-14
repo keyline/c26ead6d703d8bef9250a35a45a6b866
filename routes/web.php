@@ -176,13 +176,18 @@ Route::get('/', function () {
             /* blog */
             /* mentor */
                 Route::get('mentor/list', 'MentorController@list');
-
+                Route::get('mentor/availability/{id}', 'MentorController@availability');
+                Route::get('mentor/assigned-services/{id}', 'MentorController@assignedServices');
+                Route::get('mentor/bookings/{id}', 'MentorController@bookings');
+                Route::get('mentor/transactions/{id}', 'MentorController@transactions');
+                Route::get('mentor/payouts/{id}', 'MentorController@payouts');
                 Route::get('mentor/delete/{id}', 'MentorController@delete');
                 Route::get('mentor/change-status/{id}', 'MentorController@change_status');
             /* mentor */
             /* student */
                 Route::get('student/list', 'StudentController@list');
-
+                Route::get('student/bookings/{id}', 'StudentController@bookings');
+                Route::get('student/transactions/{id}', 'StudentController@transactions');
                 Route::get('student/delete/{id}', 'StudentController@delete');
                 Route::get('student/change-status/{id}', 'StudentController@change_status');
             /* student */
@@ -202,6 +207,12 @@ Route::get('/', function () {
                     Route::get('grade/change-status/{id}', 'GradeController@change_status');
                 /* grade */
             /* survey */
+            /* bookings */
+                Route::get('bookings/list', 'BookingController@list');
+            /* bookings */
+            /* transactions */
+                Route::get('transactions/list', 'TransactionController@list');
+            /* transactions */
         });
     });
 
