@@ -41,6 +41,7 @@ $controllerRoute = $module['controller_route'];
                 <th scope="col">Profile Pic</th>
                 <th scope="col">Social Link</th>
                 <th scope="col">Registered At</th>
+                <th scope="col">Balance</th>
                 <th scope="col">Action</th>
               </tr>
             </thead>
@@ -61,6 +62,10 @@ $controllerRoute = $module['controller_route'];
                   <td><a href="<?=$row->social_url?>" target="_blank" class="badge bg-primary">Social Link</a></td>
                   <td><?=date_format(date_create($row->created_at), "M d, Y h:i A")?></td>
                   <td>
+                    <h6>10000.00</h6>
+                    <a target="_blank" href="<?=url('admin/' . $controllerRoute . '/payouts/'.Helper::encoded($row->user_id))?>" class="badge bg-info" title="Edit <?=$module['title']?>"><i class="fa fa-inr"></i> View Payouts</a>
+                  </td>
+                  <td>
                     <a href="<?=url('admin/' . $controllerRoute . '/edit/'.Helper::encoded($row->user_id))?>" class="btn btn-outline-primary btn-sm" title="Edit <?=$module['title']?>"><i class="fa fa-edit"></i></a>
                     <a href="<?=url('admin/' . $controllerRoute . '/delete/'.Helper::encoded($row->user_id))?>" class="btn btn-outline-danger btn-sm" title="Delete <?=$module['title']?>" onclick="return confirm('Do You Want To Delete This <?=$module['title']?>');"><i class="fa fa-trash"></i></a>
                     <?php if($row->valid){?>
@@ -68,6 +73,15 @@ $controllerRoute = $module['controller_route'];
                     <?php } else {?>
                       <a href="<?=url('admin/' . $controllerRoute . '/change-status/'.Helper::encoded($row->user_id))?>" class="btn btn-outline-warning btn-sm" title="Deactivate <?=$module['title']?>"><i class="fa fa-times"></i></a>
                     <?php }?>
+
+                    <br><br>
+                    <a target="_blank" href="<?=url('admin/' . $controllerRoute . '/availability/'.Helper::encoded($row->user_id))?>" class="badge bg-success" title="Edit <?=$module['title']?>"><i class="fa fa-clock"></i> Availability</a>
+                    <br><br>
+                    <a target="_blank" href="<?=url('admin/' . $controllerRoute . '/assigned-services/'.Helper::encoded($row->user_id))?>" class="badge bg-primary" title="Edit <?=$module['title']?>"><i class="fa fa-wrench"></i> Assigned Services</a>
+                    <br><br>
+                    <a target="_blank" href="<?=url('admin/' . $controllerRoute . '/bookings/'.Helper::encoded($row->user_id))?>" class="badge bg-info" title="Edit <?=$module['title']?>"><i class="fa fa-list"></i> Bookings</a>
+                    <br><br>
+                    <a target="_blank" href="<?=url('admin/' . $controllerRoute . '/transactions/'.Helper::encoded($row->user_id))?>" class="badge bg-warning" title="Edit <?=$module['title']?>"><i class="fa fa-inr"></i> Transactions</a>
                   </td>
                 </tr>
               <?php } }?>

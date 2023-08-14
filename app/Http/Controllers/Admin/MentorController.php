@@ -20,7 +20,7 @@ class MentorController extends Controller
     public function __construct()
     {        
         $this->data = array(
-            'title'             => 'Student',
+            'title'             => 'Mentor',
             'controller'        => 'MentorController',
             'controller_route'  => 'mentor',
             'primary_key'       => 'id',
@@ -94,4 +94,54 @@ class MentorController extends Controller
             return redirect("admin/" . $this->data['controller_route'] . "/list")->with('success_message', $this->data['title'].' '.$msg.' Successfully !!!');
         }
     /* change status */
+    /* availability */
+        public function availability($id){
+            $id                             = Helper::decoded($id);
+            $data['mentor']                 = MentorProfile::where('user_id', '=', $id)->first();
+            $data['module']                 = $this->data;
+            $title                          = 'Availability Of '.(($data['mentor'])?$data['mentor']->first_name.' '.$data['mentor']->last_name:'');
+            $page_name                      = 'mentor.availability';
+            echo $this->admin_after_login_layout($title,$page_name,$data);
+        }
+    /* availability */
+    /* assigned services */
+        public function assignedServices($id){
+            $id                             = Helper::decoded($id);
+            $data['mentor']                 = MentorProfile::where('user_id', '=', $id)->first();
+            $data['module']                 = $this->data;
+            $title                          = 'Assigned Services Of '.(($data['mentor'])?$data['mentor']->first_name.' '.$data['mentor']->last_name:'');
+            $page_name                      = 'mentor.assigned-services';
+            echo $this->admin_after_login_layout($title,$page_name,$data);
+        }
+    /* assigned services */
+    /* bookings */
+        public function bookings($id){
+            $id                             = Helper::decoded($id);
+            $data['mentor']                 = MentorProfile::where('user_id', '=', $id)->first();
+            $data['module']                 = $this->data;
+            $title                          = 'Booking List Of '.(($data['mentor'])?$data['mentor']->first_name.' '.$data['mentor']->last_name:'');
+            $page_name                      = 'mentor.bookings';
+            echo $this->admin_after_login_layout($title,$page_name,$data);
+        }
+    /* bookings */
+    /* transactions */
+        public function transactions($id){
+            $id                             = Helper::decoded($id);
+            $data['mentor']                 = MentorProfile::where('user_id', '=', $id)->first();
+            $data['module']                 = $this->data;
+            $title                          = 'Transactions List Of '.(($data['mentor'])?$data['mentor']->first_name.' '.$data['mentor']->last_name:'');
+            $page_name                      = 'mentor.transactions';
+            echo $this->admin_after_login_layout($title,$page_name,$data);
+        }
+    /* transactions */
+    /* payouts */
+        public function payouts($id){
+            $id                             = Helper::decoded($id);
+            $data['mentor']                 = MentorProfile::where('user_id', '=', $id)->first();
+            $data['module']                 = $this->data;
+            $title                          = 'Passbook Of '.(($data['mentor'])?$data['mentor']->first_name.' '.$data['mentor']->last_name:'');
+            $page_name                      = 'mentor.payouts';
+            echo $this->admin_after_login_layout($title,$page_name,$data);
+        }
+    /* payouts */
 }
