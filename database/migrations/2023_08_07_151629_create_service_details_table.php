@@ -15,8 +15,8 @@ return new class () extends Migration {
             $table->unsignedBigInteger('service_attribute_id');
             $table->foreign('service_attribute_id')->references('id')->on('service_attributes');
 
-            $table->unsignedBigInteger('user_id');
-            $table->foreign('user_id')->references('id')->on('users');
+            $table->unsignedBigInteger('mentor_profiles_id');
+            $table->foreign('mentor_profiles_id')->references('id')->on('mentor_profiles');
 
             $table->string('title')->nullable();
             $table->text('description')->nullable();

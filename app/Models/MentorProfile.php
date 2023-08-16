@@ -16,4 +16,9 @@ class MentorProfile extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function mentorAvailability(): HasMany
+    {
+        return $this->hasMany(MentorAvailability::class);
+    }
 }

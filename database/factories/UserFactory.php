@@ -28,6 +28,7 @@ class UserFactory extends Factory
             'remember_token' => Str::random(10),
             'role'          => rand(1, 2),
             'valid'         => rand(0, 1),
+            'phone'         => '+91 ' . fake()->unique()->numerify('##########'),
         ];
     }
 

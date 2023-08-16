@@ -27,9 +27,39 @@ class DatabaseSeeder extends Seeder
         ]);
 
         //Creating 50 students
-        \App\Models\StudentProfile::factory(50)->create();
+        //\App\Models\StudentProfile::factory(50)->create();
 
-        \App\Models\MentorProfile::factory(50)->create();
+        //\App\Models\MentorProfile::factory(50)->create();
+        \App\Models\User::factory(25)->create()->each(function ($user) {
+            list($firstName, $lastName) = array_pad(explode(' ', trim($user->name)), 2, null);
+            if($user->role  == '2') {
+                //it's a mentor
+
+                $user->mentorProfile()->save(\App\Models\MentorProfile::factory()->make(
+                    [
+                                    'user_id'   =>$user->id,
+                                    'first_name'=> $firstName,
+                                    'last_name' => $lastName,
+                                    'display_name'=> $user->name,
+                                ]
+                ));
+
+
+            } else {
+                //it's a student
+                $user->studentProfile()->save(\App\Models\StudentProfile::factory()->make(
+                    [
+                        'user_id'   => $user->id,
+                        'first_name'=> $firstName,
+                        'last_name' => $lastName,
+                        'full_name'=> $user->name,
+                    ]
+                ));
+            }
+
+        });
+
+
 
 
 
