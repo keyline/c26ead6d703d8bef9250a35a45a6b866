@@ -4,8 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class () extends Migration {
     /**
      * Run the migrations.
      */
@@ -13,6 +12,25 @@ return new class extends Migration
     {
         Schema::create('service_details', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('service_attribute_id');
+            $table->foreign('service_attribute_id')->references('id')->on('service_attributes');
+
+            $table->unsignedBigInteger('mentor_profiles_id');
+            $table->foreign('mentor_profiles_id')->references('id')->on('mentor_profiles');
+
+            $table->string('title')->nullable();
+            $table->text('description')->nullable();
+            $table->string('duration');
+            $table->float('sgst_amount', 10, 2);
+            $table->float('cgst_amount', 10, 2);
+            $table->float('igst_amount', 10, 2);
+            $table->float('total_amount_payable', 10, 2);
+            $table->float('platform_charges', 10, 2);
+            $table->float('mentor_payout_amount', 10, 2);
+            $table->string('promised_response_time');
+            $table->string('sort_order');
+            $table->string('countryid');
+            $table->string('service_url');
             $table->timestamps();
         });
     }

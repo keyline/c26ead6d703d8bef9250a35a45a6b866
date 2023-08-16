@@ -10,9 +10,13 @@ return new class () extends Migration {
      */
     public function up(): void
     {
-        Schema::create('expertises', function (Blueprint $table) {
+        Schema::create('survey_grades', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('survey_id');
+            $table->foreign('survey_id')->references('id')->on('surveys');
             $table->string('name');
+            $table->unsignedInteger('minimum');
+            $table->unsignedInteger('maximum');
             $table->boolean('status')->default(true);
             $table->timestamps();
         });
@@ -23,6 +27,6 @@ return new class () extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('expertises');
+        Schema::dropIfExists('survey_grades');
     }
 };

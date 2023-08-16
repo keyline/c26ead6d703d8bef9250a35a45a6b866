@@ -10,4 +10,9 @@ class ServiceTypeAttribute extends Pivot
     {
         return $this->belongsTo(Service::class, 'id');
     }
+
+    public function serviceDetails()
+    {
+        return $this->belongsTo(ServiceDetail::class);
+    }
 }
