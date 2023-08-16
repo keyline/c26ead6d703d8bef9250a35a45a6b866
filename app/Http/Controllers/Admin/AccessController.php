@@ -59,7 +59,7 @@ class AccessController extends Controller
             $page_name                      = 'access.add-edit';
             $data['row']                    = [];
             $data['modules']                = Module::where('status', '=', 1)->get();
-            $data['subUsers']               = Admin::where('status', '=', 1)->where('type', '=', 'SU')->get();
+            $data['subUsers']               = Admin::where('status', '=', 1)->get();
             echo $this->admin_after_login_layout($title,$page_name,$data);
         }
     /* add */
@@ -71,7 +71,7 @@ class AccessController extends Controller
             $page_name                      = 'access.add-edit';
             $data['row']                    = UserAccess::where($this->data['primary_key'], '=', $id)->first();
             $data['modules']                = Module::where('status', '=', 1)->get();
-            $data['subUsers']               = Admin::where('status', '=', 1)->where('type', '=', 'SU')->get();
+            $data['subUsers']               = Admin::where('status', '=', 1)->get();
 
             if($request->isMethod('post')){
                 $postData = $request->all();

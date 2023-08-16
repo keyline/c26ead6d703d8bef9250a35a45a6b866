@@ -10,6 +10,7 @@ use PHPMailer\PHPMailer\Exception;
 use App\Models\GeneralSetting;
 use App\Models\Admin;
 use App\Models\User;
+use App\Models\UserAccess;
 use Session;
 use Helper;
 class Controller extends BaseController
@@ -306,8 +307,14 @@ class Controller extends BaseController
         $data['generalSetting']     = GeneralSetting::find('1');
         $data['title']              = $title.' :: '.$data['generalSetting']->site_name;
         $data['page_header']        = $title;
-        $user_id                    = session('user_id')[0];
+        $user_id                    = session('user_id');
         $data['admin']              = Admin::find($user_id);
+        $userAccess                 = UserAccess::where('user_id', '=', $user_id)->where('status', '=', 1)->first();
+        if($userAccess){
+            $data['module_id']      = json_decode($userAccess->module_id);
+        } else {
+            $data['module_id']      = [];
+        }
 
         $data['head']               = view('admin.elements.head',$data);
         $data['header']             = view('admin.elements.header',$data);

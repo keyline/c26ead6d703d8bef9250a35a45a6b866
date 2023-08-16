@@ -1,3 +1,6 @@
+<?php
+$user_type = session('type');
+?>
 <div class="pagetitle">
   <h1><?=$page_header?></h1>
   <nav>
@@ -31,8 +34,8 @@
           <?php } else {?>
             <img src="<?=env('NO_IMAGE')?>" alt="<?=$admin->name?>" class="img-thumbnail" class="rounded-circle" style="width: 150px; height: 150px; margin-top: 10px;">
           <?php }?>
-          <h2>{{ @session('name')[0] }}</h2>
-          <h3>{{ @session('type')[0] }}</h3>
+          <h2>{{ @session('name') }}</h2>
+          <h3>{{ @session('type') }}</h3>
           <!-- <div class="social-links mt-2">
             <a href="#" class="twitter"><i class="bi bi-twitter"></i></a>
             <a href="#" class="facebook"><i class="bi bi-facebook"></i></a>
@@ -50,12 +53,15 @@
             <li class="nav-item">
               <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab1">Profile</button>
             </li>
+            <?php if($user_type == 'MA'){?>
             <li class="nav-item">
               <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab2">General</button>
             </li>
+            <?php }?>
             <li class="nav-item">
               <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab3">Change Password</button>
             </li>
+            <?php if($user_type == 'MA'){?>
             <li class="nav-item">
               <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab4">Email</button>
             </li>
@@ -71,6 +77,7 @@
             <li class="nav-item">
               <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab8">Payment</button>
             </li>
+            <?php }?>
           </ul>
           <div class="tab-content pt-2">
             <div class="tab-pane fade show active profile-overview" id="tab1">

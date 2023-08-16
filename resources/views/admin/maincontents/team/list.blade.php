@@ -1,6 +1,5 @@
 <?php
 use App\Helpers\Helper;
-use App\Models\BlogCategory;
 $controllerRoute = $module['controller_route'];
 ?>
 <div class="pagetitle">
@@ -39,12 +38,10 @@ $controllerRoute = $module['controller_route'];
             <thead>
               <tr>
                 <th scope="col">#</th>
-                <th scope="col">Category</th>
-                <th scope="col">Title</th>
-                <th scope="col">Date</th>
-                <th scope="col">Summary</th>
-                <th scope="col">Post By</th>
-                <th scope="col">Banner Image</th>
+                <th scope="col">Name</th>
+                <th scope="col">Designation<br>Qualification<br>Experience</th>
+                <th scope="col">Thought</th>
+                <th scope="col">Image</th>
                 <th scope="col">Action</th>
               </tr>
             </thead>
@@ -52,19 +49,14 @@ $controllerRoute = $module['controller_route'];
               <?php if($rows){ $sl=1; foreach($rows as $row){?>
                 <tr>
                   <th scope="row"><?=$sl++?></th>
-                  <td><?php
-                  $blogCategory = BlogCategory::where('id', '=', $row->blog_category)->first();
-                  echo (($blogCategory)?$blogCategory->name:'');
-                  ?></td>
-                  <td><?=$row->title?></td>
-                  <td><?=date_format(date_create($row->content_date), "M d, Y")?></td>
-                  <td><?=wordwrap($row->short_description,40,"<br>\n")?></td>
-                  <td><?=$row->post_by?></td>
+                  <td><?=$row->name?></td>
+                  <td><?=$row->designation?><br><?=$row->qualification?><br><?=$row->experience?></td>
+                  <td><?=wordwrap($row->thought,40,"<br>\n")?></td>
                   <td>
                     <?php if($row->image != ''){?>
-                      <img src="<?=env('UPLOADS_URL').'blog/'.$row->image?>" alt="<?=$row->title?>" class="img-thumbnail" style="width: 150px; height: 150px; margin-top: 10px;">
+                      <img src="<?=env('UPLOADS_URL').'team/'.$row->image?>" class="img-thumbnail" alt="<?=$row->name?>" style="width: 150px; height: 150px; margin-top: 10px;">
                     <?php } else {?>
-                      <img src="<?=env('NO_IMAGE')?>" alt="<?=$row->banner_text?>" class="img-thumbnail" style="width: 150px; height: 150px; margin-top: 10px;">
+                      <img src="<?=env('NO_IMAGE')?>" alt="<?=$row->name?>" class="img-thumbnail" style="width: 150px; height: 150px; margin-top: 10px;">
                     <?php }?>
                   </td>
                   <td>

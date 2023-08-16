@@ -158,6 +158,14 @@ Route::get('/', function () {
                 Route::get('faq/change-status/{id}', 'FaqController@change_status');
                 Route::get('faq/change-home-page-status/{id}', 'FaqController@change_home_page_status');
             /* faq */
+            /* team */
+                Route::get('team/list', 'TeamController@list');
+                Route::match(['get', 'post'], 'team/add', 'TeamController@add');
+                Route::match(['get', 'post'], 'team/edit/{id}', 'TeamController@edit');
+                Route::get('team/delete/{id}', 'TeamController@delete');
+                Route::get('team/change-status/{id}', 'TeamController@change_status');
+                Route::get('team/change-home-page-status/{id}', 'TeamController@change_home_page_status');
+            /* team */
             /* blog */
                 /* blog category */
                     Route::get('blog-category/list', 'BlogCategoryController@list');

@@ -30,19 +30,21 @@ $controllerRoute = $module['controller_route'];
     </div>
     <?php
     if($row){
-      $blog_category      = $row->blog_category;
-      $title              = $row->title;
-      $content_date       = $row->content_date;
-      $short_description  = $row->short_description;
-      $description        = $row->description;
-      $image              = $row->image;
+      $name           = $row->name;
+      $image          = $row->image;
+      $designation    = $row->designation;
+      $qualification  = $row->qualification;
+      $experience     = $row->experience;
+      $bio            = $row->bio;
+      $thought        = $row->thought;
     } else {
-      $blog_category      = '';
-      $title              = '';
-      $content_date       = '';
-      $short_description  = '';
-      $description        = '';
-      $image              = '';
+      $name           = '';
+      $image          = '';
+      $designation    = '';
+      $qualification  = '';
+      $experience     = '';
+      $bio            = '';
+      $thought        = '';
     }
     ?>
     <div class="col-xl-12">
@@ -51,38 +53,39 @@ $controllerRoute = $module['controller_route'];
           <form method="POST" action="" enctype="multipart/form-data">
             @csrf
             <div class="row mb-3">
-              <label for="blog_category" class="col-md-2 col-lg-2 col-form-label">Category</label>
+              <label for="name" class="col-md-2 col-lg-2 col-form-label">Name</label>
               <div class="col-md-10 col-lg-10">
-                <select name="blog_category" class="form-control" id="blog_category" required>
-                  <option value="" selected>Select Category</option>
-                  <?php if($blogCats){ foreach($blogCats as $blogCat){?>
-                  <option value="<?=$blogCat->id?>" <?=(($blogCat->id == $blog_category)?'selected':'')?>><?=$blogCat->name?></option>
-                  <?php } }?>
-                </select>
+                <input type="text" name="name" class="form-control" id="name" value="<?=$name?>" required>
               </div>
             </div>
             <div class="row mb-3">
-              <label for="title" class="col-md-2 col-lg-2 col-form-label">Title</label>
+              <label for="designation" class="col-md-2 col-lg-2 col-form-label">Designation</label>
               <div class="col-md-10 col-lg-10">
-                <input type="text" name="title" class="form-control" id="title" value="<?=$title?>" required>
+                <input type="text" name="designation" class="form-control" id="designation" value="<?=$designation?>" required>
               </div>
             </div>
             <div class="row mb-3">
-              <label for="content_date" class="col-md-2 col-lg-2 col-form-label">Content Date</label>
+              <label for="qualification" class="col-md-2 col-lg-2 col-form-label">Qualification</label>
               <div class="col-md-10 col-lg-10">
-                <input type="date" name="content_date" class="form-control" id="content_date" value="<?=$content_date?>" required>
+                <input type="text" name="qualification" class="form-control" id="qualification" value="<?=$qualification?>" required>
               </div>
             </div>
             <div class="row mb-3">
-              <label for="short_description" class="col-md-2 col-lg-2 col-form-label">Summary</label>
+              <label for="experience" class="col-md-2 col-lg-2 col-form-label">Experience</label>
               <div class="col-md-10 col-lg-10">
-                <textarea name="short_description" class="form-control" id="short_description" rows="5" required><?=$short_description?></textarea>
+                <input type="text" name="experience" class="form-control" id="experience" value="<?=$experience?>" required>
               </div>
             </div>
             <div class="row mb-3">
-              <label for="description" class="col-md-2 col-lg-2 col-form-label">Long Description</label>
+              <label for="thought" class="col-md-2 col-lg-2 col-form-label">Thought</label>
               <div class="col-md-10 col-lg-10">
-                <textarea name="description" class="form-control ckeditor" id="description" rows="5" required><?=$description?></textarea>
+                <textarea name="thought" class="form-control ckeditor" id="thought" required><?=$thought?></textarea>
+              </div>
+            </div>
+            <div class="row mb-3">
+              <label for="bio" class="col-md-2 col-lg-2 col-form-label">Bio</label>
+              <div class="col-md-10 col-lg-10">
+                <textarea name="bio" class="form-control ckeditor" id="bio" required><?=$bio?></textarea>
               </div>
             </div>
             <div class="row mb-3">
@@ -91,14 +94,14 @@ $controllerRoute = $module['controller_route'];
                 <input type="file" name="image" class="form-control" id="image">
                 <small class="text-info">* Only JPG, JPEG, ICO, SVG, PNG files are allowed</small><br>
                 <?php if($image != ''){?>
-                  <img src="<?=env('UPLOADS_URL').'blog/'.$image?>" alt="<?=$title?>" style="width: 150px; height: 150px; margin-top: 10px;">
+                  <img src="<?=env('UPLOADS_URL').'team/'.$image?>" class="img-thumbnail" alt="<?=$name?>" style="width: 150px; height: 150px; margin-top: 10px;">
                 <?php } else {?>
-                  <img src="<?=env('NO_IMAGE')?>" alt="<?=$title?>" class="img-thumbnail" style="width: 150px; height: 150px; margin-top: 10px;">
+                  <img src="<?=env('NO_IMAGE')?>" alt="<?=$name?>" class="img-thumbnail" style="width: 150px; height: 150px; margin-top: 10px;">
                 <?php }?>
                 
                 <div class="pt-2">
                   <!-- <a href="#profile_image" class="btn btn-primary btn-sm" title="Upload new profile image"><i class="bi bi-upload"></i></a> -->
-                  <!-- <a href="javascript:void(0);" class="btn btn-danger btn-sm" title="Remove my profile image"><i class="bi bi-trash"></i></a> -->
+                  <a href="javascript:void(0);" class="btn btn-danger btn-sm" title="Remove my profile image"><i class="bi bi-trash"></i></a>
                 </div>
               </div>
             </div>
