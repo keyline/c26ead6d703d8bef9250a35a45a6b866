@@ -148,11 +148,11 @@ use Illuminate\Http\Request;
         <?php } else {?>
           <img src="<?=env('NO_IMAGE')?>" alt="<?=$admin->name?>" class="img-thumbnail" class="rounded-circle">
         <?php }?>
-        <span class="d-none d-md-block dropdown-toggle ps-2">{{ @session('name')[0] }}</span>
+        <span class="d-none d-md-block dropdown-toggle ps-2">{{ @session('name') }}</span>
       </a><!-- End Profile Iamge Icon -->
       <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
         <li class="dropdown-header">
-          <h6>{{ @session('name')[0] }}</h6>
+          <h6>{{ @session('name') }}</h6>
           <!-- <span>Web Designer</span> -->
         </li>
         <li>

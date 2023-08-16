@@ -26,12 +26,12 @@ class UserController extends Controller
                         ];
                 if($this->validate($request, $rules)){
                     if(Auth::guard('admin')->attempt(['email' => $postData['email'], 'password' => $postData['password'], 'status' => 1])){
-                        // Helper::pr(Auth::guard('admin')->user());
+                        // Helper::pr(Auth::guard('admin')->user());put
                         $sessionData = Auth::guard('admin')->user();
-                        $request->session()->push('user_id', $sessionData->id);
-                        $request->session()->push('name', $sessionData->name);
-                        $request->session()->push('type', $sessionData->type);
-                        $request->session()->push('email', $sessionData->email);
+                        $request->session()->put('user_id', $sessionData->id);
+                        $request->session()->put('name', $sessionData->name);
+                        $request->session()->put('type', $sessionData->type);
+                        $request->session()->put('email', $sessionData->email);
                         return redirect('admin/dashboard');
                     } else {
                         return redirect()->back()->with('error_message', 'Invalid Email Or Password !!!');
@@ -152,7 +152,7 @@ class UserController extends Controller
     /* dashboard */
     /* settings */
         public function settings(Request $request){
-            $uId                            = $request->session()->get('user_id')[0];
+            $uId                            = $request->session()->get('user_id');
             $data['setting']                = GeneralSetting::where('id', '=', 1)->first();
             $data['admin']                  = Admin::where('id', '=', $uId)->first();
             $title                          = 'Settings';
@@ -161,7 +161,7 @@ class UserController extends Controller
         }
 
         public function profile_settings(Request $request){
-            $uId        = $request->session()->get('user_id')[0];
+            $uId        = $request->session()->get('user_id');
             $row        = Admin::where('id', '=', $uId)->first();
             $postData   = $request->all();
             $rules      = [
@@ -289,7 +289,7 @@ class UserController extends Controller
             }
         }
         public function change_password(Request $request){
-            $uId        = $request->session()->get('user_id')[0];
+            $uId        = $request->session()->get('user_id');
             $adminData  = Admin::where('id', '=', $uId)->first();
             $postData   = $request->all();
             $rules      = [
