@@ -53,7 +53,7 @@ $user_type = session('type');
             <li class="nav-item">
               <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab1">Profile</button>
             </li>
-            <?php if($user_type == 'MA'){?>
+            <?php if($user_type == 'ma'){?>
             <li class="nav-item">
               <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab2">General</button>
             </li>
@@ -61,9 +61,12 @@ $user_type = session('type');
             <li class="nav-item">
               <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab3">Change Password</button>
             </li>
-            <?php if($user_type == 'MA'){?>
+            <?php if($user_type == 'ma'){?>
             <li class="nav-item">
               <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab4">Email</button>
+            </li>
+            <li class="nav-item">
+              <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab9">Email Templates</button>
             </li>
             <li class="nav-item">
               <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab5">SMS</button>
@@ -420,6 +423,39 @@ $user_type = session('type');
                   <button type="submit" class="btn btn-primary">Submit</button>
                 </div>
               </form><!-- End email settings Form -->
+            </div>
+            <div class="tab-pane fade pt-3" id="tab9">
+              <!-- seo settings Form -->
+              <form method="POST" action="{{ url('admin/email-template') }}" enctype="multipart/form-data">
+                @csrf
+                <div class="row mb-3">
+                  <label for="email_template_user_signup" class="col-md-4 col-lg-3 col-form-label">User Signup</label>
+                  <div class="col-md-8 col-lg-9">
+                    <textarea type="text" name="email_template_user_signup" class="form-control ckeditor" id="email_template_user_signup" rows="5"><?=$setting->email_template_user_signup?></textarea>
+                  </div>
+                </div>
+                <div class="row mb-3">
+                  <label for="email_template_forgot_password" class="col-md-4 col-lg-3 col-form-label">Forgot Password</label>
+                  <div class="col-md-8 col-lg-9">
+                    <textarea type="text" name="email_template_forgot_password" class="form-control ckeditor" id="email_template_forgot_password" rows="5"><?=$setting->email_template_forgot_password?></textarea>
+                  </div>
+                </div>
+                <div class="row mb-3">
+                  <label for="email_template_change_password" class="col-md-4 col-lg-3 col-form-label">Change Password</label>
+                  <div class="col-md-8 col-lg-9">
+                    <textarea type="text" name="email_template_change_password" class="form-control ckeditor" id="email_template_change_password" rows="5"><?=$setting->email_template_change_password?></textarea>
+                  </div>
+                </div>
+                <div class="row mb-3">
+                  <label for="email_template_failed_login" class="col-md-4 col-lg-3 col-form-label">Failed Login</label>
+                  <div class="col-md-8 col-lg-9">
+                    <textarea type="text" name="email_template_failed_login" class="form-control ckeditor" id="email_template_failed_login" rows="5"><?=$setting->email_template_failed_login?></textarea>
+                  </div>
+                </div>
+                <div class="text-center">
+                  <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+              </form><!-- End seo settings Form -->
             </div>
             <div class="tab-pane fade pt-3" id="tab5">
               <!-- sms settings Form -->

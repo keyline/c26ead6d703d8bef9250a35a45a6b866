@@ -51,12 +51,15 @@ Route::get('/', function () {
         Route::group(['middleware' => ['admin']], function(){
             Route::get('dashboard', 'UserController@dashboard');
             Route::get('logout', 'UserController@logout');
+            Route::get('email-logs', 'UserController@emailLogs');
+            Route::get('login-logs', 'UserController@loginLogs');
             /* setting */
                 Route::get('settings', 'UserController@settings');
                 Route::post('profile-settings', 'UserController@profile_settings');
                 Route::post('general-settings', 'UserController@general_settings');
                 Route::post('change-password', 'UserController@change_password');
                 Route::post('email-settings', 'UserController@email_settings');
+                Route::post('email-template', 'UserController@email_template');
                 Route::post('sms-settings', 'UserController@sms_settings');
                 Route::post('footer-settings', 'UserController@footer_settings');
                 Route::post('seo-settings', 'UserController@seo_settings');
@@ -142,6 +145,13 @@ Route::get('/', function () {
                     Route::get('currency/delete/{id}', 'CurrencyController@delete');
                     Route::get('currency/change-status/{id}', 'CurrencyController@change_status');
                 /* currency */
+                /* language */
+                    Route::get('language/list', 'LanguageController@list');
+                    Route::match(['get', 'post'], 'language/add', 'LanguageController@add');
+                    Route::match(['get', 'post'], 'language/edit/{id}', 'LanguageController@edit');
+                    Route::get('language/delete/{id}', 'LanguageController@delete');
+                    Route::get('language/change-status/{id}', 'LanguageController@change_status');
+                /* language */
             /* master */
             /* page */
                 Route::get('page/list', 'PageController@list');
@@ -214,6 +224,15 @@ Route::get('/', function () {
                     Route::get('grade/delete/{id}', 'GradeController@delete');
                     Route::get('grade/change-status/{id}', 'GradeController@change_status');
                 /* grade */
+                /* survey */
+                    Route::get('survey/list', 'SurveyController@list');
+                    Route::match(['get', 'post'], 'survey/add', 'SurveyController@add');
+                    Route::match(['get', 'post'], 'survey/edit/{id}', 'SurveyController@edit');
+                    Route::get('survey/delete/{id}', 'SurveyController@delete');
+                    Route::get('survey/change-status/{id}', 'SurveyController@change_status');
+                    Route::match(['get', 'post'], 'survey/grade/{id}', 'SurveyController@grade');
+                    Route::match(['get', 'post'], 'survey/edit-grade/{id}', 'SurveyController@edit_grade');
+                /* survey */
             /* survey */
             /* bookings */
                 Route::get('bookings/list', 'BookingController@list');

@@ -7,6 +7,11 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use App\Models\GeneralSetting;
 use App\Models\Admin;
+use App\Models\EmailLog;
+use App\Models\UserActivity;
+use App\Models\SubscriptionPackage;
+use App\Models\User;
+use App\Models\UserSubscription;
 use Auth;
 use Mail;
 use App\Mail\ForgotPwdMail;
@@ -32,8 +37,34 @@ class UserController extends Controller
                         $request->session()->put('name', $sessionData->name);
                         $request->session()->put('type', $sessionData->type);
                         $request->session()->put('email', $sessionData->email);
+
+                        /* user activity */
+                            $activityData = [
+                                'user_email'        => $sessionData->email,
+                                'user_name'         => $sessionData->name,
+                                'user_type'         => 'ADMIN',
+                                'ip_address'        => $request->ip(),
+                                'activity_type'     => 1,
+                                'activity_details'  => 'Login Success !!!',
+                                'platform_type'     => 'WEB',
+                            ];
+                            UserActivity::insert($activityData);
+                        /* user activity */
+
                         return redirect('admin/dashboard');
                     } else {
+                        /* user activity */
+                            $activityData = [
+                                'user_email'        => $postData['email'],
+                                'user_name'         => 'Super Admin',
+                                'user_type'         => 'ADMIN',
+                                'ip_address'        => $request->ip(),
+                                'activity_type'     => 0,
+                                'activity_details'  => 'Invalid Email Or Password !!!',
+                                'platform_type'     => 'WEB',
+                            ];
+                            UserActivity::insert($activityData);
+                        /* user activity */
                         return redirect()->back()->with('error_message', 'Invalid Email Or Password !!!');
                     }
                 } else {
@@ -137,7 +168,23 @@ class UserController extends Controller
             $page_name                      = 'change-password';
             echo $this->admin_before_login_layout($title,$page_name,$data);
         }
-        public function logout(){
+        public function logout(Request $request){
+            $user_email                             = $request->session()->get('email');
+            $user_name                              = $request->session()->get('name');
+            /* user activity */
+                $activityData = [
+                    'user_email'        => $user_email,
+                    'user_name'         => $user_name,
+                    'user_type'         => 'ADMIN',
+                    'ip_address'        => $request->ip(),
+                    'activity_type'     => 2,
+                    'activity_details'  => 'You Are Successfully Logged Out !!!',
+                    'platform_type'     => 'WEB',
+                ];
+                UserActivity::insert($activityData);
+            /* user activity */
+            $request->session()->forget(['user_id', 'name', 'email']);
+            // Helper::pr(session()->all());die;
             Auth::guard('admin')->logout();
             return redirect()->back()->with('success_message', 'You Are Successfully Logged Out !!!');
         }
@@ -343,6 +390,27 @@ class UserController extends Controller
                 return redirect()->back()->with('error_message', 'All Fields Required !!!');
             }
         }
+        public function email_template(Request $request){
+            $postData = $request->all();
+            $rules = [
+                'email_template_user_signup'            => 'required',
+                'email_template_forgot_password'        => 'required',
+                'email_template_change_password'        => 'required',
+                'email_template_failed_login'           => 'required',
+            ];
+            if($this->validate($request, $rules)){
+                $fields = [
+                    'email_template_user_signup'            => $postData['email_template_user_signup'],
+                    'email_template_forgot_password'        => $postData['email_template_forgot_password'],
+                    'email_template_change_password'        => $postData['email_template_change_password'],
+                    'email_template_failed_login'           => $postData['email_template_failed_login'],
+                ];
+                GeneralSetting::where('id', '=', 1)->update($fields);
+                return redirect()->back()->with('success_message', 'Email Templates Updated Successfully !!!');
+            } else {
+                return redirect()->back()->with('error_message', 'All Fields Required !!!');
+            }
+        }
         public function sms_settings(Request $request){
             $postData = $request->all();
             $rules = [
@@ -461,4 +529,22 @@ class UserController extends Controller
             }
         }
     /* settings */
+    /* email logs */
+        public function emailLogs(){
+            $data['rows']                   = EmailLog::where('status', '=', 1)->orderBy('id', 'DESC')->get();
+            $title                          = 'Email Logs';
+            $page_name                      = 'email-logs';
+            echo $this->admin_after_login_layout($title,$page_name,$data);
+        }
+    /* email logs */
+    /* login logs */
+        public function loginLogs(){
+            $data['rows1']                   = UserActivity::where('activity_type', '=', 0)->orderBy('activity_id', 'DESC')->get();
+            $data['rows2']                   = UserActivity::where('activity_type', '=', 1)->orderBy('activity_id', 'DESC')->get();
+            $data['rows3']                   = UserActivity::where('activity_type', '=', 2)->orderBy('activity_id', 'DESC')->get();
+            $title                          = 'Login Logs';
+            $page_name                      = 'login-logs';
+            echo $this->admin_after_login_layout($title,$page_name,$data);
+        }
+    /* login logs */
 }
