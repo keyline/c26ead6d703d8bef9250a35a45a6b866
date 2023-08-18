@@ -91,6 +91,85 @@ class SurveyController extends Controller
             $data['module']                 = $this->data;
             $id                             = Helper::decoded($id);
             if($request->isMethod('post')){
+                $postData = $request->all();
+                // Helper::pr($postData);
+                // try{
+                    $question_array     = $postData['question'];
+                    $label_array        = $postData['label'];
+                    $questionID_array   = $postData['questionID'];
+                    $fields = [
+                        'question_type'         =>  $postData['question_type'],
+                        'title'                 =>  $postData['survey_name'],
+                        'slug'                  =>  Helper::clean($postData['survey_name']),
+                        'short_description'     =>  $postData['short_description']
+                    ];
+                    // Helper::pr($fields);
+                    Survey::where('id', '=', $id)->update($fields);
+
+                    if(!empty($question_array)){
+                        $oldQuestion = 0;
+                        for($j=0;$j<count($question_array);$j++){
+                            if($question_array[$j] != '' && $label_array[$j] != ''){
+                                $values = [
+                                    'survey_id'         =>  $id,
+                                    'no_of_labels'      =>  $label_array[$j],
+                                    'question_name'     =>  $question_array[$j],
+                                    'rank'              =>  2
+                                ];
+                                if($questionID_array[$j] != ''){
+                                    SurveyQuestion::where('question_id', '=', $questionID_array[$j])->update($values);
+                                    $question_id    = $questionID_array[$j];
+                                } else {
+                                    $question_id    = SurveyQuestion::insertGetId($values);
+                                    /* question options for new */
+                                        $opId       = $question_id;
+                                        $p          = 0;
+                                        if(array_key_exists('option'.$p,$postData)){
+                                            $option     = $postData['option'.$p];
+                                            $score      = $postData['score'.$p];
+                                            for($n=0;$n<count($option);$n++){
+                                                $values2 = [
+                                                            'survey_id'         =>  $id,
+                                                            'question_id'       =>  $question_id,
+                                                            'option_name'       =>  $option[$n],
+                                                            'option_weight'     =>  $score[$n],
+                                                        ];
+                                                SurveyQuestionOptions::insert($values2);
+                                            }
+                                        }
+                                    /* question options for new */
+                                }                                
+                                
+                                /* question options for existing */
+                                    $opId       = $question_id;
+                                    $k          = ($j + 101);
+                                    if(array_key_exists('option'.$k,$postData)){
+                                        $optionid   = $postData['optionid'.$k];
+                                        $questionid = $postData['questionid'.$k];
+                                        $option     = $postData['option'.$k];
+                                        $score      = $postData['score'.$k];
+
+                                        for($n=0;$n<count($optionid);$n++){
+                                            $values2 = [
+                                                        'survey_id'         =>  $id,
+                                                        'question_id'       =>  $question_id,
+                                                        'option_name'       =>  $option[$n],
+                                                        'option_weight'     =>  $score[$n],
+                                                    ];
+                                            SurveyQuestionOptions::where('option_id', '=', $optionid[$n])->update($values2);
+                                        }
+                                    }
+                                /* question options for existing */
+                            }
+                        }
+                        // die;
+                        return redirect("admin/" . $this->data['controller_route'] . "/list")->with('success_message', $this->data['title'].' Edited Successfully !!!');
+                    }
+                    // die;
+                // }
+                // catch (Exception $e) {
+                //     //return $e->getMessage();
+                // }
 
             }
             $title                          = $this->data['title'].' Update';
