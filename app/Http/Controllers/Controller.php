@@ -248,8 +248,8 @@ class Controller extends BaseController
         //$return_array = array('status'=> $apiStatus, 'message'=> $apiMessage, 'newFilename'=> $apiResponse);
         return $apiResponse;
     }
-    // front home layout
-    public function home_layout($title,$page_name,$data)
+    // front before login layout
+    public function front_before_login_layout($title,$page_name,$data)
     {
         // Helper::pr(session()->all());die;
         $data['generalSetting']     = GeneralSetting::find('1');                 
@@ -260,22 +260,11 @@ class Controller extends BaseController
         $data['header']             = view('front.elements.header',$data);
         $data['footer']             = view('front.elements.footer',$data);
         $data['maincontent']        = view('front.pages.'.$page_name,$data);
-        return view('front.home-layout',$data);
-    }
-    // front before login layout
-    public function front_before_login_layout($title,$page_name,$data)
-    {        
-        $data['generalSetting']     = GeneralSetting::find('1');                 
-        $data['title']              = $title.' :: '.$data['generalSetting']->site_name;
-        $data['page_header']        = $title;
-
-        $data['head']               = view('front.elements.before-head',$data);
-        $data['maincontent']        = view('front.pages.'.$page_name,$data);
         return view('front.layout-before-login',$data);
     }
     // front after login layout
     public function front_after_login_layout($title,$page_name,$data)
-    {        
+    {
         $data['generalSetting']     = GeneralSetting::find('1');                 
         $data['title']              = $title.' :: '.$data['generalSetting']->site_name;
         $data['page_header']        = $title;
@@ -289,7 +278,6 @@ class Controller extends BaseController
         $data['maincontent']        = view('front.pages.'.$page_name,$data);
         return view('front.layout-after-login',$data);
     }
-
     // admin authentication layout
     public function admin_before_login_layout($title,$page_name,$data)
     {
