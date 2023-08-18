@@ -22,22 +22,78 @@ class FrontController extends Controller
             $data['testimonials']           = Testimonial::where('status', '=', 1)->orderBy('id', 'DESC')->get();
             $title                          = 'Home';
             $page_name                      = 'home';
-            echo $this->home_layout($title,$page_name,$data);
+            echo $this->front_before_login_layout($title,$page_name,$data);
         }
     /* home */
+    /* about us */
+        public function aboutUs(){
+            $data                           = [];
+            $title                          = 'About Us';
+            $page_name                      = 'about-us';
+            echo $this->front_before_login_layout($title,$page_name,$data);
+        }
+    /* about us */
+    /* contact us */
+        public function contactUs(){
+            $data                           = [];
+            $title                          = 'Contact Us';
+            $page_name                      = 'contact-us';
+            echo $this->front_before_login_layout($title,$page_name,$data);
+        }
+    /* contact us */
+    /* How It Works */
+        public function howItWorks(){
+            $data                           = [];
+            $title                          = 'How It Works';
+            $page_name                      = 'how-it-works';
+            echo $this->front_before_login_layout($title,$page_name,$data);
+        }
+    /* How It Works */
+    /* Blogs */
+        public function blogs(){
+            $data                           = [];
+            $title                          = 'Blogs';
+            $page_name                      = 'blogs';
+            echo $this->front_before_login_layout($title,$page_name,$data);
+        }
+    /* Blogs */
+    /* Blog Details */
+        public function blogDetails(){
+            $data                           = [];
+            $title                          = 'Blog Details';
+            $page_name                      = 'blog-details';
+            echo $this->front_before_login_layout($title,$page_name,$data);
+        }
+    /* Blog Details */
     /* page */
         public function page($slug){
             $data['page']                   = Page::where('page_slug', '=', $slug)->first();
             $title                          = (($data['page'])?$data['page']->page_name:"Page");
             $page_name                      = 'page-content';
-            echo $this->home_layout($title,$page_name,$data);
+            echo $this->front_before_login_layout($title,$page_name,$data);
         }
     /* page */
+    /* Mentors */
+        public function mentors(){
+            $data                           = [];
+            $title                          = 'Mentors';
+            $page_name                      = 'mentors';
+            echo $this->front_before_login_layout($title,$page_name,$data);
+        }
+    /* Mentors */
+    /* Mentor Details */
+        public function mentorDetails(){
+            $data                           = [];
+            $title                          = 'Mentor Details';
+            $page_name                      = 'mentor-details';
+            echo $this->front_before_login_layout($title,$page_name,$data);
+        }
+    /* Mentor Details */
     /* authentication */
-        public function signup(){
-            $data['countries']              = Country::where('status', '=', 1)->orderBy('name', 'ASC')->get();
-            $title                          = 'Sign Up';
-            $page_name                      = 'signup';
+        public function studentSignup(Request $request){
+            $data                           = [];
+            $title                          = 'Student Signup';
+            $page_name                      = 'student-signup';
             echo $this->front_before_login_layout($title,$page_name,$data);
         }
         public function signupOtp($id){
@@ -75,82 +131,94 @@ class FrontController extends Controller
             $page_name                      = 'forgot-password';
             echo $this->front_before_login_layout($title,$page_name,$data);
         }
-        public function validateOtp(Request $request, $id){
-            if($request->isMethod('post')){
-                $postData = $request->all();
-                $rules = [
-                    'otp1'     => 'required|max:1',
-                    'otp2'     => 'required|max:1',
-                    'otp3'     => 'required|max:1',
-                    'otp4'     => 'required|max:1',
-                ];
-                if($this->validate($request, $rules)){
-                    $id     = $postData['id'];
-                    $otp1   = $postData['otp1'];
-                    $otp2   = $postData['otp2'];
-                    $otp3   = $postData['otp3'];
-                    $otp4   = $postData['otp4'];
-                    $otp    = ($otp1.$otp2.$otp3.$otp4);
-                    $checkUser = User::where('id', '=', $id)->first();
-                    if($checkUser){
-                        $remember_token = $checkUser->remember_token;
-                        if($remember_token == $otp){
-                            $postData = [
-                                'remember_token'        => '',
-                            ];
-                            User::where('id', '=', $checkUser->id)->update($postData);
-                            return redirect('reset-password/'.Helper::encoded($checkUser->id))->with('success_message', 'OTP Validated. Just Reset Your Password !!!');
-                        } else {
-                            return redirect()->back()->with('error_message', 'OTP Mismatched !!!');
-                        }
-                    } else {
-                        return redirect()->back()->with('error_message', 'We Don\'t Recognize You !!!');
-                    }
-                } else {
-                    return redirect()->back()->with('error_message', 'All Fields Required !!!');
-                }
-            }
-            $id                             = Helper::decoded($id);
-            $data['id']                     = $id;
+        public function validateOtp(Request $request){
+            $data                           = [];
             $title                          = 'Validate OTP';
             $page_name                      = 'validate-otp';
             echo $this->front_before_login_layout($title,$page_name,$data);
         }
-        public function resetPassword(Request $request, $id){
-            if($request->isMethod('post')){
-                $postData = $request->all();
-                $rules = [
-                    'password'              => 'required',
-                    'confirm_password'      => 'required'
-                ];
-                if($this->validate($request, $rules)){
-                    $id                 = $postData['id'];
-                    $password           = $postData['password'];
-                    $confirm_password   = $postData['confirm_password'];
-                    $checkUser = User::where('id', '=', $id)->first();
-                    if($checkUser){
-                        if($password == $confirm_password){
-                            $postData = [
-                                'password'        => Hash::make($password),
-                            ];
-                            User::where('id', '=', $checkUser->id)->update($postData);
-                            return redirect('signin/')->with('success_message', 'Password Reset Successfully. Please Sign In !!!');
-                        } else {
-                            return redirect()->back()->with('error_message', 'Password & Confirm Password Does Not Matched !!!');
-                        }
-                    } else {
-                        return redirect()->back()->with('error_message', 'We Don\'t Recognize You !!!');
-                    }
-                } else {
-                    return redirect()->back()->with('error_message', 'All Fields Required !!!');
-                }
-            }
-            $id                             = Helper::decoded($id);
-            $data['id']                     = $id;
+        public function resetPassword(Request $request){
+            $data                           = [];
             $title                          = 'Reset Password';
             $page_name                      = 'reset-password';
             echo $this->front_before_login_layout($title,$page_name,$data);
         }
+        // public function validateOtp(Request $request, $id){
+        //     if($request->isMethod('post')){
+        //         $postData = $request->all();
+        //         $rules = [
+        //             'otp1'     => 'required|max:1',
+        //             'otp2'     => 'required|max:1',
+        //             'otp3'     => 'required|max:1',
+        //             'otp4'     => 'required|max:1',
+        //         ];
+        //         if($this->validate($request, $rules)){
+        //             $id     = $postData['id'];
+        //             $otp1   = $postData['otp1'];
+        //             $otp2   = $postData['otp2'];
+        //             $otp3   = $postData['otp3'];
+        //             $otp4   = $postData['otp4'];
+        //             $otp    = ($otp1.$otp2.$otp3.$otp4);
+        //             $checkUser = User::where('id', '=', $id)->first();
+        //             if($checkUser){
+        //                 $remember_token = $checkUser->remember_token;
+        //                 if($remember_token == $otp){
+        //                     $postData = [
+        //                         'remember_token'        => '',
+        //                     ];
+        //                     User::where('id', '=', $checkUser->id)->update($postData);
+        //                     return redirect('reset-password/'.Helper::encoded($checkUser->id))->with('success_message', 'OTP Validated. Just Reset Your Password !!!');
+        //                 } else {
+        //                     return redirect()->back()->with('error_message', 'OTP Mismatched !!!');
+        //                 }
+        //             } else {
+        //                 return redirect()->back()->with('error_message', 'We Don\'t Recognize You !!!');
+        //             }
+        //         } else {
+        //             return redirect()->back()->with('error_message', 'All Fields Required !!!');
+        //         }
+        //     }
+        //     $id                             = Helper::decoded($id);
+        //     $data['id']                     = $id;
+        //     $title                          = 'Validate OTP';
+        //     $page_name                      = 'validate-otp';
+        //     echo $this->front_before_login_layout($title,$page_name,$data);
+        // }
+        // public function resetPassword(Request $request, $id){
+        //     if($request->isMethod('post')){
+        //         $postData = $request->all();
+        //         $rules = [
+        //             'password'              => 'required',
+        //             'confirm_password'      => 'required'
+        //         ];
+        //         if($this->validate($request, $rules)){
+        //             $id                 = $postData['id'];
+        //             $password           = $postData['password'];
+        //             $confirm_password   = $postData['confirm_password'];
+        //             $checkUser = User::where('id', '=', $id)->first();
+        //             if($checkUser){
+        //                 if($password == $confirm_password){
+        //                     $postData = [
+        //                         'password'        => Hash::make($password),
+        //                     ];
+        //                     User::where('id', '=', $checkUser->id)->update($postData);
+        //                     return redirect('signin/')->with('success_message', 'Password Reset Successfully. Please Sign In !!!');
+        //                 } else {
+        //                     return redirect()->back()->with('error_message', 'Password & Confirm Password Does Not Matched !!!');
+        //                 }
+        //             } else {
+        //                 return redirect()->back()->with('error_message', 'We Don\'t Recognize You !!!');
+        //             }
+        //         } else {
+        //             return redirect()->back()->with('error_message', 'All Fields Required !!!');
+        //         }
+        //     }
+        //     $id                             = Helper::decoded($id);
+        //     $data['id']                     = $id;
+        //     $title                          = 'Reset Password';
+        //     $page_name                      = 'reset-password';
+        //     echo $this->front_before_login_layout($title,$page_name,$data);
+        // }
         public function signin(Request $request){
             if($request->isMethod('post')){
                 $postData = $request->all();
@@ -197,22 +265,6 @@ class FrontController extends Controller
             echo $this->front_after_login_layout($title,$page_name,$data);
         }
     /* dashboard */
-    /* translate */
-        public function translate(){
-            $data                           = [];
-            $title                          = 'Translate';
-            $page_name                      = 'translate';
-            echo $this->front_after_login_layout($title,$page_name,$data);
-        }
-    /* translate */
-    /* translate history */
-        public function translateHistory(){
-            $data                           = [];
-            $title                          = 'Translate History';
-            $page_name                      = 'translate-history';
-            echo $this->front_after_login_layout($title,$page_name,$data);
-        }
-    /* translate history */
     /* Update profile */
         public function updateProfile(Request $request){
             $uId                            = session('user_id');

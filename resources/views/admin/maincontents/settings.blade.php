@@ -287,7 +287,7 @@ $user_type = session('type');
                   </div>
                 </div>
                 <div class="row mb-3">
-                  <label for="linkedin_profile" class="col-md-4 col-lg-3 col-form-label">Linkedin Profile</label>
+                  <label for="linkedin_profile" class="col-md-4 col-lg-3 col-form-label">Pinterest Profile</label>
                   <div class="col-md-8 col-lg-9">
                     <input name="linkedin_profile" type="text" class="form-control" id="linkedin_profile" value="<?=$setting->linkedin_profile?>">
                   </div>

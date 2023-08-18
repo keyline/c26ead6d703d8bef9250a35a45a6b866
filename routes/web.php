@@ -10,29 +10,58 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-Route::get('/', function () {
-    return view('welcome');
-});
+// Route::get('/', function () {
+//     return view('welcome');
+// });
 /* Front Panel */
-    // Route::prefix('/')->namespace('App\Http\Controllers')->group(function(){
-    //     Route::match(['get'], '/', 'FrontController@home');
-    //     Route::match(['get'], 'page/{id}', 'FrontController@page');
-    //     Route::match(['get', 'post'], '/signup', 'FrontController@signup');
-    //     Route::match(['get', 'post'], '/signup-otp/{id}', 'FrontController@signupOtp');
-    //     Route::match(['get', 'post'], '/forgot-password', 'FrontController@forgotPassword');
-    //     Route::match(['get', 'post'], '/validate-otp/{id}', 'FrontController@validateOtp');
-    //     Route::match(['get', 'post'], '/reset-password/{id}', 'FrontController@resetPassword');
-    //     Route::match(['get', 'post'], 'signin', 'FrontController@signin');
+    Route::prefix('/')->namespace('App\Http\Controllers')->group(function(){
+        /* before login */
+            /* common */
+                Route::match(['get'], '/', 'FrontController@home');
+                Route::match(['get'], '/about-us', 'FrontController@aboutUs');
+                Route::match(['get'], '/contact-us', 'FrontController@contactUs');
+                Route::match(['get'], '/how-it-works', 'FrontController@howItWorks');
+                Route::match(['get'], '/blogs', 'FrontController@blogs');
+                Route::match(['get'], '/blog-details', 'FrontController@blogDetails');
+                Route::match(['get'], 'page/{id}', 'FrontController@page');
 
-    //     Route::group(['middleware' => ['user']], function(){
-    //         Route::get('signout', 'FrontController@signout');
-    //         Route::get('dashboard', 'FrontController@dashboard');
-    //         Route::match(['get', 'post'], 'translate', 'FrontController@translate');
-    //         Route::match(['get', 'post'], 'translate-history', 'FrontController@translateHistory');
-    //         Route::match(['get', 'post'], 'update-profile', 'FrontController@updateProfile');
-    //         Route::match(['get', 'post'], 'change-password', 'FrontController@changePassword');
-    //     });
-    // });
+                Route::match(['get'], '/mentors', 'FrontController@mentors');
+                Route::match(['get'], '/mentor-details', 'FrontController@mentorDetails');
+            /* common */
+            /* authentication */
+                Route::match(['get', 'post'], '/mentor-signup', 'MentorController@mentorSignup');
+                Route::match(['get', 'post'], '/mentor-signup-2', 'MentorController@mentorSignup2');
+                Route::match(['get', 'post'], '/mentor-signup-3', 'MentorController@mentorSignup3');
+                Route::match(['get', 'post'], '/mentor-signup-4', 'MentorController@mentorSignup4');
+
+                Route::match(['get', 'post'], '/student-signup', 'FrontController@studentSignup');
+                // Route::match(['get', 'post'], '/signup-otp/{id}', 'FrontController@signupOtp');
+                
+                // Route::match(['get', 'post'], '/validate-otp/{id}', 'FrontController@validateOtp');
+                // Route::match(['get', 'post'], '/reset-password/{id}', 'FrontController@resetPassword');
+                Route::match(['get', 'post'], 'signin', 'FrontController@signin');
+                Route::match(['get', 'post'], '/forgot-password', 'FrontController@forgotPassword');
+                Route::match(['get', 'post'], '/validate-otp', 'FrontController@validateOtp');
+                Route::match(['get', 'post'], '/reset-password', 'FrontController@resetPassword');
+            /* authentication */
+        /* before login */
+        /* after login */
+            Route::group(['middleware' => ['user']], function(){
+                /* common */
+                    Route::get('signout', 'FrontController@signout');
+                    Route::get('dashboard', 'FrontController@dashboard');
+                    Route::match(['get', 'post'], 'update-profile', 'FrontController@updateProfile');
+                    Route::match(['get', 'post'], 'change-password', 'FrontController@changePassword');
+                /* common */
+                /* mentor */
+
+                /* mentor */
+                /* student */
+
+                /* student */
+            });
+        /* after login */
+    });
 /* Front Panel */
 /* API */
     Route::prefix('/api')->namespace('App\Http\Controllers')->group(function(){
@@ -160,14 +189,24 @@ Route::get('/', function () {
                 Route::get('page/delete/{id}', 'PageController@delete');
                 Route::get('page/change-status/{id}', 'PageController@change_status');
             /* page */
-            /* faq */
-                Route::get('faq/list', 'FaqController@list');
-                Route::match(['get', 'post'], 'faq/add', 'FaqController@add');
-                Route::match(['get', 'post'], 'faq/edit/{id}', 'FaqController@edit');
-                Route::get('faq/delete/{id}', 'FaqController@delete');
-                Route::get('faq/change-status/{id}', 'FaqController@change_status');
-                Route::get('faq/change-home-page-status/{id}', 'FaqController@change_home_page_status');
-            /* faq */
+            /* FAQs */
+                /* faq */
+                    Route::get('faq/list', 'FaqController@list');
+                    Route::match(['get', 'post'], 'faq/add', 'FaqController@add');
+                    Route::match(['get', 'post'], 'faq/edit/{id}', 'FaqController@edit');
+                    Route::get('faq/delete/{id}', 'FaqController@delete');
+                    Route::get('faq/change-status/{id}', 'FaqController@change_status');
+                    Route::get('faq/change-home-page-status/{id}', 'FaqController@change_home_page_status');
+                /* faq */
+                /* how it works */
+                    Route::get('how-it-works/list', 'HowItWorkController@list');
+                    Route::match(['get', 'post'], 'how-it-works/add', 'HowItWorkController@add');
+                    Route::match(['get', 'post'], 'how-it-works/edit/{id}', 'HowItWorkController@edit');
+                    Route::get('how-it-works/delete/{id}', 'HowItWorkController@delete');
+                    Route::get('how-it-works/change-status/{id}', 'HowItWorkController@change_status');
+                    Route::get('how-it-works/change-home-page-status/{id}', 'HowItWorkController@change_home_page_status');
+                /* how it works */
+            /* FAQs */
             /* team */
                 Route::get('team/list', 'TeamController@list');
                 Route::match(['get', 'post'], 'team/add', 'TeamController@add');

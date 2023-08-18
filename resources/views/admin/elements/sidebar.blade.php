@@ -122,14 +122,29 @@ $pageFunction = ((count($pageName)>2)?$pageName[2]:'');
     </a>
   </li><!-- End Profile Page Nav -->
   <?php }?>
-
-  <?php if((in_array(12, $module_id))) {?>
+  
+  <?php if((in_array(12, $module_id)) || (in_array(229, $module_id))){?>
   <li class="nav-item">
-    <a class="nav-link <?=(($pageSegment == 'faq')?'active':'')?>" href="{{ url('admin/faq/list') }}">
-      <i class="fa fa-question"></i>
-      <span>FAQs</span>
-    </a>
-  </li><!-- End Profile Page Nav -->
+      <a class="nav-link <?=(($pageSegment == 'faq' || $pageSegment == 'how-it-works')?'':'collapsed')?> <?=(($pageSegment == 'faq' || $pageSegment == 'how-it-works')?'active':'')?>" data-bs-target="#faq-nav" data-bs-toggle="collapse" href="#">
+        <i class="fa fa-lock"></i><span>FAQ</span><i class="bi bi-chevron-down ms-auto"></i>
+      </a>
+      <ul id="faq-nav" class="nav-content collapse <?=(($pageSegment == 'faq' || $pageSegment == 'how-it-works')?'show':'')?>" data-bs-parent="#sidebar-nav">
+        <?php if(in_array(12, $module_id)){?>
+        <li>
+          <a class="<?=(($pageSegment == 'faq')?'active':'')?>" href="{{ url('admin/faq/list') }}">
+            <i class="bi bi-arrow-right"></i><span>FAQs</span>
+          </a>
+        </li>
+        <?php }?>
+        <?php if(in_array(29, $module_id)){?>
+        <li>
+          <a class="<?=(($pageSegment == 'how-it-works')?'active':'')?>" href="{{ url('admin/how-it-works/list') }}">
+            <i class="bi bi-arrow-right"></i><span>How It Works</span>
+          </a>
+        </li>
+        <?php }?>
+      </ul>
+    </li><!-- End Masters Nav -->
   <?php }?>
 
   <?php if((in_array(13, $module_id))) {?>
