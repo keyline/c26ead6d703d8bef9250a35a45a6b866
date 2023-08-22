@@ -2,6 +2,7 @@
 use Illuminate\Support\Facades\Route;;
 $routeName = Route::current();
 $pageName = $routeName->uri();
+// dd($routeName);
 ?>
 <!-- Required meta tags -->
 <meta charset="utf-8">
@@ -41,7 +42,7 @@ $pageName = $routeName->uri();
    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/kenwheeler/slick@1.8.1/slick/slick-theme.css"/>
 <?php }?>
 
-<?php if(($pageName == 'blogs') || ($pageName == 'how-it-works') || ($pageName == 'signin') || ($pageName == 'forgot-password') || ($pageName == 'validate-otp') || ($pageName == 'reset-password') || ($pageName == 'student-signup') || ($pageName == 'mentor-signup') || ($pageName == 'mentors') || ($pageName == 'mentor-details')){?>
+<?php if(($pageName == 'blogs') || ($pageName == 'how-it-works') || ($pageName == 'signin') || ($pageName == 'forgot-password') || ($pageName == 'validate-otp') || ($pageName == 'reset-password') || ($pageName == 'student-signup') || ($pageName == 'mentor-signup') || ($pageName == 'mentors') || ($pageName == 'mentor-details') || ($pageName == 'team-member-profile/{id}')){?>
    <link rel="stylesheet" type="text/css" href="<?=env('FRONT_ASSETS_URL')?>assets/css/master.css">
 <?php }?>
 

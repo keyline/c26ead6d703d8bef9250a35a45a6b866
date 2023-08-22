@@ -474,12 +474,33 @@ class UserController extends Controller
                     }
                 }
 
+                $footer_link_name_array3 = $postData['footer_link_name3'];
+                $footer_link_name3       = [];
+                if(!empty($footer_link_name_array3)){
+                    for($f=0;$f<count($footer_link_name_array3);$f++){
+                        if($footer_link_name_array3[$f]){
+                            $footer_link_name3[]       = $footer_link_name_array3[$f];
+                        }
+                    }
+                }
+                $footer_link_array3 = $postData['footer_link3'];
+                $footer_link3       = [];
+                if(!empty($footer_link_array3)){
+                    for($f=0;$f<count($footer_link_array3);$f++){
+                        if($footer_link_array3[$f]){
+                            $footer_link3[]       = $footer_link_array3[$f];
+                        }
+                    }
+                }
+
                 $fields = [
                     'footer_text'                   => $postData['footer_text'],
                     'footer_link_name'              => json_encode($footer_link_name),
                     'footer_link'                   => json_encode($footer_link),
                     'footer_link_name2'             => json_encode($footer_link_name2),
                     'footer_link2'                  => json_encode($footer_link2),
+                    'footer_link_name3'             => json_encode($footer_link_name3),
+                    'footer_link3'                  => json_encode($footer_link3),
                 ];
                 // Helper::pr($fields);
                 GeneralSetting::where('id', '=', 1)->update($fields);

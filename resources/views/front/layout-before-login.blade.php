@@ -38,16 +38,16 @@ $pageName = $routeName->uri();
       <script src="<?=env('FRONT_ASSETS_URL')?>assets/js/bootstrap/bootstrap.bundle.min.js"></script>
       <script src="https://cdn.jsdelivr.net/npm/bs5-lightbox@1.8.3/dist/index.bundle.min.js"></script>
       <script src="<?=env('FRONT_ASSETS_URL')?>assets/js/jquery.serialtabs.js"></script>
-      <?php if(($pageName == 'blogs') || ($pageName == 'blog-details')){?>
+      <?php if(($pageName == 'blogs') || ($pageName == 'blog-details/{id}') || ($pageName == 'team-member-profile/{id}')){?>
       <script src="https://www.jquery-az.com/jquery/js/sticky-sidebar/sticky-sidebar.js"></script>
       <?php }?>
-      <?php if(($pageName == 'how-it-works') || ($pageName == 'signin') || ($pageName == 'forgot-password') || ($pageName == 'validate-otp') || ($pageName == 'reset-password') || ($pageName == 'student-signup') || ($pageName == 'mentor-signup') || ($pageName == 'mentor-signup-2') || ($pageName == 'mentor-signup-3') || ($pageName == 'mentor-signup-4')){?>
+      <?php if(($pageName == 'how-it-works') || ($pageName == 'signin') || ($pageName == 'forgot-password') || ($pageName == 'validate-otp') || ($pageName == 'reset-password') || ($pageName == 'student-signup') || ($pageName == 'mentor-signup') || ($pageName == 'mentor-signup-2') || ($pageName == 'mentor-signup-3') || ($pageName == 'mentor-signup-4') || ($pageName == 'team-member-profile/{id}')){?>
       <script type="text/javascript" src="https://cdn.jsdelivr.net/gh/kenwheeler/slick@1.8.1/slick/slick.min.js"></script>
       <?php }?>
       <script defer type="text/javascript" src="<?=env('FRONT_ASSETS_URL')?>assets/js/script.js"></script>
       <script src="<?=env('FRONT_ASSETS_URL')?>assets/owl/owl-min.js"></script>
       
-      <?php if(($pageName == 'mentor-signup-4')){?>
+      <?php if(($pageName == 'mentor-signup-4') || ($pageName == 'team-member-profile/{id}')){?>
       <script src="<?=env('FRONT_ASSETS_URL')?>assets/js/bvselect.js"></script>
       <?php }?>
 

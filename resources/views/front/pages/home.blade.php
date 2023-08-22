@@ -5,31 +5,21 @@
          <div class="col-lg-12">
             <div class="homeslider_image">
                <div id="homefade-slider" class="owl-carousel owl-theme">
-                  <div class="item">
-                     <div class="homeslider_notes">
-                        <div class="homeslid_info">
-                           <div class="home_titlespeek">Find career counselers<br> who love to help students</div>
-                           <p class="homeban_sub">Get counselled by coaches who love to help students and genuinely care for them</p>
-                           <ul class="banner_btn">
-                              <li><a class="btn_orgfill uppercase me-2" href="#">Book your session</a></li>
-                              <li><a class="btn_border uppercase btn_bordr_orgtext" href="#">watch demo <i class="fa-solid fa-play"></i></a></li>
-                           </ul>
+                  <?php if($banners){ foreach($banners as $row){?>
+                     <div class="item">
+                        <div class="homeslider_notes">
+                           <div class="homeslid_info">
+                              <div class="home_titlespeek"><?=$row->banner_text?></div>
+                              <p class="homeban_sub"><?=$row->banner_text2?></p>
+                              <ul class="banner_btn">
+                                 <li><a class="btn_orgfill uppercase me-2" href="#">Book your session</a></li>
+                                 <li><a class="btn_border uppercase btn_bordr_orgtext" href="<?=$row->banner_link?>" target="_blank">watch demo <i class="fa-solid fa-play"></i></a></li>
+                              </ul>
+                           </div>
+                           <div class="homesli_img"><img src="<?=env('UPLOADS_URL')?>banner/<?=$row->banner_image?>" class="img-fluid" alt="<?=$row->banner_text?>"></div>
                         </div>
-                        <div class="homesli_img"><img src="<?=env('FRONT_ASSETS_URL')?>assets/images/banner_img1.png" class="img-fluid" alt="image"></div>
                      </div>
-                  </div>
-                  <div class="item">
-                     <div class="homeslider_notes">
-                        <div class="homeslid_info">
-                           <div class="home_titlespeek">New career counselers<br> who love to help students</div>
-                           <p class="homeban_sub">Get counselled by coaches who love to help students and genuinely care for them</p>
-                           <ul class="banner_btn">
-                              <li><a class="btn_orgfill uppercase me-2" href="#">Book your session</a></li>
-                           </ul>
-                        </div>
-                        <div class="homesli_img"><img src="<?=env('FRONT_ASSETS_URL')?>assets/images/banner_img1.png" class="img-fluid" alt="image"></div>
-                     </div>
-                  </div>
+                  <?php } }?>
                </div>
             </div>
          </div>
@@ -58,45 +48,21 @@
          </div>
          <div class="col-lg-10">
             <div id="home-feedbacks" class="owl-carousel owl-theme owl-loaded owl-drag">
+               <?php if($testimonials){ foreach($testimonials as $row){?>
                <div class="item">
                   <div class="testmoric_item">
                      <div class="testimor_quote"><img src="<?=env('FRONT_ASSETS_URL')?>assets/images/testi_qutationo.png" alt="icon"></div>
-                     <div class="testimori_content">I was looking for online career counselling after 12th and one of my friends suggested StuMento. The best part of StuMento is that  I got to choose from multiple career counsellers from the comfort of my home. Thanks to the sessions, Now I am so much more clear about my career now👍</div>
+                     <div class="testimori_content"><?=$row->review?></div>
                      <div class="testomori_profile">
-                        <div class="testmori_prof_img"><img src="<?=env('FRONT_ASSETS_URL')?>assets/images/testi_qutati_img.png" alt="icon"></div>
+                        <div class="testmori_prof_img"><img src="<?=env('UPLOADS_URL')?>testimonial/<?=$row->image?>" alt="<?=$row->name?>"></div>
                         <div class="testmori_name">
-                           <h3>Vijay</h3>
-                           <h5>Recent 12th graduate</h5>
+                           <h3><?=$row->name?></h3>
+                           <h5><?=$row->designation?></h5>
                         </div>
                      </div>
                   </div>
                </div>
-               <div class="item">
-                  <div class="testmoric_item">
-                     <div class="testimor_quote"><img src="<?=env('FRONT_ASSETS_URL')?>assets/images/testi_qutationo.png" alt="icon"></div>
-                     <div class="testimori_content">I was looking for online career counselling after 12th and one of my friends suggested StuMento. The best part of StuMento is that  I got to choose from multiple career counsellers from the comfort of my home. Thanks to the sessions, Now I am so much more clear about my career now👍</div>
-                     <div class="testomori_profile">
-                        <div class="testmori_prof_img"><img src="<?=env('FRONT_ASSETS_URL')?>assets/images/testi_qutati_img.png" alt="icon"></div>
-                        <div class="testmori_name">
-                           <h3>Vijay</h3>
-                           <h5>Recent 12th graduate</h5>
-                        </div>
-                     </div>
-                  </div>
-               </div>
-               <div class="item">
-                  <div class="testmoric_item">
-                     <div class="testimor_quote"><img src="<?=env('FRONT_ASSETS_URL')?>assets/images/testi_qutationo.png" alt="icon"></div>
-                     <div class="testimori_content">I was looking for online career counselling after 12th and one of my friends suggested StuMento. The best part of StuMento is that  I got to choose from multiple career counsellers from the comfort of my home. Thanks to the sessions, Now I am so much more clear about my career now👍</div>
-                     <div class="testomori_profile">
-                        <div class="testmori_prof_img"><img src="<?=env('FRONT_ASSETS_URL')?>assets/images/testi_qutati_img.png" alt="icon"></div>
-                        <div class="testmori_name">
-                           <h3>Vijay</h3>
-                           <h5>Recent 12th graduate</h5>
-                        </div>
-                     </div>
-                  </div>
-               </div>
+               <?php } }?>
             </div>
          </div>
       </div>
@@ -227,66 +193,76 @@
          </div>
       </div>
    </div>
-   <div class="perpation_part1">
-      <div class="container-fluid ">
-         <div class="row paera_sameline">
-            <div class="col-md-6">
-               <img src="<?=env('FRONT_ASSETS_URL')?>assets/images/pearation_img1.png" alt="">
-            </div>
-            <div class="col-md-6">
-               <div class="perpation_info">
-                  <h3>1:1 Mentorship</h3>
-                  <p>Talk 1:1 with you mentor using google and learn directly from people who have been on the same path as you are.</p>
+   <?php if($serviceTypes){ $i=1; foreach($serviceTypes as $row){?>
+      <?php if($i%2){?>
+         <div class="perpation_part1">
+            <div class="container-fluid ">
+               <div class="row paera_sameline">
+                  <div class="col-md-6">
+                     <img src="<?=env('UPLOADS_URL')?>service_type/<?=$row->image?>" alt="<?=$row->name?>">
+                  </div>
+                  <div class="col-md-6">
+                     <div class="perpation_info">
+                        <h3><?=$row->name?></h3>
+                        <p><?=$row->description?></p>
+                     </div>
+                  </div>
                </div>
             </div>
          </div>
-      </div>
-   </div>
-   <div class="perpation_part2">
-      <div class="container-fluid">
-         <div class="row paera_sameline">
-            <div class="col-md-6">
-               <div class="perpation_info">
-                  <h3>Guided Preparation</h3>
-                  <p>Get guidance on every step with tips and tricks to help you prepare better with same effort. Daily and weekly tracking to help you stay on course.</p>
-               </div>
-            </div>
-            <div class="col-md-6">
-               <img src="<?=env('FRONT_ASSETS_URL')?>assets/images/pearation_img2.png" alt="">
-            </div>
-         </div>
-      </div>
-   </div>
-   <div class="perpation_part1">
-      <div class="container-fluid">
-         <div class="row paera_sameline">
-            <div class="col-md-6">
-               <img src="<?=env('FRONT_ASSETS_URL')?>assets/images/pearation_img3.png" alt="">
-            </div>
-            <div class="col-md-6">
-               <div class="perpation_info">
-                  <h3>Career Counselling</h3>
-                  <p>Choose the right career path with in depth insights into various professions from experts</p>
+      <?php } else {?>
+         <div class="perpation_part2">
+            <div class="container-fluid">
+               <div class="row paera_sameline">
+                  <div class="col-md-6">
+                     <div class="perpation_info">
+                        <h3><?=$row->name?></h3>
+                        <p><?=$row->description?></p>
+                     </div>
+                  </div>
+                  <div class="col-md-6">
+                     <img src="<?=env('UPLOADS_URL')?>service_type/<?=$row->image?>" alt="<?=$row->name?>">
+                  </div>
                </div>
             </div>
          </div>
-      </div>
-   </div>
-   <div class="perpation_part2">
-      <div class="container-fluid">
-         <div class="row paera_sameline">
-            <div class="col-md-6">
-               <div class="perpation_info">
-                  <h3>Mental health counselling</h3>
-                  <p>Talk to a counsellor and navigate difficult life situations to stay focused, healthy and on track.</p>
+      <?php }?>
+   <?php $i++; } }?>
+   <?php if($services){ $i=1; foreach($services as $row){?>
+      <?php if($i%2){?>
+         <div class="perpation_part1">
+            <div class="container-fluid ">
+               <div class="row paera_sameline">
+                  <div class="col-md-6">
+                     <img src="<?=env('UPLOADS_URL')?>service/<?=$row->image?>" alt="<?=$row->name?>">
+                  </div>
+                  <div class="col-md-6">
+                     <div class="perpation_info">
+                        <h3><?=$row->name?></h3>
+                        <p><?=$row->description?></p>
+                     </div>
+                  </div>
                </div>
             </div>
-            <div class="col-md-6">
-               <img src="<?=env('FRONT_ASSETS_URL')?>assets/images/pearation_img4.png" alt="">
+         </div>
+      <?php } else {?>
+         <div class="perpation_part2">
+            <div class="container-fluid">
+               <div class="row paera_sameline">
+                  <div class="col-md-6">
+                     <div class="perpation_info">
+                        <h3><?=$row->name?></h3>
+                        <p><?=$row->description?></p>
+                     </div>
+                  </div>
+                  <div class="col-md-6">
+                     <img src="<?=env('UPLOADS_URL')?>service/<?=$row->image?>" alt="<?=$row->name?>">
+                  </div>
+               </div>
             </div>
          </div>
-      </div>
-   </div>
+      <?php }?>
+   <?php $i++; } }?>
 </section>
 <section class="home_counter">
    <div class="container">
@@ -337,33 +313,41 @@
          <div class="col-md-12">
             <div class="top_title text-center py-4">Frequently asked questions</div>
          </div>
-         <div class="col-md-4">
-            <div class="homefaq_box  mb-3">
-               <h4>How do I know these mentors "know their stuff"? </h4>
-               <p>All the mentors listed on StuMento have passes our selection process which means the mentors are highly qualifies, have expertise and or certifies in the specific domain they are operating.</p>
-            </div>
-            <div class="homefaq_box  mb-3">
-               <h4>What is Stumento > Googling the questions I have? </h4>
-               <p>StuMento is one of its kind open platform dedicated to students that helps connect mentors, career counsellors and mental health counsellors directly to the students without any mediators.</p>
-            </div>
-         </div>
-         <div class="col-md-4">
-            <div class="homefaq_box  mb-3">
-               <div class="bigquestion">?</div>
-               <h4>Can I get a refund if I decide it is not the right fit for me ? </h4>
-               <p class="text-center">We provide no questions asked refund if the student is not satisfied with the counselling for the first session. However after the first session refunds are processed after internally reviewing the sessions to maintain high standards of quality from guidance delivery standpoint.</p>
-            </div>
-         </div>
-         <div class="col-md-4">
-            <div class="homefaq_box  mb-3">
-               <h4>What is the difference between a standard and premium mentor? </h4>
-               <p>While a standard mentor would typically have 2-5 years of experience in their domain, a premium mentor typically has more than 5 years of experience</p>
-            </div>
-            <div class="homefaq_box  mb-3">
-               <h4>How do I choose the right mentor for me? </h4>
-               <p>One can choose either a standard or a premium mentor. Going by the average rating is another way to shortlist mentors, however we enforce a strict quality guidelines and try that every student gets the best guidance.</p>
-            </div>
-         </div>
+         <?php if($faqs){?>
+            <?php //if($i <= 2){?>
+               <div class="col-md-4">
+                  <div class="homefaq_box mb-3">
+                     <h4><?=$faqs[0]->question?></h4>
+                     <p><?=$faqs[0]->answer?></p>
+                  </div>
+                  <div class="homefaq_box mb-3">
+                     <h4><?=$faqs[1]->question?></h4>
+                     <p><?=$faqs[1]->answer?></p>
+                  </div>
+               </div>
+            <?php //}?>
+            <?php //if($i == 3){?>
+               <div class="col-md-4">
+                  <div class="homefaq_box mb-3">
+                     <div class="bigquestion">?</div>
+                     <h4><?=$faqs[2]->question?></h4>
+                     <p class="text-center"><?=$faqs[2]->answer?></p>
+                  </div>
+               </div>
+            <?php //}?>
+            <?php //if($i >= 4 && $i <= 5){?>
+               <div class="col-md-4">
+                  <div class="homefaq_box mb-3">
+                     <h4><?=$faqs[3]->question?></h4>
+                     <p><?=$faqs[3]->answer?></p>
+                  </div>
+                  <div class="homefaq_box mb-3">
+                     <h4><?=$faqs[4]->question?></h4>
+                     <p><?=$faqs[4]->answer?></p>
+                  </div>
+               </div>
+            <?php //}?>
+         <?php }?>
       </div>
    </div>
 </section>

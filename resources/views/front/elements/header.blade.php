@@ -1,3 +1,9 @@
+<?php
+use Illuminate\Support\Facades\Route;;
+$routeName = Route::current();
+$pageName = $routeName->uri();
+// dd($routeName);
+?>
 <div class="container">
    <div class="row">
       <div class="col-lg-3 col-md-4 col-sm-12 col-6">
@@ -14,19 +20,19 @@
                   <i class="zmdi zmdi-close"></i>
                   </button>
                   <ul class="navbar-nav">
-                     <li class="nav-item active">
+                     <li class="nav-item <?=(($pageName == '/')?'active':'')?>">
                         <a class="nav-link" href="<?=url('/')?>">Home</a>
                      </li>
-                     <li class="nav-item">
+                     <li class="nav-item <?=(($pageName == 'mentors')?'active':'')?>">
                         <a class="nav-link" href="<?=url('mentors')?>">Mentors</a>
                      </li>
-                     <li class="nav-item">
+                     <li class="nav-item <?=(($pageName == 'blogs')?'active':'')?>">
                         <a class="nav-link" href="<?=url('blogs')?>">Resources</a>
                      </li>
-                     <li class="nav-item">
+                     <li class="nav-item <?=(($pageName == 'how-it-works')?'active':'')?>">
                         <a class="nav-link" href="<?=url('how-it-works')?>">How it works</a>
                      </li>
-                     <li class="nav-item">
+                     <li class="nav-item <?=(($pageName == 'survey')?'active':'')?>">
                         <a class="nav-link" href="#">Take a free test</a>
                      </li>
                   </ul>

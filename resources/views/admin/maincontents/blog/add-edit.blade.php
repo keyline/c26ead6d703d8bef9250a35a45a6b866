@@ -102,6 +102,64 @@ $controllerRoute = $module['controller_route'];
                 </div>
               </div>
             </div>
+
+            <label for="" class="col-md-4 col-lg-3 col-form-label">Blog Contents</label>
+            <div class="field_wrapper1">
+              <?php
+              // $table_of_content = (($blogContents)?(($blogContents->table_of_content != '')?json_decode($blogContents->table_of_content):[]):[]);
+              // $summary = (($blogContents)?(($blogContents->summary != '')?json_decode($blogContents->summary):[]):[]);
+              // $content = (($blogContents)?(($blogContents->content != '')?json_decode($blogContents->content):[]):[]);
+              if(!empty($blogContents)){ foreach($blogContents as $blogContent) {
+              ?>
+                <div class="row" style="border: 1px solid #8144f0;padding: 10px;margin-bottom: 10px;">
+                    <div class="col-md-6">
+                      <label for="lefticon" class="control-label">Table Of Contents<span class="red">*</span></label>
+                      <span class="input-with-icon">
+                          <textarea class="form-control" name="table_of_content[]" rows="5"><?=$blogContent->table_of_content?></textarea>
+                      </span>
+                    </div>
+                    <div class="col-md-6">
+                      <label for="lefticon" class="control-label">Summary<span class="red">*</span></label>
+                      <span class="input-with-icon">
+                          <textarea class="form-control" name="summary[]" rows="5"><?=$blogContent->summary?></textarea>
+                      </span>
+                    </div>
+                    <div class="col-md-11">
+                      <label for="lefticon" class="control-label">Content<span class="red">*</span></label>
+                      <span class="input-with-icon">
+                          <textarea class="form-control ckeditor" name="content[]"><?=$blogContent->content?></textarea>
+                      </span>
+                    </div>
+                    <div class="col-md-1" style="margin-top: 26px;">
+                        <a href="javascript:void(0);" class="remove_button1" title="Add field"><i class="fa fa-minus-circle fa-2x text-danger"></i></a>
+                    </div>                                    
+                </div>
+              <?php } }?>
+              <div class="row" style="border: 1px solid #8144f0;padding: 10px;margin-bottom: 10px;">
+                <div class="col-md-6">
+                  <label for="lefticon" class="control-label">Table Of Contents<span class="red">*</span></label>
+                  <span class="input-with-icon">
+                      <textarea class="form-control" name="table_of_content[]" rows="5"></textarea>
+                  </span>
+                </div>
+                <div class="col-md-6">
+                  <label for="lefticon" class="control-label">Summary<span class="red">*</span></label>
+                  <span class="input-with-icon">
+                      <textarea class="form-control" name="summary[]" rows="5"></textarea>
+                  </span>
+                </div>
+                <div class="col-md-11">
+                  <label for="lefticon" class="control-label">Content<span class="red">*</span></label>
+                  <span class="input-with-icon">
+                      <textarea class="form-control ckeditor" name="content[]"></textarea>
+                  </span>
+                </div>
+                <div class="col-md-1" style="margin-top: 26px;">
+                    <a href="javascript:void(0);" class="add_button1" title="Add field"><i class="fa fa-plus-circle fa-2x text-success"></i></a>
+                </div>                                    
+              </div>
+            </div>
+
             <div class="text-center">
               <button type="submit" class="btn btn-primary"><?=(($row)?'Save':'Add')?></button>
             </div>
@@ -111,5 +169,55 @@ $controllerRoute = $module['controller_route'];
     </div>
   </div>
 </section>
-<script src="https://cdn.ckeditor.com/4.16.0/standard/ckeditor.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script> -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="https://cdn.ckeditor.com/4.4.7/standard-all/ckeditor.js"></script>
+<script type="text/javascript">
+  $(document).ready(function(){        
+    var maxField = 10; //Input fields increment limitation
+    var addButton = $('.add_button1'); //Add button selector
+    var wrapper = $('.field_wrapper1'); //Input field wrapper
+    var fieldHTML = '<div class="row" style="border: 1px solid #8144f0;padding: 10px;margin-bottom: 10px;">\
+                      <div class="col-md-6">\
+                        <label for="lefticon" class="control-label">Table Of Contents<span class="red">*</span></label>\
+                        <span class="input-with-icon">\
+                            <textarea class="form-control" name="table_of_content[]" rows="5"></textarea>\
+                        </span>\
+                      </div>\
+                      <div class="col-md-6">\
+                        <label for="lefticon" class="control-label">Summary<span class="red">*</span></label>\
+                        <span class="input-with-icon">\
+                            <textarea class="form-control" name="summary[]" rows="5"></textarea>\
+                        </span>\
+                      </div>\
+                      <div class="col-md-11">\
+                        <label for="lefticon" class="control-label">Content<span class="red">*</span></label>\
+                        <span class="input-with-icon">\
+                            <textarea class="form-control ckeditor" id="replace_element_'+x+'" name="content[]"></textarea>\
+                        </span>\
+                      </div>\
+                      <div class="col-md-1" style="margin-top: 26px;">\
+                          <a href="javascript:void(0);" class="remove_button1" title="Remove field"><i class="fa fa-minus-circle fa-2x text-danger"></i></a>\
+                      </div>\
+                    </div>'; //New input field html 
+    var x = 1; //Initial field counter is 1
+    
+    //Once add button is clicked
+    $(addButton).click(function(){
+        //Check maximum number of input fields
+        if(x < maxField){
+          
+          x++; //Increment field counter
+          $(wrapper).append(fieldHTML); //Add field html
+          CKEDITOR.replace( 'replace_element_' + x );
+        }
+    });
+    
+    //Once remove button is clicked
+    $(wrapper).on('click', '.remove_button1', function(e){
+        e.preventDefault();
+        $(this).parent('div').parent('div').remove(); //Remove field html
+        x--; //Decrement field counter
+    });
+  });
+</script>
