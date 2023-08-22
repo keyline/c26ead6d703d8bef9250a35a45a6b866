@@ -8,6 +8,7 @@ use Illuminate\Validation\Rule;
 use App\Models\GeneralSetting;
 use App\Models\BlogCategory;
 use App\Models\Blog;
+use App\Models\BlogContent;
 use Auth;
 use Session;
 use Helper;
@@ -69,7 +70,24 @@ class BlogController extends Controller
                         'description'               => $postData['description'],
                         'image'                     => $image
                     ];
-                    Blog::insert($fields);
+                    $blog_id = Blog::insertGetId($fields);
+                    /* blog content */
+                        $table_of_content   = $postData['table_of_content'];
+                        $summary            = $postData['summary'];
+                        $content            = $postData['content'];
+                        if(!empty($table_of_content)){
+                            for($k=0;$k<count($table_of_content);$k++){
+                                $fields2 = [
+                                    'blog_id'                   => $blog_id,
+                                    'table_of_content'          => $table_of_content[$k],
+                                    'table_of_content_slug'     => Helper::clean($table_of_content[$k]),
+                                    'summary'                   => $summary[$k],
+                                    'content'                   => $content[$k],
+                                ];
+                                BlogContent::insert($fields2);
+                            }
+                        }
+                    /* blog content */
                     return redirect("admin/" . $this->data['controller_route'] . "/list")->with('success_message', $this->data['title'].' Inserted Successfully !!!');
                 } else {
                     return redirect()->back()->with('error_message', 'All Fields Required !!!');
@@ -80,6 +98,7 @@ class BlogController extends Controller
             $page_name                      = 'blog.add-edit';
             $data['row']                    = [];
             $data['blogCats']               = BlogCategory::where('status', '=', 1)->get();
+            $data['blogContents']           = [];
             echo $this->admin_after_login_layout($title,$page_name,$data);
         }
     /* add */
@@ -91,6 +110,7 @@ class BlogController extends Controller
             $page_name                      = 'blog.add-edit';
             $data['row']                    = Blog::where($this->data['primary_key'], '=', $id)->first();
             $data['blogCats']               = BlogCategory::where('status', '=', 1)->get();
+            $data['blogContents']           = BlogContent::where('blog_id', '=', $id)->get();
 
             if($request->isMethod('post')){
                 $postData = $request->all();
@@ -127,6 +147,25 @@ class BlogController extends Controller
                         'updated_at'                => date('Y-m-d H:i:s')
                     ];
                     Blog::where($this->data['primary_key'], '=', $id)->update($fields);
+                    BlogContent::where('blog_id',$id)->delete();
+                    $blog_id = $id;
+                    /* blog content */
+                        $table_of_content   = $postData['table_of_content'];
+                        $summary            = $postData['summary'];
+                        $content            = $postData['content'];
+                        if(!empty($table_of_content)){
+                            for($k=0;$k<count($table_of_content);$k++){
+                                $fields2 = [
+                                    'blog_id'                   => $blog_id,
+                                    'table_of_content'          => $table_of_content[$k],
+                                    'table_of_content_slug'     => Helper::clean($table_of_content[$k]),
+                                    'summary'                   => $summary[$k],
+                                    'content'                   => $content[$k],
+                                ];
+                                BlogContent::insert($fields2);
+                            }
+                        }
+                    /* blog content */
                     return redirect("admin/" . $this->data['controller_route'] . "/list")->with('success_message', $this->data['title'].' Updated Successfully !!!');
                 } else {
                     return redirect()->back()->with('error_message', 'All Fields Required !!!');

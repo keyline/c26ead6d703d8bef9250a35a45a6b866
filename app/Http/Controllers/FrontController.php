@@ -10,6 +10,17 @@ use App\Models\GeneralSetting;
 use App\Models\Page;
 use App\Models\User;
 use App\Models\Testimonial;
+use App\Models\Enquiry;
+use App\Models\EmailLog;
+use App\Models\Faq;
+use App\Models\HowItWork;
+use App\Models\BlogCategory;
+use App\Models\Blog;
+use App\Models\BlogContent;
+use App\Models\Team;
+use App\Models\Banner;
+use App\Models\ServiceType;
+use App\Models\Service;
 use Auth;
 use Session;
 use Helper;
@@ -19,7 +30,11 @@ class FrontController extends Controller
 {
     /* home */
         public function home(){
+            $data['banners']                = Banner::where('status', '=', 1)->orderBy('id', 'DESC')->get();
             $data['testimonials']           = Testimonial::where('status', '=', 1)->orderBy('id', 'DESC')->get();
+            $data['serviceTypes']           = ServiceType::where('status', '=', 1)->orderBy('id', 'DESC')->get();
+            $data['services']               = Service::where('status', '=', 1)->orderBy('id', 'DESC')->get();
+            $data['faqs']                   = Faq::where('status', '=', 1)->where('is_home_page', '=', 1)->orderBy('id', 'DESC')->limit(5)->get();
             $title                          = 'Home';
             $page_name                      = 'home';
             echo $this->front_before_login_layout($title,$page_name,$data);
@@ -27,23 +42,84 @@ class FrontController extends Controller
     /* home */
     /* about us */
         public function aboutUs(){
-            $data                           = [];
+            $data['page']                   = Page::where('page_slug', '=', 'about-us')->first();
+            $data['owner']                  = Team::where('status', '=', 1)->where('is_owner', '=', 1)->first();
+            $data['teamMembers']            = Team::where('status', '=', 1)->where('is_owner', '=', 0)->get();
             $title                          = 'About Us';
             $page_name                      = 'about-us';
             echo $this->front_before_login_layout($title,$page_name,$data);
         }
     /* about us */
+    /* team member profile */
+        public function teamMemberProfile($id){
+            $id                             = Helper::decoded($id);
+            $data['teamMember']             = Team::where('status', '=', 1)->where('id', '=', $id)->first();
+            $title                          = (($data['teamMember'])?$data['teamMember']->name:'Team Member Profile');
+            $page_name                      = 'team-member-profile';
+            echo $this->front_before_login_layout($title,$page_name,$data);
+        }
+    /* team member profile */
     /* contact us */
-        public function contactUs(){
+        public function contactUs(Request $request){
             $data                           = [];
             $title                          = 'Contact Us';
             $page_name                      = 'contact-us';
+            if($request->isMethod('post')){
+                $postData = $request->all();
+                $rules = [
+                    'name'              => 'required',
+                    'email'             => 'required',
+                    'phone'             => 'required',
+                    'subject'           => 'required',
+                    'description'       => 'required',
+                ];
+                if($this->validate($request, $rules)){
+                    $name               = $postData['name'];
+                    $email              = $postData['email'];
+                    $phone              = $postData['phone'];
+                    $subject            = $postData['subject'];
+                    $msg                = $postData['description'];
+
+                    $fields = [
+                        'name'              => $name,
+                        'email'             => $email,
+                        'phone'             => $phone,
+                        'subject'           => $subject,
+                        'description'       => $msg,
+                    ];
+                    // Helper::pr($fields);
+                    Enquiry::insert($fields);
+
+                    /* email sent */
+                        $generalSetting             = GeneralSetting::find('1');
+                        $subject                    = $generalSetting->site_name.' :: Contact Enquiry';
+                        $message                    = view('front.email-templates.contact',$fields);
+                        // echo $message;die;
+                        // $this->sendMail($generalSetting->system_email, $subject, $message);
+                    /* email sent */
+                    /* email log save */
+                        $postData2 = [
+                            'name'                  => $name,
+                            'email'                 => $email,
+                            'subject'               => $subject,
+                            'message'               => $message
+                        ];
+                        EmailLog::insertGetId($postData2);
+                    /* email log save */
+                    
+                    
+                    return redirect()->back()->with('success_message', 'You Enquiry Submitted Successfully. We Will Contact You Soon !!!');
+                } else {
+                    return redirect()->back()->with('error_message', 'All Fields Required !!!');
+                }
+            }
             echo $this->front_before_login_layout($title,$page_name,$data);
         }
     /* contact us */
     /* How It Works */
         public function howItWorks(){
-            $data                           = [];
+            $data['faqs']                   = Faq::where('status', '=' , 1)->orderBy('id', 'DESC')->get();
+            $data['howitworks']             = HowItWork::where('status', '=' , 1)->orderBy('rank', 'ASC')->get();
             $title                          = 'How It Works';
             $page_name                      = 'how-it-works';
             echo $this->front_before_login_layout($title,$page_name,$data);
@@ -51,17 +127,25 @@ class FrontController extends Controller
     /* How It Works */
     /* Blogs */
         public function blogs(){
-            $data                           = [];
-            $title                          = 'Blogs';
-            $page_name                      = 'blogs';
+            $data['firstBlog']                  = Blog::select('blogs.*','blog_categories.name')->join('blog_categories', 'blog_categories.id', '=', 'blogs.blog_category')->where('blogs.status', '=', 1)->orderBy('blogs.id', 'DESC')->first();
+            $data['blogs']                      = Blog::select('blogs.*','blog_categories.name')->join('blog_categories', 'blog_categories.id', '=', 'blogs.blog_category')->where('blogs.status', '=', 1)->orderBy('blogs.id', 'DESC')->get();
+            $data['blog_count']                 = count($data['blogs']);
+            // Helper::pr($data['blogs']);
+            $title                              = 'Blogs';
+            $page_name                          = 'blogs';
             echo $this->front_before_login_layout($title,$page_name,$data);
         }
     /* Blogs */
     /* Blog Details */
-        public function blogDetails(){
-            $data                           = [];
-            $title                          = 'Blog Details';
-            $page_name                      = 'blog-details';
+        public function blogDetails($slug){
+            $data['firstBlog']                  = Blog::select('blogs.*','blog_categories.name')->join('blog_categories', 'blog_categories.id', '=', 'blogs.blog_category')->where('blogs.status', '=', 1)->where('blogs.slug', '=', $slug)->first();
+            $blog_id                            = (($data['firstBlog'])?$data['firstBlog']->id:'');
+            $blog_category                      = (($data['firstBlog'])?$data['firstBlog']->blog_category:'');
+            $data['blogContents']               = BlogContent::where('blog_id', '=', $blog_id)->get();
+            $data['recentBlogs']                = Blog::where('status', '=', 1)->orderBy('id', 'DESC')->limit(6)->get();
+            $data['relatedArticles']            = Blog::where('status', '=', 1)->where('blog_category', '=', $blog_category)->orderBy('id', 'DESC')->get();
+            $title                              = (($data['firstBlog'])?$data['firstBlog']->title:'');;
+            $page_name                          = 'blog-details';
             echo $this->front_before_login_layout($title,$page_name,$data);
         }
     /* Blog Details */

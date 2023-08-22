@@ -37,6 +37,7 @@ $controllerRoute = $module['controller_route'];
       $experience     = $row->experience;
       $bio            = $row->bio;
       $thought        = $row->thought;
+      $is_owner       = $row->is_owner;
     } else {
       $name           = '';
       $image          = '';
@@ -45,6 +46,7 @@ $controllerRoute = $module['controller_route'];
       $experience     = '';
       $bio            = '';
       $thought        = '';
+      $is_owner       = '';
     }
     ?>
     <div class="col-xl-12">
@@ -88,6 +90,21 @@ $controllerRoute = $module['controller_route'];
                 <textarea name="bio" class="form-control ckeditor" id="bio" required><?=$bio?></textarea>
               </div>
             </div>
+
+            <div class="row mb-3">
+              <label for="bio" class="col-md-2 col-lg-2 col-form-label">Is Owner</label>
+              <div class="col-sm-10">
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" name="is_owner" id="is_owner1" value="1" <?=(($is_owner == 1)?'checked':'')?>>
+                  <label class="form-check-label" for="is_owner1">YES</label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" name="is_owner" id="is_owner2" value="0" <?=(($is_owner == 0)?'checked':'')?>>
+                  <label class="form-check-label" for="is_owner2">NO</label>
+                </div>
+              </div>
+            </div>
+
             <div class="row mb-3">
               <label for="image" class="col-md-2 col-lg-2 col-form-label">Image</label>
               <div class="col-md-10 col-lg-10">

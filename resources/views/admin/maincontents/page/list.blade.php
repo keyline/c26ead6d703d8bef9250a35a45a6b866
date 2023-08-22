@@ -40,6 +40,8 @@ $controllerRoute = $module['controller_route'];
                 <th scope="col">#</th>
                 <th scope="col">Page Name</th>
                 <th scope="col">Page Image</th>
+                <th scope="col">Page Banner Image</th>
+                <th scope="col">Page Video</th>
                 <th scope="col">Action</th>
               </tr>
             </thead>
@@ -53,6 +55,26 @@ $controllerRoute = $module['controller_route'];
                       <img src="<?=env('UPLOADS_URL').'page/'.$row->page_image?>" class="img-thumbnail" alt="<?=$row->page_name?>" style="width: 150px; height: 150px; margin-top: 10px;">
                     <?php } else {?>
                       <img src="<?=env('NO_IMAGE')?>" alt="<?=$row->page_name?>" class="img-thumbnail" style="width: 150px; height: 150px; margin-top: 10px;">
+                    <?php }?>
+                  </td>
+                  <td>
+                    <?php if($row->page_banner_image != ''){?>
+                      <img src="<?=env('UPLOADS_URL').'page/'.$row->page_banner_image?>" class="img-thumbnail" alt="<?=$row->page_name?>" style="width: 150px; height: 150px; margin-top: 10px;">
+                    <?php } else {?>
+                      <img src="<?=env('NO_IMAGE')?>" alt="<?=$row->page_name?>" class="img-thumbnail" style="width: 150px; height: 150px; margin-top: 10px;">
+                    <?php }?>
+                  </td>
+                  <td>
+                    <?php
+                    if($row->page_video != ''){
+                      $page_video = explode("vimeo.com/", $row->page_video);
+                      $video_code = $page_video[1];
+                    } else {
+                      $video_code = '';
+                    }
+                    if($video_code != ''){
+                    ?>
+                      <iframe title="vimeo-player" src="https://player.vimeo.com/video/<?=$video_code?>?h=54c29e5502" width="300" height="180" frameborder="0"    allowfullscreen></iframe>
                     <?php }?>
                   </td>
                   <td>

@@ -29,7 +29,6 @@ class PageController extends Controller
             $title                          = $this->data['title'].' List';
             $page_name                      = 'page.list';
             $data['rows']                   = Page::where('status', '!=', 3)->orderBy('id', 'DESC')->get();
-            // Helper::pr($data['rows']);
             echo $this->admin_after_login_layout($title,$page_name,$data);
         }
     /* list */
@@ -54,14 +53,30 @@ class PageController extends Controller
                                 return redirect()->back()->with(['error_message' => $uploadedFile['message']]);
                             }
                         } else {
-                            return redirect()->back()->with(['error_message' => 'Please Upload Banner Image !!!']);
+                            return redirect()->back()->with(['error_message' => 'Please Upload Image !!!']);
                         }
                     /* page image */
+                    /* page banner image */
+                        $imageFile      = $request->file('page_banner_image');
+                        if($imageFile != ''){
+                            $imageName      = $imageFile->getClientOriginalName();
+                            $uploadedFile   = $this->upload_single_file('page_banner_image', $imageName, 'page', 'image');
+                            if($uploadedFile['status']){
+                                $page_banner_image = $uploadedFile['newFilename'];
+                            } else {
+                                return redirect()->back()->with(['error_message' => $uploadedFile['message']]);
+                            }
+                        } else {
+                            return redirect()->back()->with(['error_message' => 'Please Upload Banner Image !!!']);
+                        }
+                    /* page banner image */
                     $fields = [
                         'page_name'             => $postData['page_name'],
                         'page_slug'             => Helper::clean($postData['page_name']),
                         'page_content'          => $postData['page_content'],
-                        'page_image'            => $page_image
+                        'page_image'            => $page_image,
+                        'page_banner_image'     => $page_banner_image,
+                        'page_video'            => $postData['page_video'],
                     ];
                     Page::insert($fields);
                     return redirect("admin/" . $this->data['controller_route'] . "/list")->with('success_message', $this->data['title'].' Inserted Successfully !!!');
@@ -80,6 +95,9 @@ class PageController extends Controller
         public function edit(Request $request, $id){
             $data['module']                 = $this->data;
             $id                             = Helper::decoded($id);
+            $title                          = $this->data['title'].' Update';
+            $page_name                      = 'page.add-edit';
+            $data['row']                    = Page::where($this->data['primary_key'], '=', $id)->first();
             if($request->isMethod('post')){
                 $postData = $request->all();
                 $rules = [
@@ -101,11 +119,27 @@ class PageController extends Controller
                             $page_image = $data['row']->page_image;
                         }
                     /* page image */
+                    /* page banner image */
+                        $imageFile      = $request->file('page_banner_image');
+                        if($imageFile != ''){
+                            $imageName      = $imageFile->getClientOriginalName();
+                            $uploadedFile   = $this->upload_single_file('page_banner_image', $imageName, 'page', 'image');
+                            if($uploadedFile['status']){
+                                $page_banner_image = $uploadedFile['newFilename'];
+                            } else {
+                                return redirect()->back()->with(['error_message' => $uploadedFile['message']]);
+                            }
+                        } else {
+                            $page_banner_image = $data['row']->page_banner_image;
+                        }
+                    /* page banner image */
                     $fields = [
                         'page_name'             => $postData['page_name'],
                         'page_slug'             => Helper::clean($postData['page_name']),
                         'page_content'          => $postData['page_content'],
-                        'page_image'            => $page_image
+                        'page_image'            => $page_image,
+                        'page_banner_image'     => $page_banner_image,
+                        'page_video'            => $postData['page_video'],
                     ];
                     Page::where($this->data['primary_key'], '=', $id)->update($fields);
                     return redirect("admin/" . $this->data['controller_route'] . "/list")->with('success_message', $this->data['title'].' Updated Successfully !!!');
@@ -113,9 +147,7 @@ class PageController extends Controller
                     return redirect()->back()->with('error_message', 'All Fields Required !!!');
                 }
             }
-            $title                          = $this->data['title'].' Update';
-            $page_name                      = 'page.add-edit';
-            $data['row']                    = Page::where($this->data['primary_key'], '=', $id)->first();
+            
             echo $this->admin_after_login_layout($title,$page_name,$data);
         }
     /* edit */

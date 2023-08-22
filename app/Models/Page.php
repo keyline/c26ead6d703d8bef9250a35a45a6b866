@@ -15,5 +15,7 @@ class Page extends Authenticatable
         'page_name',
         'page_content',
         'page_image',
+        'page_banner_image',
+        'page_video',
     ];
 }

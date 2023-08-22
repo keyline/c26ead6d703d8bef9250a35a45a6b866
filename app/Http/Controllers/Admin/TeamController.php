@@ -45,6 +45,7 @@ class TeamController extends Controller
                     'experience'            => 'required',
                     'bio'                   => 'required',
                     'thought'               => 'required',
+                    'is_owner'              => 'required',
                 ];
                 if($this->validate($request, $rules)){
                     /* image */
@@ -61,6 +62,7 @@ class TeamController extends Controller
                             return redirect()->back()->with(['error_message' => 'Please Upload Image !!!']);
                         }
                     /* image */
+                    Team::where('status', '!=', 3)->update(['is_owner' => 0]);
                     $fields = [
                         'name'              => $postData['name'],
                         'designation'       => $postData['designation'],
@@ -68,6 +70,7 @@ class TeamController extends Controller
                         'experience'        => $postData['experience'],
                         'bio'               => $postData['bio'],
                         'thought'           => $postData['thought'],
+                        'is_owner'          => $postData['is_owner'],
                         'image'             => $image,
                     ];
                     Team::insert($fields);
@@ -100,6 +103,7 @@ class TeamController extends Controller
                     'experience'            => 'required',
                     'bio'                   => 'required',
                     'thought'               => 'required',
+                    'is_owner'              => 'required',
                 ];
                 if($this->validate($request, $rules)){
                     /* image */
@@ -116,6 +120,7 @@ class TeamController extends Controller
                             $image = $data['row']->image;
                         }
                     /* image */
+                    Team::where('status', '!=', 3)->update(['is_owner' => 0]);
                     $fields = [
                         'name'              => $postData['name'],
                         'designation'       => $postData['designation'],
@@ -123,6 +128,7 @@ class TeamController extends Controller
                         'experience'        => $postData['experience'],
                         'bio'               => $postData['bio'],
                         'thought'           => $postData['thought'],
+                        'is_owner'          => $postData['is_owner'],
                         'image'             => $image,
                         'updated_at'        => date('Y-m-d H:i:s')
                     ];

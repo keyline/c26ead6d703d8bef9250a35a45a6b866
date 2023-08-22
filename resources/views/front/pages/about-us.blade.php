@@ -1,14 +1,17 @@
+<?php
+use App\Helpers\Helper;
+?>
 <!-- ********|| BANNER STARTS ||******** -->
 <div class="inner_slider_section">
    <div class="container-fluid px-0">
       <div class="innerpage_banner">
-         <div class="innerbanner_img"><img src="<?=env('FRONT_ASSETS_URL')?>assets/images/aboutbanner.jpg" alt="banner"></div>
+         <div class="innerbanner_img"><img src="<?=env('UPLOADS_URL')?>page/<?=$page->page_banner_image?>" alt="<?=$page->page_name?>"></div>
          <div class="innerbanner_bredcum">
-            <h1>About Us</h1>
+            <h1><?=$page_header?></h1>
             <ul>
-               <li><a href="#">Home</a></li>
+               <li><a href="<?=url('/')?>">Home</a></li>
                <li>/</li>
-               <li>About Us</li>
+               <li><?=$page_header?></li>
             </ul>
          </div>
       </div>
@@ -20,7 +23,7 @@
       <div class="row">
          <div class="col-md-12">
             <div class="innerpage_title">
-               <h2>About Us</h2>
+               <h2><?=$page_header?></h2>
             </div>
          </div>
          <div class="col-md-4">
@@ -57,13 +60,21 @@
             <h3>Our Mission. Our Goal.</h3>
          </div>
          <div class="col-md-6">
-            <p>Our Mission is to help every student find their Path irrespective of  location, financial status or any other limitations. We believe that the role of a mentor is of the utmost importance at every stage in a student’s life, be it career counselling, interview prep or general issues.</p>
-            <p>Our goal is to create a future wherein no student underperforms for the lack of help, counselling or guidance. Where every student is a part of a strong community that always stands by him in every situation thereby providing a strong support system.</p>
+            <p><?=$page->page_content?></p>
          </div>
          <div class="col-md-6">
             <div class="rightvideop">
-               <a href="https://player.vimeo.com/video/80629469" data-toggle="lightbox">
-               <img src="<?=env('FRONT_ASSETS_URL')?>assets/images/serv-img4.png" alt="banner">
+               <?php
+               if($page->page_video != ''){
+                  $page_video = explode("vimeo.com/", $page->page_video);
+                  $video_code = $page_video[1];
+               } else {
+                  $video_code = '';
+               }
+               ?>
+               <a href="https://player.vimeo.com/video/<?=$video_code?>" data-toggle="lightbox">
+               <!-- <img src="<?=env('FRONT_ASSETS_URL')?>assets/images/serv-img4.png" alt="banner"> -->
+               <img src="<?=env('UPLOADS_URL')?>page/<?=$page->page_image?>" alt="<?=$page_header?>">
                <i class="fa-regular fa-circle-play"></i>
                </a>
             </div>
@@ -76,15 +87,15 @@
    <div class="container">
       <div class="row">
          <div class="col-md-2">
-            <div class="cleintinfo_img"><img src="<?=env('FRONT_ASSETS_URL')?>assets/images/home_carrea_img1.png" alt=""></div>
+            <div class="cleintinfo_img"><img src="<?=env('UPLOADS_URL')?>team/<?=$owner->image?>" alt="<?=$owner->name?>"></div>
          </div>
          <div class="col-md-10">
             <div class="cleintinfo_info">
-               <h3>Yogesh Kashyap</h3>
-               <h5>Mental Health, Career Counselling</h5>
-               <h3>MSc.</h3>
-               <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
-               <p class="mt-4">It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).</p>
+               <h3><?=$owner->name?></h3>
+               <h5><?=$owner->designation?></h5>
+               <h3><?=$owner->qualification?></h3>
+               <p><?=$owner->experience?></p>
+               <p class="mt-4"><?=$owner->thought?></p>
             </div>
          </div>
       </div>
@@ -102,76 +113,22 @@
       <div class="row">
          <div class="col-md-12">
             <div id="ourteam-carousel" class="owl-carousel">
-               <div class="item">
-                  <div class="project mentalhealth">
-                     <div class="projec_homecare">
-                        <div class="homecare_img"><img src="<?=env('FRONT_ASSETS_URL')?>assets/images/home_carrea_img1.png" alt=""></div>
-                        <div class="homecare_info">
-                           <h3>Yogesh Kashyap</h3>
-                           <h5>Mental Health, Career Counselling</h5>
-                           <h3>MSc.</h3>
-                           <h4>(7 Yrs Exp.)</h4>
-                           <a href="#">View Profile</a>
+               <?php if($teamMembers){ foreach($teamMembers as $teamMember){?>
+                  <div class="item">
+                     <div class="project mentalhealth">
+                        <div class="projec_homecare">
+                           <div class="homecare_img"><img src="<?=env('UPLOADS_URL')?>team/<?=$teamMember->image?>" alt="<?=$teamMember->name?>"></div>
+                           <div class="homecare_info">
+                              <h3><?=$teamMember->name?></h3>
+                              <h5><?=$teamMember->designation?></h5>
+                              <h3><?=$teamMember->qualification?></h3>
+                              <h4>(<?=$teamMember->experience?>)</h4>
+                              <a href="<?=url('team-member-profile/'.Helper::encoded($teamMember->id))?>">View Profile</a>
+                           </div>
                         </div>
                      </div>
                   </div>
-               </div>
-               <div class="item">
-                  <div class="project mentalhealth">
-                     <div class="projec_homecare">
-                        <div class="homecare_img"><img src="<?=env('FRONT_ASSETS_URL')?>assets/images/home_carrea_img2.png" alt=""></div>
-                        <div class="homecare_info">
-                           <h3>Yogesh Kashyap</h3>
-                           <h5>Mental Health, Career Counselling</h5>
-                           <h3>MSc.</h3>
-                           <h4>(2 Yrs Exp.)</h4>
-                           <a href="#">View Profile</a>
-                        </div>
-                     </div>
-                  </div>
-               </div>
-               <div class="item">
-                  <div class="project mentalhealth">
-                     <div class="projec_homecare">
-                        <div class="homecare_img"><img src="<?=env('FRONT_ASSETS_URL')?>assets/images/home_carrea_img3.png" alt=""></div>
-                        <div class="homecare_info">
-                           <h3>Yogesh Kashyap</h3>
-                           <h5>Mental Health, Career Counselling</h5>
-                           <h3>MSc.</h3>
-                           <h4>(2.5 Yrs Exp.)</h4>
-                           <a href="#">View Profile</a>
-                        </div>
-                     </div>
-                  </div>
-               </div>
-               <div class="item">
-                  <div class="project mentalhealth">
-                     <div class="projec_homecare">
-                        <div class="homecare_img"><img src="<?=env('FRONT_ASSETS_URL')?>assets/images/home_carrea_img3.png" alt=""></div>
-                        <div class="homecare_info">
-                           <h3>Yogesh Kashyap</h3>
-                           <h5>Mental Health, Career Counselling</h5>
-                           <h3>MSc.</h3>
-                           <h4>(17 Yrs Exp.)</h4>
-                           <a href="#">View Profile</a>
-                        </div>
-                     </div>
-                  </div>
-               </div>
-               <div class="item">
-                  <div class="project mentalhealth">
-                     <div class="projec_homecare">
-                        <div class="homecare_img"><img src="<?=env('FRONT_ASSETS_URL')?>assets/images/home_carrea_img3.png" alt=""></div>
-                        <div class="homecare_info">
-                           <h3>Yogesh Kashyap</h3>
-                           <h5>Mental Health, Career Counselling</h5>
-                           <h3>MSc.</h3>
-                           <h4>(10 Yrs Exp.)</h4>
-                           <a href="#">View Profile</a>
-                        </div>
-                     </div>
-                  </div>
-               </div>
+               <?php } }?>
             </div>
          </div>
       </div>

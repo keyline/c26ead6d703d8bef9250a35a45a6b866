@@ -19,10 +19,11 @@ use Illuminate\Support\Facades\Route;
             /* common */
                 Route::match(['get'], '/', 'FrontController@home');
                 Route::match(['get'], '/about-us', 'FrontController@aboutUs');
-                Route::match(['get'], '/contact-us', 'FrontController@contactUs');
+                Route::match(['get'], '/team-member-profile/{id}', 'FrontController@teamMemberProfile');
+                Route::match(['get', 'post'], '/contact-us', 'FrontController@contactUs');
                 Route::match(['get'], '/how-it-works', 'FrontController@howItWorks');
                 Route::match(['get'], '/blogs', 'FrontController@blogs');
-                Route::match(['get'], '/blog-details', 'FrontController@blogDetails');
+                Route::match(['get'], '/blog-details/{id}', 'FrontController@blogDetails');
                 Route::match(['get'], 'page/{id}', 'FrontController@page');
 
                 Route::match(['get'], '/mentors', 'FrontController@mentors');
@@ -82,6 +83,7 @@ use Illuminate\Support\Facades\Route;
             Route::get('logout', 'UserController@logout');
             Route::get('email-logs', 'UserController@emailLogs');
             Route::get('login-logs', 'UserController@loginLogs');
+           
             /* setting */
                 Route::get('settings', 'UserController@settings');
                 Route::post('profile-settings', 'UserController@profile_settings');
@@ -279,6 +281,10 @@ use Illuminate\Support\Facades\Route;
             /* transactions */
                 Route::get('transactions/list', 'TransactionController@list');
             /* transactions */
+            /* enquiries */
+                Route::get('enquiry/list', 'EnquiryController@list');
+                Route::get('enquiry/view-details/{id}', 'EnquiryController@details');
+            /* enquiries */
         });
     });
 
