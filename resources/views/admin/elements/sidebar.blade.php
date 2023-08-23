@@ -23,11 +23,11 @@ $pageFunction = ((count($pageName)>2)?$pageName[2]:'');
       </a>
       <ul id="permission-nav" class="nav-content collapse <?=(($pageSegment == 'module' || $pageSegment == 'sub-user' || $pageSegment == 'access')?'show':'')?>" data-bs-parent="#sidebar-nav">
         <?php if(in_array(8, $module_id)){?>
-        <li>
+        <!-- <li>
           <a class="<?=(($pageSegment == 'module')?'active':'')?>" href="{{ url('admin/module/list') }}">
             <i class="bi bi-arrow-right"></i><span>Modules</span>
           </a>
-        </li>
+        </li> -->
         <?php }?>
         <?php if(in_array(9, $module_id)){?>
         <li>
@@ -243,10 +243,10 @@ $pageFunction = ((count($pageName)>2)?$pageName[2]:'');
 
   <?php if((in_array(18, $module_id)) || (in_array(19, $module_id))) {?>
   <li class="nav-item">
-    <a class="nav-link <?=(($pageSegment == 'question-type' || $pageSegment == 'grade')?'':'collapsed')?> <?=(($pageSegment == 'question-type' || $pageSegment == 'grade')?'active':'')?>" data-bs-target="#survey-nav" data-bs-toggle="collapse" href="#">
+    <a class="nav-link <?=(($pageSegment == 'question-type' || $pageSegment == 'survey')?'':'collapsed')?> <?=(($pageSegment == 'question-type' || $pageSegment == 'survey')?'active':'')?>" data-bs-target="#survey-nav" data-bs-toggle="collapse" href="#">
       <i class="fa fa-poll"></i><span>Survey Management</span><i class="bi bi-chevron-down ms-auto"></i>
     </a>
-    <ul id="survey-nav" class="nav-content collapse <?=(($pageSegment == 'question-type' || $pageSegment == 'grade')?'show':'')?>" data-bs-parent="#sidebar-nav">
+    <ul id="survey-nav" class="nav-content collapse <?=(($pageSegment == 'question-type' || $pageSegment == 'survey')?'show':'')?>" data-bs-parent="#sidebar-nav">
       <?php if(in_array(18, $module_id)){?>
       <li>
         <a class="<?=(($pageSegment == 'question-type')?'active':'')?>" href="{{ url('admin/question-type/list') }}">
@@ -261,7 +261,7 @@ $pageFunction = ((count($pageName)>2)?$pageName[2]:'');
       </li> -->
       <?php if(in_array(19, $module_id)){?>
       <li>
-        <a href="{{ url('admin/survey/list')}}">
+        <a class="<?=(($pageSegment == 'survey')?'active':'')?>" href="{{ url('admin/survey/list')}}">
           <i class="bi bi-arrow-right"></i><span>Survey</span>
         </a>
       </li>

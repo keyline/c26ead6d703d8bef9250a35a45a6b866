@@ -21,6 +21,9 @@ use App\Models\Team;
 use App\Models\Banner;
 use App\Models\ServiceType;
 use App\Models\Service;
+use App\Models\StudentProfile;
+use App\Models\MentorProfile;
+use App\Models\UserActivity;
 use Auth;
 use Session;
 use Helper;
@@ -92,10 +95,10 @@ class FrontController extends Controller
 
                     /* email sent */
                         $generalSetting             = GeneralSetting::find('1');
-                        $subject                    = $generalSetting->site_name.' :: Contact Enquiry';
-                        $message                    = view('front.email-templates.contact',$fields);
+                        $subject                    = $generalSetting->site_name.' :: Contact Enquiry From '.$name.' ('.$email.')';
+                        $message                    = view('front.email-templates.contact-us',$fields);
                         // echo $message;die;
-                        // $this->sendMail($generalSetting->system_email, $subject, $message);
+                        $this->sendMail($generalSetting->system_email, $subject, $message);
                     /* email sent */
                     /* email log save */
                         $postData2 = [
@@ -175,7 +178,8 @@ class FrontController extends Controller
     /* Mentor Details */
     /* authentication */
         public function studentSignup(Request $request){
-            $data                           = [];
+            $data['testimonials']           = Testimonial::where('status', '=', 1)->orderBy('id', 'DESC')->get();
+            $data['testimonialsData']       = view('front.elements.side-testimonial',$data);
             $title                          = 'Student Signup';
             $page_name                      = 'student-signup';
             echo $this->front_before_login_layout($title,$page_name,$data);
@@ -195,13 +199,32 @@ class FrontController extends Controller
                 ];
                 if($this->validate($request, $rules)){
                     $email = $postData['email'];
-                    $checkUser = User::where('email', '=', $email)->where('status', '=', 1)->first();
+                    $checkUser = User::where('email', '=', $email)->where('valid', '=', 1)->first();
                     if($checkUser){
-                        $remember_token = rand(1000,9999);
+                        $remember_token = rand(100000,999999);
                         $postData = [
                             'remember_token'        => $remember_token,
                         ];
+                        // Helper::pr($postData);
                         User::where('id', '=', $checkUser->id)->update($postData);
+
+                        /* email sent */
+                            $generalSetting             = GeneralSetting::find('1');
+                            $subject                    = $generalSetting->site_name.' :: One Time Password';
+                            $message                    = view('front.email-templates.otp',$postData);
+                            // echo $message;die;
+                            $this->sendMail($requestData['email'], $subject, $message);
+                        /* email sent */
+                        /* email log save */
+                            $postData2 = [
+                                'name'                  => $checkUser->name,
+                                'email'                 => $checkUser->email,
+                                'subject'               => $subject,
+                                'message'               => $message
+                            ];
+                            EmailLog::insertGetId($postData2);
+                        /* email log save */
+
                         return redirect('validate-otp/'.Helper::encoded($checkUser->id))->with('success_message', 'OTP Is Send To Your Registered Email !!!');
                     } else {
                         return redirect()->back()->with('error_message', 'You Are Not Registered With Us !!!');
@@ -210,99 +233,113 @@ class FrontController extends Controller
                     return redirect()->back()->with('error_message', 'All Fields Required !!!');
                 }
             }
-            $data                           = [];
+            $data['testimonials']           = Testimonial::where('status', '=', 1)->orderBy('id', 'DESC')->get();
+            $data['testimonialsData']       = view('front.elements.side-testimonial',$data);
             $title                          = 'Forgot Password';
             $page_name                      = 'forgot-password';
             echo $this->front_before_login_layout($title,$page_name,$data);
         }
-        public function validateOtp(Request $request){
-            $data                           = [];
+        public function validateOtp(Request $request, $id){
+            if($request->isMethod('post')){
+                $postData = $request->all();
+                $rules = [
+                    'otp1'     => 'required|max:1',
+                    'otp2'     => 'required|max:1',
+                    'otp3'     => 'required|max:1',
+                    'otp4'     => 'required|max:1',
+                    'otp5'     => 'required|max:1',
+                    'otp6'     => 'required|max:1',
+                ];
+                if($this->validate($request, $rules)){
+                    $id     = $postData['id'];
+                    $otp1   = $postData['otp1'];
+                    $otp2   = $postData['otp2'];
+                    $otp3   = $postData['otp3'];
+                    $otp4   = $postData['otp4'];
+                    $otp5   = $postData['otp5'];
+                    $otp6   = $postData['otp6'];
+                    $otp    = ($otp1.$otp2.$otp3.$otp4.$otp5.$otp6);
+                    $checkUser = User::where('id', '=', $id)->first();
+                    if($checkUser){
+                        $remember_token = $checkUser->remember_token;
+                        if($remember_token == $otp){
+                            $postData = [
+                                'remember_token'        => '',
+                            ];
+                            User::where('id', '=', $checkUser->id)->update($postData);
+                            return redirect('reset-password/'.Helper::encoded($checkUser->id))->with('success_message', 'OTP Validated. Now Reset Your Password !!!');
+                        } else {
+                            return redirect()->back()->with('error_message', 'OTP Mismatched !!!');
+                        }
+                    } else {
+                        return redirect()->back()->with('error_message', 'We Don\'t Recognize You !!!');
+                    }
+                } else {
+                    return redirect()->back()->with('error_message', 'All Fields Required !!!');
+                }
+            }
+            $data['testimonials']           = Testimonial::where('status', '=', 1)->orderBy('id', 'DESC')->get();
+            $data['testimonialsData']       = view('front.elements.side-testimonial',$data);
+            $id                             = Helper::decoded($id);
+            $data['id']                     = $id;
             $title                          = 'Validate OTP';
             $page_name                      = 'validate-otp';
             echo $this->front_before_login_layout($title,$page_name,$data);
         }
-        public function resetPassword(Request $request){
-            $data                           = [];
+        public function resetPassword(Request $request, $id){
+            if($request->isMethod('post')){
+                $postData = $request->all();
+                $rules = [
+                    'password'              => 'required',
+                    'confirm_password'      => 'required'
+                ];
+                if($this->validate($request, $rules)){
+                    $id                 = $postData['id'];
+                    $password           = $postData['password'];
+                    $confirm_password   = $postData['confirm_password'];
+                    $checkUser = User::where('id', '=', $id)->first();
+                    if($checkUser){
+                        if($password == $confirm_password){
+                            $postData = [
+                                'password'        => Hash::make($password),
+                            ];
+                            User::where('id', '=', $checkUser->id)->update($postData);
+
+                            /* email sent */
+                                $generalSetting             = GeneralSetting::find('1');
+                                $subject                    = $generalSetting->site_name.' :: Reset Password';
+                                $message                    = view('front.email-templates.change-password',$checkUser);
+                                // echo $message;die;
+                                $this->sendMail($requestData['email'], $subject, $message);
+                            /* email sent */
+                            /* email log save */
+                                $postData2 = [
+                                    'name'                  => $checkUser->name,
+                                    'email'                 => $checkUser->email,
+                                    'subject'               => $subject,
+                                    'message'               => $message
+                                ];
+                                EmailLog::insertGetId($postData2);
+                            /* email log save */
+                            return redirect('signin/')->with('success_message', 'Password Reset Successfully. Please Sign In !!!');
+                        } else {
+                            return redirect()->back()->with('error_message', 'Password & Confirm Password Does Not Matched !!!');
+                        }
+                    } else {
+                        return redirect()->back()->with('error_message', 'We Don\'t Recognize You !!!');
+                    }
+                } else {
+                    return redirect()->back()->with('error_message', 'All Fields Required !!!');
+                }
+            }
+            $data['testimonials']           = Testimonial::where('status', '=', 1)->orderBy('id', 'DESC')->get();
+            $data['testimonialsData']       = view('front.elements.side-testimonial',$data);
+            $id                             = Helper::decoded($id);
+            $data['id']                     = $id;
             $title                          = 'Reset Password';
             $page_name                      = 'reset-password';
             echo $this->front_before_login_layout($title,$page_name,$data);
         }
-        // public function validateOtp(Request $request, $id){
-        //     if($request->isMethod('post')){
-        //         $postData = $request->all();
-        //         $rules = [
-        //             'otp1'     => 'required|max:1',
-        //             'otp2'     => 'required|max:1',
-        //             'otp3'     => 'required|max:1',
-        //             'otp4'     => 'required|max:1',
-        //         ];
-        //         if($this->validate($request, $rules)){
-        //             $id     = $postData['id'];
-        //             $otp1   = $postData['otp1'];
-        //             $otp2   = $postData['otp2'];
-        //             $otp3   = $postData['otp3'];
-        //             $otp4   = $postData['otp4'];
-        //             $otp    = ($otp1.$otp2.$otp3.$otp4);
-        //             $checkUser = User::where('id', '=', $id)->first();
-        //             if($checkUser){
-        //                 $remember_token = $checkUser->remember_token;
-        //                 if($remember_token == $otp){
-        //                     $postData = [
-        //                         'remember_token'        => '',
-        //                     ];
-        //                     User::where('id', '=', $checkUser->id)->update($postData);
-        //                     return redirect('reset-password/'.Helper::encoded($checkUser->id))->with('success_message', 'OTP Validated. Just Reset Your Password !!!');
-        //                 } else {
-        //                     return redirect()->back()->with('error_message', 'OTP Mismatched !!!');
-        //                 }
-        //             } else {
-        //                 return redirect()->back()->with('error_message', 'We Don\'t Recognize You !!!');
-        //             }
-        //         } else {
-        //             return redirect()->back()->with('error_message', 'All Fields Required !!!');
-        //         }
-        //     }
-        //     $id                             = Helper::decoded($id);
-        //     $data['id']                     = $id;
-        //     $title                          = 'Validate OTP';
-        //     $page_name                      = 'validate-otp';
-        //     echo $this->front_before_login_layout($title,$page_name,$data);
-        // }
-        // public function resetPassword(Request $request, $id){
-        //     if($request->isMethod('post')){
-        //         $postData = $request->all();
-        //         $rules = [
-        //             'password'              => 'required',
-        //             'confirm_password'      => 'required'
-        //         ];
-        //         if($this->validate($request, $rules)){
-        //             $id                 = $postData['id'];
-        //             $password           = $postData['password'];
-        //             $confirm_password   = $postData['confirm_password'];
-        //             $checkUser = User::where('id', '=', $id)->first();
-        //             if($checkUser){
-        //                 if($password == $confirm_password){
-        //                     $postData = [
-        //                         'password'        => Hash::make($password),
-        //                     ];
-        //                     User::where('id', '=', $checkUser->id)->update($postData);
-        //                     return redirect('signin/')->with('success_message', 'Password Reset Successfully. Please Sign In !!!');
-        //                 } else {
-        //                     return redirect()->back()->with('error_message', 'Password & Confirm Password Does Not Matched !!!');
-        //                 }
-        //             } else {
-        //                 return redirect()->back()->with('error_message', 'We Don\'t Recognize You !!!');
-        //             }
-        //         } else {
-        //             return redirect()->back()->with('error_message', 'All Fields Required !!!');
-        //         }
-        //     }
-        //     $id                             = Helper::decoded($id);
-        //     $data['id']                     = $id;
-        //     $title                          = 'Reset Password';
-        //     $page_name                      = 'reset-password';
-        //     echo $this->front_before_login_layout($title,$page_name,$data);
-        // }
         public function signin(Request $request){
             if($request->isMethod('post')){
                 $postData = $request->all();
@@ -311,36 +348,100 @@ class FrontController extends Controller
                     'password'  => 'required|max:30',
                 ];
                 if($this->validate($request, $rules)){
-                    if(Auth::guard('web')->attempt(['email' => $postData['email'], 'password' => $postData['password'], 'status' => 1])){
+                    if(Auth::guard('web')->attempt(['email' => $postData['email'], 'password' => $postData['password'], 'valid' => 1])){
                         // Helper::pr(Auth::guard('web')->user());
-                        $sessionData = Auth::guard('web')->user();
+                        $sessionData    = Auth::guard('web')->user();
+                        $user_id        = $sessionData['id'];
+                        $role           = $sessionData['role'];
+                        if($role == 1){
+                            $getUserProfile = StudentProfile::where('user_id', '=', $user_id)->first();
+                        } else {
+                            $getUserProfile = MentorProfile::where('user_id', '=', $user_id)->first();
+                        }
                         $request->session()->put('user_id', $sessionData['id']);
                         $request->session()->put('name', $sessionData['name']);
+                        $request->session()->put('fname', (($getUserProfile)?$getUserProfile->first_name:''));
+                        $request->session()->put('lname', (($getUserProfile)?$getUserProfile->last_name:''));
                         $request->session()->put('email', $sessionData['email']);
+                        $request->session()->put('role', $sessionData['role']);
                         // Helper::pr($request->session()->all());die;
+
+                        /* user activity */
+                            $activityData = [
+                                'user_email'        => $sessionData['email'],
+                                'user_name'         => $sessionData['name'],
+                                'user_type'         => 'USER',
+                                'ip_address'        => $request->ip(),
+                                'activity_type'     => 1,
+                                'activity_details'  => 'Signin Success !!!',
+                                'platform_type'     => 'WEB',
+                            ];
+                            UserActivity::insert($activityData);
+                        /* user activity */
+
                         return redirect('dashboard');
                     } else {
+                        /* email sent */
+                            $generalSetting             = GeneralSetting::find('1');
+                            $subject                    = $generalSetting->site_name.' :: Failed Signin';
+                            $message                    = view('front.email-templates.failed-login',$postData);
+                            // echo $message;die;
+                            $this->sendMail($postData['email'], $subject, $message);
+                        /* email sent */
+                        /* email log save */
+                            $postData2 = [
+                                'name'                  => '',
+                                'email'                 => $postData['email'],
+                                'subject'               => $subject,
+                                'message'               => $message
+                            ];
+                            EmailLog::insertGetId($postData2);
+                        /* email log save */
+                        /* user activity */
+                            $activityData = [
+                                'user_email'        => $postData['email'],
+                                'user_name'         => '',
+                                'user_type'         => 'USER',
+                                'ip_address'        => $request->ip(),
+                                'activity_type'     => 0,
+                                'activity_details'  => 'Invalid Email Or Password !!!',
+                                'platform_type'     => 'WEB',
+                            ];
+                            UserActivity::insert($activityData);
+                        /* user activity */
                         return redirect()->back()->with('error_message', 'Invalid Email Or Password !!!');
                     }
                 } else {
                     return redirect()->back()->with('error_message', 'All Fields Required !!!');
                 }
             }
-            $data                           = [];
+            $data['testimonials']           = Testimonial::where('status', '=', 1)->orderBy('id', 'DESC')->get();
+            $data['testimonialsData']       = view('front.elements.side-testimonial',$data);
             $title                          = 'Sign In';
             $page_name                      = 'signin';
             echo $this->front_before_login_layout($title,$page_name,$data);
         }
         public function signout(Request $request){
-            $request->session()->forget(['user_id', 'name', 'email']);
-            // Helper::pr(session()->all());die;
+            $user_email                             = $request->session()->get('email');
+            $user_name                              = $request->session()->get('name');
+            /* user activity */
+                $activityData = [
+                    'user_email'        => $user_email,
+                    'user_name'         => $user_name,
+                    'user_type'         => 'USER',
+                    'ip_address'        => $request->ip(),
+                    'activity_type'     => 2,
+                    'activity_details'  => 'You Are Successfully Logged Out !!!',
+                    'platform_type'     => 'WEB',
+                ];
+                UserActivity::insert($activityData);
+            /* user activity */
+
+            $request->session()->forget(['user_id', 'name', 'fname', 'lname', 'email', 'role']);
             Auth::guard('web')->logout();
             return redirect('signin')->with('success_message', 'You Are Successfully Logged Out !!!');
         }
     /* authentication */
-    /* forgot password */
-
-    /* forgot password */
     /* dashboard */
         public function dashboard(){
             $data                           = [];

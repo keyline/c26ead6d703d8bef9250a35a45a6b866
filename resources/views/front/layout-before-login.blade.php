@@ -52,6 +52,18 @@ $pageName = $routeName->uri();
       <?php }?>
 
       <script src="<?=env('FRONT_ASSETS_URL')?>assets/js/easyResponsiveTabs.js"></script>
+
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/js/toastr.js"></script>
+      <script src="<?=env('FRONT_ASSETS_URL')?>assets/js/jquery.loading.js"></script>
+      <script src="<?=env('FRONT_ASSETS_URL')?>assets/js/sweetalert2.all.min.js"></script>
+      <script src="<?=env('FRONT_ASSETS_URL')?>assets/js/common-function.js"></script>
+      <script src="<?=env('FRONT_ASSETS_URL')?>assets/js/stumento.js"></script>
+      <script type="text/javascript">
+        $(function(){
+            $('.autohide').delay(5000).fadeOut('slow');
+        })
+      </script>
+
       <script type="text/javascript">
          (function() {
          'use strict'
@@ -64,19 +76,21 @@ $pageName = $routeName->uri();
          })
          })()
       </script>
-      <script type="text/javascript">
-         var a = new StickySidebar('#sticky-sidebar-demo', {
-            topSpacing: 25,
-            containerSelector: '.blogdetails_item',
-            innerWrapperSelector: '.sidebar__inner'
-         });
-         
-         var a = new StickySidebar('#sticky-sidebar-cateogy', {
-            topSpacing: 25,
-            containerSelector: '.blogdetails_item',
-            innerWrapperSelector: '.sidebar__inner'
-         });
-      </script>
+      <?php if(($pageName == 'blogs') || ($pageName == 'blog-details/{id}') || ($pageName == 'team-member-profile/{id}')){?>
+          <script type="text/javascript">
+             var a = new StickySidebar('#sticky-sidebar-demo', {
+                topSpacing: 25,
+                containerSelector: '.blogdetails_item',
+                innerWrapperSelector: '.sidebar__inner'
+             });
+             
+             var a = new StickySidebar('#sticky-sidebar-cateogy', {
+                topSpacing: 25,
+                containerSelector: '.blogdetails_item',
+                innerWrapperSelector: '.sidebar__inner'
+             });
+          </script>
+      <?php }?>
       <script>
          $(document).ready(function() {
            var x = $('#links-box a.anchor_links_nav_health_guides[href^="#"]')
@@ -136,40 +150,42 @@ $pageName = $routeName->uri();
              });
          });
       </script>
-      <script>
-         document.addEventListener("DOMContentLoaded", function() {
-               var demo1 = new BVSelect({
-                 selector: "#selectbox",
-                 searchbox: false,
-                 offset: false
-               });
-          var demo2 = new BVSelect({
-                 selector: "#selectbox2",
-                 searchbox: false,
-                 offset: false
-               });
-             var demo3 = new BVSelect({
-                 selector: "#selectbox3",
-                 searchbox: false,
-                 offset: false
-               });
-          var demo4 = new BVSelect({
-                 selector: "#selectbox4",
-                 searchbox: false,
-                 offset: false
-               });
-          var demo5 = new BVSelect({
-                 selector: "#selectbox5",
-                 searchbox: false,
-                 offset: false
-               });
-          var demo6 = new BVSelect({
-                 selector: "#selectbox6",
-                 searchbox: false,
-                 offset: false
-               });
-                
-         });
-      </script>
+      <?php if(($pageName == 'mentor-signup-4') || ($pageName == 'team-member-profile/{id}')){?>
+          <script>
+             document.addEventListener("DOMContentLoaded", function() {
+                   var demo1 = new BVSelect({
+                     selector: "#selectbox",
+                     searchbox: false,
+                     offset: false
+                   });
+              var demo2 = new BVSelect({
+                     selector: "#selectbox2",
+                     searchbox: false,
+                     offset: false
+                   });
+                 var demo3 = new BVSelect({
+                     selector: "#selectbox3",
+                     searchbox: false,
+                     offset: false
+                   });
+              var demo4 = new BVSelect({
+                     selector: "#selectbox4",
+                     searchbox: false,
+                     offset: false
+                   });
+              var demo5 = new BVSelect({
+                     selector: "#selectbox5",
+                     searchbox: false,
+                     offset: false
+                   });
+              var demo6 = new BVSelect({
+                     selector: "#selectbox6",
+                     searchbox: false,
+                     offset: false
+                   });
+                    
+             });
+          </script>
+      <?php }?>
    </body>
 </html>

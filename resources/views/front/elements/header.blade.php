@@ -39,14 +39,37 @@ $pageName = $routeName->uri();
                </div>
             </nav>
             <div class="header_loginbtn">
-               <ul>
-                  <li>
-                     <a class="btn_border" href="<?=url('signin')?>">Sign In</a>
-                  </li>
-                  <li>
-                     <a class="btn_orgfill" href="<?=url('mentor-signup')?>">Sign up free</a>
-                  </li>
-               </ul>
+               <?php if(empty(session('name'))){?>
+                  <ul>
+                     <li>
+                        <a class="btn_border" href="<?=url('signin')?>">Sign In</a>
+                     </li>
+                     <li>
+                        <a class="btn_orgfill" href="<?=url('mentor-signup')?>">Sign up free</a>
+                     </li>
+                  </ul>
+               <?php } else {?>
+                  <div class="login-profile dropdown">
+                     <button class="dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false">
+                         <div class="login-profile-avatar">
+                             <?php if($user->image != ''){?>
+                               <img src="<?=env('UPLOADS_URL').'user/'.$user->image?>" alt="<?=$user->name?>" style="width: 100px; height:100px; border-radius: 50%;">
+                             <?php } else {?>
+                               <img src="<?=env('NO_IMAGE')?>" alt="<?=$user->name?>" class="img-thumbnail" style="width: 100px; height:100px; border-radius: 50%;">
+                             <?php }?>
+                         </div>
+                         <div>
+                             <h3>Welcome</h3>
+                             <h4><?=(($user)?$user->name:'')?></h4>
+                         </div>
+                     </button>
+                     <div class="dropdown-menu">
+                         <ul>
+                             <li><a href="<?=url('signout')?>"> Sign Out</a></li>
+                         </ul>
+                     </div>
+                 </div>
+               <?php }?>
             </div>
          </div>
       </div>
