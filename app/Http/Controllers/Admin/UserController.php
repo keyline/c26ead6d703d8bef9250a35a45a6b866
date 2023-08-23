@@ -8,6 +8,7 @@ use Illuminate\Validation\Rule;
 use App\Models\GeneralSetting;
 use App\Models\Admin;
 use App\Models\EmailLog;
+use App\Models\Enquiry;
 use App\Models\UserActivity;
 use App\Models\SubscriptionPackage;
 use App\Models\User;
@@ -555,6 +556,13 @@ class UserController extends Controller
             $data['rows']                   = EmailLog::where('status', '=', 1)->orderBy('id', 'DESC')->get();
             $title                          = 'Email Logs';
             $page_name                      = 'email-logs';
+            echo $this->admin_after_login_layout($title,$page_name,$data);
+        }
+        public function emailLogsDetails(Request $request,$email ){
+            $Email = Helper::decoded($email);
+            $data['logData']                   = Enquiry::where('email', '=', $Email)->orderBy('id', 'DESC')->first();
+            $title                          = 'Email Logs Details';
+            $page_name                      = 'email-logs-info';
             echo $this->admin_after_login_layout($title,$page_name,$data);
         }
     /* email logs */

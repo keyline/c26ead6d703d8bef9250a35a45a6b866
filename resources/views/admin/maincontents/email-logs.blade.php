@@ -37,8 +37,8 @@ use App\Helpers\Helper;
                 <th scope="col">Name</th>
                 <th scope="col">Email</th>
                 <th scope="col">Subject</th>
-                <th scope="col">Message</th>
                 <th scope="col">Date</th>
+                <th scope="col">Action</th>
               </tr>
             </thead>
             <tbody>
@@ -48,8 +48,10 @@ use App\Helpers\Helper;
                   <td><?=$row->name?></td>
                   <td><?=$row->email?></td>
                   <td><?=$row->subject?></td>
-                  <td><?=$row->message?></td>
                   <td><?=date_format(date_create($row->created_at), "M d, Y h:i A")?></td>
+                  <td>
+                    <a href="<?=url('admin/email-logs/details/'.Helper::encoded($row->email))?>" class="btn btn-outline-primary btn-sm" title="Details"><i class="fa fa-info"></i></a>
+                  </td>
                 </tr>
               <?php } }?>
             </tbody>
