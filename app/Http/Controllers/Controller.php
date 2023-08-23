@@ -273,7 +273,6 @@ class Controller extends BaseController
 
         $data['head']               = view('front.elements.head',$data);
         $data['header']             = view('front.elements.header',$data);
-        $data['menu']               = view('front.elements.menu',$data);
         $data['footer']             = view('front.elements.footer',$data);
         $data['maincontent']        = view('front.pages.'.$page_name,$data);
         return view('front.layout-after-login',$data);

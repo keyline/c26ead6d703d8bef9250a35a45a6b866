@@ -8,6 +8,9 @@ use Illuminate\Validation\Rule;
 use App\Models\Country;
 use App\Models\GeneralSetting;
 use App\Models\User;
+use App\Models\StudentProfile;
+use App\Models\MentorProfile;
+use App\Models\EmailLog;
 use Auth;
 use Session;
 use Helper;
@@ -23,8 +26,11 @@ class ApiController extends Controller
         $apiExtraField      = '';
         $apiExtraData       = '';
         $requestData        = $request->all();
+        // Helper::pr($requestData);
         if($requestData['key'] == env('PROJECT_KEY')){
-            $phone = substr($requestData['phone'], 4, 16);
+            $fname      = $requestData['fname'];
+            $lname      = $requestData['lname'];
+            $phone      = $requestData['phone'];
             $checkEmail = User::where('email', '=', $requestData['email'])->first();
             if(empty($checkEmail)){
                 $checkPhone = User::where('phone', '=', $phone)->count();
@@ -32,23 +38,78 @@ class ApiController extends Controller
                     if($requestData['password'] == $requestData['confirm_password']){
                         $remember_token = rand(1000,9999);
                         $postData = [
-                            'name'                  => $requestData['name'],
+                            'name'                  => $fname.' '.$lname,
                             'email'                 => $requestData['email'],
+                            'email_verified_at'     => date('Y-m-d H:i:s'),
                             'phone'                 => $phone,
                             'password'              => Hash::make($requestData['password']),
-                            'country'               => 'United Arab Emirates',
                             'remember_token'        => $remember_token,
-                            'status'                => 0,
+                            'role'                  => 1,
+                            'valid'                 => 1,
                         ];
                         $id = User::insertGetId($postData);
-                        // $this->sendMail('subhomoysamanta1989@gmail.com', $requestData['subject'], $requestData['message']);
+                        
+                        /* student profile table */
+                            $postData2 = [
+                                'user_id'               => $id,
+                                'first_name'            => $fname,
+                                'last_name'             => $lname,
+                                'full_name'             => $fname.' '.$lname,
+                                'profile_pic'           => ''
+                            ];
+                            // Helper::pr($postData2);
+                            StudentProfile::insert($postData2);
+                        /* student profile table */
+                        /* email sent */
+                            $generalSetting             = GeneralSetting::find('1');
+                            $subject                    = $generalSetting->site_name.' :: Signup Complete';
+                            $message                    = view('front.email-templates.student-signup',$requestData);
+                            // echo $message;die;
+                            $this->sendMail($requestData['email'], $subject, $message);
+                        /* email sent */
+                        /* email log save */
+                            $postData2 = [
+                                'name'                  => $fname.' '.$lname,
+                                'email'                 => $requestData['email'],
+                                'subject'               => $subject,
+                                'message'               => $message
+                            ];
+                            EmailLog::insertGetId($postData2);
+                        /* email log save */
+                        /* set session */
+                            
+                        /* set session */
 
                         $apiStatus          = TRUE;
                         http_response_code(200);
-                        $apiResponse['redirectUrl']        = url('signup-otp/'.Helper::encoded($id));
+                        $apiResponse['redirectUrl']        = url('signin/');
                         $apiMessage         = 'Registered Successfully !!!';
                         $apiExtraField      = 'response_code';
                         $apiExtraData       = http_response_code();
+                        // if(Auth::guard('web')->attempt(['email' => $requestData['email'], 'password' => $requestData['password'], 'valid' => 1])){
+                            
+                        //     $sessionData = Auth::guard('web')->user();
+                        //     $request->session()->put('user_id', $id);
+                        //     $request->session()->put('fullname', $fname.' '.$lname);
+                        //     $request->session()->put('fname', $fname);
+                        //     $request->session()->put('lname', $lname);
+                        //     $request->session()->put('email', $requestData['email']);
+                        //     $request->session()->put('role', 1);
+                        //     // Helper::pr($request->session()->all());die;
+                            
+                        //     $apiStatus          = TRUE;
+                        //     http_response_code(200);
+                        //     $apiResponse['redirectUrl']        = url('dashboard/');
+                        //     $apiMessage         = 'Registered Successfully !!!';
+                        //     $apiExtraField      = 'response_code';
+                        //     $apiExtraData       = http_response_code();
+                        // } else {
+                        //     $apiStatus          = FALSE;
+                        //     http_response_code(400);
+                        //     $apiMessage         = 'Invalid Email Or Password !!!';
+                        //     $apiExtraField      = 'response_code';
+                        //     $apiExtraData       = http_response_code();
+                        // }
                     } else {
                         $apiStatus          = FALSE;
                         http_response_code(400);
@@ -60,31 +121,6 @@ class ApiController extends Controller
                     $apiStatus          = FALSE;
                     http_response_code(400);
                     $apiMessage         = 'Phone Already Registered !!!';
-                    $apiExtraField      = 'response_code';
-                    $apiExtraData       = http_response_code();
-                }
-            } else {
-                if($checkEmail->status){
-                    $apiStatus          = FALSE;
-                    http_response_code(400);
-                    $apiMessage         = 'Email Already Registered !!!';
-                    $apiExtraField      = 'response_code';
-                    $apiExtraData       = http_response_code();
-                } else {
-                    $remember_token = rand(1000,9999);
-                    $postData = [
-                        'name'                  => $requestData['name'],
-                        'email'                 => $requestData['email'],
-                        'phone'                 => $phone,
-                        'password'              => Hash::make($requestData['password']),
-                        'country'               => 'United Arab Emirates',
-                        'remember_token'        => $remember_token,
-                    ];
-                    User::where('id', '=', $checkEmail->id)->update($postData);
-                    $apiStatus          = TRUE;
-                    http_response_code(200);
-                    $apiResponse['redirectUrl']        = url('signup-otp/'.Helper::encoded($checkEmail->id));
-                    $apiMessage         = 'Validate OTP !!!';
                     $apiExtraField      = 'response_code';
                     $apiExtraData       = http_response_code();
                 }
@@ -117,7 +153,7 @@ class ApiController extends Controller
                         'status'                => 1,
                     ];
                     User::where('id', '=', $id)->update($postData);
-                    // $this->sendMail('subhomoysamanta1989@gmail.com', $requestData['subject'], $requestData['message']);
+                    $this->sendMail('subhomoysamanta1989@gmail.com', $requestData['subject'], $requestData['message']);
 
                     $apiStatus                          = TRUE;
                     http_response_code(200);
@@ -164,7 +200,7 @@ class ApiController extends Controller
                     'remember_token'        => $remember_token
                 ];
                 User::where('id', '=', $id)->update($postData);
-                // $this->sendMail('subhomoysamanta1989@gmail.com', $requestData['subject'], $requestData['message']);
+                $this->sendMail('subhomoysamanta1989@gmail.com', $requestData['subject'], $requestData['message']);
 
                 $apiStatus                          = TRUE;
                 http_response_code(200);

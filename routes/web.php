@@ -38,12 +38,11 @@ use Illuminate\Support\Facades\Route;
                 Route::match(['get', 'post'], '/student-signup', 'FrontController@studentSignup');
                 // Route::match(['get', 'post'], '/signup-otp/{id}', 'FrontController@signupOtp');
                 
-                // Route::match(['get', 'post'], '/validate-otp/{id}', 'FrontController@validateOtp');
-                // Route::match(['get', 'post'], '/reset-password/{id}', 'FrontController@resetPassword');
+                
                 Route::match(['get', 'post'], 'signin', 'FrontController@signin');
                 Route::match(['get', 'post'], '/forgot-password', 'FrontController@forgotPassword');
-                Route::match(['get', 'post'], '/validate-otp', 'FrontController@validateOtp');
-                Route::match(['get', 'post'], '/reset-password', 'FrontController@resetPassword');
+                Route::match(['get', 'post'], '/validate-otp/{id}', 'FrontController@validateOtp');
+                Route::match(['get', 'post'], '/reset-password/{id}', 'FrontController@resetPassword');
             /* authentication */
         /* before login */
         /* after login */

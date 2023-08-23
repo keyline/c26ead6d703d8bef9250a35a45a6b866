@@ -37,13 +37,33 @@ $pageName = $routeName->uri();
 <link rel="stylesheet" type="text/css" href="<?=env('FRONT_ASSETS_URL')?>assets/css/easy-responsive-tabs.css " />
 <link rel="stylesheet" type="text/css" href="<?=env('FRONT_ASSETS_URL')?>assets/css/style.css">
 
-<?php if(($pageName == 'how-it-works') || ($pageName == 'signin') || ($pageName == 'forgot-password') || ($pageName == 'validate-otp') || ($pageName == 'reset-password') || ($pageName == 'student-signup') || ($pageName == 'mentor-signup') || ($pageName == 'mentor-signup-2') || ($pageName == 'mentor-signup-3') || ($pageName == 'mentor-signup-4')){?>
+<?php if(($pageName == 'how-it-works') || ($pageName == 'signin') || ($pageName == 'forgot-password') || ($pageName == 'validate-otp/{id}') || ($pageName == 'reset-password/{id}') || ($pageName == 'student-signup') || ($pageName == 'mentor-signup') || ($pageName == 'mentor-signup-2') || ($pageName == 'mentor-signup-3') || ($pageName == 'mentor-signup-4')){?>
    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/kenwheeler/slick@1.8.1/slick/slick.css"/>
    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/kenwheeler/slick@1.8.1/slick/slick-theme.css"/>
 <?php }?>
 
-<?php if(($pageName == 'blogs') || ($pageName == 'how-it-works') || ($pageName == 'signin') || ($pageName == 'forgot-password') || ($pageName == 'validate-otp') || ($pageName == 'reset-password') || ($pageName == 'student-signup') || ($pageName == 'mentor-signup') || ($pageName == 'mentors') || ($pageName == 'mentor-details') || ($pageName == 'team-member-profile/{id}')){?>
+<?php if(($pageName == 'blogs') || ($pageName == 'how-it-works') || ($pageName == 'signin') || ($pageName == 'forgot-password') || ($pageName == 'validate-otp/{id}') || ($pageName == 'reset-password/{id}') || ($pageName == 'student-signup') || ($pageName == 'mentor-signup') || ($pageName == 'mentors') || ($pageName == 'mentor-details') || ($pageName == 'team-member-profile/{id}')){?>
    <link rel="stylesheet" type="text/css" href="<?=env('FRONT_ASSETS_URL')?>assets/css/master.css">
 <?php }?>
 
 <link rel="stylesheet" type="text/css" href="<?=env('FRONT_ASSETS_URL')?>assets/css/responsive.css">
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/css/toastr.css" rel="stylesheet"/>
+<style type="text/css">    
+    .toast-success {
+        background-color: #000;
+        color: #28a745 !important;
+    }
+    .toast-error {
+        background-color: #000;
+        color: #dc3545 !important;
+    }
+    .toast-warning {
+        background-color: #000;
+        color: #ffc107 !important;
+    }
+    .toast-info {
+        background-color: #000;
+        color: #007bff !important;
+    }
+</style>
