@@ -1,3 +1,10 @@
+<meta property="og:title" content="<?=$firstBlog->title?>" />
+<meta property="og:image" content="<?=env('UPLOADS_URL')?>blog/<?=$firstBlog->image?>" />
+<meta property="og:description" content="<?=$firstBlog->description?>" />
+<meta name="description" content="<?=$firstBlog->description?>">
+
+<link rel="stylesheet" href="<?=env('FRONT_ASSETS_URL')?>assets/css/socialSharing.css">
+<link rel="stylesheet" href="<?=env('FRONT_ASSETS_URL')?>assets/css/main.css">
 <section class="blogdetails_item">
    <div class="container">
       <div class="row">
@@ -42,12 +49,13 @@
                </div>
                
                <div class="blogdetails_share">
-                  <ul>
+                  <!-- <ul>
                      <li><a href="https://www.facebook.com/sharer.php?u=<?=env('APP_URL').$firstBlog->slug;?>" class="blogshare" target="_blank"><i class="fa-brands fa-facebook-f"></i></a></li>
                      <li><a href="https://twitter.com/share?text=Visit the link &url=<?=env('APP_URL').$firstBlog->slug;?>" class="blogshare" target="_blank"><i class="fa-brands fa-twitter"></i></a></li>
                      <li><a href="https://pinterest.com/pin/create/button/?url=<?=env('APP_URL').$firstBlog->slug;?>" class="blogshare" target="_blank"><i class="fa-brands fa-pinterest-p"></i></a></li>
-                  </ul>
+                  </ul> -->
                </div>
+               <div id="Demo1" class="d-flex align-items-center justify-content-center mb-5"></div>
             </div>
          </div>
          <div class="col-lg-2 col-md-12">
@@ -84,7 +92,7 @@
                                  <span class="pe-2"><?=$recentBlog->post_by?></span> | <span class="ps-2"><?=date_format(date_create($recentBlog->content_date), "M d, Y")?></span> | <span class="ps-2"><?=date_format(date_create($recentBlog->created_at), "h:i A")?></span>
                               </p>
                               <h3><?=$recentBlog->title?></h3>
-                              <p class="shortdes"><?=$recentBlog->short_description?></p>
+                              <p class="shortdes"><?= mb_strimwidth($recentBlog->short_description, 0, 180, "...."); ?></p>
                            </div>
                         </a>
                      </div>
@@ -95,3 +103,21 @@
       </div>
    </div>
 </section>
+<script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.6.0/highlight.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+<script src="<?=env('FRONT_ASSETS_URL')?>assets/js/socialSharing.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+      // alert();
+        hljs.highlightAll();
+    });
+    $('#Demo1').socialSharingPlugin({
+        url: window.location.href,
+        title: $('meta[property="og:title"]').attr('content'),
+        description: $('meta[property="og:description"]').attr('content'),
+        img: $('meta[property="og:image"]').attr('content'),
+        enable: ['copy', 'facebook', 'twitter', 'pinterest', 'linkedin']
+    });
+</script>

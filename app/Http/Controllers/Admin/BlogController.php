@@ -77,14 +77,16 @@ class BlogController extends Controller
                         $content            = $postData['content'];
                         if(!empty($table_of_content)){
                             for($k=0;$k<count($table_of_content);$k++){
-                                $fields2 = [
-                                    'blog_id'                   => $blog_id,
-                                    'table_of_content'          => $table_of_content[$k],
-                                    'table_of_content_slug'     => Helper::clean($table_of_content[$k]),
-                                    'summary'                   => $summary[$k],
-                                    'content'                   => $content[$k],
-                                ];
-                                BlogContent::insert($fields2);
+                                if($table_of_content[$k]){
+                                    $fields2 = [
+                                        'blog_id'                   => $blog_id,
+                                        'table_of_content'          => $table_of_content[$k],
+                                        'table_of_content_slug'     => Helper::clean($table_of_content[$k]),
+                                        'summary'                   => $summary[$k],
+                                        'content'                   => $content[$k],
+                                    ];
+                                    BlogContent::insert($fields2);
+                                }                                
                             }
                         }
                     /* blog content */
@@ -155,14 +157,16 @@ class BlogController extends Controller
                         $content            = $postData['content'];
                         if(!empty($table_of_content)){
                             for($k=0;$k<count($table_of_content);$k++){
-                                $fields2 = [
-                                    'blog_id'                   => $blog_id,
-                                    'table_of_content'          => $table_of_content[$k],
-                                    'table_of_content_slug'     => Helper::clean($table_of_content[$k]),
-                                    'summary'                   => $summary[$k],
-                                    'content'                   => $content[$k],
-                                ];
-                                BlogContent::insert($fields2);
+                                if($table_of_content[$k]){
+                                    $fields2 = [
+                                        'blog_id'                   => $blog_id,
+                                        'table_of_content'          => $table_of_content[$k],
+                                        'table_of_content_slug'     => Helper::clean($table_of_content[$k]),
+                                        'summary'                   => $summary[$k],
+                                        'content'                   => $content[$k],
+                                    ];
+                                    BlogContent::insert($fields2);
+                                }
                             }
                         }
                     /* blog content */

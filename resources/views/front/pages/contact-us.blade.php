@@ -1,3 +1,16 @@
+<script src="https://www.google.com/recaptcha/api.js"></script>
+<script src="https://www.google.com/recaptcha/api.js?render=<?=env('recaptcha3.key')?>"></script>
+<script type="text/javascript">
+   function onSubmit(e) {
+      e.preventDefault();
+      grecaptcha.ready(function() {
+            grecaptcha.execute("<?= getenv('recaptcha3.key') ?>", {action: 'submit'}).then(function(token) {
+               document.getElementById("recaptcha_response").value = token;
+               document.getElementById("admin_loginfrm").submit();
+            });
+      });
+   }
+</script>
 <!-- ********|| BANNER STARTS ||******** -->
 <div class="inner_slider_section">
    <div class="container-fluid px-0">
@@ -41,7 +54,7 @@
                               @endif
                             </div>
                         </div>
-                        <form method="POST" action="" id="" name="contactForm" class="contactForm">
+                        <form method="POST" action="" id="admin_loginfrm" name="contactForm" class="contactForm" onSubmit="onSubmit(event)">
                            @csrf
                            <div class="row">
                               <div class="col-md-6">
@@ -74,9 +87,11 @@
                                     <textarea name="description" class="form-control" id="description" cols="30" rows="4" placeholder="Message"></textarea>
                                  </div>
                               </div>
+                              <input type="hidden" id="recaptcha_response" name="recaptcha_response" value="">
                               <div class="col-md-12">
                                  <div class="form-group">
-                                    <input type="submit" value="Send Message" class="btn btn-themeprimary">
+                                    <!-- <input type="submit" value="Send Message" class="btn btn-themeprimary"> -->
+                                    <button type="submit" class="btn btn-themeprimary" value="Send Message">Send Message</button>
                                  </div>
                               </div>
                            </div>
