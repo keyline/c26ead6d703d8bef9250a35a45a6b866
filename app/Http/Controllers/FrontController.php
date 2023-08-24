@@ -24,6 +24,7 @@ use App\Models\Service;
 use App\Models\StudentProfile;
 use App\Models\MentorProfile;
 use App\Models\UserActivity;
+use App\Rules\ReCaptcha;
 use Auth;
 use Session;
 use Helper;
@@ -69,12 +70,14 @@ class FrontController extends Controller
             $page_name                      = 'contact-us';
             if($request->isMethod('post')){
                 $postData = $request->all();
+                // Helper::pr($postData);
                 $rules = [
-                    'name'              => 'required',
-                    'email'             => 'required',
-                    'phone'             => 'required',
-                    'subject'           => 'required',
-                    'description'       => 'required',
+                    'name'               => 'required',
+                    'email'              => 'required',
+                    'phone'              => 'required',
+                    'subject'            => 'required',
+                    'description'        => 'required',
+                    'recaptcha_response' => ['required', new ReCaptcha]
                 ];
                 if($this->validate($request, $rules)){
                     $name               = $postData['name'];
