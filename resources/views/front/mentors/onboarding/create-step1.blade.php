@@ -8,16 +8,16 @@
                </div>
                <h3>Welcome!</h3>
                @if ($errors->any())
-            <div class="alert alert-danger">
-                <ul>
-                    @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
-            </div>
+               <div class="alert alert-danger">
+                  <ul>
+                        @foreach ($errors->all() as $error)
+                           <li>{{ $error }}</li>
+                        @endforeach
+                  </ul>
+               </div>
                @endif
-               <form action="{{route('mentor-createstep1')}}" method="POST">
-                  @csrf
+               <form action="route">
+                @csrf
                   <div class="form-group">
                      <input type="text" class="form-control" placeholder="First name" name="first_name">
                   </div>
@@ -25,7 +25,7 @@
                      <input type="text" class="form-control" placeholder="Last name" name="last_name">
                   </div>
                   <div class="form-group">
-                     <input type="text" class="form-control" placeholder="Email address" name="email">
+                     <input type="text" class="form-control" placeholder="Email address" name="email_address">
                   </div>
                   <div class="form-group">
                      <input type="tel" class="form-control" id="phone" placeholder="Phone number" name="phone_number">

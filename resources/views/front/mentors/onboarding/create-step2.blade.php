@@ -1,48 +1,79 @@
-<section class="login-section singup-section">
+<section class="mentor_element">
    <div class="container">
+      <div class="row">
+         <div class="col-md-12">
+            <div class="metor_dashboard_top">
+               <div class="metor_progess">
+                  <div class="stepper-wrapper">
+                     <div class="stepper-item first + completed"></div>
+                     <div class="stepper-item  + active">
+                        <img class="img-fluid" src="<?=env('FRONT_ASSETS_URL')?>assets/images/bulb_icon.png" alt="logo">
+                     </div>
+                     <div class="stepper-item  + ">
+                        <div class="progress-dot step-counter"></div>
+                     </div>
+                     <div class=" stepper-item  + ">
+                        <div class="progress-dot step-counter"></div>
+                     </div>
+                     <div class="last-counter stepper-item  + ">
+                        <div class="progress-dot step-counter"></div>
+                     </div>
+                  </div>
+                  <div class="me_probar"></div>
+                  <!--<div class="met_prolight"><img class="img-fluid" src="<?=env('FRONT_ASSETS_URL')?>assets/images/bulb_icon.png" alt="logo"></div>-->
+               </div>
+            </div>
+         </div>
+      </div>
       <div class="row justify-content-center">
          <div class="col-lg-5 col-md-8 col-sm-8">
-            <div class="login-box signup-box">
-               <div class="icon-box-1">
-                  <img src="<?=env('FRONT_ASSETS_URL')?>assets/images/lamp.webp" alt="">
+            <div class="metor_dashboard">
+               <div class="metor_information">
+                  <h2>Hello there!</h2>
+                  <p class="text-muted mb-4">In a few moments you will be ready to share your expertise & time</p>
+                  <div class="metor_step1_form">
+                     <form>
+                        <div class="title">
+                           <p>Connect your social account</p>
+                        </div>
+                        <div class="input-group mb-3">
+                           <span class="input-group-text" id="basic-addon1">https://</span>
+                           <input type="text" class="form-control" placeholder="LinkedIn, Twitter, Instagram" aria-label="LinkedIn, Twitter, Instagram" aria-describedby="basic-addon1">
+                        </div>
+                        <div class="title">
+                           <p>Your topmate page link</p>
+                        </div>
+                        <div class="input-group mb-3">
+                           <span class="input-group-text" id="basic-addon1">stumento.com/</span>
+                           <input type="text" class="form-control" value="alex_test"  aria-describedby="basic-addon1">
+                        </div>
+                        <div class="title">
+                           <p>How do you plan to use topmate</p>
+                        </div>
+                        <div class="input-group mb-3">
+                           <div class="button-group button-group--full-width">
+                              <label class="button-group__btn"><input type="radio" name="full" /> <span class="button-group__label">I want to offer my expertise to my followers</span></label>
+                              <label class="button-group__btn"><input type="radio" name="full" /> <span class="button-group__label">I want to monetise my audience</span></label>
+                              <label class="button-group__btn"><input type="radio" name="full" /> <span class="button-group__label">I’m just exploring</span></label>
+                           </div>
+                        </div>
+                        <div class="title">
+                           <p>What all do you plan to offer?</p>
+                        </div>
+                        <div class="input-group mb-3">
+                           <div class="button-group button-group-2">
+                              <label class="button-group__btn"><input type="checkbox" name="check" /> <span class="button-group__label">1:1 sessions</span></label>
+                              <label class="button-group__btn"><input type="checkbox" name="check" /> <span class="button-group__label">Priority DMs</span></label>
+                              <label class="button-group__btn"><input type="checkbox" name="check" /> <span class="button-group__label">Group sessions</span></label>
+                           </div>
+                        </div>
+                        <div class="input-group mb-3">
+                           <!--<button  class="next-btn">Next</button>-->
+                           <a href="mentor2.html" class="next-btn">Next</a>
+                        </div>
+                     </form>
+                  </div>
                </div>
-               <h3>Welcome!</h3>
-               @if ($errors->any())
-            <div class="alert alert-danger">
-                <ul>
-                    @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
-            </div>
-               @endif
-               <form action="{{route('mentor-createstep1')}}" method="POST">
-                  @csrf
-                  <div class="form-group">
-                     <input type="text" class="form-control" placeholder="First name" name="first_name">
-                  </div>
-                  <div class="form-group">
-                     <input type="text" class="form-control" placeholder="Last name" name="last_name">
-                  </div>
-                  <div class="form-group">
-                     <input type="text" class="form-control" placeholder="Email address" name="email">
-                  </div>
-                  <div class="form-group">
-                     <input type="tel" class="form-control" id="phone" placeholder="Phone number" name="phone_number">
-                  </div>
-                  <div class="form-group">
-                     <input type="password" class="form-control" placeholder="Set password" name="password">
-                  </div>
-                  <div class="form-group">
-                     <input type="password" class="form-control" placeholder="Confirm password" name="password_confirmation">
-                  </div>
-                  <div class="form-group">
-                     <button class="login-btn">Sign Up</button>
-                  </div>
-               </form>
-               <!-- <div class="icon-box-2">
-                  <img src="<?=env('FRONT_ASSETS_URL')?>assets/images/signup-logo.webp" alt="">
-                  </div> -->
             </div>
          </div>
          <div class="col-lg-4 col-md-6 col-sm-6">

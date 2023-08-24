@@ -74,7 +74,7 @@ class User extends Authenticatable
     /**
      * Get the profile of the student associated with the user.
      */
-    public function studentprofiles()
+    public function studentprofile(): HasOne
     {
         return $this->hasOne(StudentProfile::class, 'user_id', 'id');
     }
