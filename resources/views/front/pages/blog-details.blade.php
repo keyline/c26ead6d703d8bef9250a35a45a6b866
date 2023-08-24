@@ -1,7 +1,7 @@
 <meta property="og:title" content="<?=$firstBlog->title?>" />
 <meta property="og:image" content="<?=env('UPLOADS_URL')?>blog/<?=$firstBlog->image?>" />
-<meta property="og:description" content="<?=$firstBlog->description?>" />
-<meta name="description" content="<?=$firstBlog->description?>">
+<meta property="og:description" content="<?=$firstBlog->title?>" />
+<meta name="description" content="<?=$firstBlog->title?>">
 
 <link rel="stylesheet" href="<?=env('FRONT_ASSETS_URL')?>assets/css/socialSharing.css">
 <link rel="stylesheet" href="<?=env('FRONT_ASSETS_URL')?>assets/css/main.css">
