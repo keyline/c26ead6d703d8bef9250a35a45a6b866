@@ -364,6 +364,7 @@ class FrontController extends Controller
                         $request->session()->put('lname', (($getUserProfile)?$getUserProfile->last_name:''));
                         $request->session()->put('email', $sessionData['email']);
                         $request->session()->put('role', $sessionData['role']);
+                        $request->session()->put('is_user_login', 1);
                         // Helper::pr($request->session()->all());die;
 
                         /* user activity */

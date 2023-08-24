@@ -38,6 +38,7 @@ class UserController extends Controller
                         $request->session()->put('name', $sessionData->name);
                         $request->session()->put('type', $sessionData->type);
                         $request->session()->put('email', $sessionData->email);
+                        $request->session()->put('is_admin_login', 1);
 
                         /* user activity */
                             $activityData = [
