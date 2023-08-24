@@ -183,6 +183,13 @@ use Illuminate\Support\Facades\Route;
                     Route::get('language/delete/{id}', 'LanguageController@delete');
                     Route::get('language/change-status/{id}', 'LanguageController@change_status');
                 /* language */
+                /* social platforms */
+                    Route::get('social-platform/list', 'SocialPlatformController@list');
+                    Route::match(['get', 'post'], 'social-platform/add', 'SocialPlatformController@add');
+                    Route::match(['get', 'post'], 'social-platform/edit/{id}', 'SocialPlatformController@edit');
+                    Route::get('social-platform/delete/{id}', 'SocialPlatformController@delete');
+                    Route::get('social-platform/change-status/{id}', 'SocialPlatformController@change_status');
+                /* social platforms */
             /* master */
             /* page */
                 Route::get('page/list', 'PageController@list');

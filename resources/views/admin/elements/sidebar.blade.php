@@ -50,10 +50,10 @@ $pageFunction = ((count($pageName)>2)?$pageName[2]:'');
 
   <?php if((in_array(1, $module_id)) || (in_array(2, $module_id)) || (in_array(3, $module_id)) || (in_array(4, $module_id)) || (in_array(5, $module_id)) || (in_array(6, $module_id)) || (in_array(7, $module_id))){?>
   <li class="nav-item">
-    <a class="nav-link <?=(($pageSegment == 'banner' || $pageSegment == 'service-type' || $pageSegment == 'service' || $pageSegment == 'service-attribute' || $pageSegment == 'source' || $pageSegment == 'expertise' || $pageSegment == 'currency' || $pageSegment == 'language' || $pageSegment == 'testimonial')?'':'collapsed')?> <?=(($pageSegment == 'banner' || $pageSegment == 'service-type' || $pageSegment == 'service' || $pageSegment == 'service-attribute' || $pageSegment == 'source' || $pageSegment == 'expertise' || $pageSegment == 'currency' || $pageSegment == 'language' || $pageSegment == 'testimonial')?'active':'')?>" data-bs-target="#master-nav" data-bs-toggle="collapse" href="#">
+    <a class="nav-link <?=(($pageSegment == 'banner' || $pageSegment == 'service-type' || $pageSegment == 'service' || $pageSegment == 'service-attribute' || $pageSegment == 'source' || $pageSegment == 'expertise' || $pageSegment == 'currency' || $pageSegment == 'language' || $pageSegment == 'testimonial' || $pageSegment == 'social-platform')?'':'collapsed')?> <?=(($pageSegment == 'banner' || $pageSegment == 'service-type' || $pageSegment == 'service' || $pageSegment == 'service-attribute' || $pageSegment == 'source' || $pageSegment == 'expertise' || $pageSegment == 'currency' || $pageSegment == 'language' || $pageSegment == 'testimonial' || $pageSegment == 'social-platform')?'active':'')?>" data-bs-target="#master-nav" data-bs-toggle="collapse" href="#">
       <i class="fa fa-database"></i><span>Master Management</span><i class="bi bi-chevron-down ms-auto"></i>
     </a>
-    <ul id="master-nav" class="nav-content collapse <?=(($pageSegment == 'banner' || $pageSegment == 'service-type' || $pageSegment == 'service' || $pageSegment == 'service-attribute' || $pageSegment == 'source' || $pageSegment == 'expertise' || $pageSegment == 'currency' || $pageSegment == 'language' || $pageSegment == 'testimonial')?'show':'')?>" data-bs-parent="#sidebar-nav">
+    <ul id="master-nav" class="nav-content collapse <?=(($pageSegment == 'banner' || $pageSegment == 'service-type' || $pageSegment == 'service' || $pageSegment == 'service-attribute' || $pageSegment == 'source' || $pageSegment == 'expertise' || $pageSegment == 'currency' || $pageSegment == 'language' || $pageSegment == 'testimonial' || $pageSegment == 'social-platform')?'show':'')?>" data-bs-parent="#sidebar-nav">
       <?php if(in_array(1, $module_id)){?>
       <li>
         <a class="<?=(($pageSegment == 'banner')?'active':'')?>" href="{{ url('admin/banner/list') }}">
@@ -114,6 +114,13 @@ $pageFunction = ((count($pageName)>2)?$pageName[2]:'');
       <li>
         <a class="<?=(($pageSegment == 'testimonial')?'active':'')?>" href="{{ url('admin/testimonial/list') }}">
           <i class="bi bi-arrow-right"></i><span>Testimonials</span>
+        </a>
+      </li>
+      <?php }?>
+      <?php if(in_array(31, $module_id)){?>
+      <li>
+        <a class="<?=(($pageSegment == 'social-platform')?'active':'')?>" href="{{ url('admin/social-platform/list') }}">
+          <i class="bi bi-arrow-right"></i><span>Social Platforms</span>
         </a>
       </li>
       <?php }?>

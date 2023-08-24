@@ -291,6 +291,7 @@ class Controller extends BaseController
     // admin after login layout
     public function admin_after_login_layout($title,$page_name,$data)
     {
+        // Helper::pr(session()->all());
         $data['generalSetting']     = GeneralSetting::find('1');
         $data['title']              = $title.' :: '.$data['generalSetting']->site_name;
         $data['page_header']        = $title;
