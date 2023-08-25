@@ -32,17 +32,25 @@ $controllerRoute = $module['controller_route'];
     if($row){
       $blog_category      = $row->blog_category;
       $title              = $row->title;
+      $slug               = $row->slug;
       $content_date       = $row->content_date;
       $short_description  = $row->short_description;
       $description        = $row->description;
       $image              = $row->image;
+      $meta_title         = $row->meta_title;
+      $meta_keyword       = $row->meta_keyword;
+      $meta_description   = $row->meta_description;
     } else {
       $blog_category      = '';
       $title              = '';
+      $slug               = '';
       $content_date       = '';
       $short_description  = '';
       $description        = '';
       $image              = '';
+      $meta_title         = '';
+      $meta_keyword       = '';
+      $meta_description   = '';
     }
     ?>
     <div class="col-xl-12">
@@ -64,7 +72,13 @@ $controllerRoute = $module['controller_route'];
             <div class="row mb-3">
               <label for="title" class="col-md-2 col-lg-2 col-form-label">Title</label>
               <div class="col-md-10 col-lg-10">
-                <input type="text" name="title" class="form-control" id="title" value="<?=$title?>" required>
+                <input type="text" name="title" class="form-control" oninput="copyText()" id="title" value="<?=$title?>" required>
+              </div>
+            </div>
+            <div class="row mb-3">
+              <label for="title" class="col-md-2 col-lg-2 col-form-label">Slug</label>
+              <div class="col-md-10 col-lg-10">
+                <input type="text" name="slug" class="form-control" id="slug" value="<?=$title?>" required>
               </div>
             </div>
             <div class="row mb-3">
@@ -100,6 +114,25 @@ $controllerRoute = $module['controller_route'];
                   <!-- <a href="#profile_image" class="btn btn-primary btn-sm" title="Upload new profile image"><i class="bi bi-upload"></i></a> -->
                   <!-- <a href="javascript:void(0);" class="btn btn-danger btn-sm" title="Remove my profile image"><i class="bi bi-trash"></i></a> -->
                 </div>
+              </div>
+            </div>
+
+            <div class="row mb-3">
+              <label for="title" class="col-md-2 col-lg-2 col-form-label">Meta Title</label>
+              <div class="col-md-10 col-lg-10">
+                <input type="text" name="meta_title" class="form-control" id="meta_title" value="<?=$meta_title?>" required>
+              </div>
+            </div>
+            <div class="row mb-3">
+              <label for="title" class="col-md-2 col-lg-2 col-form-label">Meta Keyword</label>
+              <div class="col-md-10 col-lg-10">
+                <input type="text" name="meta_keyword" class="form-control" id="meta_keyword" value="<?=$meta_keyword?>" required>
+              </div>
+            </div>
+            <div class="row mb-3">
+              <label for="short_description" class="col-md-2 col-lg-2 col-form-label">Meta Description</label>
+              <div class="col-md-10 col-lg-10">
+                <textarea name="meta_description" class="form-control" id="meta_description" rows="5" required><?=$meta_description?></textarea>
               </div>
             </div>
 
@@ -220,4 +253,10 @@ $controllerRoute = $module['controller_route'];
         x--; //Decrement field counter
     });
   });
+</script>
+<script>
+    function copyText() {
+        var input1Value = document.getElementById("title").value;
+        document.getElementById("slug").value = input1Value;
+    }
 </script>

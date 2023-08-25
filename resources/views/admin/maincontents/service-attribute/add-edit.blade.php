@@ -87,7 +87,7 @@ $controllerRoute = $module['controller_route'];
               </div>
             </div>
             <div class="row mb-3">
-              <label for="duration" class="col-md-2 col-lg-2 col-form-label">Duration</label>
+              <label for="duration" class="col-md-2 col-lg-2 col-form-label">Duration (Minute)</label>
               <div class="col-md-10 col-lg-10">
                 <input type="text" name="duration" class="form-control" id="duration" value="<?=$duration?>" required>
               </div>

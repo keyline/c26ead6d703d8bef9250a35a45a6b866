@@ -42,9 +42,13 @@ class BlogController extends Controller
                 $rules = [
                     'blog_category'             => 'required',
                     'title'                     => 'required',
+                    'slug'                      => 'required',
                     'content_date'              => 'required',
                     'short_description'         => 'required',
                     'description'               => 'required',
+                    'meta_title'                => 'required',
+                    'meta_keyword'              => 'required',
+                    'meta_description'          => 'required',
                 ];
                 if($this->validate($request, $rules)){
                     /* blog image */
@@ -64,10 +68,13 @@ class BlogController extends Controller
                     $fields = [
                         'blog_category'             => $postData['blog_category'],
                         'title'                     => $postData['title'],
-                        'slug'                      => Helper::clean($postData['title']),
+                        'slug'                      => Helper::clean($postData['slug']),
                         'content_date'              => date_format(date_create($postData['content_date']), "Y-m-d"),
                         'short_description'         => $postData['short_description'],
                         'description'               => $postData['description'],
+                        'meta_title'                => $postData['meta_title'],
+                        'meta_keyword'              => $postData['meta_keyword'],
+                        'meta_description'          => $postData['meta_description'],
                         'image'                     => $image
                     ];
                     $blog_id = Blog::insertGetId($fields);
@@ -119,9 +126,13 @@ class BlogController extends Controller
                 $rules = [
                     'blog_category'             => 'required',
                     'title'                     => 'required',
+                    'slug'                      => 'required',
                     'content_date'              => 'required',
                     'short_description'         => 'required',
                     'description'               => 'required',
+                    'meta_title'                => 'required',
+                    'meta_keyword'              => 'required',
+                    'meta_description'          => 'required',
                 ];
                 if($this->validate($request, $rules)){
                     /* blog image */
@@ -141,10 +152,13 @@ class BlogController extends Controller
                     $fields = [
                         'blog_category'             => $postData['blog_category'],
                         'title'                     => $postData['title'],
-                        'slug'                      => Helper::clean($postData['title']),
+                        'slug'                      => Helper::clean($postData['slug']),
                         'content_date'              => date_format(date_create($postData['content_date']), "Y-m-d"),
                         'short_description'         => $postData['short_description'],
                         'description'               => $postData['description'],
+                        'meta_title'                => $postData['meta_title'],
+                        'meta_keyword'              => $postData['meta_keyword'],
+                        'meta_description'          => $postData['meta_description'],
                         'image'                     => $image,
                         'updated_at'                => date('Y-m-d H:i:s')
                     ];
