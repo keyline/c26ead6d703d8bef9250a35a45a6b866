@@ -173,7 +173,10 @@ class MentorController extends Controller
 
         //$services = \App\Models\Service::with(['serviceTypes', 'serviceAttributes'])->get();
         $services = \App\Models\Service::all();
-        $types =    \App\Models\ServiceType::with(['serviceAttributes'])->get();
+        $types =    \App\Models\ServiceType::with(['serviceAttributes' => function ($query) {
+            $query->where('service_id', '=', 1);
+        }])->get();
+        //$types = [];
         //dd($services);
 
 
@@ -194,6 +197,16 @@ class MentorController extends Controller
     }
 
     public function postCreateStep3(Request $request)
+    {
+
+    }
+
+    public function createStep4()
+    {
+        return \view('front.mentor.onboarding.create-step4');
+    }
+
+    public function postCreateStep4()
     {
 
     }

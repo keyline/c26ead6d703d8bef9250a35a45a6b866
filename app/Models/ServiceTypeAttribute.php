@@ -15,23 +15,23 @@ class ServiceTypeAttribute extends Pivot
 
     protected $table = 'service_type_attribute';
 
-    public function service(): BelongsTo
-    {
-        return $this->belongsTo(Service::class);
-    }
+    // public function service(): BelongsTo
+    // {
+    //     return $this->belongsTo(Service::class);
+    // }
 
-    public function serviceDetails(): BelongsTo
-    {
-        return $this->belongsTo(ServiceDetail::class);
-    }
+    // public function serviceDetails(): BelongsTo
+    // {
+    //     return $this->belongsTo(ServiceDetail::class);
+    // }
 
     public function serviceTypes(): BelongsTo
     {
         return $this->belongsTo(ServiceType::class, 'service_type_id');
     }
 
-    public function serviceAttribute(): BelongsTo
-    {
-        return $this->belongsTo(ServiceAttribute::class);
-    }
+    // public function serviceAttribute(): BelongsTo
+    // {
+    //     return $this->belongsTo(ServiceAttribute::class);
+    // }
 }

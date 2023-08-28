@@ -1,3 +1,5 @@
+@extends('front.layouts.master', ['title'=> 'Mentor Signup', 'page_name' => 'mentor-signup-3'])
+@section('content')
 <section class="mentor_element">
    <div class="container">
       <div class="row">
@@ -314,3 +316,4 @@
       </div>
    </div>
 </section>
+@endsection

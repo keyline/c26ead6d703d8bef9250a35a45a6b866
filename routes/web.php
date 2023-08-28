@@ -42,6 +42,7 @@ Route::prefix('/')->namespace('App\Http\Controllers')->group(function () {
     Route::group(['prefix' => 'mentor', 'as' => 'mentor.'], function () {
 
         Route::get('/signup', [\App\Http\Controllers\MentorController::class, 'createStep1'])->name('signup');
+
         Route::post('/create/step1', [\App\Http\Controllers\MentorController::class, 'postCreateStep1'])->name('create.step1');
 
         Route::get('/step2', [\App\Http\Controllers\MentorController::class, 'createStep2'])->name('step2');
@@ -50,15 +51,12 @@ Route::prefix('/')->namespace('App\Http\Controllers')->group(function () {
 
         Route::get('/step3', [\App\Http\Controllers\MentorController::class, 'createStep3'])->name('step3');
 
-
         Route::post('/create/step3', [\App\Http\Controllers\MentorController::class, 'postCreateStep3'])->name('create.step3');
 
+        Route::get('/step4', [\App\Http\Controllers\MentorController::class, 'createStep4'])->name('step4');
 
+        Route::post('/create/step4', [\App\Http\Controllers\MentorController::class, 'postCreateStep4'])->name('create.step4');
 
-
-
-
-        Route::post('/step3', [\App\Http\Controllers\MentorController::class, 'postCreateStep1'])->name('step3');
 
 
 

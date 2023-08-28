@@ -23,7 +23,7 @@ class ServiceType extends Model
     {
         return $this->belongsToMany(ServiceAttribute::class, 'service_type_attribute')
         ->with('serviceTypes')
-        ->withPivot(['service_type_id']);
+        ->withPivot(['service_type_id','service_id']);
     }
 
     /**

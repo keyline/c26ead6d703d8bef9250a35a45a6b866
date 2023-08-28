@@ -33,14 +33,23 @@
                   <h2>Let's add some services</h2>
                   <p class="text-muted mb-4">We‘ll help you get set up based on your expertise</p>
                   <div class="metor_step1_form">
-                     <form>
+                     @if ($errors->any())
+                        <div class="alert alert-danger">
+                           <ul>
+                                 @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                 @endforeach
+                           </ul>
+                        </div>
+                     @endif
+                     <form action="{{ route(mentor.create.step3) }}" method="POST">
                         <div class="title">
                            <p>Select your expertise</p>
                         </div>
                         <div class="input-group mb-3">     
                            <div class="button-group button-group-2 check_roundbtn">
                             @foreach($services AS $service)
-                            <label class="button-group__btn"><input type="checkbox" name="check" value="{{ $service->id }}"/> <span class="button-group__label">{{ $service->name }}</span></label>
+                            <label class="button-group__btn"><input type="checkbox" name="service" value="{{ $service->id }}"/> <span class="button-group__label">{{ $service->name }}</span></label>
                             @endforeach
                             <!-- <label class="button-group__btn"><input type="checkbox" name="check" /> <span class="button-group__label">Career Counselling</span></label> -->
                               <!-- <label class="button-group__btn"><input type="checkbox" name="check" /> <span class="button-group__label">Cybersecurity</span></label>
@@ -59,14 +68,16 @@
                         <!-- perfect example of a blade component -->
                         <!-- mental health section -->
                         <!-- start -->
-                        @foreach($services AS $service)
                         
-                        @foreach($types AS $type)
                         
+
+                           @foreach($types AS $type)
+                           @if($type->serviceAttributes->isNotEmpty())
                         <div class="wrapper-service" id="{{ $service->name }}">
                         <div class="title">
                            <!-- <p>Popular <strong>1:1 services</strong>  in your expertise</p> -->
                            <p>Popular <strong>{{ $type->name }}</strong>  in your expertise</p>
+                           
                         </div>
                         <div class="input-group mb-3">
                            <div class="button-group button-group-2 check_halfbtn">
@@ -80,9 +91,11 @@
                               <label class="button-group__btn"><input type="checkbox" name="check" /> <span class="button-group__label">Regular Session</span></label>  -->
                            </div>
                         </div>
+                        
                         </div>
+                        @endif
                         @endforeach
-                        @endforeach
+                        
                         <!-- end -->
                         
                         <!-- <div class="title">
