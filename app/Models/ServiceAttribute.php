@@ -2,22 +2,30 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class ServiceAttribute extends Model
 {
-    use HasFactory;
-
-    public function service()
+    public function services()
     {
-        return $this->belongsToMany(Service::class, 'service_type_attribute')->withPivot('service_type_id')
+        return $this->belongsToMany(Service::class, 'service_type_attribute')->withPivot('service_id')
         ->withTimestamps();
     }
 
-    public function serviceType()
+    public function serviceTypes()
     {
-        return $this->belongsToMany(ServiceType::class, 'service_type_attribute')->withPivot('service_id')
-        ->withTimestamps();
+        return $this->belongsToMany(ServiceType::class, 'service_type_attribute');
     }
+    /**
+     *
+     public function relations(): HasMany
+    {
+        return $this->hasMany(ServiceTypeAttribute::class, 'service_attribute_id');
+
+    }
+     */
+
+
+
 }

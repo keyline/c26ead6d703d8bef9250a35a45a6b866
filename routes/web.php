@@ -1,5 +1,7 @@
 <?php
+
 use Illuminate\Support\Facades\Route;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -26,49 +28,79 @@ use Illuminate\Support\Facades\Route;
                 Route::match(['get'], '/blog-details/{id}', 'FrontController@blogDetails');
                 Route::match(['get'], 'page/{id}', 'FrontController@page');
 
-                Route::match(['get'], '/mentors', 'FrontController@mentors');
-                Route::match(['get'], '/mentor-details', 'FrontController@mentorDetails');
-            /* common */
-            /* authentication */
-                Route::match(['get', 'post'], '/mentor-signup', 'MentorController@mentorSignup');
-                Route::match(['get', 'post'], '/mentor-signup-2', 'MentorController@mentorSignup2');
-                Route::match(['get', 'post'], '/mentor-signup-3', 'MentorController@mentorSignup3');
-                Route::match(['get', 'post'], '/mentor-signup-4', 'MentorController@mentorSignup4');
+    Route::match(['get'], '/mentors', 'FrontController@mentors');
+    Route::match(['get'], '/mentor-details', 'FrontController@mentorDetails');
+    /* common */
+    /* authentication */
+    //Route::match(['get'], '/mentor-signup', 'MentorController@createStep1')->name('mentor-signup');
 
-                Route::match(['get', 'post'], '/student-signup', 'FrontController@studentSignup');
-                // Route::match(['get', 'post'], '/signup-otp/{id}', 'FrontController@signupOtp');
-                
-                
-                Route::match(['get', 'post'], 'signin', 'FrontController@signin');
-                Route::match(['get', 'post'], '/forgot-password', 'FrontController@forgotPassword');
-                Route::match(['get', 'post'], '/validate-otp/{id}', 'FrontController@validateOtp');
-                Route::match(['get', 'post'], '/reset-password/{id}', 'FrontController@resetPassword');
-            /* authentication */
-        /* before login */
-        /* after login */
-            Route::group(['middleware' => ['user']], function(){
-                /* common */
-                    Route::get('signout', 'FrontController@signout');
-                    Route::get('dashboard', 'FrontController@dashboard');
-                    Route::match(['get', 'post'], 'update-profile', 'FrontController@updateProfile');
-                    Route::match(['get', 'post'], 'change-password', 'FrontController@changePassword');
-                /* common */
-                /* mentor */
+    //Route::match(['post'], '/mentor-createstep1', 'MentorController@postCreateStep1')->name('mentor-createstep1');
 
-                /* mentor */
-                /* student */
+    Route::match(['get', 'post'], '/mentor-signup-2', 'MentorController@mentorSignup2');
+    Route::match(['get', 'post'], '/mentor-signup-3', 'MentorController@mentorSignup3');
+    Route::match(['get', 'post'], '/mentor-signup-4', 'MentorController@mentorSignup4');
+    //After development
+    Route::group(['prefix' => 'mentor', 'as' => 'mentor.'], function () {
 
-                /* student */
-            });
-        /* after login */
+        Route::get('/signup', [\App\Http\Controllers\MentorController::class, 'createStep1'])->name('signup');
+        Route::post('/create/step1', [\App\Http\Controllers\MentorController::class, 'postCreateStep1'])->name('create.step1');
+
+        Route::get('/step2', [\App\Http\Controllers\MentorController::class, 'createStep2'])->name('step2');
+
+        Route::post('/create/step2', [\App\Http\Controllers\MentorController::class, 'postCreateStep2'])->name('create.step2');
+
+        Route::get('/step3', [\App\Http\Controllers\MentorController::class, 'createStep3'])->name('step3');
+
+
+        Route::post('/create/step3', [\App\Http\Controllers\MentorController::class, 'postCreateStep3'])->name('create.step3');
+
+
+
+
+
+
+        Route::post('/step3', [\App\Http\Controllers\MentorController::class, 'postCreateStep1'])->name('step3');
+
+
+
     });
+
+
+    Route::match(['get', 'post'], '/student-signup', 'FrontController@studentSignup');
+    // Route::match(['get', 'post'], '/signup-otp/{id}', 'FrontController@signupOtp');
+
+    // Route::match(['get', 'post'], '/validate-otp/{id}', 'FrontController@validateOtp');
+    // Route::match(['get', 'post'], '/reset-password/{id}', 'FrontController@resetPassword');
+    Route::match(['get', 'post'], 'signin', 'FrontController@signin');
+    Route::match(['get', 'post'], '/forgot-password', 'FrontController@forgotPassword');
+    Route::match(['get', 'post'], '/validate-otp', 'FrontController@validateOtp');
+    Route::match(['get', 'post'], '/reset-password', 'FrontController@resetPassword');
+    /* authentication */
+    /* before login */
+    /* after login */
+    Route::group(['middleware' => ['user']], function () {
+        /* common */
+        Route::get('signout', 'FrontController@signout');
+        Route::get('dashboard', 'FrontController@dashboard');
+        Route::match(['get', 'post'], 'update-profile', 'FrontController@updateProfile');
+        Route::match(['get', 'post'], 'change-password', 'FrontController@changePassword');
+        /* common */
+        /* mentor */
+
+        /* mentor */
+        /* student */
+
+        /* student */
+    });
+    /* after login */
+});
 /* Front Panel */
 /* API */
-    Route::prefix('/api')->namespace('App\Http\Controllers')->group(function(){
-        Route::match(['post'], 'signup', 'ApiController@signup');
-        Route::match(['post'], 'validate-signup-otp', 'ApiController@validateSignupOtp');
-        Route::match(['get'], 'resend-otp', 'ApiController@resendOtp');
-    });    
+Route::prefix('/api')->namespace('App\Http\Controllers')->group(function () {
+    Route::match(['post'], 'signup', 'ApiController@signup');
+    Route::match(['post'], 'validate-signup-otp', 'ApiController@validateSignupOtp');
+    Route::match(['get'], 'resend-otp', 'ApiController@resendOtp');
+});
 /* API */
 /* Admin Panel */
     
@@ -155,6 +187,10 @@ use Illuminate\Support\Facades\Route;
                     Route::get('service-attribute/delete/{id}', 'ServiceAttributeController@delete');
                     Route::get('service-attribute/change-status/{id}', 'ServiceAttributeController@change_status');
                 /* service attributes */
+                /* service association */
+                    Route::get('service-association', 'ServiceAssociationController@index');
+                    Route::match(['get', 'post'], 'service-association/postData', 'ServiceAssociationController@postData');
+                /* service association */
                 /* source */
                     Route::get('source/list', 'SourceController@list');
                     Route::match(['get', 'post'], 'source/add', 'SourceController@add');
@@ -294,6 +330,7 @@ use Illuminate\Support\Facades\Route;
             /* enquiries */
         });
     });
+
 
 
 /* Admin Panel */
