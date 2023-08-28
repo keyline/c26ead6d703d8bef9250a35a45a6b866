@@ -38,7 +38,7 @@
                      <a class="btn_border" href="<?=url('signin')?>">Sign In</a>
                   </li>
                   <li>
-                     <a class="btn_orgfill" href="<?=url('mentor-signup')?>">Sign up free</a>
+                     <a class="btn_orgfill" href="<?=route('mentor.signup')?>">Sign up free</a>
                   </li>
                </ul>
             </div>

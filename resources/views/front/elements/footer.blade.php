@@ -63,7 +63,7 @@
       <div class="row">
          <div class="col-lg-9 offset-lg-3">
             <div class="footer_freetrail_section">
-               <div class="foot_trialtext">Start your free trial <a class="btn_orgfill" href="<?=url('mentor-signup')?>">Sign up free</a></div>
+               <div class="foot_trialtext">Start your free trial <a class="btn_orgfill" href="<?=route('mentor.signup')?>">Sign up free</a></div>
                <div class="footer_social">
                   <ul>
                      <li><a href="<?=$generalSetting->facebook_profile?>" target="_blank"><i class="fa-brands fa-facebook-f"></i></a></li>

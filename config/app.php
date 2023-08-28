@@ -169,6 +169,8 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         Illuminate\Session\SessionServiceProvider::class,
+        //App\Providers\SiteConfigurationServiceProvider::class,
+        App\Providers\ConfigurationServiceProvider::class,
     ])->toArray(),
 
     /*

@@ -31,20 +31,38 @@ Route::prefix('/')->namespace('App\Http\Controllers')->group(function () {
     Route::match(['get'], '/mentor-details', 'FrontController@mentorDetails');
     /* common */
     /* authentication */
-    Route::match(['get'], '/mentor-signup', 'MentorController@createStep1')->name('mentor-signup');
+    //Route::match(['get'], '/mentor-signup', 'MentorController@createStep1')->name('mentor-signup');
 
-    Route::match(['post'], '/mentor-createstep1', 'MentorController@postCreateStep1')->name('mentor-createstep1');
+    //Route::match(['post'], '/mentor-createstep1', 'MentorController@postCreateStep1')->name('mentor-createstep1');
 
     Route::match(['get', 'post'], '/mentor-signup-2', 'MentorController@mentorSignup2');
     Route::match(['get', 'post'], '/mentor-signup-3', 'MentorController@mentorSignup3');
     Route::match(['get', 'post'], '/mentor-signup-4', 'MentorController@mentorSignup4');
     //After development
-    //Route::name('mentor.')->group(function () {
+    Route::group(['prefix' => 'mentor', 'as' => 'mentor.'], function () {
 
-    //Route::get('/mentor/create-step1', [\App\Http\Controllers\MentorController::class, 'createStep1'])->name('mentor-signup');
-    //Route::post('mentor/create-step1', [\App\Http\Controllers\MentorController::class, 'postCreateStep1']);
+        Route::get('/signup', [\App\Http\Controllers\MentorController::class, 'createStep1'])->name('signup');
+        Route::post('/create/step1', [\App\Http\Controllers\MentorController::class, 'postCreateStep1'])->name('create.step1');
 
-    //});
+        Route::get('/step2', [\App\Http\Controllers\MentorController::class, 'createStep2'])->name('step2');
+
+        Route::post('/create/step2', [\App\Http\Controllers\MentorController::class, 'postCreateStep2'])->name('create.step2');
+
+        Route::get('/step3', [\App\Http\Controllers\MentorController::class, 'createStep3'])->name('step3');
+
+
+        Route::post('/create/step3', [\App\Http\Controllers\MentorController::class, 'postCreateStep3'])->name('create.step3');
+
+
+
+
+
+
+        Route::post('/step3', [\App\Http\Controllers\MentorController::class, 'postCreateStep1'])->name('step3');
+
+
+
+    });
 
 
     Route::match(['get', 'post'], '/student-signup', 'FrontController@studentSignup');
