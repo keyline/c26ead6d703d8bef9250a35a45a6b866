@@ -2,25 +2,38 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use App\Models\ServiceTypeAttribute;
 
 class ServiceType extends Model
 {
-    use HasFactory;
+    protected $fillable = ['name', 'slug', 'description', 'image'];
 
-    protected $fillable= ['name', 'slug', 'description', 'image'];
 
     public function services()
     {
-        return $this->belongsToMany(Service::class, 'service_type_attribute')->withPivot('service_attribute_id')
+        return $this->belongsToMany(Service::class, 'service_type_attribute', 'service_id', 'service_type_id')->withPivot(['service_id', 'service_type_id'])
+        ->using(ServiceTypeAttribute::class)
         ->withTimestamps();
 
     }
 
-    public function serviceAttribute()
+    public function serviceAttributes()
     {
-        return $this->belongsToMany(ServiceAttribute::class, 'service_type_attribute')->withPivot('service_id')
-        ->withTimestamps();
+        return $this->belongsToMany(ServiceAttribute::class, 'service_type_attribute')
+        ->with('serviceTypes')
+        ->withPivot(['service_type_id']);
     }
+
+    /**
+     *
+     public function relations(): HasMany
+    {
+        return $this->hasMany(ServiceTypeAttribute::class, 'service_type_id');
+
+    }
+     */
+
+
 }
