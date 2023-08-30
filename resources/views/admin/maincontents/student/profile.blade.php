@@ -86,7 +86,7 @@ $controllerRoute = $module['controller_route'];
                                         <input type="hidden" name="student_id" value="<?=$student->id;?>">
                                         <input type="hidden" name="user_id" value="<?=$profiledetail->id;?>">
                                         <?php $allStudents = RequireDocument::where('user_type', '=', 'student')->get(); ?>
-                                        <label for="service_type_id" class="col-md-2 col-lg-2 col-form-label">User Type</label>
+                                        <label for="service_type_id" class="col-md-2 col-lg-2 col-form-label">Document Type</label>
                                         <div class="col-md-10 col-lg-10">
                                             <select name="doucument_id" class="form-control" id="doucument_id" required>
                                             <option value="" selected>Select Document</option>
@@ -97,10 +97,10 @@ $controllerRoute = $module['controller_route'];
                                         </div>
                                     </div>
                                     <div class="row mb-3">
-                                        <label for="image" class="col-md-2 col-lg-2 col-form-label">Document Image</label>
+                                        <label for="image" class="col-md-2 col-lg-2 col-form-label">Document Scan Copy</label>
                                         <div class="col-md-10 col-lg-10">
                                             <input type="file" name="image" class="form-control" id="img_file" onChange="img_pathUrl(this);">
-                                            <small class="text-info">* Only JPG, JPEG, ICO, SVG, PNG files are allowed</small><br>
+                                            <small class="text-info">* Only JPG, JPEG, ICO, SVG, PNG ,PDF files are allowed, File size upto 1MB </small><br>
                                             <img src="<?=env('NO_IMAGE')?>" alt="" class="img-thumbnail" style="height: 110px; margin-top: 10px;" id="img_url">
                                         </div>
                                     </div>
