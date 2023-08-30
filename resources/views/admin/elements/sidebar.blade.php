@@ -124,10 +124,17 @@ $pageFunction = ((count($pageName)>2)?$pageName[2]:'');
         </a>
       </li>
       <?php }?>
-      <?php if(in_array(31, $module_id)){?>
+      <?php if(in_array(28, $module_id)){?>
       <li>
         <a class="<?=(($pageSegment == 'social-platform')?'active':'')?>" href="{{ url('admin/social-platform/list') }}">
           <i class="bi bi-arrow-right"></i><span>Social Platforms</span>
+        </a>
+      </li>
+      <?php }?>
+      <?php if(in_array(28, $module_id)){?>
+      <li>
+        <a class="<?=(($pageSegment == 'require-documents')?'active':'')?>" href="{{ url('admin/require-documents/list') }}">
+          <i class="bi bi-arrow-right"></i><span>Require Documents</span>
         </a>
       </li>
       <?php }?>

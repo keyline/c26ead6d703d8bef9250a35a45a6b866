@@ -226,6 +226,13 @@ Route::prefix('/api')->namespace('App\Http\Controllers')->group(function () {
                     Route::get('social-platform/delete/{id}', 'SocialPlatformController@delete');
                     Route::get('social-platform/change-status/{id}', 'SocialPlatformController@change_status');
                 /* social platforms */
+                /* Require Document */
+                    Route::get('require-documents/list', 'RequireDocumentsController@list');
+                    Route::match(['get', 'post'], 'require-documents/add', 'RequireDocumentsController@add');
+                    Route::match(['get', 'post'], 'require-documents/edit/{id}', 'RequireDocumentsController@edit');
+                    Route::get('require-documents/delete/{id}', 'RequireDocumentsController@delete');
+                    Route::get('require-documents/change-status/{id}', 'RequireDocumentsController@change_status');
+                /* Require Document */
             /* master */
             /* page */
                 Route::get('page/list', 'PageController@list');
@@ -289,6 +296,8 @@ Route::prefix('/api')->namespace('App\Http\Controllers')->group(function () {
             /* student */
                 Route::get('student/list', 'StudentController@list');
                 Route::get('student/bookings/{id}', 'StudentController@bookings');
+                Route::get('student/profile/{id}', 'StudentController@profile');
+                Route::post('student/profile/{id}', 'StudentController@profile');
                 Route::get('student/transactions/{id}', 'StudentController@transactions');
                 Route::get('student/delete/{id}', 'StudentController@delete');
                 Route::get('student/change-status/{id}', 'StudentController@change_status');
