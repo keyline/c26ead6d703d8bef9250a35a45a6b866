@@ -8,6 +8,8 @@ use Illuminate\Validation\Rule;
 use App\Models\GeneralSetting;
 use App\Models\User;
 use App\Models\StudentProfile;
+use App\Models\RequireDocument;
+use App\Models\StudentDocument;
 use Auth;
 use Session;
 use Helper;
@@ -103,6 +105,53 @@ class StudentController extends Controller
             echo $this->admin_after_login_layout($title,$page_name,$data);
         }
     /* bookings */
+    /*profile*/
+        public function profile(Request $request , $id){
+            $id                             = Helper::decoded($id);
+            if($request->isMethod('post')){
+            $postData = $request->all();
+            // Helper::pr($postData);
+            $getDocumentName = RequireDocument::where('id', '=', $postData['doucument_id'])->first();
+            $rules = [
+                'doucument_id'      => 'required',
+                'image'             => 'required',
+            ];
+            if($this->validate($request, $rules)){
+                /* document image */
+                    $imageFile      = $request->file('image');
+                    if($imageFile != ''){
+                        $imageName      = $imageFile->getClientOriginalName();
+                        $uploadedFile   = $this->upload_single_file('image', $imageName, 'student_document', 'image');
+                        if($uploadedFile['status']){
+                            $image = $uploadedFile['newFilename'];
+                        } else {
+                            return redirect()->back()->with(['error_message' => $uploadedFile['message']]);
+                        }
+                    } else {
+                        return redirect()->back()->with(['error_message' => 'Please Upload Banner Image !!!']);
+                    }
+                /* document image */
+                $fields = [
+                    'student_id'       => $postData['student_id'],
+                    'user_id'          => $postData['user_id'],
+                    'doucument_id'     => $postData['doucument_id'],
+                    'document_slug'    => Helper::clean($getDocumentName->document),
+                    'document'         => $image
+                ];
+                // Helper::pr($fields);
+                StudentDocument::insert($fields);
+                return redirect("admin/" . $this->data['controller_route'] . "/list")->with('success_message', $this->data['title'].'Document Successfully !!!');
+                } else {
+                    return redirect()->back()->with('error_message', 'All Fields Required !!!');
+                }
+            }
+            $data['student']                = StudentProfile::where('user_id', '=', $id)->first();
+            $data['module']                 = $this->data;
+            $title                          = 'Profile: '.(($data['student'])?$data['student']->first_name.' '.$data['student']->last_name:'');
+            $page_name                      = 'student.profile';
+            echo $this->admin_after_login_layout($title,$page_name,$data);
+        }
+    /*profile*/
     /* transactions */
         public function transactions($id){
             $id                             = Helper::decoded($id);
