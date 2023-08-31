@@ -237,6 +237,13 @@ $("#resetpwd_form").submit(function (e) {
     }
 });
 
+$('#doc_type').on('change', function(){
+    let doc_type = $('#doc_type').val();
+    if(doc_type != ''){
+        $('#fileName').addClass('requiredCheck');
+    }
+})
+
 function isNumber(evt) {
     evt = (evt) ? evt : window.event;
     var charCode = (evt.which) ? evt.which : evt.keyCode;
@@ -275,3 +282,15 @@ function resendOTP(id){
     });
 }
 
+function validateFileType(input){
+    var fileName    = document.getElementById("fileName").value;
+    var idxDot      = fileName.lastIndexOf(".") + 1;
+    var extFile     = fileName.substr(idxDot, fileName.length).toLowerCase();
+    var fileSize    = input.files[0].size / 1024 / 1024;
+    
+    if (extFile=="jpg" || extFile=="jpeg" || extFile=="png" || extFile=="pdf"){
+        return true;
+    }else{
+        toastAlert("warning", "Only jpg/jpeg and png files are allowed!");
+    }   
+}
