@@ -38,7 +38,7 @@ $controllerRoute = $module['controller_route'];
                 <th scope="col">Name</th>
                 <th scope="col">Email</th>
                 <th scope="col">Phone</th>
-                <th scope="col">Profile Pic</th>
+                <!-- <th scope="col">Profile Pic</th> -->
                 <th scope="col">Social Link</th>
                 <th scope="col">Registered At</th>
                 <th scope="col">Balance</th>
@@ -52,13 +52,13 @@ $controllerRoute = $module['controller_route'];
                   <td><?=$row->first_name.' '.$row->last_name?></td>
                   <td><?=$row->email?></td>
                   <td><?=$row->mobile?></td>
-                  <td>
+                  <!-- <td>
                     <?php if($row->profile_pic != ''){?>
                       <img src="<?=$row->profile_pic?>" class="img-thumbnail" alt="<?=$row->first_name.' '.$row->last_name?>" style="width: 150px; height: 150px; margin-top: 10px;">
                     <?php } else {?>
                       <img src="<?=env('NO_IMAGE')?>" alt="<?=$row->first_name.' '.$row->last_name?>" class="img-thumbnail" style="width: 150px; height: 150px; margin-top: 10px;">
                     <?php }?>
-                  </td>
+                  </td> -->
                   <td><a href="<?=$row->social_url?>" target="_blank" class="badge bg-primary">Social Link</a></td>
                   <td><?=date_format(date_create($row->created_at), "M d, Y h:i A")?></td>
                   <td>
@@ -74,6 +74,8 @@ $controllerRoute = $module['controller_route'];
                       <a href="<?=url('admin/' . $controllerRoute . '/change-status/'.Helper::encoded($row->user_id))?>" class="btn btn-outline-warning btn-sm" title="Deactivate <?=$module['title']?>"><i class="fa fa-times"></i></a>
                     <?php }?>
 
+                    <br><br>
+                    <a target="_blank" href="<?=url('admin/' . $controllerRoute . '/profile/'.Helper::encoded($row->user_id))?>" class="badge bg-dark" title="Profile of <?=$module['title']?>"><i class="fa fa-user"></i> Mentor Profile</a>
                     <br><br>
                     <a target="_blank" href="<?=url('admin/' . $controllerRoute . '/availability/'.Helper::encoded($row->user_id))?>" class="badge bg-success" title="Edit <?=$module['title']?>"><i class="fa fa-clock"></i> Availability</a>
                     <br><br>

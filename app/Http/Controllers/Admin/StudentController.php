@@ -9,7 +9,7 @@ use App\Models\GeneralSetting;
 use App\Models\User;
 use App\Models\StudentProfile;
 use App\Models\RequireDocument;
-use App\Models\StudentDocument;
+use App\Models\UserDocument;
 use Auth;
 use Session;
 use Helper;
@@ -120,8 +120,13 @@ class StudentController extends Controller
                 /* document image */
                     $imageFile      = $request->file('image');
                     if($imageFile != ''){
-                        $imageName      = $imageFile->getClientOriginalName();
-                        $uploadedFile   = $this->upload_single_file('image', $imageName, 'student_document', 'image');
+                        $imageName         = $imageFile->getClientOriginalName();
+                        $imageFileType     = pathinfo($imageName, PATHINFO_EXTENSION);
+                        if($imageFileType == 'jpg' && 'png' && 'jepg' && 'svg'){
+                            $uploadedFile  = $this->upload_single_file('image', $imageName, 'student_document', 'image');
+                        }else{
+                            $uploadedFile  = $this->upload_single_file('image', $imageName, 'student_document', 'pdf');
+                        }
                         if($uploadedFile['status']){
                             $image = $uploadedFile['newFilename'];
                         } else {
@@ -132,15 +137,17 @@ class StudentController extends Controller
                     }
                 /* document image */
                 $fields = [
-                    'student_id'       => $postData['student_id'],
+                    'type'             => $postData['type'],
+                    // 'student_id'       => $postData['student_id'],
                     'user_id'          => $postData['user_id'],
                     'doucument_id'     => $postData['doucument_id'],
                     'document_slug'    => Helper::clean($getDocumentName->document),
-                    'document'         => $image
+                    'document'         => $image,
+                    'updated_at'       => date('Y-m-d H:i:s')
                 ];
                 // Helper::pr($fields);
-                StudentDocument::insert($fields);
-                return redirect("admin/" . $this->data['controller_route'] . "/list")->with('success_message', $this->data['title'].'Document Successfully !!!');
+                UserDocument::insert($fields);
+                return redirect("admin/" . $this->data['controller_route'] . "/list")->with('success_message', $this->data['title'].' Document Uploaded Successfully !!!');
                 } else {
                     return redirect()->back()->with('error_message', 'All Fields Required !!!');
                 }
