@@ -43,4 +43,4 @@ yarn-error.log
 # error_log/htaccess/and uploads folder issue
 error_log
 /.htaccess
-uploads/
+#uploads/
