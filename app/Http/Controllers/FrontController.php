@@ -24,6 +24,9 @@ use App\Models\Service;
 use App\Models\StudentProfile;
 use App\Models\MentorProfile;
 use App\Models\UserActivity;
+use App\Models\UserDocument;
+use App\Models\RequireDocument;
+
 use App\Rules\ReCaptcha;
 use Auth;
 use Session;
@@ -101,7 +104,7 @@ class FrontController extends Controller
                         $subject                    = $generalSetting->site_name.' :: Contact Enquiry From '.$name.' ('.$email.')';
                         $message                    = view('front.email-templates.contact-us',$fields);
                         // echo $message;die;
-                        $this->sendMail($generalSetting->system_email, $subject, $message);
+                        // $this->sendMail($generalSetting->system_email, $subject, $message);
                     /* email sent */
                     /* email log save */
                         $postData2 = [
@@ -183,6 +186,7 @@ class FrontController extends Controller
         public function studentSignup(Request $request){
             $data['testimonials']           = Testimonial::where('status', '=', 1)->orderBy('id', 'DESC')->get();
             $data['testimonialsData']       = view('front.elements.side-testimonial',$data);
+            $data['documents']              = RequireDocument::where('status', '=', 1)->where('user_type', '=', 'student')->orderBy('id', 'ASC')->get();
             $title                          = 'Student Signup';
             $page_name                      = 'student-signup';
             echo $this->front_before_login_layout($title,$page_name,$data);
@@ -216,7 +220,7 @@ class FrontController extends Controller
                             $subject                    = $generalSetting->site_name.' :: One Time Password';
                             $message                    = view('front.email-templates.otp',$postData);
                             // echo $message;die;
-                            $this->sendMail($requestData['email'], $subject, $message);
+                            // $this->sendMail($requestData['email'], $subject, $message);
                         /* email sent */
                         /* email log save */
                             $postData2 = [
@@ -313,7 +317,7 @@ class FrontController extends Controller
                                 $subject                    = $generalSetting->site_name.' :: Reset Password';
                                 $message                    = view('front.email-templates.change-password',$checkUser);
                                 // echo $message;die;
-                                $this->sendMail($requestData['email'], $subject, $message);
+                                // $this->sendMail($requestData['email'], $subject, $message);
                             /* email sent */
                             /* email log save */
                                 $postData2 = [
@@ -390,7 +394,7 @@ class FrontController extends Controller
                             $subject                    = $generalSetting->site_name.' :: Failed Signin';
                             $message                    = view('front.email-templates.failed-login',$postData);
                             // echo $message;die;
-                            $this->sendMail($postData['email'], $subject, $message);
+                            // $this->sendMail($postData['email'], $subject, $message);
                         /* email sent */
                         /* email log save */
                             $postData2 = [

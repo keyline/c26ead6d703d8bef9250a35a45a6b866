@@ -11,6 +11,8 @@ use App\Models\User;
 use App\Models\StudentProfile;
 use App\Models\MentorProfile;
 use App\Models\EmailLog;
+use App\Models\UserDocument;
+use App\Models\RequireDocument;
 use Auth;
 use Session;
 use Helper;
@@ -31,6 +33,9 @@ class ApiController extends Controller
             $fname      = $requestData['fname'];
             $lname      = $requestData['lname'];
             $phone      = $requestData['phone'];
+            $doc_type   = $requestData['doc_type'];
+            $getRequiredDoc = RequireDocument::where('id', '=', $doc_type)->first();
+
             $checkEmail = User::where('email', '=', $requestData['email'])->first();
             if(empty($checkEmail)){
                 $checkPhone = User::where('phone', '=', $phone)->count();
@@ -49,6 +54,38 @@ class ApiController extends Controller
                         ];
                         $id = User::insertGetId($postData);
                         
+                        if($doc_type != ''){
+                            /* student documents */
+                                $user_doc       = '';
+                                $imageFile      = $request->file('user_doc');
+                                if($imageFile != ''){
+                                    $imageName      = $imageFile->getClientOriginalName();
+                                    $uploadedFile   = $this->upload_single_file('user_doc', $imageName, 'banner', 'image');
+                                    if($uploadedFile['status']){
+                                        $user_doc = $uploadedFile['newFilename'];
+
+                                        $postData3 = [
+                                            'type'                  => 'STUDENT',
+                                            'user_id'               => $id,
+                                            'doucument_id'          => $doc_type,
+                                            'document_slug'         => Helper::clean((($getRequiredDoc)?$getRequiredDoc->document:'')),
+                                            'document'              => $user_doc
+                                        ];
+                                        // Helper::pr($postData3);
+                                        UserDocument::insert($postData3);
+
+                                    } else {
+                                        $apiStatus          = FALSE;
+                                        http_response_code(400);
+                                        $apiMessage         = $uploadedFile['message'];
+                                        $apiExtraField      = 'response_code';
+                                        $apiExtraData       = http_response_code();
+                                    }
+                                } else {
+                                    $user_doc = '';
+                                }
+                            /* student documents */
+                        }
                         /* student profile table */
                             $postData2 = [
                                 'user_id'               => $id,
