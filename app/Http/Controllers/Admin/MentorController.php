@@ -1,5 +1,7 @@
 <?php
 namespace App\Http\Controllers\Admin;
+
+use App\Helpers\Helper as HelpersHelper;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
@@ -8,7 +10,9 @@ use Illuminate\Validation\Rule;
 use App\Models\GeneralSetting;
 use App\Models\User;
 use App\Models\StudentProfile;
+use App\Models\RequireDocument;
 use App\Models\MentorProfile;
+use App\Models\UserDocument;
 use Auth;
 use Session;
 use Helper;
@@ -144,4 +148,103 @@ class MentorController extends Controller
             echo $this->admin_after_login_layout($title,$page_name,$data);
         }
     /* payouts */
+    /*profile*/
+    public function profile(Request $request , $id){
+        $id    = Helper::decoded($id);
+        // echo $id;die;
+        if($request->isMethod('post')){
+            if($request->post('mode')=='updateDocument'){
+                $postData = $request->all();
+                // Helper::pr($postData);
+                $getDocumentName = RequireDocument::where('id', '=', $postData['doucument_id'])->first();
+                $mentorDocument  = UserDocument::where('user_id', '=', $id)->first();
+                $rules = [
+                            'doucument_id'      => 'required',
+                            'image'             => 'required',
+                        ];
+                if($this->validate($request, $rules)){
+                    /* Document */
+                        $imageFile      = $request->file('image');
+                        if($imageFile != ''){
+                            $imageName         = $imageFile->getClientOriginalName();
+                            $imageFileType     = pathinfo($imageName, PATHINFO_EXTENSION);
+                            if($imageFileType == 'jpg' && 'png' && 'jepg' && 'svg'){
+                                $uploadedFile  = $this->upload_single_file('image', $imageName, 'mentor_document', 'image');
+                            }else{
+                                $uploadedFile  = $this->upload_single_file('image', $imageName, 'mentor_document', 'pdf');
+                            }
+                            if($uploadedFile['status']){
+                                $image = $uploadedFile['newFilename'];
+                            } else {
+                                return redirect()->back()->with(['error_message' => $uploadedFile['message']]);
+                            }
+                        } else {
+                            $image = $mentorDocument->document;
+                        }
+                    /* Document */
+                    $fields = [
+                                'type'             => $postData['type'],
+                                // 'mentor_id'        => $postData['mentor_id'],
+                                'user_id'          => $postData['user_id'],
+                                'doucument_id'     => $postData['doucument_id'],
+                                'document_slug'    => Helper::clean($getDocumentName->document),
+                                'document'         => $image,
+                                'updated_at'     => date('Y-m-d H:i:s')
+                            ];
+                    // Helper::pr($fields);
+                    UserDocument::where('user_id', '=', $id)->update($fields);
+                    return redirect("admin/" . $this->data['controller_route'] . "/list")->with('success_message', $this->data['title'].' Document Updated Successfully !!!');
+                } else {
+                    return redirect()->back()->with('error_message', 'All Fields Required !!!');
+                }
+            }else{
+                $postData = $request->all();
+                $getDocumentName = RequireDocument::where('id', '=', $postData['doucument_id'])->first();
+                $rules = [
+                        'doucument_id'      => 'required',
+                        'image'             => 'required',
+                    ];
+            if($this->validate($request, $rules)){
+            /* document upload */
+            $imageFile      = $request->file('image');
+            if($imageFile != ''){
+                $imageName         = $imageFile->getClientOriginalName();
+                $imageFileType     = pathinfo($imageName, PATHINFO_EXTENSION);
+                if($imageFileType == 'jpg' && 'png' && 'jepg' && 'svg'){
+                    $uploadedFile  = $this->upload_single_file('image', $imageName, 'mentor_document', 'image');
+                }else{
+                    $uploadedFile  = $this->upload_single_file('image', $imageName, 'mentor_document', 'pdf');
+                }
+                if($uploadedFile['status']){
+                    $image = $uploadedFile['newFilename'];
+                } else {
+                    return redirect()->back()->with(['error_message' => $uploadedFile['message']]);
+                }
+            } else {
+                return redirect()->back()->with(['error_message' => 'Please Upload Banner Image !!!']);
+            }
+            /* document upload */
+            $fields = [
+                        'type'             => $postData['type'],
+                        // 'mentor_id'        => $postData['mentor_id'],
+                        'user_id'          => $postData['user_id'],
+                        'doucument_id'     => $postData['doucument_id'],
+                        'document_slug'    => Helper::clean($getDocumentName->document),
+                        'document'         => $image
+                    ];
+            // Helper::pr($fields);
+            UserDocument::insert($fields);
+            return redirect("admin/" . $this->data['controller_route'] . "/list")->with('success_message', $this->data['title'].' Document Uploaded Successfully !!!');
+            } else {
+                    return redirect()->back()->with('error_message', 'All Fields Required !!!');
+                }
+            }
+        }
+        $data['mentor']                 = MentorProfile::where('user_id', '=', $id)->first();
+        $data['module']                 = $this->data;
+        $title                          = 'Profile: '.(($data['mentor'])?$data['mentor']->first_name.' '.$data['mentor']->last_name:'');
+        $page_name                      = 'mentor.profile';
+        echo $this->admin_after_login_layout($title,$page_name,$data);
+    }
+/*profile*/
 }

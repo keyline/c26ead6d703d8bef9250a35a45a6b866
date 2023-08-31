@@ -48,23 +48,23 @@ $controllerRoute = $module['controller_route'];
                                 <?php $profiledetail = User::where('id', '=', $student->user_id)->first(); ?>
                                 <tr>
                                     <th style="background: #ccc; color: #000; width: 30%; padding: 10px; text-align: left; font-family: sans-serif; font-size: 14px;">Full Name</th>
-                                        <td style="padding: 10px; background: #ccc; text-align: left; color: #000;font-family: sans-serif;font-size: 15px;"><?=$student->first_name . ' ' . $student->last_name; ?></td>
+                                    <td style="padding: 10px; background: #ccc; text-align: left; color: #000;font-family: sans-serif;font-size: 15px;"><?=$student->first_name . ' ' . $student->last_name; ?></td>
                                 </tr>
                                 <tr>
                                     <th style="background: #cccccc42; color: #000; width: 30%; padding: 10px; text-align: left; font-family: sans-serif; font-size: 14px;">Email Address</th>
-                                        <td style="padding: 10px; background: #cccccc42; text-align: left; color: #000;font-family: sans-serif;font-size: 15px;"><?=$profiledetail->email;?></td>
+                                    <td style="padding: 10px; background: #cccccc42; text-align: left; color: #000;font-family: sans-serif;font-size: 15px;"><?=$profiledetail->email;?></td>
                                 </tr>
                                 <tr>
                                     <th style="background: #ccc; color: #000; width: 30%; padding: 10px; text-align: left; font-family: sans-serif; font-size: 14px;">Phone</th>
-                                        <td style="padding: 10px; background: #ccc; text-align: left; color: #000;font-family: sans-serif;font-size: 15px;"><?=$profiledetail->phone;?></td>
+                                    <td style="padding: 10px; background: #ccc; text-align: left; color: #000;font-family: sans-serif;font-size: 15px;"><?=$profiledetail->phone;?></td>
                                 </tr>
                                 <tr>
                                     <th style="background: #cccccc42; color: #000; width: 30%; padding: 10px; text-align: left; font-family: sans-serif; font-size: 14px;">Registered at</th>
-                                        <td style="padding: 10px; background: #cccccc42; text-align: left; color: #000;font-family: sans-serif;font-size: 15px;"><?=date_format(date_create($profiledetail->created_at), "M d, Y h:i A")?></td>
+                                    <td style="padding: 10px; background: #cccccc42; text-align: left; color: #000;font-family: sans-serif;font-size: 15px;"><?=date_format(date_create($profiledetail->created_at), "M d, Y h:i A")?></td>
                                 </tr>
                                 <tr>
                                     <th style="background: #ccc; color: #000; width: 30%; padding: 10px; text-align: left; font-family: sans-serif; font-size: 14px;">Profile Pic</th>
-                                        <td style="padding: 10px; background: #ccc; text-align: left; color: #000;font-family: sans-serif;font-size: 15px;">
+                                    <td style="padding: 10px; background: #ccc; text-align: left; color: #000;font-family: sans-serif;font-size: 15px;">
                                         <?php if($student->profile_pic != ''){?>
                                             <img src="<?=$student->profile_pic?>" class="img-thumbnail" alt="<?=$student->first_name.' '.$student->last_name?>" style="width: 150px; height: 150px; margin-top: 10px;">
                                             <?php } else {?>
@@ -83,6 +83,7 @@ $controllerRoute = $module['controller_route'];
                                 <form method="POST" action="" enctype="multipart/form-data">
                                     @csrf
                                     <div class="row mb-3">
+                                        <input type="hidden" name="type" value="STUDENT">
                                         <input type="hidden" name="student_id" value="<?=$student->id;?>">
                                         <input type="hidden" name="user_id" value="<?=$profiledetail->id;?>">
                                         <?php $allStudents = RequireDocument::where('user_type', '=', 'student')->get(); ?>
@@ -100,7 +101,7 @@ $controllerRoute = $module['controller_route'];
                                         <label for="image" class="col-md-2 col-lg-2 col-form-label">Document Scan Copy</label>
                                         <div class="col-md-10 col-lg-10">
                                             <input type="file" name="image" class="form-control" id="img_file" onChange="img_pathUrl(this);">
-                                            <small class="text-info">* Only JPG, JPEG, ICO, SVG, PNG ,PDF files are allowed, File size upto 1MB </small><br>
+                                            <small class="text-info">* Only JPG, JPEG, ICO, SVG, PNG, PDF files are allowed, File size upto 1MB </small><br>
                                             <img src="<?=env('NO_IMAGE')?>" alt="" class="img-thumbnail" style="height: 110px; margin-top: 10px;" id="img_url">
                                         </div>
                                     </div>
