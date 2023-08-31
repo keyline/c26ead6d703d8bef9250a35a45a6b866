@@ -60,7 +60,7 @@ class ApiController extends Controller
                                 $imageFile      = $request->file('user_doc');
                                 if($imageFile != ''){
                                     $imageName      = $imageFile->getClientOriginalName();
-                                    $uploadedFile   = $this->upload_single_file('user_doc', $imageName, 'banner', 'image');
+                                    $uploadedFile   = $this->upload_single_file('user_doc', $imageName, 'user', 'image');
                                     if($uploadedFile['status']){
                                         $user_doc = $uploadedFile['newFilename'];
 
