@@ -33,23 +33,33 @@
                   <div class="metor_step1_form">
                      <form>
                         <div class="ant-col ant-col-24 add-slots">
+                           @foreach($days AS $day)
                            <div class="row slot-item">
                               <div class="col-md-3">
                                  <div class="slot_weeksday">
                                     <div class="form-check">
-                                       <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" checked>
+                                       <input class="form-check-input chk__slots__show__hide" type="checkbox" name="{{ $day->day }}_input" value="$day->day" data-chkcontainer="{{ strtolower($day->day_text) }}" id="flexCheckChecked"
+                                        {{ (in_array($day->day_index, [6,7])) ? 'checked' : '' }}>
+                                       
                                        <label class="form-check-label" for="flexCheckChecked">
-                                       Saturday
+                                       
+                                        {{ $day->day_text }}
                                        </label>
                                     </div>
                                  </div>
                               </div>
-                              <div class="col-md-9">
+                              <div class="col-md-9 slots__parent">
+                                 @if(in_array($day->day_index, [6,7]))
                                  <div class="slots-section">
                                     <div class="slots-select-box">
                                        <div class="slot_starttime">
-                                          <select id="selectbox">
-                                             <option value="1">12.00 AM</option>
+                                          <select id="selectbox" name="{{ $day->day }}_from">
+                                             @foreach($slot_dropdown AS $option)
+                                             <option value="{{ $option['value'] }}" 
+                                             {{ ($option['selected_from'] == $option['value']) ? 'selected' : '' }}>
+                                              {{ $option['name'] }}</option>
+                                             @endforeach
+                                             <!-- <option value="1">12.00 AM</option>
                                              <option value="2">12.15 AM</option>
                                              <option value="3">12.30 AM</option>
                                              <option value="4">12.45 AM</option>
@@ -57,191 +67,34 @@
                                              <option value="6">1.15 AM</option>
                                              <option value="7">1.30 AM</option>
                                              <option value="8">1.45 AM</option>
-                                             <option value="9">2.00 AM</option>
+                                             <option value="9">2.00 AM</option> -->
                                           </select>
                                        </div>
                                        <div style="display: inline; margin: 0px 1em;">-</div>
                                        <div class="slot_endtime">
-                                          <select id="selectbox2">
-                                             <option value="1">12.00 AM</option>
-                                             <option value="2">12.15 AM</option>
-                                             <option value="3">12.30 AM</option>
-                                             <option value="4">12.45 AM</option>
-                                             <option value="5">1.00 AM</option>
-                                             <option value="6">1.15 AM</option>
-                                             <option value="7">1.30 AM</option>
-                                             <option value="8">1.45 AM</option>
-                                             <option value="9">2.00 AM</option>
+                                          <select id="selectbox2" name="{{ $day->day }}_to">
+                                             @foreach($slot_dropdown AS $option)
+                                             <option value="{{ $option['value'] }}"
+                                             {{ ($option['selected_to'] == $option['value']) ? 'selected' : '' }}>
+                                             {{ $option['name'] }}</option>
+                                             @endforeach
                                           </select>
                                        </div>
-                                       <button class="add-slot-btn"><i class="fa-solid fa-plus"></i></button>
+                                       <button class="add-slot-btn add__slot__parent" data-container="{{ strtolower($day->day_text) }}"><span style="pointer-events: none;"><i class="fa-solid fa-plus"></i></span></button>
                                     </div>
                                     <div class="btn-apply-all"><a href="#">Apply To All</a></div>
+                                    
                                  </div>
-                              </div>
-                           </div>
-                           <div class="row slot-item">
-                              <div class="col-md-3">
-                                 <div class="slot_weeksday">
-                                    <div class="form-check">
-                                       <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" checked>
-                                       <label class="form-check-label" for="flexCheckChecked">
-                                       Sunday
-                                       </label>
-                                    </div>
-                                 </div>
-                              </div>
-                              <div class="col-md-9">
-                                 <div class="slots-section">
-                                    <div class="slots-select-box">
-                                       <div class="slot_starttime">
-                                          <select id="selectbox3">
-                                             <option value="1">12.00 AM</option>
-                                             <option value="2">12.15 AM</option>
-                                             <option value="3">12.30 AM</option>
-                                             <option value="4">12.45 AM</option>
-                                             <option value="5">1.00 AM</option>
-                                             <option value="6">1.15 AM</option>
-                                             <option value="7">1.30 AM</option>
-                                             <option value="8">1.45 AM</option>
-                                             <option value="9">2.00 AM</option>
-                                          </select>
-                                       </div>
-                                       <div style="display: inline; margin: 0px 1em;">-</div>
-                                       <div class="slot_endtime">
-                                          <select id="selectbox4">
-                                             <option value="1">12.00 AM</option>
-                                             <option value="2">12.15 AM</option>
-                                             <option value="3">12.30 AM</option>
-                                             <option value="4">12.45 AM</option>
-                                             <option value="5">1.00 AM</option>
-                                             <option value="6">1.15 AM</option>
-                                             <option value="7">1.30 AM</option>
-                                             <option value="8">1.45 AM</option>
-                                             <option value="9">2.00 AM</option>
-                                          </select>
-                                       </div>
-                                       <button class="add-slot-btn"><i class="fa-solid fa-plus"></i></button>
-                                    </div>
-                                    <div class="btn-apply-all"><a href="#">Apply To All</a></div>
-                                 </div>
-                              </div>
-                           </div>
-                           <div class="row slot-item">
-                              <div class="col-md-3">
-                                 <div class="slot_weeksday">
-                                    <div class="form-check">
-                                       <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" checked>
-                                       <label class="form-check-label" for="flexCheckChecked">
-                                       Monday
-                                       </label>
-                                    </div>
-                                 </div>
-                              </div>
-                              <div class="col-md-9">
-                                 <div class="slots-section">
-                                    <div class="slots-select-box">
-                                       <div class="slot_starttime">
-                                          <select id="selectbox5">
-                                             <option value="1">12.00 AM</option>
-                                             <option value="2">12.15 AM</option>
-                                             <option value="3">12.30 AM</option>
-                                             <option value="4">12.45 AM</option>
-                                             <option value="5">1.00 AM</option>
-                                             <option value="6">1.15 AM</option>
-                                             <option value="7">1.30 AM</option>
-                                             <option value="8">1.45 AM</option>
-                                             <option value="9">2.00 AM</option>
-                                          </select>
-                                       </div>
-                                       <div style="display: inline; margin: 0px 1em;">-</div>
-                                       <div class="slot_endtime">
-                                          <select id="selectbox6">
-                                             <option value="1">12.00 AM</option>
-                                             <option value="2">12.15 AM</option>
-                                             <option value="3">12.30 AM</option>
-                                             <option value="4">12.45 AM</option>
-                                             <option value="5">1.00 AM</option>
-                                             <option value="6">1.15 AM</option>
-                                             <option value="7">1.30 AM</option>
-                                             <option value="8">1.45 AM</option>
-                                             <option value="9">2.00 AM</option>
-                                          </select>
-                                       </div>
-                                       <button class="add-slot-btn"><i class="fa-solid fa-plus"></i></button>
-                                    </div>
-                                    <div class="btn-apply-all"><a href="#">Apply To All</a></div>
-                                 </div>
-                              </div>
-                           </div>
-                           <div class="row slot-item">
-                              <div class="col-md-3">
-                                 <div class="slot_weeksday">
-                                    <div class="form-check">
-                                       <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" checked>
-                                       <label class="form-check-label" for="flexCheckChecked">
-                                       Tuesday
-                                       </label>
-                                    </div>
-                                 </div>
-                              </div>
-                              <div class="col-md-9">
-                                 <div class="slots-section">
+                                    @else
                                     <div class="ant-typography slots-unavailable">Unavailable</div>
-                                 </div>
-                              </div>
-                           </div>
-                           <div class="row slot-item">
-                              <div class="col-md-3">
-                                 <div class="slot_weeksday">
-                                    <div class="form-check">
-                                       <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" checked>
-                                       <label class="form-check-label" for="flexCheckChecked">
-                                       Wednesday
-                                       </label>
+
+                                    @endif
+                                    <div class="slot__items__component" id="item-list-container-{{ strtolower($day->day_text) }}">
                                     </div>
-                                 </div>
-                              </div>
-                              <div class="col-md-9">
-                                 <div class="slots-section">
-                                    <div class="ant-typography slots-unavailable">Unavailable</div>
-                                 </div>
                               </div>
                            </div>
-                           <div class="row slot-item">
-                              <div class="col-md-3">
-                                 <div class="slot_weeksday">
-                                    <div class="form-check">
-                                       <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" checked>
-                                       <label class="form-check-label" for="flexCheckChecked">
-                                       Thursday
-                                       </label>
-                                    </div>
-                                 </div>
-                              </div>
-                              <div class="col-md-9">
-                                 <div class="slots-section">
-                                    <div class="ant-typography slots-unavailable">Unavailable</div>
-                                 </div>
-                              </div>
-                           </div>
-                           <div class="row slot-item">
-                              <div class="col-md-3">
-                                 <div class="slot_weeksday">
-                                    <div class="form-check">
-                                       <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" checked>
-                                       <label class="form-check-label" for="flexCheckChecked">
-                                       Friday
-                                       </label>
-                                    </div>
-                                 </div>
-                              </div>
-                              <div class="col-md-9">
-                                 <div class="slots-section">
-                                    <div class="ant-typography slots-unavailable">Unavailable</div>
-                                 </div>
-                              </div>
-                           </div>
+                           @endforeach
+                           
                         </div>
                         <div class="input-group mb-3">
                            <!--<button class="next-btn">Next</button>-->
@@ -317,3 +170,185 @@
    </div>
 </section>
 @endsection
+@push('scripts')
+<script>
+//const parentaddItmBtn= document.querySelectorAll('.add-slots > div');
+//const addItmBtn= document.querySelectorAll('.add-slot-btn');
+const addItmBtn= document.querySelectorAll('.slots__parent');
+//var selectItems = document.getElementsByClassName("slots-select-box");
+const addFromChkBtn= document.querySelectorAll('.form-check-input');
+const slotList= document.querySelectorAll('.slots__parent');
+//For adding items with add button
+
+//collect data that is inserted 
+const addSelectInput = (postData) => {
+  return fetch("{{route('mentor.timeslot.item')}}", {
+         method: 'POST',
+         headers: {
+            'Content-Type': 'application/json',
+            'X-Requested-With': 'XMLHttpRequest',
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+         },
+         body: JSON.stringify(postData)
+
+            })
+            .then(response => response.json())
+            .catch(error => {
+                console.error('Error fetching items:', error);
+            });
+
+}
+
+
+const handleAddSlot = (e) =>{
+   //add-slot-btn
+   debugger;
+      event.preventDefault();
+      //event.stopPropagation();
+      
+if (e.target.classList.contains('add__slot__parent')) {
+   const postData= {
+      'day': e.target.getAttribute("data-container"),
+      'action': 'stumentoAjx__new__slot__can__be__removed'
+   }
+   //alert('clicked ' + postData.day);
+   addSelectInput(postData).then((data) => {
+      
+      //const el= document.getElementById('item-list-container-' + data.containerIdentity);
+      const el = document.querySelector('#item-list-container-' + data.containerIdentity);
+      el.insertAdjacentHTML('afterbegin', data.html);
+
+   });
+   
+}
+   return;
+
+   
+
+}
+const handleAddSlotFrmChkBtn= (e) => {
+         const parent= e.target.closest('div > .row');
+
+         let divs= parent.children;
+
+         const d= collectionContains(divs, 'unavailable');
+
+         let nestedElements = e.target.closest('.slot-item').querySelectorAll('.slots-unavailable');
+
+         let el= e.target.closest('.slot-item').querySelector('.slots__parent');
+         const iDiv = document.createElement('div');
+            
+            iDiv.className = 'slots-section';
+            el.insertAdjacentElement('afterbegin', iDiv);
+            //el.appendChild(iDiv);
+   if(e.target.checked)
+      {
+         
+
+         //console.log({'divs': divs, 'is_txt': d, 'target': event.currentTarget});
+
+         if(d){
+            // Get all nested elements with the class "target-class"
+            
+            //console.log({'parentElem': nestedElements});
+            nestedElements.forEach(ele => {
+               ele.innerText="";
+            });
+         }
+         
+      
+         const postData= {
+            'day': e.target.getAttribute("data-chkcontainer"),
+            'action': 'stumentoAjx_new_slot_add'
+         }
+         
+         
+         
+         //.classList.add('invisible');
+         
+         addSelectInput(postData).then((data)=>{
+            //const el= e.currentTarget.querySelector('.slots-section');
+            //iDiv.appendChild(data.html);
+            iDiv.insertAdjacentHTML('afterbegin', data.html);
+            //console.log({'parent' : element});
+         });
+      } else{
+           if(! d)
+           {
+               let slotSection =e.target.closest('.slot-item').querySelectorAll('.slots-section');
+               slotSection.forEach(el => {
+                  el.remove();
+               });
+               //console.log({'is_it_available' : Object.keys(nestedElements).length});
+               if(Object.keys(nestedElements).length === 0)
+               {
+                  //create element
+                  const iDivUnavailable = document.createElement('div');
+                  let classes= "ant-typography slots-unavailable".split(' ');
+                  iDivUnavailable.classList.add(...classes);
+                  iDivUnavailable.innerText= 'Unavailable';
+                  console.log({'unavailableDiv': iDivUnavailable});
+                  el.insertAdjacentElement('afterbegin', iDivUnavailable);
+
+
+
+               }else{
+                  nestedElements.forEach(ele => {
+               ele.innerText="Unavailable";
+            });
+               }
+               
+           }
+      }
+      //return false;
+
+   
+}
+
+const handleDeleteSlot = (e) =>{
+   //alert("You clicked me!");
+   // if user clicks on delete item, find and remove the parent article
+   if (e.target.classList.contains('deleteItem')) {
+        const parent = e.target.parentElement;
+        //const list= e.currentTarget.querySelector('.slot__items__component');
+        parent.remove();
+        //updateLocalCartLocalStorage(<id>);
+    } else {
+        return;
+    }
+    
+
+};
+function collectionContains(collection, searchText) {
+    for (var i = 0; i < collection.length; i++) {
+        if( collection[i].innerText.toLowerCase().indexOf(searchText) > -1 ) {
+            return true;
+        }
+    }
+    return false;
+}
+
+//this will check for a click event and create new list item
+addItmBtn.forEach(item => {
+   item.addEventListener("click", handleAddSlot);
+      
+});
+
+
+//add slot event on check button
+addFromChkBtn.forEach(item => {
+   item.addEventListener("click", handleAddSlotFrmChkBtn);
+});
+
+//check/uncheck item event
+// parentaddItmBtn.forEach((item) => {
+
+//    item.addEventListener('click', handleChkBtnAddSlot);
+// });
+
+//delete item event
+slotList.forEach((slot) => {
+   slot.addEventListener('click', handleDeleteSlot);
+});
+</script>
+@endpush

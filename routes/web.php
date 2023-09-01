@@ -57,6 +57,9 @@ Route::prefix('/')->namespace('App\Http\Controllers')->group(function () {
 
         Route::post('/create/step4', [\App\Http\Controllers\MentorController::class, 'postCreateStep4'])->name('create.step4');
 
+        //ajax method
+        Route::post('/timeslot/item', [\App\Http\Controllers\MentorController::class, 'getTimeSlotItem'])->name('timeslot.item');
+
 
 
 

@@ -203,11 +203,87 @@ class MentorController extends Controller
 
     public function createStep4()
     {
-        return \view('front.mentor.onboarding.create-step4');
+
+        $daysOfWeek = \App\Models\DayOfWeek::orderBy('day_index', 'desc')->get();
+
+        $startPeriod = \Carbon\Carbon::parse('00:00');
+        $endPeriod   = \Carbon\Carbon::parse('24:00');
+
+
+        $period = \Carbon\CarbonPeriod::create($startPeriod, '15 minutes', $endPeriod)
+            ->excludeEndDate();
+
+        foreach ($period as $date) {
+            # code...
+            $hours[] = array('name' => $date->format('h:i A'),
+                             'value' => $date->format('Hi'),
+                             'selected_from' => '0900',
+                             'selected_to'   => '2000'
+        );
+
+        }
+
+        //dd($hours);
+        return \view('front.mentor.onboarding.create-step4', ['slot_dropdown' => $hours, 'days' => $daysOfWeek]);
     }
 
     public function postCreateStep4()
     {
+
+    }
+
+    public function getTimeSlotItem(Request $request)
+    {
+        if (!request()->action) {
+            abort('500');
+        }
+
+        $data = $request->validate([
+            'day' => 'required',
+            'action' => 'required'
+        ]);
+
+        $daysOfWeek[] = \App\Models\DayOfWeek::where('day_text', $data['day'])->first();
+
+
+        $startPeriod = \Carbon\Carbon::parse('00:00');
+        $endPeriod   = \Carbon\Carbon::parse('24:00');
+
+
+        $period = \Carbon\CarbonPeriod::create($startPeriod, '15 minutes', $endPeriod)
+            ->excludeEndDate();
+
+
+        foreach ($period as $date) {
+            # code...
+            $hours[] = array('name' => $date->format('h:i A'),
+                             'value' => $date->format('Hi'),
+                             'selected_from' => '0900',
+                             'selected_to'   => '2000'
+                );
+
+        }
+
+        $actionClass = $data['action'] !== 'stumentoAjx_new_slot_add' ? 'deleteItem' : 'add__slot__parent';
+        $iconClass = $data['action'] !== 'stumentoAjx_new_slot_add' ? 'minus' : 'plus';
+
+
+        if ($request->ajax()) {
+            $html = \View::make('components.nested-time-schedule')
+            ->with(['daysOfWeek' => $daysOfWeek,
+                     'slot_dropdown' => $hours,
+                     'actionclass' =>  $actionClass,
+                    'iconclass' =>  $iconClass,
+                    ])
+            ->render();
+            return response()->json(['html' => $html,
+                                    'containerIdentity' => strtolower($daysOfWeek[0]->day_text),
+                                    ]);
+        }
+
+
+
+
 
     }
     /* authentication */
