@@ -168,7 +168,7 @@ class MentorController extends Controller
                         if($imageFile != ''){
                             $imageName         = $imageFile->getClientOriginalName();
                             $imageFileType     = pathinfo($imageName, PATHINFO_EXTENSION);
-                            if($imageFileType == 'jpg' && 'png' && 'jepg' && 'svg'){
+                            if($imageFileType == 'jpg' || 'png' || 'jepg' || 'svg'){
                                 $uploadedFile  = $this->upload_single_file('image', $imageName, 'mentor_document', 'image');
                             }else{
                                 $uploadedFile  = $this->upload_single_file('image', $imageName, 'mentor_document', 'pdf');
@@ -246,5 +246,5 @@ class MentorController extends Controller
         $page_name                      = 'mentor.profile';
         echo $this->admin_after_login_layout($title,$page_name,$data);
     }
-/*profile*/
+    /*profile*/
 }
