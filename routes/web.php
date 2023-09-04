@@ -105,7 +105,7 @@ Route::prefix('/api')->namespace('App\Http\Controllers')->group(function () {
 /*Front Dashboard */
 Route::prefix('/dashboard')->namespace('App\Http\Controllers')->group(function () {
     Route::get('/', 'DashboardController@home');
-    Route::get('/profile', 'DashboardController@profile');
+    Route::match(['get','post'],'/profile', 'DashboardController@profile');
     Route::get('/mentor-availability', 'DashboardController@mentorAvailability');
     Route::get('/mentor-services', 'DashboardController@mentorServices');
 });
