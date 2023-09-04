@@ -102,6 +102,14 @@ Route::prefix('/api')->namespace('App\Http\Controllers')->group(function () {
     Route::match(['get'], 'resend-otp', 'ApiController@resendOtp');
 });
 /* API */
+/*Front Dashboard */
+Route::prefix('/dashboard')->namespace('App\Http\Controllers')->group(function () {
+    Route::get('/', 'DashboardController@home');
+    Route::get('/profile', 'DashboardController@profile');
+    Route::get('/mentor-availability', 'DashboardController@mentorAvailability');
+    Route::get('/mentor-services', 'DashboardController@mentorServices');
+});
+/*Front Dashboard */
 /* Admin Panel */
     
     Route::prefix('/admin')->namespace('App\Http\Controllers\Admin')->group(function(){
