@@ -8,77 +8,34 @@
                </div>
                <h3>Find your account</h3>
                <p class="text-center">Please enter email address to find your account.</p>
-               <form action="">
+               @if(session('success_message'))
+                  <div class="alert alert-success bg-success text-light border-0 alert-dismissible fade show autohide" role="alert">
+                    {{ session('success_message') }}
+                  </div>
+               @endif
+               @if(session('error_message'))
+                  <div class="alert alert-danger bg-danger text-light border-0 alert-dismissible fade show autohide" role="alert">
+                    {{ session('error_message') }}
+                  </div>
+               @endif
+                <form method="POST" enctype="multipart/form-data">
+                  @csrf
                   <div class="form-group">
-                     <input type="text" class="form-control" placeholder="Email address">
+                     <input type="text" class="form-control" placeholder="Email address" name="email" id="email" required>
                   </div>
                   <div class="form-group">
-                     <button class="login-btn">Submit</button>
+                     <button type="submit" class="login-btn">Submit</button>
                   </div>
                </form>
-               <!-- <div class="icon-box-2">
-                  <img src="<?=env('FRONT_ASSETS_URL')?>assets/images/forget-pass-icon.webp" alt="">
-                  </div> -->
+               <div class="form-group">
+                  <p>Already have an account? <a href="<?=url('signin')?>"> Sign In</a></p>
+               </div>
             </div>
          </div>
          <div class="col-lg-4 col-md-6 col-sm-6">
             <div class="rightside_testslider">
                <div class="login_sidebar_testimorial">
-                  <div class="testmoric_item">
-                     <div class="testimor_quote"><img src="<?=env('FRONT_ASSETS_URL')?>assets/images/testi_qutationo.png" alt="icon"></div>
-                     <div class="testimori_content">I was looking for online career counselling after 12th and one of my friends suggested StuMento. The best part of StuMento is that  I got to choose from multiple career counsellers from the comfort of my home. Thanks to the sessions, Now I am so much more clear about my career now👍</div>
-                     <div class="testomori_profile">
-                        <div class="testmori_prof_img"><img src="<?=env('FRONT_ASSETS_URL')?>assets/images/testi_qutati_img.png" alt="icon"></div>
-                        <div class="testmori_name">
-                           <h3>Vijay</h3>
-                           <h5>Recent 12th graduate</h5>
-                        </div>
-                     </div>
-                  </div>
-                  <div class="testmoric_item">
-                     <div class="testimor_quote"><img src="<?=env('FRONT_ASSETS_URL')?>assets/images/testi_qutationo.png" alt="icon"></div>
-                     <div class="testimori_content">I was looking for online career counselling after 12th and one of my friends suggested StuMento. The best part of StuMento is that  I got to choose from multiple career counsellers from the comfort of my home. Thanks to the sessions, Now I am so much more clear about my career now👍</div>
-                     <div class="testomori_profile">
-                        <div class="testmori_prof_img"><img src="<?=env('FRONT_ASSETS_URL')?>assets/images/testi_qutati_img.png" alt="icon"></div>
-                        <div class="testmori_name">
-                           <h3>Vijay</h3>
-                           <h5>Recent 12th graduate</h5>
-                        </div>
-                     </div>
-                  </div>
-                  <div class="testmoric_item">
-                     <div class="testimor_quote"><img src="<?=env('FRONT_ASSETS_URL')?>assets/images/testi_qutationo.png" alt="icon"></div>
-                     <div class="testimori_content">I was looking for online career counselling after 12th and one of my friends suggested StuMento. The best part of StuMento is that  I got to choose from multiple career counsellers from the comfort of my home. Thanks to the sessions, Now I am so much more clear about my career now👍</div>
-                     <div class="testomori_profile">
-                        <div class="testmori_prof_img"><img src="<?=env('FRONT_ASSETS_URL')?>assets/images/testi_qutati_img.png" alt="icon"></div>
-                        <div class="testmori_name">
-                           <h3>Vijay</h3>
-                           <h5>Recent 12th graduate</h5>
-                        </div>
-                     </div>
-                  </div>
-                  <div class="testmoric_item">
-                     <div class="testimor_quote"><img src="<?=env('FRONT_ASSETS_URL')?>assets/images/testi_qutationo.png" alt="icon"></div>
-                     <div class="testimori_content">I was looking for online career counselling after 12th and one of my friends suggested StuMento. The best part of StuMento is that  I got to choose from multiple career counsellers from the comfort of my home. Thanks to the sessions, Now I am so much more clear about my career now👍</div>
-                     <div class="testomori_profile">
-                        <div class="testmori_prof_img"><img src="<?=env('FRONT_ASSETS_URL')?>assets/images/testi_qutati_img.png" alt="icon"></div>
-                        <div class="testmori_name">
-                           <h3>Vijay</h3>
-                           <h5>Recent 12th graduate</h5>
-                        </div>
-                     </div>
-                  </div>
-                  <div class="testmoric_item">
-                     <div class="testimor_quote"><img src="<?=env('FRONT_ASSETS_URL')?>assets/images/testi_qutationo.png" alt="icon"></div>
-                     <div class="testimori_content">I was looking for online career counselling after 12th and one of my friends suggested StuMento. The best part of StuMento is that  I got to choose from multiple career counsellers from the comfort of my home. Thanks to the sessions, Now I am so much more clear about my career now👍</div>
-                     <div class="testomori_profile">
-                        <div class="testmori_prof_img"><img src="<?=env('FRONT_ASSETS_URL')?>assets/images/testi_qutati_img.png" alt="icon"></div>
-                        <div class="testmori_name">
-                           <h3>Vijay</h3>
-                           <h5>Recent 12th graduate</h5>
-                        </div>
-                     </div>
-                  </div>
+                  <?=$testimonialsData?>
                </div>
             </div>
          </div>

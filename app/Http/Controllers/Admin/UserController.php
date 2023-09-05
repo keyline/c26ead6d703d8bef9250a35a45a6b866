@@ -8,6 +8,7 @@ use Illuminate\Validation\Rule;
 use App\Models\GeneralSetting;
 use App\Models\Admin;
 use App\Models\EmailLog;
+use App\Models\Enquiry;
 use App\Models\UserActivity;
 use App\Models\SubscriptionPackage;
 use App\Models\User;
@@ -37,6 +38,7 @@ class UserController extends Controller
                         $request->session()->put('name', $sessionData->name);
                         $request->session()->put('type', $sessionData->type);
                         $request->session()->put('email', $sessionData->email);
+                        $request->session()->put('is_admin_login', 1);
 
                         /* user activity */
                             $activityData = [
@@ -474,12 +476,33 @@ class UserController extends Controller
                     }
                 }
 
+                $footer_link_name_array3 = $postData['footer_link_name3'];
+                $footer_link_name3       = [];
+                if(!empty($footer_link_name_array3)){
+                    for($f=0;$f<count($footer_link_name_array3);$f++){
+                        if($footer_link_name_array3[$f]){
+                            $footer_link_name3[]       = $footer_link_name_array3[$f];
+                        }
+                    }
+                }
+                $footer_link_array3 = $postData['footer_link3'];
+                $footer_link3       = [];
+                if(!empty($footer_link_array3)){
+                    for($f=0;$f<count($footer_link_array3);$f++){
+                        if($footer_link_array3[$f]){
+                            $footer_link3[]       = $footer_link_array3[$f];
+                        }
+                    }
+                }
+
                 $fields = [
                     'footer_text'                   => $postData['footer_text'],
                     'footer_link_name'              => json_encode($footer_link_name),
                     'footer_link'                   => json_encode($footer_link),
                     'footer_link_name2'             => json_encode($footer_link_name2),
                     'footer_link2'                  => json_encode($footer_link2),
+                    'footer_link_name3'             => json_encode($footer_link_name3),
+                    'footer_link3'                  => json_encode($footer_link3),
                 ];
                 // Helper::pr($fields);
                 GeneralSetting::where('id', '=', 1)->update($fields);
@@ -534,6 +557,13 @@ class UserController extends Controller
             $data['rows']                   = EmailLog::where('status', '=', 1)->orderBy('id', 'DESC')->get();
             $title                          = 'Email Logs';
             $page_name                      = 'email-logs';
+            echo $this->admin_after_login_layout($title,$page_name,$data);
+        }
+        public function emailLogsDetails(Request $request,$email ){
+            $Email = Helper::decoded($email);
+            $data['logData']                   = Enquiry::where('email', '=', $Email)->orderBy('id', 'DESC')->first();
+            $title                          = 'Email Logs Details';
+            $page_name                      = 'email-logs-info';
             echo $this->admin_after_login_layout($title,$page_name,$data);
         }
     /* email logs */

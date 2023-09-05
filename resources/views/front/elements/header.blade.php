@@ -1,3 +1,9 @@
+<?php
+use Illuminate\Support\Facades\Route;;
+$routeName = Route::current();
+$pageName = $routeName->uri();
+// dd($routeName);
+?>
 <div class="container">
    <div class="row">
       <div class="col-lg-3 col-md-4 col-sm-12 col-6">
@@ -14,33 +20,56 @@
                   <i class="zmdi zmdi-close"></i>
                   </button>
                   <ul class="navbar-nav">
-                     <li class="nav-item active">
+                     <li class="nav-item <?=(($pageName == '/')?'active':'')?>">
                         <a class="nav-link" href="<?=url('/')?>">Home</a>
                      </li>
-                     <li class="nav-item">
+                     <li class="nav-item <?=(($pageName == 'mentors')?'active':'')?>">
                         <a class="nav-link" href="<?=url('mentors')?>">Mentors</a>
                      </li>
-                     <li class="nav-item">
+                     <li class="nav-item <?=(($pageName == 'blogs')?'active':'')?>">
                         <a class="nav-link" href="<?=url('blogs')?>">Resources</a>
                      </li>
-                     <li class="nav-item">
+                     <li class="nav-item <?=(($pageName == 'how-it-works')?'active':'')?>">
                         <a class="nav-link" href="<?=url('how-it-works')?>">How it works</a>
                      </li>
-                     <li class="nav-item">
+                     <li class="nav-item <?=(($pageName == 'survey')?'active':'')?>">
                         <a class="nav-link" href="#">Take a free test</a>
                      </li>
                   </ul>
                </div>
             </nav>
             <div class="header_loginbtn">
-               <ul>
-                  <li>
-                     <a class="btn_border" href="<?=url('signin')?>">Sign In</a>
-                  </li>
-                  <li>
-                     <a class="btn_orgfill" href="<?=route('mentor.signup')?>">Sign up free</a>
-                  </li>
-               </ul>
+               <?php if(empty(session('is_user_login'))){?>
+                  <ul>
+                     <li>
+                        <a class="btn_border" href="<?=url('signin')?>">Sign In</a>
+                     </li>
+                     <li>
+                        <a class="btn_orgfill" href="<?=route('mentor.signup')?>">Sign up free</a>
+                     </li>
+                  </ul>
+               <?php } else {?>
+                  <div class="login-profile dropdown">
+                     <button class="dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false">
+                         <div class="login-profile-avatar">
+                             <?php if($user->image != ''){?>
+                               <img src="<?=env('UPLOADS_URL').'user/'.$user->image?>" alt="<?=$user->name?>" style="width: 100px; height:100px; border-radius: 50%;">
+                             <?php } else {?>
+                               <img src="<?=env('NO_IMAGE')?>" alt="<?=$user->name?>" class="img-thumbnail" style="width: 100px; height:100px; border-radius: 50%;">
+                             <?php }?>
+                         </div>
+                         <div>
+                             <h3>Welcome</h3>
+                             <h4><?=(($user)?$user->name:'')?></h4>
+                         </div>
+                     </button>
+                     <div class="dropdown-menu">
+                         <ul>
+                             <li><a href="<?=url('signout')?>"> Sign Out</a></li>
+                         </ul>
+                     </div>
+                 </div>
+               <?php }?>
             </div>
          </div>
       </div>

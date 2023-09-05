@@ -38,7 +38,6 @@ $controllerRoute = $module['controller_route'];
                 <th scope="col">Name</th>
                 <th scope="col">Email</th>
                 <th scope="col">Phone</th>
-                <th scope="col">Profile Pic</th>
                 <th scope="col">Registered At</th>
                 <th scope="col">Action</th>
               </tr>
@@ -50,13 +49,6 @@ $controllerRoute = $module['controller_route'];
                   <td><?=$row->first_name.' '.$row->last_name?></td>
                   <td><?=$row->email?></td>
                   <td><?=$row->phone?></td>
-                  <td>
-                    <?php if($row->profile_pic != ''){?>
-                      <img src="<?=$row->profile_pic?>" class="img-thumbnail" alt="<?=$row->first_name.' '.$row->last_name?>" style="width: 150px; height: 150px; margin-top: 10px;">
-                    <?php } else {?>
-                      <img src="<?=env('NO_IMAGE')?>" alt="<?=$row->first_name.' '.$row->last_name?>" class="img-thumbnail" style="width: 150px; height: 150px; margin-top: 10px;">
-                    <?php }?>
-                  </td>
                   <td><?=date_format(date_create($row->created_at), "M d, Y h:i A")?></td>
                   <td>
                     <!-- <a href="<?=url('admin/' . $controllerRoute . '/edit/'.Helper::encoded($row->user_id))?>" class="btn btn-outline-primary btn-sm" title="Edit <?=$module['title']?>"><i class="fa fa-edit"></i></a> -->
@@ -67,8 +59,10 @@ $controllerRoute = $module['controller_route'];
                       <a href="<?=url('admin/' . $controllerRoute . '/change-status/'.Helper::encoded($row->user_id))?>" class="btn btn-outline-warning btn-sm" title="Deactivate <?=$module['title']?>"><i class="fa fa-times"></i></a>
                     <?php }?>
                     <br><br>
-                    <a target="_blank" href="<?=url('admin/' . $controllerRoute . '/bookings/'.Helper::encoded($row->user_id))?>" class="badge bg-info" title="Edit <?=$module['title']?>"><i class="fa fa-list"></i> Bookings</a>
+                    <a target="_blank" href="<?=url('admin/' . $controllerRoute . '/profile/'.Helper::encoded($row->user_id))?>" class="badge bg-dark" title="Edit <?=$module['title']?>"><i class="fa fa-user"></i> Student Profile</a>
                     <br><br>
+                    <a target="_blank" href="<?=url('admin/' . $controllerRoute . '/bookings/'.Helper::encoded($row->user_id))?>" class="badge bg-info" title="Edit <?=$module['title']?>"><i class="fa fa-list"></i> Bookings</a>
+                    <br><br>                    
                     <a target="_blank" href="<?=url('admin/' . $controllerRoute . '/transactions/'.Helper::encoded($row->user_id))?>" class="badge bg-warning" title="Edit <?=$module['title']?>"><i class="fa fa-inr"></i> Transactions</a>
                   </td>
                 </tr>

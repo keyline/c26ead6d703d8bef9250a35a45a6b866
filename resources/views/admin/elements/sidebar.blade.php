@@ -23,11 +23,11 @@ $pageFunction = ((count($pageName)>2)?$pageName[2]:'');
       </a>
       <ul id="permission-nav" class="nav-content collapse <?=(($pageSegment == 'module' || $pageSegment == 'sub-user' || $pageSegment == 'access')?'show':'')?>" data-bs-parent="#sidebar-nav">
         <?php if(in_array(8, $module_id)){?>
-        <li>
+        <!-- <li>
           <a class="<?=(($pageSegment == 'module')?'active':'')?>" href="{{ url('admin/module/list') }}">
             <i class="bi bi-arrow-right"></i><span>Modules</span>
           </a>
-        </li>
+        </li> -->
         <?php }?>
         <?php if(in_array(9, $module_id)){?>
         <li>
@@ -50,10 +50,10 @@ $pageFunction = ((count($pageName)>2)?$pageName[2]:'');
 
   <?php if((in_array(1, $module_id)) || (in_array(2, $module_id)) || (in_array(3, $module_id)) || (in_array(4, $module_id)) || (in_array(5, $module_id)) || (in_array(6, $module_id)) || (in_array(7, $module_id))){?>
   <li class="nav-item">
-    <a class="nav-link <?=(($pageSegment == 'banner' || $pageSegment == 'service-type' || $pageSegment == 'service' || $pageSegment == 'service-attribute' || $pageSegment == 'source' || $pageSegment == 'expertise' || $pageSegment == 'currency' || $pageSegment == 'language')?'':'collapsed')?> <?=(($pageSegment == 'banner' || $pageSegment == 'service-type' || $pageSegment == 'service' || $pageSegment == 'service-attribute' || $pageSegment == 'source' || $pageSegment == 'expertise' || $pageSegment == 'currency' || $pageSegment == 'language')?'active':'')?>" data-bs-target="#master-nav" data-bs-toggle="collapse" href="#">
+    <a class="nav-link <?=(($pageSegment == 'banner' || $pageSegment == 'service-type' || $pageSegment == 'service' || $pageSegment == 'service-attribute' || $pageSegment == 'source' || $pageSegment == 'expertise' || $pageSegment == 'currency' || $pageSegment == 'language' || $pageSegment == 'testimonial' || $pageSegment == 'social-platform')?'':'collapsed')?> <?=(($pageSegment == 'banner' || $pageSegment == 'service-type' || $pageSegment == 'service' || $pageSegment == 'service-attribute' || $pageSegment == 'service-association' || $pageSegment == 'source' || $pageSegment == 'expertise' || $pageSegment == 'currency' || $pageSegment == 'language' || $pageSegment == 'testimonial' || $pageSegment == 'social-platform' || $pageSegment == 'require-documents'  )?'active':'')?>" data-bs-target="#master-nav" data-bs-toggle="collapse" href="#">
       <i class="fa fa-database"></i><span>Master Management</span><i class="bi bi-chevron-down ms-auto"></i>
     </a>
-    <ul id="master-nav" class="nav-content collapse <?=(($pageSegment == 'banner' || $pageSegment == 'service-type' || $pageSegment == 'service' || $pageSegment == 'service-attribute' || $pageSegment == 'source' || $pageSegment == 'expertise' || $pageSegment == 'currency' || $pageSegment == 'language')?'show':'')?>" data-bs-parent="#sidebar-nav">
+    <ul id="master-nav" class="nav-content collapse <?=(($pageSegment == 'banner' || $pageSegment == 'service-type' || $pageSegment == 'service' || $pageSegment == 'service-attribute' || $pageSegment == 'service-association' || $pageSegment == 'source' || $pageSegment == 'expertise' || $pageSegment == 'currency' || $pageSegment == 'language' || $pageSegment == 'testimonial' || $pageSegment == 'social-platform' || $pageSegment == 'require-documents')?'show':'')?>" data-bs-parent="#sidebar-nav">
       <?php if(in_array(1, $module_id)){?>
       <li>
         <a class="<?=(($pageSegment == 'banner')?'active':'')?>" href="{{ url('admin/banner/list') }}">
@@ -82,6 +82,13 @@ $pageFunction = ((count($pageName)>2)?$pageName[2]:'');
         </a>
       </li>
       <?php }?>
+      <?php if(in_array(3, $module_id)){?>
+      <li>
+        <a class="<?=(($pageSegment == 'service-association')?'active':'')?>" href="{{ url('admin/service-association') }}">
+          <i class="bi bi-arrow-right"></i><span>Services Association</span>
+        </a>
+      </li>
+      <?php }?>
       <?php if(in_array(5, $module_id)){?>
       <li>
         <a class="<?=(($pageSegment == 'source')?'active':'')?>" href="{{ url('admin/source/list') }}">
@@ -107,6 +114,27 @@ $pageFunction = ((count($pageName)>2)?$pageName[2]:'');
       <li>
         <a class="<?=(($pageSegment == 'language')?'active':'')?>" href="{{ url('admin/language/list') }}">
           <i class="bi bi-arrow-right"></i><span>Languages</span>
+        </a>
+      </li>
+      <?php }?>
+      <?php if(in_array(28, $module_id)){?>
+      <li>
+        <a class="<?=(($pageSegment == 'testimonial')?'active':'')?>" href="{{ url('admin/testimonial/list') }}">
+          <i class="bi bi-arrow-right"></i><span>Testimonials</span>
+        </a>
+      </li>
+      <?php }?>
+      <?php if(in_array(28, $module_id)){?>
+      <li>
+        <a class="<?=(($pageSegment == 'social-platform')?'active':'')?>" href="{{ url('admin/social-platform/list') }}">
+          <i class="bi bi-arrow-right"></i><span>Social Platforms</span>
+        </a>
+      </li>
+      <?php }?>
+      <?php if(in_array(28, $module_id)){?>
+      <li>
+        <a class="<?=(($pageSegment == 'require-documents')?'active':'')?>" href="{{ url('admin/require-documents/list') }}">
+          <i class="bi bi-arrow-right"></i><span>Require Documents</span>
         </a>
       </li>
       <?php }?>
@@ -236,10 +264,10 @@ $pageFunction = ((count($pageName)>2)?$pageName[2]:'');
 
   <?php if((in_array(18, $module_id)) || (in_array(19, $module_id))) {?>
   <li class="nav-item">
-    <a class="nav-link <?=(($pageSegment == 'question-type' || $pageSegment == 'grade')?'':'collapsed')?> <?=(($pageSegment == 'question-type' || $pageSegment == 'grade')?'active':'')?>" data-bs-target="#survey-nav" data-bs-toggle="collapse" href="#">
+    <a class="nav-link <?=(($pageSegment == 'question-type' || $pageSegment == 'survey')?'':'collapsed')?> <?=(($pageSegment == 'question-type' || $pageSegment == 'survey')?'active':'')?>" data-bs-target="#survey-nav" data-bs-toggle="collapse" href="#">
       <i class="fa fa-poll"></i><span>Survey Management</span><i class="bi bi-chevron-down ms-auto"></i>
     </a>
-    <ul id="survey-nav" class="nav-content collapse <?=(($pageSegment == 'question-type' || $pageSegment == 'grade')?'show':'')?>" data-bs-parent="#sidebar-nav">
+    <ul id="survey-nav" class="nav-content collapse <?=(($pageSegment == 'question-type' || $pageSegment == 'survey')?'show':'')?>" data-bs-parent="#sidebar-nav">
       <?php if(in_array(18, $module_id)){?>
       <li>
         <a class="<?=(($pageSegment == 'question-type')?'active':'')?>" href="{{ url('admin/question-type/list') }}">
@@ -254,7 +282,7 @@ $pageFunction = ((count($pageName)>2)?$pageName[2]:'');
       </li> -->
       <?php if(in_array(19, $module_id)){?>
       <li>
-        <a href="{{ url('admin/survey/list')}}">
+        <a class="<?=(($pageSegment == 'survey')?'active':'')?>" href="{{ url('admin/survey/list')}}">
           <i class="bi bi-arrow-right"></i><span>Survey</span>
         </a>
       </li>
@@ -295,6 +323,15 @@ $pageFunction = ((count($pageName)>2)?$pageName[2]:'');
       <a class="nav-link <?=(($pageSegment == 'login-logs')?'active':'')?>" href="{{ url('admin/login-logs') }}">
         <i class="fa fa-list"></i>
         <span>Login Logs</span>
+      </a>
+    </li><!-- End Profile Page Nav -->
+  <?php }?>
+
+  <?php if(in_array(30, $module_id)){?>
+    <li class="nav-item">
+      <a class="nav-link <?=(($pageSegment == 'enquiry')?'active':'')?>" href="{{ url('admin/enquiry/list') }}">
+        <i class="fa fa-envelope"></i>
+        <span>Contact Enquiries</span>
       </a>
     </li><!-- End Profile Page Nav -->
   <?php }?>

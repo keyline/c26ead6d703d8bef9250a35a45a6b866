@@ -242,6 +242,23 @@ class Controller extends BaseController
         $data['maincontent']        = view('front.pages.'.$page_name, $data);
         return view('front.layout-after-login', $data);
     }
+    // front dashboard layout
+    public function front_dashboard_layout($title, $page_name, $data)
+    {
+        $data['generalSetting']     = GeneralSetting::find('1');
+        $data['title']              = $title.' :: '.$data['generalSetting']->site_name;
+        $data['page_header']        = $title;
+        $user_id                    = session('user_id');
+        $data['user']               = User::find($user_id);
+
+        $data['head']               = view('front.dashboard.elements.head', $data);
+        $data['header']             = view('front.dashboard.elements.header', $data);
+        $data['sidebar']            = view('front.dashboard.elements.sidebar', $data);
+        $data['footer']             = view('front.dashboard.elements.footer', $data);
+        $data['maincontent']        = view('front.dashboard.pages.'.$page_name, $data);
+        return view('front.dashboard.front-dashboard-layout', $data);
+    }
+    // front dashboard layout
     // admin authentication layout
     public function admin_before_login_layout($title, $page_name, $data)
     {
@@ -256,6 +273,7 @@ class Controller extends BaseController
     // admin after login layout
     public function admin_after_login_layout($title, $page_name, $data)
     {
+        // Helper::pr(session()->all());
         $data['generalSetting']     = GeneralSetting::find('1');
         $data['title']              = $title.' :: '.$data['generalSetting']->site_name;
         $data['page_header']        = $title;

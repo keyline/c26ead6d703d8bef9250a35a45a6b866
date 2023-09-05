@@ -42,6 +42,7 @@ $controllerRoute = $module['controller_route'];
                 <th scope="col">Designation<br>Qualification<br>Experience</th>
                 <th scope="col">Thought</th>
                 <th scope="col">Image</th>
+                <th scope="col">Owner</th>
                 <th scope="col">Action</th>
               </tr>
             </thead>
@@ -59,6 +60,7 @@ $controllerRoute = $module['controller_route'];
                       <img src="<?=env('NO_IMAGE')?>" alt="<?=$row->name?>" class="img-thumbnail" style="width: 150px; height: 150px; margin-top: 10px;">
                     <?php }?>
                   </td>
+                  <td><span class="badge <?=(($row->is_owner)?'bg-success':'bg-danger')?>"><?=(($row->is_owner)?'YES':'NO')?></span></td>
                   <td>
                     <a href="<?=url('admin/' . $controllerRoute . '/edit/'.Helper::encoded($row->id))?>" class="btn btn-outline-primary btn-sm" title="Edit <?=$module['title']?>"><i class="fa fa-edit"></i></a>
                     <a href="<?=url('admin/' . $controllerRoute . '/delete/'.Helper::encoded($row->id))?>" class="btn btn-outline-danger btn-sm" title="Delete <?=$module['title']?>" onclick="return confirm('Do You Want To Delete This <?=$module['title']?>');"><i class="fa fa-trash"></i></a>

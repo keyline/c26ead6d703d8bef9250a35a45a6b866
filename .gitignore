@@ -40,3 +40,7 @@ yarn-error.log
 /.fleet
 /.idea
 /.vscode
+# error_log/htaccess/and uploads folder issue
+error_log
+/.htaccess
+uploads/

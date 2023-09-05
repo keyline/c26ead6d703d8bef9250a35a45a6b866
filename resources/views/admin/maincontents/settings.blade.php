@@ -65,9 +65,9 @@ $user_type = session('type');
             <li class="nav-item">
               <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab4">Email</button>
             </li>
-            <li class="nav-item">
+            <!-- <li class="nav-item">
               <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab9">Email Templates</button>
-            </li>
+            </li> -->
             <li class="nav-item">
               <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab5">SMS</button>
             </li>
@@ -162,7 +162,7 @@ $user_type = session('type');
                   </div>
                 </div>
                 <div class="row mb-3">
-                  <label for="description" class="col-md-4 col-lg-3 col-form-label">Description</label>
+                  <label for="description" class="col-md-4 col-lg-3 col-form-label">Address</label>
                   <div class="col-md-8 col-lg-9">
                     <textarea name="description" class="form-control" id="description" rows="5"><?=$setting->description?></textarea>
                   </div>
@@ -539,7 +539,7 @@ $user_type = session('type');
                   </div>
                 </div>
 
-                <label for="" class="col-md-4 col-lg-3 col-form-label">Column 2</label>
+                <label for="" class="col-md-4 col-lg-3 col-form-label">GET HELP</label>
                 <div class="field_wrapper2" style="border: 1px solid #8144f0;padding: 10px;margin-bottom: 10px;">
                   <?php
                   $footer_link_name2 = (($setting->footer_link_name2 != '')?json_decode($setting->footer_link_name2):[]);
@@ -579,6 +579,50 @@ $user_type = session('type');
                       </div>
                       <div class="col-md-2" style="margin-top: 26px;">
                           <a href="javascript:void(0);" class="add_button2" title="Add field"><i class="fa fa-plus-circle fa-2x text-success"></i></a>
+                      </div>                                    
+                  </div>
+                </div>
+
+                <label for="" class="col-md-4 col-lg-3 col-form-label">SERVICES</label>
+                <div class="field_wrapper3" style="border: 1px solid #8144f0;padding: 10px;margin-bottom: 10px;">
+                  <?php
+                  $footer_link_name3 = (($setting->footer_link_name3 != '')?json_decode($setting->footer_link_name3):[]);
+                  $footer_link3 = (($setting->footer_link3 != '')?json_decode($setting->footer_link3):[]);
+                  if(!empty($footer_link_name3)){ for($i=0;$i<count($footer_link_name3);$i++){
+                  ?>
+                      <div class="row">
+                          <div class="col-md-5">
+                              <label for="lefticon" class="control-label">Link Text<span class="red">*</span></label>
+                              <span class="input-with-icon">
+                                  <input type="text" class="form-control requiredCheck" data-check="Link Text" name="footer_link_name3[]" value="<?=$footer_link_name3[$i]?>" autocomplete="off">
+                              </span>
+                          </div>
+                          <div class="col-md-5">
+                              <label for="lefticon" class="control-label">Link<span class="red">*</span></label>
+                              <span class="input-with-icon">
+                                  <input type="text" class="form-control requiredCheck" data-check="Link" value="<?=$footer_link3[$i]?>" name="footer_link3[]" autocomplete="off">
+                              </span>
+                          </div>
+                          <div class="col-md-2" style="margin-top: 26px;">
+                              <a href="javascript:void(0);" class="remove_button3" title="Add field"><i class="fa fa-minus-circle fa-2x text-danger"></i></a>
+                          </div>                                    
+                      </div>
+                  <?php } }?>
+                  <div class="row">
+                      <div class="col-md-5">
+                          <label for="lefticon" class="control-label">Link Text<span class="red">*</span></label>
+                          <span class="input-with-icon">
+                              <input type="text" class="form-control requiredCheck" data-check="Link Text" name="footer_link_name3[]" autocomplete="off">
+                          </span>
+                      </div>
+                      <div class="col-md-5">
+                          <label for="lefticon" class="control-label">Link<span class="red">*</span></label>
+                          <span class="input-with-icon">
+                              <input type="text" class="form-control requiredCheck" data-check="Link" name="footer_link3[]" autocomplete="off">
+                          </span>
+                      </div>
+                      <div class="col-md-2" style="margin-top: 26px;">
+                          <a href="javascript:void(0);" class="add_button3" title="Add field"><i class="fa fa-plus-circle fa-2x text-success"></i></a>
                       </div>                                    
                   </div>
                 </div>
@@ -707,13 +751,13 @@ $user_type = session('type');
         var wrapper = $('.field_wrapper2'); //Input field wrapper
         var fieldHTML = '<div class="row">\
                             <div class="col-md-5">\
-                                <label for="lefticon" class="control-label">Second Column Link Text<span class="red">*</span></label>\
+                                <label for="lefticon" class="control-label">Link Text<span class="red">*</span></label>\
                                 <span class="input-with-icon">\
                                     <input type="text" class="form-control requiredCheck" data-check="Second Column Link Text" name="second_col_link_text[]" autocomplete="off">\
                                 </span>\
                             </div>\
                             <div class="col-md-5">\
-                                <label for="lefticon" class="control-label">Second Column Link<span class="red">*</span></label>\
+                                <label for="lefticon" class="control-label">Link<span class="red">*</span></label>\
                                 <span class="input-with-icon">\
                                     <input type="text" class="form-control requiredCheck" data-check="Second Column Link" name="second_col_link[]" autocomplete="off">\
                                 </span>\
@@ -747,15 +791,15 @@ $user_type = session('type');
         var wrapper = $('.field_wrapper3'); //Input field wrapper
         var fieldHTML = '<div class="row">\
                             <div class="col-md-5">\
-                                <label for="lefticon" class="control-label">Third Column Link Text<span class="red">*</span></label>\
+                                <label for="lefticon" class="control-label">Link Text<span class="red">*</span></label>\
                                 <span class="input-with-icon">\
-                                    <input type="text" class="form-control requiredCheck" data-check="Third Column Link Text" name="third_col_link_text[]" autocomplete="off">\
+                                    <input type="text" class="form-control requiredCheck" data-check="Third Column Link Text" name="footer_link_name3[]" autocomplete="off">\
                                 </span>\
                             </div>\
                             <div class="col-md-5">\
-                                <label for="lefticon" class="control-label">Third Column Link<span class="red">*</span></label>\
+                                <label for="lefticon" class="control-label">Link<span class="red">*</span></label>\
                                 <span class="input-with-icon">\
-                                    <input type="text" class="form-control requiredCheck" data-check="Third Column Link" name="third_col_link[]" autocomplete="off">\
+                                    <input type="text" class="form-control requiredCheck" data-check="Third Column Link" name="footer_link3[]" autocomplete="off">\
                                 </span>\
                             </div>\
                             <div class="col-md-2" style="margin-top: 33px;">\

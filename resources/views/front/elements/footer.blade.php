@@ -8,10 +8,13 @@
                </div>
                <div class="foot-righttop">
                   <ul>
-                     <li><a href="<?=url('/')?>">Home</a></li>
-                     <li><a href="#">Mentors</a></li>
-                     <li><a href="#">Resources</a></li>
-                     <li><a href="#">How it works</a></li>
+                     <?php
+                     $footer_link_name = (($generalSetting->footer_link_name != '')?json_decode($generalSetting->footer_link_name):[]);
+                     $footer_link = (($generalSetting->footer_link != '')?json_decode($generalSetting->footer_link):[]);
+                     if(!empty($footer_link_name)){ for($i=0;$i<count($footer_link_name);$i++){
+                     ?>
+                        <li><a href="<?=url('/')?>/<?=(($footer_link[$i] == 'home')?'':$footer_link[$i])?>"><?=$footer_link_name[$i]?></a></li>
+                     <?php } }?>
                   </ul>
                </div>
             </div>
@@ -21,19 +24,25 @@
                <div class="foot_midle_left">
                   <h5>Get Help</h5>
                   <ul>
-                     <li><a href="#">About Us</a></li>
-                     <li><a href="#">Contact Us</a></li>
-                     <li><a href="#">Terms And Conditions</a></li>
-                     <li><a href="#">Privacy Policy</a></li>
+                     <?php
+                     $footer_link_name2 = (($generalSetting->footer_link_name2 != '')?json_decode($generalSetting->footer_link_name2):[]);
+                     $footer_link2 = (($generalSetting->footer_link2 != '')?json_decode($generalSetting->footer_link2):[]);
+                     if(!empty($footer_link_name2)){ for($i=0;$i<count($footer_link_name2);$i++){
+                     ?>
+                        <li><a href="<?=url('/')?>/<?=(($footer_link2[$i] == 'home')?'':$footer_link2[$i])?>"><?=$footer_link_name2[$i]?></a></li>
+                     <?php } }?>
                   </ul>
                </div>
                <div class="foot_midle_left">
                   <h5>SERVICES</h5>
                   <ul>
-                     <li><a href="#">NEET</a></li>
-                     <li><a href="#">Mentor Health</a></li>
-                     <li><a href="#">IIT</a></li>
-                     <li><a href="#">Career Counselling</a></li>
+                     <?php
+                     $footer_link_name3 = (($generalSetting->footer_link_name3 != '')?json_decode($generalSetting->footer_link_name3):[]);
+                     $footer_link3 = (($generalSetting->footer_link3 != '')?json_decode($generalSetting->footer_link2):[]);
+                     if(!empty($footer_link_name3)){ for($i=0;$i<count($footer_link_name3);$i++){
+                     ?>
+                        <li><a href="<?=url('/')?>/<?=(($footer_link3[$i] == 'home')?'':$footer_link3[$i])?>"><?=$footer_link_name3[$i]?></a></li>
+                     <?php } }?>
                   </ul>
                </div>
             </div>
@@ -44,7 +53,7 @@
                   <ul>
                      <li class="foot_location">
                         <div class="footer_fa"><i class="zmdi zmdi-phone"></i></div>
-                        <p><?=$generalSetting->site_phone?>"></p>
+                        <p><?=$generalSetting->site_phone?></p>
                      </li>
                      <li>
                         <div class="footer_fa"><a href="tel:<?=$generalSetting->site_phone?>"><i class="zmdi zmdi-smartphone-android"></i></a></div>

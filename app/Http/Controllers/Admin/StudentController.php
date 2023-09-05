@@ -8,6 +8,8 @@ use Illuminate\Validation\Rule;
 use App\Models\GeneralSetting;
 use App\Models\User;
 use App\Models\StudentProfile;
+use App\Models\RequireDocument;
+use App\Models\UserDocument;
 use Auth;
 use Session;
 use Helper;
@@ -103,6 +105,106 @@ class StudentController extends Controller
             echo $this->admin_after_login_layout($title,$page_name,$data);
         }
     /* bookings */
+   
+     /*profile*/
+     public function profile(Request $request , $id){
+        $id    = Helper::decoded($id);
+        // echo $id;die;
+        if($request->isMethod('post')){
+            if($request->post('mode')=='updateDocument'){
+                $postData = $request->all();
+                // Helper::pr($postData);
+                $getDocumentName = RequireDocument::where('id', '=', $postData['doucument_id'])->first();
+                $studentDocument = UserDocument::where('user_id', '=', $id)->first();
+                $rules = [
+                            'doucument_id'      => 'required',
+                            'image'             => 'required',
+                        ];
+                if($this->validate($request, $rules)){
+                    /* Document */
+                        $imageFile      = $request->file('image');
+                        if($imageFile != ''){
+                            $imageName         = $imageFile->getClientOriginalName();
+                            $imageFileType     = pathinfo($imageName, PATHINFO_EXTENSION);
+                            // Helper::pr($imageFileType);
+                            if($imageFileType == 'jpg' || 'png' || 'jepg' || 'svg'){
+                                // echo 'hii';die;
+                                $uploadedFile  = $this->upload_single_file('image', $imageName, 'student_document', 'image');
+                            }else{
+                                $uploadedFile  = $this->upload_single_file('image', $imageName, 'student_document', 'pdf');
+                            }
+                            if($uploadedFile['status']){
+                                $image = $uploadedFile['newFilename'];
+                            } else {
+                                return redirect()->back()->with(['error_message' => $uploadedFile['message']]);
+                            }
+                        } else {
+                            $image = $studentDocument->document;
+                        }
+                    /* Document */
+                    $fields = [
+                                'type'             => $postData['type'],
+                                'user_id'          => $postData['user_id'],
+                                'doucument_id'     => $postData['doucument_id'],
+                                'document_slug'    => Helper::clean($getDocumentName->document),
+                                'document'         => $image,
+                                'updated_at'     => date('Y-m-d H:i:s')
+                            ];
+                    // Helper::pr($fields);
+                    UserDocument::where('user_id', '=', $id)->update($fields);
+                    return redirect("admin/" . $this->data['controller_route'] . "/list")->with('success_message', $this->data['title'].' Document Updated Successfully !!!');
+                } else {
+                    return redirect()->back()->with('error_message', 'All Fields Required !!!');
+                }
+            }else{
+                $postData = $request->all();
+                $getDocumentName = RequireDocument::where('id', '=', $postData['doucument_id'])->first();
+                $rules = [
+                        'doucument_id'      => 'required',
+                        'image'             => 'required',
+                    ];
+            if($this->validate($request, $rules)){
+            /* document upload */
+            $imageFile      = $request->file('image');
+            if($imageFile != ''){
+                $imageName         = $imageFile->getClientOriginalName();
+                $imageFileType     = pathinfo($imageName, PATHINFO_EXTENSION);
+                if($imageFileType == 'jpg' && 'png' && 'jepg' && 'svg'){
+                    $uploadedFile  = $this->upload_single_file('image', $imageName, 'mentor_document', 'image');
+                }else{
+                    $uploadedFile  = $this->upload_single_file('image', $imageName, 'mentor_document', 'pdf');
+                }
+                if($uploadedFile['status']){
+                    $image = $uploadedFile['newFilename'];
+                } else {
+                    return redirect()->back()->with(['error_message' => $uploadedFile['message']]);
+                }
+            } else {
+                return redirect()->back()->with(['error_message' => 'Please Upload Banner Image !!!']);
+            }
+            /* document upload */
+            $fields = [
+                        'type'             => $postData['type'],
+                        'user_id'          => $postData['user_id'],
+                        'doucument_id'     => $postData['doucument_id'],
+                        'document_slug'    => Helper::clean($getDocumentName->document),
+                        'document'         => $image
+                    ];
+            // Helper::pr($fields);
+            UserDocument::insert($fields);
+            return redirect("admin/" . $this->data['controller_route'] . "/list")->with('success_message', $this->data['title'].' Document Uploaded Successfully !!!');
+            } else {
+                    return redirect()->back()->with('error_message', 'All Fields Required !!!');
+                }
+            }
+        }
+        $data['student']                = StudentProfile::where('user_id', '=', $id)->first();
+        $data['module']                 = $this->data;
+        $title                          = 'Profile: '.(($data['student'])?$data['student']->first_name.' '.$data['student']->last_name:'');
+        $page_name                      = 'student.profile';
+        echo $this->admin_after_login_layout($title,$page_name,$data);
+    }
+    /*profile*/
     /* transactions */
         public function transactions($id){
             $id                             = Helper::decoded($id);

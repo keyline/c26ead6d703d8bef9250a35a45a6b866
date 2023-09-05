@@ -3,11 +3,20 @@ use Illuminate\Support\Facades\Route;
 
 $routeName = Route::current();
 $pageName = $routeName->uri();
+// dd($routeName);
 ?>
 <!-- Required meta tags -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="csrf-token" content="{{ csrf_token() }}">
+
+<!-- Google Analytic Code -->
+<?php echo $generalSetting->google_analytics_code;?>
+<!-- Google Analytic Code -->
+
+<!-- Google Pixel Code -->
+<?php echo $generalSetting->google_pixel_code;?>
+<!-- Google Pixel Code -->
 
 <!-- Favicons -->
 <link href="<?=env('UPLOADS_URL').$generalSetting->site_favicon?>" rel="icon">
@@ -48,3 +57,23 @@ $pageName = $routeName->uri();
 <?php }?>
 
 <link rel="stylesheet" type="text/css" href="<?=env('FRONT_ASSETS_URL')?>assets/css/responsive.css">
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/css/toastr.css" rel="stylesheet"/>
+<style type="text/css">    
+    .toast-success {
+        background-color: #000;
+        color: #28a745 !important;
+    }
+    .toast-error {
+        background-color: #000;
+        color: #dc3545 !important;
+    }
+    .toast-warning {
+        background-color: #000;
+        color: #ffc107 !important;
+    }
+    .toast-info {
+        background-color: #000;
+        color: #007bff !important;
+    }
+</style>

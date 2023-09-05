@@ -45,9 +45,9 @@
     text-decoration: none;
 }
 .login-btn:hover{
-    background: #e84d37;
+    background: #f9233f;
     color: #fff;
-	border-color: #e84d37;
+	border-color: #f9233f;
 }
 .icon-box-1{
     position: absolute;
@@ -115,7 +115,7 @@
     top: 20px;
 }
 .mentor-left-box h5{
-    color: #e84d37;
+    color: #f9233f;
     margin-bottom: 20px;
     text-align: center;
 }
@@ -144,13 +144,13 @@
     padding: 7px;
     background: #fff;
     color: var(--textColor);
-    border:2px solid #e84d37;
+    border:2px solid #f9233f;
     border-radius: 50px;
     width: 50%;
     transition: all .3s ease-in-out;
 } 
 .mentor-left-box button:hover{
-    background: #e84d37;
+    background: #f9233f;
     color: #fff;
 }
 .total-mentor-box{
@@ -165,13 +165,13 @@
     width: auto;
     padding: 10px 30px 11px;
     background: #fff;
-    border:2px solid #e84d37;
+    border:2px solid #f9233f;
     color: var(--textColor);
     border-radius: 50px;
 }
 .total-mentor-box .help-me-btn:hover{
     text-decoration: none;
-    background: #e84d37;
+    background: #f9233f;
     color: #fff;
 }
 .mentor-main-box{
@@ -260,10 +260,10 @@
     box-shadow: -1px 1px 5px #444;
 }
 .book-btn:hover{
-    background: #e84d37;
+    background: #f9233f;
     color: #fff;
     text-decoration: none;
-    border: 2px solid #e84d37;
+    border: 2px solid #f9233f;
 }
 
 
@@ -317,7 +317,8 @@
     margin: 5px 0;
 }
 .mentor-profile-left li i{
-    margin-right: 5px
+    margin-right: 5px;
+	width: 20px;
 }
 .mentor-dtl-box{
     border-radius: 0.4rem;
@@ -335,11 +336,14 @@
 .mentor-dtl-box p{
     color: #5d5d5d
 }
+.overview-description, .education-details {
+    padding: 0 15px;
+}
 .mentor-dtl-right .user-booking a{
     padding: 12px 30px;
     font-size: 18px;
     background-color: #fff;
-    border: 2px solid #e84d37;
+    border: 2px solid #f9233f;
     color: var(--textColor);
     display: block;
     text-align: center;
@@ -348,7 +352,7 @@
     margin-bottom: 30px;
 }
 .mentor-dtl-right .user-booking a:hover{
-    background: #e84d37;
+    background: #f9233f;
     color: #fff;
     text-decoration: none;
 }
@@ -367,7 +371,7 @@
 .user-languages a {
     display: inline-block;
     background-color: #fff;
-    border: 2px solid #e84d37;
+    border: 2px solid #f9233f;
     color: var(--textColor);
     padding: 5px 15px;
     border-radius: 50px;
@@ -378,7 +382,7 @@
     transition: all .3s ease-in-out;
 }
 .user-languages a:hover{
-    background: #e84d37;
+    background: #f9233f;
     color: #fff;
     text-decoration: none;
 }
@@ -398,7 +402,7 @@
     border-radius: 5px;
     text-align: center;
     color: var(--textColor);
-    margin: 0px 5px;
+    margin: 0px 4px;
     font-size: 14px;
     padding: 10px;
 }
