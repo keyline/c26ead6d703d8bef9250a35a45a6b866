@@ -107,10 +107,13 @@ Route::prefix('/api')->namespace('App\Http\Controllers')->group(function () {
 /* API */
 /*Front Dashboard */
 Route::prefix('/dashboard')->namespace('App\Http\Controllers')->group(function () {
-    Route::get('/', 'DashboardController@home');
+    // Route::get('/', 'DashboardController@home');
+    Route::match(['get','post'],'/', 'DashboardController@home');
+    Route::match(['get','post'],'/index', 'DashboardController@index');
     Route::match(['get','post'],'/profile', 'DashboardController@profile');
     Route::get('/mentor-availability', 'DashboardController@mentorAvailability');
     Route::get('/mentor-services', 'DashboardController@mentorServices');
+    Route::get('/logout', 'DashboardController@logout');
 });
 /*Front Dashboard */
 /* Admin Panel */
