@@ -171,6 +171,7 @@ return [
         Illuminate\Session\SessionServiceProvider::class,
         //App\Providers\SiteConfigurationServiceProvider::class,
         App\Providers\ConfigurationServiceProvider::class,
+        Barryvdh\Debugbar\ServiceProvider::class,
     ])->toArray(),
 
     /*
@@ -227,6 +228,7 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
         'PDF' => Barryvdh\DomPDF\Facade::class,
         'Helper' => App\Helpers\Helper::class,
+        'Debugbar' => Barryvdh\Debugbar\Facades\Debugbar::class,
     ])->toArray(),
 
 ];

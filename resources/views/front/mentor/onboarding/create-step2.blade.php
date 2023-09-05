@@ -57,7 +57,7 @@
                         </div>
                         <div class="input-group mb-3">
                            <span class="input-group-text" id="basic-addon1">stumento.com/</span>
-                           <input type="text" class="form-control" name="profile_slug" value="alex_test"  aria-describedby="basic-addon1">
+                           <input type="text" class="form-control" name="profile_slug" value="{{ old('profile_slug')  ?? $current_mentor->display_name }}"  aria-describedby="basic-addon1">
                         </div>
                         <div class="title">
                            <p>How do you plan to use Stumento</p>

@@ -10,6 +10,7 @@ use Laravel\Sanctum\HasApiTokens;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class User extends Authenticatable
 {
@@ -34,7 +35,7 @@ class User extends Authenticatable
         'email',
         'email_verified_at',
         'phone',
-        // 'password',
+         'password',
         // 'remember_token',
         'role',
         'valid'
@@ -85,5 +86,13 @@ class User extends Authenticatable
     public function mentorProfile(): HasOne
     {
         return $this->hasOne(MentorProfile::class);
+    }
+
+    /**
+     * Get the services for the user.
+     */
+    public function serviceDetails(): HasMany
+    {
+        return $this->hasMany(ServiceDetail::class);
     }
 }

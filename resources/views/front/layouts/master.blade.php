@@ -5,3 +5,5 @@
 @yield('content')
 
 @include('front.elements.footer')
+
+@stack('scripts')
