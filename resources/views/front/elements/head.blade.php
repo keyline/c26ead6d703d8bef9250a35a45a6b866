@@ -2,8 +2,8 @@
 use Illuminate\Support\Facades\Route;
 
 $routeName = Route::current();
-$pageName = $routeName->uri();
-// dd($routeName);
+$pageName = ($pageName) ?? $routeName->uri();
+//dd($pageName);
 ?>
 <!-- Required meta tags -->
 <meta charset="utf-8">
@@ -47,12 +47,12 @@ $pageName = $routeName->uri();
 <link rel="stylesheet" type="text/css" href="<?=env('FRONT_ASSETS_URL')?>assets/css/easy-responsive-tabs.css " />
 <link rel="stylesheet" type="text/css" href="<?=env('FRONT_ASSETS_URL')?>assets/css/style.css">
 
-<?php if(($pageName == 'how-it-works') || ($pageName == 'signin') || ($pageName == 'forgot-password') || ($pageName == 'validate-otp') || ($pageName == 'reset-password') || ($pageName == 'student-signup') || ($pageName == 'mentor-signup') || ($pageName == 'mentor-signup-2') || ($pageName == 'mentor-signup-3') || ($pageName == 'mentor-signup-4') || ($pageName == 'mentor/signup')) {?>
+<?php if(($pageName == 'how-it-works') || ($pageName == 'signin') || ($pageName == 'forgot-password') || ($pageName == 'validate-otp') || ($pageName == 'reset-password') || ($pageName == 'student-signup') || ($pageName == 'mentor-signup') || ($pageName == 'mentor-signup-2') || ($pageName == 'mentor-signup-3') || ($pageName == 'mentor-signup-4')) {?>
    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/kenwheeler/slick@1.8.1/slick/slick.css"/>
    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/kenwheeler/slick@1.8.1/slick/slick-theme.css"/>
 <?php }?>
 
-<?php if(($pageName == 'blogs') || ($pageName == 'how-it-works') || ($pageName == 'signin') || ($pageName == 'forgot-password') || ($pageName == 'validate-otp') || ($pageName == 'reset-password') || ($pageName == 'student-signup') || ($pageName == 'mentor-signup') || ($pageName == 'mentors') || ($pageName == 'mentor-details') || ($pageName == 'mentor/signup')) {?>
+<?php if(($pageName == 'blogs') || ($pageName == 'how-it-works') || ($pageName == 'signin') || ($pageName == 'forgot-password') || ($pageName == 'validate-otp') || ($pageName == 'reset-password') || ($pageName == 'student-signup') || ($pageName == 'mentor-signup') || ($pageName == 'mentors') || ($pageName == 'mentor-details')) {?>
    <link rel="stylesheet" type="text/css" href="<?=env('FRONT_ASSETS_URL')?>assets/css/master.css">
 <?php }?>
 

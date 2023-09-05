@@ -1,4 +1,4 @@
-@extends('front.layouts.master', ['title'=> 'Mentor Signup', 'page_name' => 'mentor-signup-3'])
+@extends('front.layouts.master', ['title'=> 'Mentor Signup', 'pageName' => 'mentor-signup-4'])
 @section('content')
 <section class="mentor_element">
    <div class="container">
@@ -31,16 +31,24 @@
                   <h2>Great! Now let's set your availability</h2>
                   <p class="text-muted mb-4">Let your audience know when you're available. You can edit this later</p>
                   <div class="metor_step1_form">
-                     @if ($errors->any())
-                     <div class="alert alert-danger">
-                        <ul>
-                              @foreach ($errors->all() as $error)
-                                 <li>{{ $error }}</li>
-                              @endforeach
+                  @if ($errors->any())         
+                     <div class="invalid-feedback d-block" role="alert">
+                        <ul>                        
+                           @foreach (json_decode($errors) as $file_index => $error)
+                           <li>
+                              <strong>{{$file_index.': '}} 
+                              <ul>
+                                 @foreach ($error as $error_item)
+                                    <li>{{$error_item}}</li>
+                                 @endforeach
+                              </ul>
+                              </strong>
+                           </li>
+                           @endforeach
                         </ul>
-                     </div>
-                     @endif
-                     <form action="{{ route('mentor.create.step4') }}" method="POST">
+                        </div>
+                  @endif
+                     <form action="{{ route('mentor.create.step4') }}" method="POST" accept-charset="utf-8" enctype="multipart/form-data">
                         @csrf
                         <div class="ant-col ant-col-24 add-slots">
                            @foreach($days AS $day)
@@ -63,7 +71,7 @@
                                  <div class="slots-section">
                                     <div class="slots-select-box">
                                        <div class="slot_starttime">
-                                          <select id="selectbox" name="availability[from][{{ $day->id }}][]">
+                                          <select id="selectbox21" name="availability[from][{{ $day->id }}][]">
                                              @foreach($slot_dropdown AS $option)
                                              <option value="{{ $option['value'] }}" 
                                              {{ ($option['selected_from'] == $option['value']) ? 'selected' : '' }}>
@@ -82,7 +90,7 @@
                                        </div>
                                        <div style="display: inline; margin: 0px 1em;">-</div>
                                        <div class="slot_endtime">
-                                          <select id="selectbox2" name="availability[to][{{ $day->id }}][]">
+                                          <select id="selectbox22" name="availability[to][{{ $day->id }}][]">
                                              @foreach($slot_dropdown AS $option)
                                              <option value="{{ $option['value'] }}"
                                              {{ ($option['selected_to'] == $option['value']) ? 'selected' : '' }}>
@@ -106,12 +114,15 @@
                            @endforeach
                            
                         </div>
+                        @foreach($documents AS $document)
                         <div class="form-group">
-                           <label>Aaddhar Card/Voter Card/PAN Card(Any one of the document)</label>
-                           <label>   Max 1 mb in size and supported format (Jpg/Jpeg/pdf)
-                           </label>
-                           <input type="file" class="form-control" name="docs_attachment">
+                           <label>{{ $document->document }}</label>
+                           <label>(Max 1 mb in size and supported format Jpg/ Jpeg/ pdf)</label>
+                           
+                           <input type="file" class="form-control" name="docs_attachment[{{ $document->document }}]">
+                           
                         </div>
+                        @endforeach
                         <div class="input-group mb-3">
                            <button class="next-btn">Next</button>
                            <!-- <a href="mentor3.html" class="next-btn">Finish</a> -->
@@ -187,6 +198,8 @@
 </section>
 @endsection
 @push('scripts')
+<!-- <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" /> -->
+<!-- <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script> -->
 <script>
 //const parentaddItmBtn= document.querySelectorAll('.add-slots > div');
 //const addItmBtn= document.querySelectorAll('.add-slot-btn');

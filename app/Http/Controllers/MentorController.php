@@ -137,7 +137,7 @@ class MentorController extends Controller
     public function postCreateStep2(Request $request)
     {
         if(empty($request->session()->get('mentor'))) {
-            \redirect('mentor/signup');
+            return \redirect('mentor/signup');
         }
 
         $mentor = $request->session()->get('mentor');
@@ -156,7 +156,7 @@ class MentorController extends Controller
             $username = $this->generateUniqueProfileSlug($mentor->display_name);
 
 
-            return redirect('mentor/create/step2')
+            return redirect('mentor/step2')
                         ->withErrors($validator)
                         ->withInput(['profile_slug' => $username]);
 
@@ -216,6 +216,8 @@ class MentorController extends Controller
 
     public function postCreateStep3(Request $request)
     {
+        //dd($request->all());
+
 
         $validator = Validator::make($request->all(), [
                     'service'     => 'required',
@@ -302,6 +304,8 @@ class MentorController extends Controller
 
         $period = \Carbon\CarbonPeriod::create($startPeriod, '15 minutes', $endPeriod)
             ->excludeEndDate();
+        $documents = \App\Models\RequireDocument::where('user_type', '=', 'mentor')->get();
+
 
         foreach ($period as $date) {
             # code...
@@ -314,45 +318,89 @@ class MentorController extends Controller
         }
 
         //dd($hours);
-        return \view('front.mentor.onboarding.create-step4', ['slot_dropdown' => $hours, 'days' => $daysOfWeek]);
+        return \view('front.mentor.onboarding.create-step4', ['slot_dropdown' => $hours, 'days' => $daysOfWeek, 'documents' => $documents]);
     }
 
     public function postCreateStep4(Request $request)
     {
-        if(empty($request->session()->get('user'))) {
+        //dd($request->all());
+        if(empty($request->session()->get('mentor'))) {
             return \redirect('mentor/signup');
         }
-        $user = $request->session()->get('mentor');
+        $mentor = $request->session()->get('mentor');
+
+
+
         $input = $request->all();
 
         $days = $request->input('day_of_week');
 
         $file = $request->input('docs_attachment');
+        $file_insert_schedule = [];
+
+        $request->validate(
+            [
+                       'docs_attachment.*' => 'nullable|mimes:jpeg,jpg,pdf,pdfs|max:1024',
+        ],
+            $messages = [
+        "docs_attachment.*.mimes" => "Only PDF, JPEG are allowed.",
+        "docs_attachment.*.max" => "Max file size must be 1Mb",
+    ]
+        );
+
+        if($request->hasfile('docs_attachment')) {
+
+            $saveDocument = new \App\Models\UserDocument();
 
 
-        $request->validate([
-                       'docs_attachment' => 'image|mimes:jpeg,jpg,pdf,pdfs|max:2048',
-                   ]);
+            foreach($request->file('docs_attachment') as $key => $file) {
 
-        $fileName = "mentor_attachment_" . time() . '.' . request()->docs_attachment->getClientOriginalExtension();
+                $name = "mentor_attachment_" . time() . '.' . $file->getClientOriginalExtension();
+                $path = $file->storeAs('public/mentor_attachment', $name);
 
+                //get document id
+                $document = \App\Models\RequireDocument::where('document', '=', $key)->first();
+
+                $data['document'] = $name;
+                $data['document_slug'] = $path;
+                $data['document_id'] = $document->id;
+                $data['user_id'] = $mentor->user_id;
+                $data['type'] = 'MENTOR';
+
+                $file_insert_schedule[] = $data;
+
+            }
+
+            $saveDocument->fill($file_insert_schedule);
+
+        }
 
 
         $availabilities = $request->input('availability');
 
+        $insert_schedule = [];
+
         foreach ($days as $key => $value) {
             $day_id = $key;
             $data = [];
-            //$insert_schedule = [];
             if(is_array($availabilities['from'][$day_id])) {
                 $data['day_of_week_id'] = $day_id;
                 foreach($availabilities['from'][$day_id] as $key => $value) {
+
                     $data['avail_from'] = $value;
                     $data['avail_to'] = $availabilities['to'][$day_id][$key];
-                    $data['mentor_user_id'] = $user->id;
+                    $data['mentor_user_id'] = $mentor->user_id;
+                    $data['is_active'] = 1;
+                    $data['created_at'] = \Carbon\Carbon::now()->toDateTimeString();
+                    $data['updated_at'] = \Carbon\Carbon::now()->toDateTimeString();
+
+
 
                     $insert_schedule[] = $data;
+
                 }
+
+
             }
         }
 
@@ -360,18 +408,52 @@ class MentorController extends Controller
 
         if(empty($request->session()->get('mentor_availabilities'))) {
 
-            $availability = new MentorAvailability();
-            $availability->fill($insert_schedule);
+            $availability = new \App\Models\MentorAvailability();
+            //$availabilityModel->fill($insert_schedule);
             $request->session()->put('mentor_availabilities', $availability);
 
         } else {
             $availability = $request->session()->get('mentor_availabilities');
-            $availability->fill($insert_schedule);
+            //$availabilityModel->fill($insert_schedule);
             $request->session()->put('mentor_availabilities', $availability);
 
         }
 
-        $availability->save();
+        $availability::insert($insert_schedule);
+        if(!empty($file_insert_schedule)) {
+            //Saving files
+            $saveDocument->save();
+        }
+
+        //get user
+        $user = \App\Models\User::where('id', '=', $mentor->user_id)->first();
+        $request->session()->put('user_id', $mentor->user_id);
+        $request->session()->put('name', $user->name);
+        $request->session()->put('fname', ($user) ?? $user->first_name);
+        $request->session()->put('lname', ($user) ?? $user->last_name);
+        $request->session()->put('email', $user->email);
+        $request->session()->put('role', $user->role);
+        $request->session()->put('is_user_login', 1);
+
+
+        /* user activity */
+        $activityData = [
+            'user_email'        => $user->email,
+            'user_name'         => $user->name,
+            'user_type'         => 'USER',
+            'ip_address'        => $request->ip(),
+            'activity_type'     => 10,
+            'activity_details'  => 'Signup Success !!!',
+            'platform_type'     => 'WEB',
+        ];
+
+
+        \App\Models\UserActivity::insert($activityData);
+
+
+        return redirect('dashboard');
+
+        // dd('unauthenticated');
 
     }
 

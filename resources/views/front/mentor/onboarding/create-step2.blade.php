@@ -1,4 +1,4 @@
-@extends('front.layouts.master', ['title'=> 'Mentor Signup', 'page_name' => 'mentor-signup-2'])
+@extends('front.layouts.master', ['title'=> 'Mentor Signup', 'pageName' => 'mentor-signup-2'])
 @section('content')
 <section class="mentor_element">
    <div class="container">

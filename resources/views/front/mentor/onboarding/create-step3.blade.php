@@ -1,4 +1,4 @@
-@extends('front.layouts.master', ['title'=> 'Mentor Signup', 'page_name' => 'mentor-signup-3'])
+@extends('front.layouts.master', ['title'=> 'Mentor Signup', 'pageName' => 'mentor-signup-3'])
 @section('content')
 <section class="mentor_element">
    <div class="container">
@@ -50,7 +50,7 @@
                         <div class="input-group mb-3">     
                            <div class="button-group button-group-2 check_roundbtn" id="buttons">
                             @foreach($services AS $service)
-                            <label class="button-group__btn"><input type="checkbox" name="service" value="{{ $service->slug }}" wt-checkbox/> <span class="button-group__label">{{ $service->name }}</span></label>
+                            <label class="button-group__btn"><input type="radio" name="service" value="{{ $service->slug }}" wt-checkbox/> <span class="button-group__label">{{ $service->name }}</span></label>
                             @endforeach
                             <!-- <label class="button-group__btn"><input type="checkbox" name="check" /> <span class="button-group__label">Career Counselling</span></label> -->
                               <!-- <label class="button-group__btn"><input type="checkbox" name="check" /> <span class="button-group__label">Cybersecurity</span></label>
@@ -84,7 +84,7 @@
                         <div class="input-group mb-3">
                            <div class="button-group button-group-2 check_halfbtn">
                                 @foreach($type->serviceAttributes AS $attribute)
-                              <label class="button-group__btn"><input type="checkbox" name="services[]" value="{{ $attribute->id }}"/> <span class="button-group__label">{{ $attribute->title }}</span></label>
+                              <label class="button-group__btn"><input class="services__to__select" type="checkbox" name="services[]" value="{{ $attribute->id }}"/> <span class="button-group__label">{{ $attribute->title }}</span></label>
                                 @endforeach
                               <!-- <label class="button-group__btn"><input type="checkbox" name="check" /> <span class="button-group__label">Emergency</span></label>
                               <label class="button-group__btn"><input type="checkbox" name="check" /> <span class="button-group__label">Discovery call</span></label> 
@@ -216,13 +216,23 @@
 </section>
 @endsection
 @push('scripts')
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
    
 
    $.fn.WT_CHECKBOX = function($this) {
   var name = $this.attr('name'), checked = $this.val();
-  console.log({'name': name, 'checked' : checked});
+  console.log({'name': name, 'checked' : checked, 'is_checked': $this.prop("checked")});
+  
+   $('div.wrapper-service').hide();
+   if($this.prop("checked")){
+      var checkboxes = $('[wt-toggle='+name+'-'+checked+']').find('.services__to__select');
+   $(checkboxes).each(function () {
+					this.checked = !$this.prop("checked");
+				});
+
+   }
+   
+  
   $('[wt-toggle='+name+'-'+checked+']').slideToggle();
 };
 $('[wt-checkbox]').on('change', function() {
