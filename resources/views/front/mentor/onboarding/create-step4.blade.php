@@ -1,5 +1,6 @@
 @extends('front.layouts.master', ['title'=> 'Mentor Signup', 'page_name' => 'mentor-signup-3'])
 @section('content')
+<link rel="stylesheet" type="text/css" href="<?=env('FRONT_ASSETS_URL')?>assets/css/bvselect.css">
 <section class="mentor_element">
    <div class="container">
       <div class="row">
@@ -24,7 +25,7 @@
             </div>
          </div>
       </div>
-      <div class="row justify-content-center">
+      <div class="row justify-content-around">
          <div class="col-lg-5 col-md-8 col-sm-8">
             <div class="metor_dashboard">
                <div class="metor_information">
@@ -106,10 +107,9 @@
                            @endforeach
                            
                         </div>
-                        <div class="form-group">
-                           <label>Aaddhar Card/Voter Card/PAN Card(Any one of the document)</label>
-                           <label>   Max 1 mb in size and supported format (Jpg/Jpeg/pdf)
-                           </label>
+                        <div class="form-group pt-5">
+                           <label>Aaddhar Card/Voter Card/PAN Card <small>(Any one of the document)</small></label>
+                           <label class="pb-3"><small>Max 1 mb in size and supported format (Jpg/Jpeg/pdf)</small></label>
                            <input type="file" class="form-control" name="docs_attachment">
                         </div>
                         <div class="input-group mb-3">
@@ -187,6 +187,7 @@
 </section>
 @endsection
 @push('scripts')
+<script src="<?=env('FRONT_ASSETS_URL')?>assets/js/bvselect.js"></script>
 <script>
 //const parentaddItmBtn= document.querySelectorAll('.add-slots > div');
 //const addItmBtn= document.querySelectorAll('.add-slot-btn');
