@@ -28,6 +28,8 @@ class MentorController extends Controller
     {
         //get the in progress data from session storage
         $mentor = $request->session()->get('mentor');
+        //$testimonial = \App\Models\Testimonial::where('status', '=', 1)->orderBy('id', 'DESC')->get();
+        //['testimonials' => $testimonial]
         //populating data if any present in session
         //$data                           = [];
         //$title                          = 'Mentor Signup';
@@ -426,32 +428,34 @@ class MentorController extends Controller
         }
 
         //get user
-        $user = \App\Models\User::where('id', '=', $mentor->user_id)->first();
-        $request->session()->put('user_id', $mentor->user_id);
-        $request->session()->put('name', $user->name);
-        $request->session()->put('fname', ($user) ?? $user->first_name);
-        $request->session()->put('lname', ($user) ?? $user->last_name);
-        $request->session()->put('email', $user->email);
-        $request->session()->put('role', $user->role);
-        $request->session()->put('is_user_login', 1);
+        // $user = \App\Models\User::where('id', '=', $mentor->user_id)->first();
+        // $request->session()->put('user_id', $mentor->user_id);
+        // $request->session()->put('name', $user->name);
+        // $request->session()->put('fname', ($user) ?? $user->first_name);
+        // $request->session()->put('lname', ($user) ?? $user->last_name);
+        // $request->session()->put('email', $user->email);
+        // $request->session()->put('role', $user->role);
+        // $request->session()->put('is_user_login', 1);
 
 
         /* user activity */
-        $activityData = [
-            'user_email'        => $user->email,
-            'user_name'         => $user->name,
-            'user_type'         => 'USER',
-            'ip_address'        => $request->ip(),
-            'activity_type'     => 10,
-            'activity_details'  => 'Signup Success !!!',
-            'platform_type'     => 'WEB',
-        ];
+        // $activityData = [
+        //     'user_email'        => $user->email,
+        //     'user_name'         => $user->name,
+        //     'user_type'         => 'USER',
+        //     'ip_address'        => $request->ip(),
+        //     'activity_type'     => 10,
+        //     'activity_details'  => 'Signup Success !!!',
+        //     'platform_type'     => 'WEB',
+        // ];
 
 
-        \App\Models\UserActivity::insert($activityData);
+        // \App\Models\UserActivity::insert($activityData);
+
+            $request->session()->flush();
 
 
-        return redirect('dashboard');
+        return redirect('signin');
 
         // dd('unauthenticated');
 
