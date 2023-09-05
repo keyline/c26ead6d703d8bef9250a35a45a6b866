@@ -31,14 +31,24 @@
                   <h2>Great! Now let's set your availability</h2>
                   <p class="text-muted mb-4">Let your audience know when you're available. You can edit this later</p>
                   <div class="metor_step1_form">
-                     <form>
+                     @if ($errors->any())
+                     <div class="alert alert-danger">
+                        <ul>
+                              @foreach ($errors->all() as $error)
+                                 <li>{{ $error }}</li>
+                              @endforeach
+                        </ul>
+                     </div>
+                     @endif
+                     <form action="{{ route('mentor.create.step4') }}" method="POST">
+                        @csrf
                         <div class="ant-col ant-col-24 add-slots">
                            @foreach($days AS $day)
                            <div class="row slot-item">
                               <div class="col-md-3">
                                  <div class="slot_weeksday">
                                     <div class="form-check">
-                                       <input class="form-check-input chk__slots__show__hide" type="checkbox" name="{{ $day->day }}_input" value="$day->day" data-chkcontainer="{{ strtolower($day->day_text) }}" id="flexCheckChecked"
+                                       <input class="form-check-input chk__slots__show__hide" type="checkbox" name="day_of_week[{{ $day->id }}]" value="{{ $day->day }}" data-chkcontainer="{{ strtolower($day->day_text) }}" id="flexCheckChecked"
                                         {{ (in_array($day->day_index, [6,7])) ? 'checked' : '' }}>
                                        
                                        <label class="form-check-label" for="flexCheckChecked">
@@ -53,7 +63,7 @@
                                  <div class="slots-section">
                                     <div class="slots-select-box">
                                        <div class="slot_starttime">
-                                          <select id="selectbox" name="{{ $day->day }}_from">
+                                          <select id="selectbox" name="availability[from][{{ $day->id }}][]">
                                              @foreach($slot_dropdown AS $option)
                                              <option value="{{ $option['value'] }}" 
                                              {{ ($option['selected_from'] == $option['value']) ? 'selected' : '' }}>
@@ -72,7 +82,7 @@
                                        </div>
                                        <div style="display: inline; margin: 0px 1em;">-</div>
                                        <div class="slot_endtime">
-                                          <select id="selectbox2" name="{{ $day->day }}_to">
+                                          <select id="selectbox2" name="availability[to][{{ $day->id }}][]">
                                              @foreach($slot_dropdown AS $option)
                                              <option value="{{ $option['value'] }}"
                                              {{ ($option['selected_to'] == $option['value']) ? 'selected' : '' }}>
@@ -96,9 +106,15 @@
                            @endforeach
                            
                         </div>
+                        <div class="form-group">
+                           <label>Aaddhar Card/Voter Card/PAN Card(Any one of the document)</label>
+                           <label>   Max 1 mb in size and supported format (Jpg/Jpeg/pdf)
+                           </label>
+                           <input type="file" class="form-control" name="docs_attachment">
+                        </div>
                         <div class="input-group mb-3">
-                           <!--<button class="next-btn">Next</button>-->
-                           <a href="mentor3.html" class="next-btn">Finish</a>
+                           <button class="next-btn">Next</button>
+                           <!-- <a href="mentor3.html" class="next-btn">Finish</a> -->
                         </div>
                      </form>
                   </div>
@@ -306,7 +322,7 @@ const handleAddSlotFrmChkBtn= (e) => {
 }
 
 const handleDeleteSlot = (e) =>{
-   //alert("You clicked me!");
+   //alert("You clicked me!");                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          
    // if user clicks on delete item, find and remove the parent article
    if (e.target.classList.contains('deleteItem')) {
         const parent = e.target.parentElement;

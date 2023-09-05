@@ -42,14 +42,15 @@
                            </ul>
                         </div>
                      @endif
-                     <form action="{{ route(mentor.create.step3) }}" method="POST">
+                     <form action="{{ route('mentor.create.step3') }}" method="POST">
+                        @csrf
                         <div class="title">
                            <p>Select your expertise</p>
                         </div>
                         <div class="input-group mb-3">     
-                           <div class="button-group button-group-2 check_roundbtn">
+                           <div class="button-group button-group-2 check_roundbtn" id="buttons">
                             @foreach($services AS $service)
-                            <label class="button-group__btn"><input type="checkbox" name="service" value="{{ $service->id }}"/> <span class="button-group__label">{{ $service->name }}</span></label>
+                            <label class="button-group__btn"><input type="checkbox" name="service" value="{{ $service->slug }}" wt-checkbox/> <span class="button-group__label">{{ $service->name }}</span></label>
                             @endforeach
                             <!-- <label class="button-group__btn"><input type="checkbox" name="check" /> <span class="button-group__label">Career Counselling</span></label> -->
                               <!-- <label class="button-group__btn"><input type="checkbox" name="check" /> <span class="button-group__label">Cybersecurity</span></label>
@@ -70,10 +71,11 @@
                         <!-- start -->
                         
                         
-
+                        @foreach($services AS $service)
+                        @if($service->id === 1)
                            @foreach($types AS $type)
                            @if($type->serviceAttributes->isNotEmpty())
-                        <div class="wrapper-service" id="{{ $service->name }}">
+                        <div wt-toggle="service-{{ $service->slug}}" class="wrapper-service" style="display:none">
                         <div class="title">
                            <!-- <p>Popular <strong>1:1 services</strong>  in your expertise</p> -->
                            <p>Popular <strong>{{ $type->name }}</strong>  in your expertise</p>
@@ -94,6 +96,36 @@
                         
                         </div>
                         @endif
+                        @endforeach
+                        @endif
+
+                        @if($service->id === 2)
+                        @foreach($mental_health AS $type)
+                           @if($type->serviceAttributes->isNotEmpty())
+                        <div wt-toggle="service-{{ $service->slug}}" class="wrapper-service" id="{{ $service->name }}" style="display:none">
+                        <div class="title">
+                           <!-- <p>Popular <strong>1:1 services</strong>  in your expertise</p> -->
+                           <p>Popular <strong>{{ $type->name }}</strong>  in your expertise</p>
+                           
+                        </div>
+                        <div class="input-group mb-3">
+                           <div class="button-group button-group-2 check_halfbtn">
+                                @foreach($type->serviceAttributes AS $attribute)
+                              <label class="button-group__btn"><input class="services__to__select" type="checkbox" name="services[]" value="{{ $attribute->id }}"/> <span class="button-group__label">{{ $attribute->title }}</span></label>
+                                @endforeach
+                              <!-- <label class="button-group__btn"><input type="checkbox" name="check" /> <span class="button-group__label">Emergency</span></label>
+                              <label class="button-group__btn"><input type="checkbox" name="check" /> <span class="button-group__label">Discovery call</span></label> 
+                              <label class="button-group__btn"><input type="checkbox" name="check" /> <span class="button-group__label">Discovery Call</span></label> 
+                              <label class="button-group__btn"><input type="checkbox" name="check" /> <span class="button-group__label">1st Session</span></label> 
+                              <label class="button-group__btn"><input type="checkbox" name="check" /> <span class="button-group__label">Regular Session</span></label>  -->
+                           </div>
+                        </div>
+                        
+                        </div>
+                        @endif
+                        @endforeach
+                        @endif
+
                         @endforeach
                         
                         <!-- end -->
@@ -183,3 +215,20 @@
    </div>
 </section>
 @endsection
+@push('scripts')
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+   
+
+   $.fn.WT_CHECKBOX = function($this) {
+  var name = $this.attr('name'), checked = $this.val();
+  console.log({'name': name, 'checked' : checked});
+  $('[wt-toggle='+name+'-'+checked+']').slideToggle();
+};
+$('[wt-checkbox]').on('change', function() {
+  $.fn.WT_CHECKBOX($(this));
+}).load($.fn.WT_CHECKBOX($('[wt-checkbox]:checked')));
+
+
+   </script>
+   @endpush

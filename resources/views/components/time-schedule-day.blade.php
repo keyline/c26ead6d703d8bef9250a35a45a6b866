@@ -4,7 +4,7 @@
 <div>
     <div class="slots_section_parent slots-select-box">
                                        <div class="slots_section_item slot_starttime">
-                                          <select id="selectbox" name="{{ $day->day }}_from">
+                                          <select id="selectbox" name="availability[from][{{ $day->id }}][]">
                                              @foreach($slots AS $option)
                                              <option value="{{ $option['value'] }}" 
                                              {{ ($option['selected_from'] == $option['value']) ? 'selected' : '' }}>
@@ -23,7 +23,7 @@
                                        </div>
                                        <div style="display: inline; margin: 0px 1em;">-</div>
                                        <div class="slot_endtime">
-                                          <select id="selectbox2" name="{{ $day->day }}_to">
+                                          <select id="selectbox2" name="availability[to][{{ $day->id }}][]">
                                              @foreach($slots AS $option)
                                              <option value="{{ $option['value'] }}"
                                              {{ ($option['selected_to'] == $option['value']) ? 'selected' : '' }}>

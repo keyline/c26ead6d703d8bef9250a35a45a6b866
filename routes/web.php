@@ -60,6 +60,8 @@ Route::prefix('/')->namespace('App\Http\Controllers')->group(function () {
         //ajax method
         Route::post('/timeslot/item', [\App\Http\Controllers\MentorController::class, 'getTimeSlotItem'])->name('timeslot.item');
 
+        Route::post('/user/store', [\App\Http\Controllers\MentorController::class, 'store'])->name('user.save');
+
 
 
 

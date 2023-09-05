@@ -16,6 +16,10 @@ use Auth;
 use Session;
 use Helper;
 use Hash;
+use App\Rules\UniqueProfileSlug;
+
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Str;
 
 class MentorController extends Controller
 {
@@ -38,7 +42,7 @@ class MentorController extends Controller
         $validator = Validator::make($request->all(), [
             'first_name'    => 'required',
             'last_name'     => 'required',
-            'email' => 'required|email|unique:users',
+            'email'         => 'required|email|unique:users',
             'phone_number'  => 'required|max:10',
             'password'      => 'required|confirmed|min:6',
 
@@ -55,51 +59,55 @@ class MentorController extends Controller
         // Retrieve the validated input data...
         $validated = $validator->valid();
 
-        $userData = array(
+        $user = \App\Models\User::create([
                 'name' => implode(" ", [$validated['first_name'], $validated['last_name']]),
                 'email' => $validated['email'],
                 'phone' => $validated['phone_number'],
                 'role' => 2,
                 'valid' => 0,
                 'password' => \bcrypt($validated['password'])
-        );
+        ]);
 
-        $mentorData = array(
-                'first_name'    => $validated['first_name'],
-                'last_name'     => $validated['last_name'],
-                'display_name'  => implode(" ", [$validated['first_name'], $validated['last_name']]),
-                'mobile'        => $validated['phone_number'],
-                'full_name'     => implode(" ", [$validated['first_name'], $validated['last_name']]),
-        );
+        //$mentor = \App\Models\MentorProfile::create();
+        $mentorData = [
+            'user_id'       => $user->id,
+            'first_name'    => trim($validated['first_name']),
+            'last_name'     => trim($validated['last_name']),
+            'display_name'  => implode("_", [$validated['first_name'], $validated['last_name']]),
+            'mobile'        => $validated['phone_number'],
+            'full_name'     => implode(" ", [$validated['first_name'], $validated['last_name']]),
+            'timezone'      => 'Asia/Kolkata',
+
+        ];
 
         //Storing in session
         if(empty($request->session()->get('user'))) {
             //instantiate model and fill model instance save later
-            $user = new \App\Models\User();
+            //$user = new \App\Models\User();
 
             $mentor = new \App\Models\MentorProfile();
 
-            $user->fill($userData);
+            //$user->fill($userData);
 
             $mentor->fill($mentorData);
 
             $request->session()->put('user', $user);
 
-            $request->session()->put('onboarding', $mentor);
+            $request->session()->put('mentor', $mentor);
 
         } else {
-            $mentor = $request->session()->get('onboarding');
+            $mentor = $request->session()->get('mentor');
 
 
             $user = $request->session()->get('user');
 
-            $user->fill($userData);
-            $mentor->fill($mentorData);
+            //$user->fill($userData);
+            //$mentor->fill($mentorData);
 
 
             $request->session()->put('user', $user);
 
-            $request->session()->put('onboarding', $mentor);
+            $request->session()->put('mentor', $mentor);
 
         }
 
@@ -108,12 +116,18 @@ class MentorController extends Controller
     }
     public function createStep2(Request $request)
     {
-        $onboarding = $request->session()->get('onboarding');
+        if(empty($request->session()->get('mentor'))) {
+            return redirect('mentor/signup');
+
+        }
+        $onboarding = $request->session()->get('mentor');
+
+        //dd($onboarding);
         //Data needed for rendering the page
         //service type choices
         $service_types = \App\Models\ServiceType::all();
 
-        return view('front.mentor.onboarding.create-step2', ['serviceTypes' => $service_types]);
+        return view('front.mentor.onboarding.create-step2', ['serviceTypes' => $service_types, 'current_mentor' => $onboarding]);
 
         //$data                           = [];
         //$title                          = 'Mentor Signup';
@@ -122,19 +136,30 @@ class MentorController extends Controller
     }
     public function postCreateStep2(Request $request)
     {
+        if(empty($request->session()->get('mentor'))) {
+            \redirect('mentor/signup');
+        }
+
+        $mentor = $request->session()->get('mentor');
+
         $validator = Validator::make($request->all(), [
             'social_url'    => 'required',
-            'profile_slug'  => 'required',
-            'referral_from' => 'required',
+            'profile_slug'  => ['required',
+                                    new UniqueProfileSlug()],
+            'registration_intent' => 'required',
             'intended_service_type' => 'required',
 
         ]);
 
         if($validator->fails()) {
 
+            $username = $this->generateUniqueProfileSlug($mentor->display_name);
+
+
             return redirect('mentor/create/step2')
                         ->withErrors($validator)
-                        ->withInput();
+                        ->withInput(['profile_slug' => $username]);
+
 
 
         }
@@ -142,17 +167,18 @@ class MentorController extends Controller
         // Retrieve the validated input...
         $validated = $validator->validated();
         //process the form
-        $mentor = $request->session()->get('onboarding');
         $mentor->social_url = $validated['social_url'];
-        $mentor->display_name = $validated['profile_slug'];
+        $mentor->display_name =  $validated['profile_slug'];
         $mentor->registration_intent = $validated['registration_intent'];
-        $request->session()->put('onboarding', $mentor);
+        //$request->session()->put('mentor', $mentor);
 
         //attaching service types to mentor
-        if(empty($request->session()->get('intended_services'))) {
-            $request->session()->put('intended_services', $validated['intended_service_type']);
+        if(empty($request->session()->get('mentor'))) {
+            $request->session()->put('mentor', $mentor);
 
         }
+
+        $mentor->save();
 
         //data collect done proceed to next step
         return redirect('mentor/step3');
@@ -173,31 +199,95 @@ class MentorController extends Controller
 
         //$services = \App\Models\Service::with(['serviceTypes', 'serviceAttributes'])->get();
         $services = \App\Models\Service::all();
+
         $types =    \App\Models\ServiceType::with(['serviceAttributes' => function ($query) {
             $query->where('service_id', '=', 1);
         }])->get();
-        //$types = [];
-        //dd($services);
+
+        $types2 =    \App\Models\ServiceType::with(['serviceAttributes' => function ($query) {
+            $query->where('service_id', '=', 2);
+        }])->get();
 
 
-        //dd(\App\Models\ServiceType::with('services')->get());
 
-        //$mentalHealth = \App\Models\Service::find(1)->serviceTypes()->where('is_default', 0)->get();
 
-        //$careerCounselling = \App\Models\Service::find(2)->serviceAttributes()->where('is_default', 0)->get();
-
-        //return \view('front.mentor.onboarding.create-step3', ['services' => $services, 'mentalHealth' => $mentalHealth, 'careerCounselling' => $careerCounselling]);
-
-        return \view('front.mentor.onboarding.create-step3', ['services' => $services, 'types' => $types]);
-
-        //$data                           = [];
-        //$title                          = 'Mentor Signup';
-        //$page_name                      = 'mentor-signup-4';
-        //echo $this->front_before_login_layout($title, $page_name, $data);
+        return \view('front.mentor.onboarding.create-step3', ['services' => $services, 'types' => $types, 'mental_health' => $types2]);
     }
 
     public function postCreateStep3(Request $request)
     {
+
+        $validator = Validator::make($request->all(), [
+                    'service'     => 'required',
+                    'services'    => 'required',
+
+
+                ]);
+
+        if($validator->fails()) {
+
+            return redirect('mentor/create/step3')
+                        ->withErrors($validator)
+                        ->withInput();
+
+        }
+
+
+        // Retrieve the validated input...
+        $validated = $validator->validated();
+
+        $user = $request->session()->get('user');
+
+        if(empty($user)) {
+            //redirect back to step1
+            return \redirect('mentor/signup');
+        }
+
+        foreach ($validated['services'] as $service) {
+            $data = [];
+            //service attribute details
+            $serviceAttribute = \App\Models\ServiceAttribute::find($service);
+            $data['service_attribute_id'] = $serviceAttribute->id;
+            $data['mentor_user_id'] = $user->id;
+            $data['title'] = $serviceAttribute->title;
+            $data['description'] = $serviceAttribute->description;
+            $data['duration'] = $serviceAttribute->duration;
+            $data['sgst_amount'] = $serviceAttribute->actual_amount * 9 / 100;
+            $data['cgst_amount'] = $serviceAttribute->actual_amount * 9 / 100;
+            $data['igst_amount'] = $serviceAttribute->actual_amount * 18 / 100;
+            $data['total_amount_payable'] = $serviceAttribute->actual_amount;
+            $data['platform_charges'] = $serviceAttribute->actual_amount * 10 / 100;
+            $data['mentor_payout_amount'] = $serviceAttribute->actual_amount - $data['platform_charges'];
+            $data['promised_response_time'] = 30;
+            $data['sort_order'] = 1;
+            $data['countryid'] = 101;
+            $data['service_url'] = ' ';
+            //$insert_schedule[] = $data;
+            \App\Models\ServiceDetail::create($data);
+        }
+
+        //dd($insert_schedule);
+
+
+        /**
+         if(empty($request->session()->get('mentor_to_service'))) {
+             $serviceDetails = new \App\Models\ServiceDetail();
+
+             $serviceDetails->fill($insert_schedule);
+
+             $request->session()->put('mentor_to_service', $serviceDetails);
+
+         } else {
+             $serviceDetails = $request->session()->get('mentor_to_service');
+
+             $serviceDetails->fill($insert_schedule);
+
+             $request->session()->put('mentor_to_service', $serviceDetails);
+         }
+         */
+        //data collect done proceed to next step
+
+        return \redirect('mentor/step4');
 
     }
 
@@ -227,8 +317,61 @@ class MentorController extends Controller
         return \view('front.mentor.onboarding.create-step4', ['slot_dropdown' => $hours, 'days' => $daysOfWeek]);
     }
 
-    public function postCreateStep4()
+    public function postCreateStep4(Request $request)
     {
+        if(empty($request->session()->get('user'))) {
+            return \redirect('mentor/signup');
+        }
+        $user = $request->session()->get('mentor');
+        $input = $request->all();
+
+        $days = $request->input('day_of_week');
+
+        $file = $request->input('docs_attachment');
+
+
+        $request->validate([
+                       'docs_attachment' => 'image|mimes:jpeg,jpg,pdf,pdfs|max:2048',
+                   ]);
+
+        $fileName = "mentor_attachment_" . time() . '.' . request()->docs_attachment->getClientOriginalExtension();
+
+
+
+        $availabilities = $request->input('availability');
+
+        foreach ($days as $key => $value) {
+            $day_id = $key;
+            $data = [];
+            //$insert_schedule = [];
+            if(is_array($availabilities['from'][$day_id])) {
+                $data['day_of_week_id'] = $day_id;
+                foreach($availabilities['from'][$day_id] as $key => $value) {
+                    $data['avail_from'] = $value;
+                    $data['avail_to'] = $availabilities['to'][$day_id][$key];
+                    $data['mentor_user_id'] = $user->id;
+
+                    $insert_schedule[] = $data;
+                }
+            }
+        }
+
+        //dd($insert_schedule);
+
+        if(empty($request->session()->get('mentor_availabilities'))) {
+
+            $availability = new MentorAvailability();
+            $availability->fill($insert_schedule);
+            $request->session()->put('mentor_availabilities', $availability);
+
+        } else {
+            $availability = $request->session()->get('mentor_availabilities');
+            $availability->fill($insert_schedule);
+            $request->session()->put('mentor_availabilities', $availability);
+
+        }
+
+        $availability->save();
 
     }
 
@@ -283,6 +426,21 @@ class MentorController extends Controller
 
 
 
+
+
+    }
+
+    public function generateUniqueProfileSlug($fullName, $length = 5)
+    {
+
+        $username = strtolower(str_replace(' ', '_', $fullName));
+
+        while(\App\Models\MentorProfile::where('display_name', $username)->exists()) {
+            $randomString = Str::random($length);
+            $username = $username . $randomString;
+        }
+
+        return $username;
 
 
     }

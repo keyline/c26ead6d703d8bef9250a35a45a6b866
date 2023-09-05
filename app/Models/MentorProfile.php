@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class MentorProfile extends Model
 {
@@ -15,14 +16,13 @@ class MentorProfile extends Model
      * @var array<int, string>
      */
     protected $fillable = [
+        'user_id',
         'first_name',
         'last_name',
-        'email_verified_at',
         'display_name',
          'mobile',
-         'social_url',
         'full_name',
-        'registration_intent',
+        'timezone',
     ];
 
     /**
@@ -33,7 +33,7 @@ class MentorProfile extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function mentorAvailability(): HasMany
+    public function mentorAvailabilities(): HasMany
     {
         return $this->hasMany(MentorAvailability::class);
     }
