@@ -35,7 +35,7 @@
 							<div class="card-body profile_cardbody">
 								<form method="POST" action="" enctype="multipart/form-data">
 								@csrf
-									<input type="hidden" name="mode10" value="updateData">.
+									<input type="hidden" name="mode10" value="updateData">
 									<input type="hidden" name="student_id" value="<?=$profileDetail->id?>">
 									<div class="profile_myaccount">
 										<div class="profile_changeavtar">
@@ -103,7 +103,7 @@
 										<div class="row mb-3">
 											<div class="col-lg-12">
 												<h3 style="font-size: 16px;">Social Links</h3>
-												<div class="add-function">
+												<!-- <div class="add-function">
 													<div class="function-table-2">
 														<div class="form-group function-tr-2">
 															<div class="input-group">
@@ -116,7 +116,7 @@
 																	<option>youtube</option>
 																	</select>
 																</div>
-																	<input id="wrapped" class="form-control" type="input" placeholder="Add social url" name="wrapped" />
+																	<input id="social_link" class="form-control" type="text" placeholder="Add social url" name="social_link[]" />
 																<div class="form-group col-md-1 pl-1 pr-2">
 																	<div class="remove-action">
 																		<a href="javascript:void(0)" class="js-del2-row"><i class="fa-solid fa-xmark"></i></a>
@@ -128,6 +128,46 @@
 													<div class="add-button-function">
 														<div class="add-action">
 															<a href="javascript:void(0)" class="js-add2-row">+ Add social link</a>
+														</div>
+													</div>
+												</div> -->
+												<div class="field_wrapper">
+													<?php if(($profileDetail->social_link)){ ?>
+													<div class="row" style="margin-top: 10px;">
+														<div class="col-md-3">
+															<select class="form-control" name="social_plartform[]">
+																<option value="linkedin" selected>Linkedin</option>
+																<option value="instagram">Instagram</option>
+																<option value="youtube">Youtube</option>
+																<option value="twitter">Twitter</option>
+															</select>
+														</div>
+														<div class="col-md-6">
+															<input type="text" class="form-control" name="social_link[]" id="social_link" value="https://in.linkedin.com/" placeholder="Social Link Url">
+														</div>
+														<div class="col-md-2">
+															<a href="javascript:void(0);" class="remove_button" title="Add field">
+																<i class="fa fa-minus-circle fa-2x text-danger"></i>
+															</a>
+														</div>
+													</div>
+													<?php    }   ?>
+													<div class="row" style="margin-top: 10px;">
+														<div class="col-md-3">
+															<select class="form-control" name="social_plartform[]">
+																<option value="linkedin" selected>Linkedin</option>
+																<option value="instagram">Instagram</option>
+																<option value="youtube">Youtube</option>
+																<option value="twitter">Twitter</option>
+															</select>
+														</div>
+														<div class="col-md-6">
+															<input type="text" class="form-control" name="social_link[]" id="social_link" placeholder="Social Link Url">
+														</div>
+														<div class="col-md-2">
+															<a href="javascript:void(0);" class="add_button" title="Add field">
+															<i class="fa fa-plus-circle fa-2x text-success"></i>
+															</a>
 														</div>
 													</div>
 												</div>
@@ -251,4 +291,42 @@
     function img_pathUrl(input){
         $('#img_url')[0].src = (window.URL ? URL : webkitURL).createObjectURL(input.files[0]);
     }
+</script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function(){
+        var maxField = 4;
+        var addButton = $('.add_button');
+        var wrapper = $('.field_wrapper');
+        var fieldHTML ='<div class="row" style="margin-top: 10px;">\
+							<div class="col-md-3">\
+								<select class="form-control" name="social_plartform[]">\
+									<option value="linkedin" selected>Linkedin</option>\
+									<option value="instagram">Instagram</option>\
+									<option value="youtube">Youtube</option>\
+									<option value="twitter">Twitter</option>\
+								</select>\
+							</div>\
+							<div class="col-md-6">\
+								<input type="text" class="form-control" name="social_link[]" id="social_link" placeholder="Social Link Url">\
+							</div>\
+                          <div class="col-md-2">\
+                                <a href="javascript:void(0);" class="remove_button" title="Add field">\
+                                <i class="fa fa-minus-circle fa-2x text-danger"></i>\
+                                </a>\
+                          </div>\
+                        </div>';
+        var x = 1;
+        $(addButton).click(function(){
+            if(x < maxField){
+                x++;
+                $(wrapper).append(fieldHTML);
+            }
+        });
+        $(wrapper).on('click', '.remove_button', function(e){
+            e.preventDefault();
+            $(this).parent('div').parent('div').remove();
+            x--;
+        });
+    });
 </script>

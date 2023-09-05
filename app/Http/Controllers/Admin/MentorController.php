@@ -13,6 +13,7 @@ use App\Models\StudentProfile;
 use App\Models\RequireDocument;
 use App\Models\MentorProfile;
 use App\Models\UserDocument;
+use App\Models\MentorAvailability;
 use Auth;
 use Session;
 use Helper;
@@ -102,6 +103,9 @@ class MentorController extends Controller
         public function availability($id){
             $id                             = Helper::decoded($id);
             $data['mentor']                 = MentorProfile::where('user_id', '=', $id)->first();
+            // Helper::pr($data['mentor']);
+            $data['getSlotAvailability']    = MentorAvailability::where('mentor_user_id', '=', $data['mentor']->user_id )->get();
+            // Helper::pr($data['getSlotAvailability']);
             $data['module']                 = $this->data;
             $title                          = 'Availability Of '.(($data['mentor'])?$data['mentor']->first_name.' '.$data['mentor']->last_name:'');
             $page_name                      = 'mentor.availability';
