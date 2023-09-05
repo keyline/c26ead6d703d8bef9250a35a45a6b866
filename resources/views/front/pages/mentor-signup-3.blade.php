@@ -24,7 +24,7 @@
             </div>
          </div>
       </div>
-      <div class="row justify-content-center">
+      <div class="row justify-content-around">
          <div class="col-lg-5 col-md-8 col-sm-8">
             <div class="metor_dashboard">
                <div class="metor_information">

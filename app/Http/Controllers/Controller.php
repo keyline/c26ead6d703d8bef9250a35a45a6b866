@@ -258,6 +258,15 @@ class Controller extends BaseController
         $data['maincontent']        = view('front.dashboard.pages.'.$page_name, $data);
         return view('front.dashboard.front-dashboard-layout', $data);
     }
+    public function before_login_front_dashboard_layout($title, $page_name, $data)
+    {
+        $data['generalSetting']     = GeneralSetting::find('1');
+        $data['title']              = $title.' :: '.$data['generalSetting']->site_name;
+        $data['page_header']        = $title;
+        $data['head']               = view('admin.elements.head', $data);
+        $data['maincontent']        = view('front.dashboard.pages.'.$page_name, $data);
+        return view('front.dashboard.before-login-front-dashboard-layout', $data);
+    }
     // front dashboard layout
     // admin authentication layout
     public function admin_before_login_layout($title, $page_name, $data)
