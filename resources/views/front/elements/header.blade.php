@@ -39,7 +39,7 @@ $pageName = $routeName->uri();
                </div>
             </nav>
             <div class="header_loginbtn">
-               <?php if(empty(session('is_user_login'))){?>
+               <?php if(empty(session('user_id'))){?>
                   <ul>
                      <li>
                         <a class="btn_border" href="<?=url('signin')?>">Sign In</a>
@@ -65,7 +65,7 @@ $pageName = $routeName->uri();
                      </button>
                      <div class="dropdown-menu">
                          <ul>
-                             <li><a href="<?=url('signout')?>"> Sign Out</a></li>
+                             <li><a href="<?=url('logout')?>"> Sign Out</a></li>
                          </ul>
                      </div>
                  </div>

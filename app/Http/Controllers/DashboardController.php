@@ -43,8 +43,7 @@ class DashboardController extends Controller
     /* home */
     /* index */
     public function index(){
-        // Helper::pr(session()->all());die;
-        $data[]         = [];
+        $data           = [];
         $title          = 'Dashboard';
         $page_name      = 'index';
         echo $this->front_dashboard_layout($title,$page_name,$data);
@@ -219,9 +218,8 @@ class DashboardController extends Controller
     }
     /*mentor-services */
     public function logout(Request $request){
-        $request->session()->forget(['user_id', 'name', 'email']);
-        // Helper::pr(session()->all());die;
+        $request->session()->forget(['user_id', 'name', 'email', 'fname', 'lname', 'role', 'is_user_login']);
         Auth::guard('web')->logout();
-        return redirect('/dashboard');
+        return redirect('/signin');
     }
 }
