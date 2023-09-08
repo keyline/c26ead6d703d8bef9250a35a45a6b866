@@ -1,6 +1,7 @@
 <?php
-use App\Helpers\Helper;
-$controllerRoute = $module['controller_route'];
+  use App\Helpers\Helper;
+  $controllerRoute = $module['controller_route'];
+  use App\Models\DayOfWeeks;
 ?>
 <div class="pagetitle">
   <h1><?=$page_header?></h1>
@@ -30,70 +31,28 @@ $controllerRoute = $module['controller_route'];
     <div class="col-lg-12">
       <div class="card">
         <div class="card-body pt-3">
+          <?php if($getSlotAvailability){ foreach($getSlotAvailability as $slot){ 
+            $getName = DayOfWeeks::where('id', '=', $slot->day_of_week_id)->first();
+            // Helper::pr($getName);
+             ?>
+            <div class="row">
+              <div class="col-lg-4 col-md-4 col-sm-12 mb-3">
+                <p style="font-weight:bold;"><?=$getName->day;?></p>
+              </div>
+              <div class="col-lg-4 col-md-4 col-sm-12 mb-3">
+                <p class="text-success"><?= date('h:i:s A', strtotime($slot->avail_from));?></p>
+              </div>
+              <div class="col-lg-4 col-md-4 col-sm-12 mb-3">
+                <p class="text-success"><?= date('h:i:s A', strtotime($slot->avail_to));?></p>
+              </div>
+            </div>
+          <hr>
+          <?php } }else{  ?>
+            
+          <?php } ?>
+         
           
-          <div class="row">
-            <div class="col-lg-4 col-md-4 col-sm-12 mb-3">
-              <p style="font-weight:bold;">Monday</p>
-            </div>
-            <div class="col-lg-4 col-md-4 col-sm-12 mb-3">
-              <p class="text-success">09:30 AM</p>
-            </div>
-            <div class="col-lg-4 col-md-4 col-sm-12 mb-3">
-              <p class="text-success">07:30 PM</p>
-            </div>
-          </div>
-          <hr>
-          <div class="row">
-            <div class="col-lg-4 col-md-4 col-sm-12 mb-3">
-              <p style="font-weight:bold;">Tuesday</p>
-            </div>
-            <div class="col-lg-4 col-md-4 col-sm-12 mb-3">
-              <p class="text-success">09:30 AM</p>
-            </div>
-            <div class="col-lg-4 col-md-4 col-sm-12 mb-3">
-              <p class="text-success">07:30 PM</p>
-            </div>
-          </div>
-          <hr>
-          <div class="row">
-            <div class="col-lg-4 col-md-4 col-sm-12 mb-3">
-              <p style="font-weight:bold;">Wednesday</p>
-            </div>
-            <div class="col-lg-4 col-md-4 col-sm-12 mb-3">
-              <p class="text-success">09:30 AM</p>
-              <p class="text-success">05:30 PM</p>
-            </div>
-            <div class="col-lg-4 col-md-4 col-sm-12 mb-3">
-              <p class="text-success">02:30 PM</p>
-              <p class="text-success">09:30 PM</p>
-            </div>
-          </div>
-          <hr>
-          <div class="row">
-            <div class="col-lg-4 col-md-4 col-sm-12 mb-3">
-              <p style="font-weight:bold;">Thursday</p>
-            </div>
-            <div class="col-lg-4 col-md-4 col-sm-12 mb-3">
-              <p class="text-success">09:30 AM</p>
-            </div>
-            <div class="col-lg-4 col-md-4 col-sm-12 mb-3">
-              <p class="text-success">07:30 PM</p>
-            </div>
-          </div>
-          <hr>
-          <div class="row">
-            <div class="col-lg-4 col-md-4 col-sm-12 mb-3">
-              <p style="font-weight:bold;">Friday</p>
-            </div>
-            <div class="col-lg-4 col-md-4 col-sm-12 mb-3">
-              <p class="text-success">09:30 AM</p>
-            </div>
-            <div class="col-lg-4 col-md-4 col-sm-12 mb-3">
-              <p class="text-success">07:30 PM</p>
-            </div>
-          </div>
-          <hr>
-          <div class="row">
+          <!-- <div class="row">
             <div class="col-lg-4 col-md-4 col-sm-12 mb-3">
               <p style="font-weight:bold;">Saturday</p>
             </div>
@@ -104,20 +63,8 @@ $controllerRoute = $module['controller_route'];
               <p class="text-danger">Unavailable</p>
             </div>
           </div>
-          <hr>
-          <div class="row">
-            <div class="col-lg-4 col-md-4 col-sm-12 mb-3">
-              <p style="font-weight:bold;">Sunday</p>
-            </div>
-            <div class="col-lg-4 col-md-4 col-sm-12 mb-3">
-              <p class="text-success">09:30 AM</p>
-            </div>
-            <div class="col-lg-4 col-md-4 col-sm-12 mb-3">
-              <p class="text-success">07:30 PM</p>
-            </div>
-          </div>
-          <hr>
-          
+          <hr> -->
+         
         </div>
       </div>
 

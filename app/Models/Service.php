@@ -12,8 +12,9 @@ class Service extends Model
 
     public function serviceTypes()
     {
-        return $this->belongsToMany(ServiceType::class, 'service_type_attribute')->withPivot('service_id')
+        return $this->belongsToMany(ServiceType::class, 'service_type_attribute')->withPivot(['service_id'])
         ->withTimestamps();
+
     }
 
     public function serviceAttributes()

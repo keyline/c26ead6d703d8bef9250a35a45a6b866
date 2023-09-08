@@ -1,4 +1,4 @@
-@extends('front.layouts.master', ['title'=> 'Mentor Signup', 'page_name' => 'mentor-signup-2'])
+@extends('front.layouts.master', ['title'=> 'Mentor Signup', 'pageName' => 'mentor-signup-2'])
 @section('content')
 <section class="mentor_element">
    <div class="container">
@@ -27,7 +27,7 @@
             </div>
          </div>
       </div>
-      <div class="row justify-content-center">
+      <div class="row justify-content-around">
          <div class="col-lg-5 col-md-8 col-sm-8">
             <div class="metor_dashboard">
                <div class="metor_information">
@@ -57,7 +57,7 @@
                         </div>
                         <div class="input-group mb-3">
                            <span class="input-group-text" id="basic-addon1">stumento.com/</span>
-                           <input type="text" class="form-control" name="profile_slug" value="alex_test"  aria-describedby="basic-addon1">
+                           <input type="text" class="form-control" name="profile_slug" value="{{ old('profile_slug')  ?? $current_mentor->display_name }}"  aria-describedby="basic-addon1">
                         </div>
                         <div class="title">
                            <p>How do you plan to use Stumento</p>
@@ -94,61 +94,7 @@
          <div class="col-lg-4 col-md-6 col-sm-6">
             <div class="rightside_testslider">
                <div class="login_sidebar_testimorial">
-                  <div class="testmoric_item">
-                     <div class="testimor_quote"><img src="{{ env('FRONT_ASSETS_URL') }}assets/images/testi_qutationo.png" alt="icon"></div>
-                     <div class="testimori_content">I was looking for online career counselling after 12th and one of my friends suggested StuMento. The best part of StuMento is that  I got to choose from multiple career counsellers from the comfort of my home. Thanks to the sessions, Now I am so much more clear about my career now👍</div>
-                     <div class="testomori_profile">
-                        <div class="testmori_prof_img"><img src="{{ env('FRONT_ASSETS_URL') }}assets/images/testi_qutati_img.png" alt="icon"></div>
-                        <div class="testmori_name">
-                           <h3>Vijay</h3>
-                           <h5>Recent 12th graduate</h5>
-                        </div>
-                     </div>
-                  </div>
-                  <div class="testmoric_item">
-                     <div class="testimor_quote"><img src="{{ env('FRONT_ASSETS_URL') }}assets/images/testi_qutationo.png" alt="icon"></div>
-                     <div class="testimori_content">I was looking for online career counselling after 12th and one of my friends suggested StuMento. The best part of StuMento is that  I got to choose from multiple career counsellers from the comfort of my home. Thanks to the sessions, Now I am so much more clear about my career now👍</div>
-                     <div class="testomori_profile">
-                        <div class="testmori_prof_img"><img src="{{ env('FRONT_ASSETS_URL') }}assets/images/testi_qutati_img.png" alt="icon"></div>
-                        <div class="testmori_name">
-                           <h3>Vijay</h3>
-                           <h5>Recent 12th graduate</h5>
-                        </div>
-                     </div>
-                  </div>
-                  <div class="testmoric_item">
-                     <div class="testimor_quote"><img src="{{ env('FRONT_ASSETS_URL') }}assets/images/testi_qutationo.png" alt="icon"></div>
-                     <div class="testimori_content">I was looking for online career counselling after 12th and one of my friends suggested StuMento. The best part of StuMento is that  I got to choose from multiple career counsellers from the comfort of my home. Thanks to the sessions, Now I am so much more clear about my career now👍</div>
-                     <div class="testomori_profile">
-                        <div class="testmori_prof_img"><img src="{{ env('FRONT_ASSETS_URL') }}assets/images/testi_qutati_img.png" alt="icon"></div>
-                        <div class="testmori_name">
-                           <h3>Vijay</h3>
-                           <h5>Recent 12th graduate</h5>
-                        </div>
-                     </div>
-                  </div>
-                  <div class="testmoric_item">
-                     <div class="testimor_quote"><img src="{{ env('FRONT_ASSETS_URL') }}assets/images/testi_qutationo.png" alt="icon"></div>
-                     <div class="testimori_content">I was looking for online career counselling after 12th and one of my friends suggested StuMento. The best part of StuMento is that  I got to choose from multiple career counsellers from the comfort of my home. Thanks to the sessions, Now I am so much more clear about my career now👍</div>
-                     <div class="testomori_profile">
-                        <div class="testmori_prof_img"><img src="{{ env('FRONT_ASSETS_URL') }}assets/images/testi_qutati_img.png" alt="icon"></div>
-                        <div class="testmori_name">
-                           <h3>Vijay</h3>
-                           <h5>Recent 12th graduate</h5>
-                        </div>
-                     </div>
-                  </div>
-                  <div class="testmoric_item">
-                     <div class="testimor_quote"><img src="{{ env('FRONT_ASSETS_URL') }}assets/images/testi_qutationo.png" alt="icon"></div>
-                     <div class="testimori_content">I was looking for online career counselling after 12th and one of my friends suggested StuMento. The best part of StuMento is that  I got to choose from multiple career counsellers from the comfort of my home. Thanks to the sessions, Now I am so much more clear about my career now👍</div>
-                     <div class="testomori_profile">
-                        <div class="testmori_prof_img"><img src="{{ env('FRONT_ASSETS_URL') }}assets/images/testi_qutati_img.png" alt="icon"></div>
-                        <div class="testmori_name">
-                           <h3>Vijay</h3>
-                           <h5>Recent 12th graduate</h5>
-                        </div>
-                     </div>
-                  </div>
+                  @include('front.elements.side-testimonial')
                </div>
             </div>
          </div>

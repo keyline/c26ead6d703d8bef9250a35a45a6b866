@@ -1,0 +1,12 @@
+@props([
+    'daysOfWeek',
+    'slot_dropdown',
+    'actionclass',
+    'iconclass'
+    ])
+<x-availability-schedule 
+:daysOfWeek="$daysOfWeek" 
+:slots="$slot_dropdown" 
+:action="$actionclass"
+:icon="$iconclass"
+/>

@@ -43,6 +43,7 @@ use Illuminate\Support\Facades\Route;
     Route::group(['prefix' => 'mentor', 'as' => 'mentor.'], function () {
 
         Route::get('/signup', [\App\Http\Controllers\MentorController::class, 'createStep1'])->name('signup');
+
         Route::post('/create/step1', [\App\Http\Controllers\MentorController::class, 'postCreateStep1'])->name('create.step1');
 
         Route::get('/step2', [\App\Http\Controllers\MentorController::class, 'createStep2'])->name('step2');
@@ -51,15 +52,17 @@ use Illuminate\Support\Facades\Route;
 
         Route::get('/step3', [\App\Http\Controllers\MentorController::class, 'createStep3'])->name('step3');
 
-
         Route::post('/create/step3', [\App\Http\Controllers\MentorController::class, 'postCreateStep3'])->name('create.step3');
 
+        Route::get('/step4', [\App\Http\Controllers\MentorController::class, 'createStep4'])->name('step4');
 
+        Route::post('/create/step4', [\App\Http\Controllers\MentorController::class, 'postCreateStep4'])->name('create.step4');
 
+        //ajax method
+        Route::post('/timeslot/item', [\App\Http\Controllers\MentorController::class, 'getTimeSlotItem'])->name('timeslot.item');
 
+        Route::post('/user/store', [\App\Http\Controllers\MentorController::class, 'store'])->name('user.save');
 
-
-        Route::post('/step3', [\App\Http\Controllers\MentorController::class, 'postCreateStep1'])->name('step3');
 
 
 
@@ -102,6 +105,17 @@ Route::prefix('/api')->namespace('App\Http\Controllers')->group(function () {
     Route::match(['get'], 'resend-otp', 'ApiController@resendOtp');
 });
 /* API */
+/*Front Dashboard */
+Route::prefix('/dashboard')->namespace('App\Http\Controllers')->group(function () {
+    // Route::get('/', 'DashboardController@home');
+    Route::match(['get','post'],'/', 'DashboardController@home');
+    Route::match(['get','post'],'/index', 'DashboardController@index');
+    Route::match(['get','post'],'/profile', 'DashboardController@profile');
+    Route::get('/mentor-availability', 'DashboardController@mentorAvailability');
+    Route::get('/mentor-services', 'DashboardController@mentorServices');
+    Route::get('/logout', 'DashboardController@logout');
+});
+/*Front Dashboard */
 /* Admin Panel */
     
     Route::prefix('/admin')->namespace('App\Http\Controllers\Admin')->group(function(){

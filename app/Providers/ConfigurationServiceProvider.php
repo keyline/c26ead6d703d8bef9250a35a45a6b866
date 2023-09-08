@@ -28,9 +28,21 @@ class ConfigurationServiceProvider extends ServiceProvider
 
         // Using closure based composers...
         Facades\View::composer('front.layouts.master', function (View $view) {
-            $view->with(['generalSetting' => \App\Models\GeneralSetting::find('1')]);
+            $view->with(['generalSetting' => \App\Models\GeneralSetting::find('1'),
+                           //'testimonials' => \App\Models\Testimonial::where('status', '=', 1)->orderBy('id', 'DESC')->get(),
+
+                        ]);
 
         });
+
+
+        Facades\View::composer('front.elements.side-testimonial', function (View $view) {
+            $view->with(['testimonials' => \App\Models\Testimonial::where('status', '=', 1)->orderBy('id', 'DESC')->get(),
+
+                        ]);
+
+        });
+
 
     }
 }
