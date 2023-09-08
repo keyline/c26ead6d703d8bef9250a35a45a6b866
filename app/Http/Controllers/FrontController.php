@@ -350,6 +350,7 @@ class FrontController extends Controller
         public function signin(Request $request){
             if($request->isMethod('post')){
                 $postData = $request->all();
+                // Helper::pr($postData);
                 $rules = [
                     'email'     => 'required|email|max:255',
                     'password'  => 'required|max:30',
@@ -387,7 +388,7 @@ class FrontController extends Controller
                             UserActivity::insert($activityData);
                         /* user activity */
 
-                        return redirect('dashboard');
+                        return redirect('user/dashboard');
                     } else {
                         /* email sent */
                             $generalSetting             = GeneralSetting::find('1');

@@ -46,7 +46,7 @@
                             <!-- <a class="dropdown-item" href="#"><i class="fa-solid fa-gear"></i> Settings</a>
                             <a class="dropdown-item" href="#"><i class="fa-regular fa-credit-card"></i> Payments</a> -->
                             <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="<?=url('dashboard/logout')?>">
+                            <a class="dropdown-item" href="<?=url('user/logout')?>">
                                 <svg class="icon me-2">
                                 <use xlink:href="<?=env('FRONT_DASHBOARD_ASSETS_URL')?>vendors/@coreui/icons/svg/free.svg#cil-account-logout"></use>
                                 </svg> Logout

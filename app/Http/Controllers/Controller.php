@@ -216,7 +216,7 @@ class Controller extends BaseController
     {
         // Helper::pr(session()->all());die;
         $data['generalSetting']     = GeneralSetting::find('1');
-
+        $data['user']               = [];
         $data['title']              = $title.' :: '.$data['generalSetting']->site_name;
         $data['page_header']        = $title;
 
@@ -244,7 +244,7 @@ class Controller extends BaseController
     }
     // front dashboard layout
     public function front_dashboard_layout($title, $page_name, $data)
-    {
+    {  
         $data['generalSetting']     = GeneralSetting::find('1');
         $data['title']              = $title.' :: '.$data['generalSetting']->site_name;
         $data['page_header']        = $title;
@@ -263,6 +263,7 @@ class Controller extends BaseController
         $data['generalSetting']     = GeneralSetting::find('1');
         $data['title']              = $title.' :: '.$data['generalSetting']->site_name;
         $data['page_header']        = $title;
+        $data['user']               = [];
         $data['head']               = view('admin.elements.head', $data);
         $data['maincontent']        = view('front.dashboard.pages.'.$page_name, $data);
         return view('front.dashboard.before-login-front-dashboard-layout', $data);

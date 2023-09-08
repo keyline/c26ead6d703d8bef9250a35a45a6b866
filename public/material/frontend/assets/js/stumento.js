@@ -46,7 +46,7 @@ $("#signup_form").submit(function (e) {
                 success: function (res) {
                     $("#signup_form").loading("stop");
                     if(res.status){
-                        $('#signup_form').trigger("reset");
+                        // $('#signup_form').trigger("reset");
                         toastAlert("success", res.message, true, res.data.redirectUrl);
                         // toastAlert("success", res.message);
                     }else{
@@ -57,7 +57,7 @@ $("#signup_form").submit(function (e) {
                     $("#signup_form").loading("stop");
                     var res = xhr.responseJSON;
                     if(!res.status) {
-                        $('#signup_form').trigger("reset");
+                        // $('#signup_form').trigger("reset");
                         toastAlert("error", res.message);
                     }
                 }
