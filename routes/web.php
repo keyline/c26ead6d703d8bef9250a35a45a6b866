@@ -68,17 +68,13 @@ use Illuminate\Support\Facades\Route;
     /* after login */
     Route::group(['prefix' => 'user', 'middleware' => ['user']], function () {
         /* common */
-        // Route::match(['get','post'],'/dashboard', 'DashboardController@home');
-        Route::match(['get','post'],'/dashboard', 'DashboardController@index');
-        Route::match(['get','post'],'/profile', 'DashboardController@profile');
-        Route::get('/mentor-availability', 'DashboardController@mentorAvailability');
-        Route::get('/mentor-services', 'DashboardController@mentorServices');
-        Route::get('/logout', 'DashboardController@logout');
-
-        // Route::get('signout', 'FrontController@signout');
-        // Route::get('dashboard', 'FrontController@dashboard');
-        // Route::match(['get', 'post'], 'update-profile', 'FrontController@updateProfile');
-        // Route::match(['get', 'post'], 'change-password', 'FrontController@changePassword');
+            Route::match(['get','post'],'/dashboard', 'DashboardController@index');
+            Route::match(['get','post'],'/profile', 'DashboardController@profile');
+            Route::get('/mentor-availability', 'DashboardController@mentorAvailability');
+            Route::get('/mentor-services', 'DashboardController@mentorServices');
+            Route::get('/survey-list', 'DashboardController@surveyList');
+            Route::get('/survey-details', 'DashboardController@surveyDetails');
+            Route::get('/logout', 'DashboardController@logout');
         /* common */
         /* mentor */
 
@@ -91,15 +87,14 @@ use Illuminate\Support\Facades\Route;
 });
 /* Front Panel */
 /* API */
-Route::prefix('/api')->namespace('App\Http\Controllers')->group(function () {
-    Route::match(['post'], 'signup', 'ApiController@signup');
-    Route::match(['post'], 'validate-signup-otp', 'ApiController@validateSignupOtp');
-    Route::match(['get'], 'resend-otp', 'ApiController@resendOtp');
-});
+    Route::prefix('/api')->namespace('App\Http\Controllers')->group(function () {
+        Route::match(['post'], 'signup', 'ApiController@signup');
+        Route::match(['post'], 'validate-signup-otp', 'ApiController@validateSignupOtp');
+        Route::match(['get'], 'resend-otp', 'ApiController@resendOtp');
+    });
 /* API */
 
 /* Admin Panel */
-    
     Route::prefix('/admin')->namespace('App\Http\Controllers\Admin')->group(function(){
         Route::match(['get', 'post'], '/', 'UserController@login');
         Route::match(['get','post'],'/forgot-password', 'UserController@forgotPassword');
@@ -337,10 +332,4 @@ Route::prefix('/api')->namespace('App\Http\Controllers')->group(function () {
             /* enquiries */
         });
     });
-
-
-
 /* Admin Panel */
-/* Front Panel */
-
-/* Front Panel */

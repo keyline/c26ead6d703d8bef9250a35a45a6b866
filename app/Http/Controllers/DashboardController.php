@@ -217,6 +217,20 @@ class DashboardController extends Controller
         echo $this->front_dashboard_layout($title,$page_name,$data);
     }
     /*mentor-services */
+    /* survey */
+        public function surveyList(){
+            $data[]         = [];
+            $title          = 'Survey List';
+            $page_name      = 'survey-list';
+            echo $this->front_dashboard_layout($title,$page_name,$data);
+        }
+        public function surveyDetails(){
+            $data[]         = [];
+            $title          = 'Survey Details';
+            $page_name      = 'survey-details';
+            echo $this->front_dashboard_layout($title,$page_name,$data);
+        }
+    /* survey */
     public function logout(Request $request){
         $request->session()->forget(['user_id', 'name', 'email', 'fname', 'lname', 'role', 'is_user_login']);
         Auth::guard('web')->logout();

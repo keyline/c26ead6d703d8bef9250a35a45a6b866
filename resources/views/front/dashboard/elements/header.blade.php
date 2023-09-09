@@ -35,22 +35,18 @@
                 <div class="header_loginbtn">
                     <ul class="header-nav ms-3">
                         <li class="nav-item dropdown"><a class="nav-link py-0" data-coreui-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
-                            <div class="avatar avatar-md"><img class="avatar-img" src="<?=env('FRONT_DASHBOARD_ASSETS_URL')?>assets/img/avatars/8.jpg" alt="user@email.com"></div>
+                            <div class="avatar avatar-md"><img class="avatar-img" src="<?=env('FRONT_DASHBOARD_ASSETS_URL')?>assets/img/avatars/8.jpg" alt=""></div>
                             </a>
                             <div class="dropdown-menu dropdown-menu-end pt-0">
-                            <div class="dropdown-header bg-light py-2">
-                                <div class="fw-semibold">Account</div>
-                            </div>
-
-                            <a class="dropdown-item" href="<?=url('/dashboard/profile')?>"><i class="fa-regular fa-user"></i> Profile</a>
-                            <!-- <a class="dropdown-item" href="#"><i class="fa-solid fa-gear"></i> Settings</a>
-                            <a class="dropdown-item" href="#"><i class="fa-regular fa-credit-card"></i> Payments</a> -->
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="<?=url('user/logout')?>">
-                                <svg class="icon me-2">
-                                <use xlink:href="<?=env('FRONT_DASHBOARD_ASSETS_URL')?>vendors/@coreui/icons/svg/free.svg#cil-account-logout"></use>
-                                </svg> Logout
-                            </a>
+                                <div class="dropdown-header bg-light py-2">
+                                    <div class="fw-semibold">Account</div>
+                                </div>
+                                <a class="dropdown-item" href="<?=url('user/profile')?>"><i class="fa-regular fa-user"></i> Profile</a>
+                                <a class="dropdown-item" href="<?=url('user/survey-list')?>"><i class="fa-regular fa-user"></i> Survey List</a>
+                                <!-- <a class="dropdown-item" href="#"><i class="fa-solid fa-gear"></i> Settings</a>
+                                <a class="dropdown-item" href="#"><i class="fa-regular fa-credit-card"></i> Payments</a> -->
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="<?=url('user/logout')?>"><i class="fa-regular fa-sign-out"></i> Sign Out</a>
                             </div>
                         </li>
                     </ul>
