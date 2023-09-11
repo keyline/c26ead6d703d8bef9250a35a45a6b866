@@ -105,6 +105,17 @@
 				
 		});
 	</script>
+<script>
+// 	jQuery('.choice').on('change', function() {
+//     var nextQuestion = jQuery(this).closest('.question').next();
+    
+//     if (nextQuestion.length !== 0) {
+//         jQuery('html, body').animate({
+//             scrollTop: nextQuestion.offset().top
+//         }, 1000);
+//     }
+// });
+</script>
 	<script>
 	$(function () {
 		$("#chkPassport").click(function () {

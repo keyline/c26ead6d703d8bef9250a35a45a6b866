@@ -31,27 +31,100 @@
 			<div class="container-lg">
 				<div class="row">
 					<div class="col-sm-12 col-lg-12">
-						<div class="card mb-4 text-white bg-whitebg">
-							<div class="card-header">
-								Question goes here
-							</div>
-							<div class="card-body">
-								<div class="form-group">
-									<input type="radio" name="option1" id="option1" value="1">
-									<label for="option1">Option 1</label>
-								</div>
-								<div class="form-group">
-									<input type="radio" name="option1" id="option1" value="1">
-									<label for="option1">Option 1</label>
-								</div>
-							</div>
-							<div class="card-footer">
-								<a href="<?=url('user/survey-details')?>" class="btn btn-primary btn-sm"><i class="fa fa-arrow-right"></i> NEXT</a>
-							</div>
+						<div class="survay_listing">
+							<ul>
+								<li class="question">
+									<h3>You regularly make new friends.</h3>
+									<ul>
+										<li><label><input type="radio" name="a" class="choice"> Strongly agree</label></li>
+										<li><label><input type="radio" name="a"> Agree</label></li>
+										<li><label><input type="radio" name="a"> Disagree</label></li>
+										<li><label><input type="radio" name="a"> Strongly disagree</label></li>
+									</ul>
+								</li>
+								<li class="question">
+									<h3>At times I think I am no good at all.</h3>
+									<ul>
+										<li><label><input type="radio" name="b"> Strongly agree</label></li>
+										<li><label><input type="radio" name="b"> Agree</label></li>
+										<li><label><input type="radio" name="b"> Disagree</label></li>
+										<li><label><input type="radio" name="b"> Strongly disagree</label></li>
+									</ul>
+								</li>
+								<li class="question">
+									<h3>I feel that I have a number of good qualities.</h3>
+									<ul>
+										<li><label><input type="radio" name="c"> Strongly agree</label></li>
+										<li><label><input type="radio" name="c"> Agree</label></li>
+										<li><label><input type="radio" name="c"> Disagree</label></li>
+										<li><label><input type="radio" name="c"> Strongly disagree</label></li>
+									</ul>
+								</li>
+								<li class="question">
+									<h3>I can predict other peoples' behavior.</h3>
+									<ul>
+										<li><label><input type="radio" name="d"> Extremely poor </label></li>
+										<li><label><input type="radio" name="d"> Very Poor</label></li>
+										<li><label><input type="radio" name="d"> Poor</label></li>
+										<li><label><input type="radio" name="d"> Neutral </label></li>
+										<li><label><input type="radio" name="d"> Well </label></li>
+										<li><label><input type="radio" name="d"> Very Well </label></li>
+										<li><label><input type="radio" name="d"> Extremely Well </label></li>
+									</ul>
+								</li>
+								<li class="question">
+									<h3>I know how my actions will make others feel.</h3>
+									<ul>
+										<li><label><input type="radio" name="e"> Extremely poor </label></li>
+										<li><label><input type="radio" name="e"> Very Poor</label></li>
+										<li><label><input type="radio" name="e"> Poor</label></li>
+										<li><label><input type="radio" name="e"> Neutral </label></li>
+										<li><label><input type="radio" name="e"> Well </label></li>
+										<li><label><input type="radio" name="e"> Very Well </label></li>
+										<li><label><input type="radio" name="e"> Extremely Well </label></li>
+									</ul>
+								</li>
+								<li class="question">
+									<h3>I can often understand what others are trying to accomplish without the need for them to say anything. </h3>
+									<ul>
+										<li><label><input type="radio" name="f"> Extremely poor </label></li>
+										<li><label><input type="radio" name="f"> Very Poor</label></li>
+										<li><label><input type="radio" name="f"> Poor</label></li>
+										<li><label><input type="radio" name="f"> Neutral </label></li>
+										<li><label><input type="radio" name="f"> Well </label></li>
+										<li><label><input type="radio" name="f"> Very Well </label></li>
+										<li><label><input type="radio" name="f"> Extremely Well </label></li>
+									</ul>
+								</li>
+								<li class="question">
+									<h3>Some people have a knack forr writing‚ while others will never write well no matter how they try.</h3>
+									<ul>
+										<li><label><input type="radio" name="g" disabled> TRUE</label></li>
+										<li><label><input type="radio" name="g" disabled> FALSE</label></li>
+									</ul>
+								</li>
+								<li class="question">
+									<h3>There are some subjects in which I could never well.</h3>
+									<ul>
+										<li><label><input type="radio" name="h"> TRUE</label></li>
+										<li><label><input type="radio" name="h"> FALSE</label></li>
+									</ul>
+								</li>
+								<li class="question">
+									<h3>Professors sometimes make an early impression of you and then no matter what you do‚ you cannot change that impression.</h3>
+									<ul>
+										<li><label><input type="radio" name="i"> TRUE</label></li>
+										<li><label><input type="radio" name="i"> FALSE</label></li>
+									</ul>
+								</li>
+							</ul>
+							<a class="btn_orgfill uppercase me-2" href="#">Next</a>
 						</div>
+						
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
 </div>
+
