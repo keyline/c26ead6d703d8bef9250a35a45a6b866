@@ -74,6 +74,7 @@ use Illuminate\Support\Facades\Route;
             Route::get('/mentor-services', 'DashboardController@mentorServices');
             Route::get('/survey-list', 'DashboardController@surveyList');
             Route::get('/survey-details', 'DashboardController@surveyDetails');
+            Route::get('/survey-result', 'DashboardController@surveyResult');
             Route::get('/logout', 'DashboardController@logout');
         /* common */
         /* mentor */
