@@ -230,6 +230,12 @@ class DashboardController extends Controller
             $page_name      = 'survey-details';
             echo $this->front_dashboard_layout($title,$page_name,$data);
         }
+        public function surveyResult(){
+            $data[]         = [];
+            $title          = 'Survey Result';
+            $page_name      = 'survey-result';
+            echo $this->front_dashboard_layout($title,$page_name,$data);
+        }
     /* survey */
     public function logout(Request $request){
         $request->session()->forget(['user_id', 'name', 'email', 'fname', 'lname', 'role', 'is_user_login']);

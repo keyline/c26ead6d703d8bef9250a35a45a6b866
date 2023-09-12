@@ -118,7 +118,7 @@
 									</ul>
 								</li>
 							</ul>
-							<a class="btn_orgfill uppercase me-2" href="#">Next</a>
+							<a class="btn_orgfill uppercase me-2" href="<?=url('user/survey-result')?>">PROCEED</a>
 						</div>
 						
 					</div>
