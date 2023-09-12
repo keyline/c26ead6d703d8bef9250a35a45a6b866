@@ -31,48 +31,51 @@
 			<div class="container-lg">
 				<div class="row">
 					<div class="col-sm-12 col-lg-12">
+						
 						<div class="card mb-4 text-white bg-whitebg">
 							<div class="card-body profile_cardbody">
-								<table class="table table-striped">
-									<thead>
-										<tr>
-											<th>#</th>
-											<th>Title</th>
-											<th>Description</th>
-											<th>No Of Questions</th>
-											<th>Action</th>
-										</tr>
-									</thead>
-									<tbody>
-										<tr>
-											<td>1</td>
-											<td>Test</td>
-											<td>In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content. Lorem ipsum may be used as a placeholder before final copy is available</td>
-											<td>10</td>
-											<td>
-												<a href="<?=url('user/survey-details')?>" class="btn btn-primary btn-sm"><i class="fa fa-info-circle"></i> View</a>
-											</td>
-										</tr>
-										<tr>
-											<td>1</td>
-											<td>Test</td>
-											<td>In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content. Lorem ipsum may be used as a placeholder before final copy is available</td>
-											<td>10</td>
-											<td>
-												<a href="<?=url('user/survey-details')?>" class="btn btn-primary btn-sm"><i class="fa fa-info-circle"></i> View</a>
-											</td>
-										</tr>
-										<tr>
-											<td>1</td>
-											<td>Test</td>
-											<td>In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content. Lorem ipsum may be used as a placeholder before final copy is available</td>
-											<td>10</td>
-											<td>
-												<a href="<?=url('user/survey-details')?>" class="btn btn-primary btn-sm"><i class="fa fa-info-circle"></i> VIEW</a>
-											</td>
-										</tr>
-									</tbody>
-								</table>
+								<div class="table-responsive">
+									<table class="table table-hover">
+										<thead>
+											<tr>
+												<th class="col-md-1">#</th>
+												<th class="col-md-2">Title</th>
+												<th class="col-md-6">Description</th>
+												<th class="col-md-2">No Of Questions</th>
+												<th class="col-md-4">Action</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr>
+												<td>1</td>
+												<td>Test</td>
+												<td>In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content. Lorem ipsum may be used as a placeholder before final copy is available</td>
+												<td>10</td>
+												<td>
+													<a href="<?=url('user/survey-details')?>" class="btn_orgfill uppercase"> View</a>
+												</td>
+											</tr>
+											<tr>
+												<td>1</td>
+												<td>Test</td>
+												<td>In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content. Lorem ipsum may be used as a placeholder before final copy is available</td>
+												<td>10</td>
+												<td>
+													<a href="<?=url('user/survey-details')?>" class="btn_orgfill uppercase">View</a>
+												</td>
+											</tr>
+											<tr>
+												<td>1</td>
+												<td>Test</td>
+												<td>In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content. Lorem ipsum may be used as a placeholder before final copy is available</td>
+												<td>10</td>
+												<td>
+													<a href="<?=url('user/survey-details')?>" class="btn_orgfill uppercase"> VIEW</a>
+												</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
 							</div>
 						</div>
 					</div>

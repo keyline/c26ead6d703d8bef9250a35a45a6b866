@@ -42,7 +42,7 @@
 										<li><label><input type="radio" name="a"> Strongly disagree</label></li>
 									</ul>
 								</li>
-								<li class="question">
+								<li class="question inactive">
 									<h3>At times I think I am no good at all.</h3>
 									<ul>
 										<li><label><input type="radio" name="b"> Strongly agree</label></li>
@@ -51,7 +51,7 @@
 										<li><label><input type="radio" name="b"> Strongly disagree</label></li>
 									</ul>
 								</li>
-								<li class="question">
+								<li class="question inactive">
 									<h3>I feel that I have a number of good qualities.</h3>
 									<ul>
 										<li><label><input type="radio" name="c"> Strongly agree</label></li>
@@ -60,7 +60,7 @@
 										<li><label><input type="radio" name="c"> Strongly disagree</label></li>
 									</ul>
 								</li>
-								<li class="question">
+								<li class="question inactive">
 									<h3>I can predict other peoples' behavior.</h3>
 									<ul>
 										<li><label><input type="radio" name="d"> Extremely poor </label></li>
@@ -72,7 +72,7 @@
 										<li><label><input type="radio" name="d"> Extremely Well </label></li>
 									</ul>
 								</li>
-								<li class="question">
+								<li class="question inactive">
 									<h3>I know how my actions will make others feel.</h3>
 									<ul>
 										<li><label><input type="radio" name="e"> Extremely poor </label></li>
@@ -84,7 +84,7 @@
 										<li><label><input type="radio" name="e"> Extremely Well </label></li>
 									</ul>
 								</li>
-								<li class="question">
+								<li class="question inactive">
 									<h3>I can often understand what others are trying to accomplish without the need for them to say anything. </h3>
 									<ul>
 										<li><label><input type="radio" name="f"> Extremely poor </label></li>
@@ -96,21 +96,21 @@
 										<li><label><input type="radio" name="f"> Extremely Well </label></li>
 									</ul>
 								</li>
-								<li class="question">
+								<li class="question inactive">
 									<h3>Some people have a knack forr writing‚ while others will never write well no matter how they try.</h3>
 									<ul>
 										<li><label><input type="radio" name="g" disabled> TRUE</label></li>
 										<li><label><input type="radio" name="g" disabled> FALSE</label></li>
 									</ul>
 								</li>
-								<li class="question">
+								<li class="question inactive">
 									<h3>There are some subjects in which I could never well.</h3>
 									<ul>
 										<li><label><input type="radio" name="h"> TRUE</label></li>
 										<li><label><input type="radio" name="h"> FALSE</label></li>
 									</ul>
 								</li>
-								<li class="question">
+								<li class="question inactive">
 									<h3>Professors sometimes make an early impression of you and then no matter what you do‚ you cannot change that impression.</h3>
 									<ul>
 										<li><label><input type="radio" name="i"> TRUE</label></li>
