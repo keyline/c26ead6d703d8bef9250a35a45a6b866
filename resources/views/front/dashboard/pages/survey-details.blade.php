@@ -33,16 +33,30 @@
 					<div class="col-sm-12 col-lg-12">
 						<div class="survay_listing">
 							<ul>
-								<li class="question">
-									<h3>You regularly make new friends.</h3>
-									<ul>
-										<li><label><input type="radio" name="a" class="choice"> Strongly agree</label></li>
-										<li><label><input type="radio" name="a"> Agree</label></li>
-										<li><label><input type="radio" name="a"> Disagree</label></li>
-										<li><label><input type="radio" name="a"> Strongly disagree</label></li>
-									</ul>
-								</li>
-								<li class="question inactive">
+								<?php for($q=1;$q<=10;$q++){?>
+									<li class="question <?=(($q == 1)?'':'inactive')?>" id="question-container-<?=$q?>">
+										<h3><?=$q?>. You regularly make new friends.</h3>
+										<ul>
+											<li>
+												<label for="op-<?=$q?>-1">
+												<input name="question<?=$q?>" type="radio" id="op-<?=$q?>-1" onchange="setAnswer(<?=$q?>);"> Strongly agree</label>
+											</li>
+											<li>
+												<label for="op-<?=$q?>-2">
+												<input name="question<?=$q?>" type="radio" id="op-<?=$q?>-2" onchange="setAnswer(<?=$q?>);"> Agree</label>
+											</li>
+											<li>
+												<label for="op-<?=$q?>-3">
+												<input name="question<?=$q?>" type="radio" id="op-<?=$q?>-3" onchange="setAnswer(<?=$q?>);"> Disagree</label>
+											</li>
+											<li>
+												<label for="op-<?=$q?>-4">
+												<input name="question<?=$q?>" type="radio" id="op-<?=$q?>-4" onchange="setAnswer(<?=$q?>);"> Strongly disagree</label>
+											</li>
+										</ul>
+									</li>
+								<?php }?>
+								<!-- <li class="question inactive">
 									<h3>At times I think I am no good at all.</h3>
 									<ul>
 										<li><label><input type="radio" name="b"> Strongly agree</label></li>
@@ -116,7 +130,7 @@
 										<li><label><input type="radio" name="i"> TRUE</label></li>
 										<li><label><input type="radio" name="i"> FALSE</label></li>
 									</ul>
-								</li>
+								</li> -->
 							</ul>
 							<a class="btn_orgfill uppercase me-2" href="<?=url('user/survey-result')?>">PROCEED</a>
 						</div>
@@ -127,4 +141,13 @@
 		</div>
 	</div>
 </div>
-
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+<script type="text/javascript">
+	$(function(){
+		
+	})
+	function setAnswer(questionId){
+		let nextQuestionId = parseInt(questionId) + 1;
+		$('#question-container-' + nextQuestionId).removeClass('inactive');
+	}
+</script>
