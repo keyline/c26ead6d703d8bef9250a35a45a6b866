@@ -8,8 +8,7 @@ class QuestionTypes extends Model{
      * @var array
      */
     protected $fillable = [
-        'name',
-        'slug',
+        'question_types'
     ];
 
     /**
