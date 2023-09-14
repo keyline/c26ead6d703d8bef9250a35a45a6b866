@@ -6,7 +6,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use App\Models\GeneralSetting;
-use App\Models\QuestionType;
+use App\Models\QuestionTypes;
 use Auth;
 use Session;
 use Helper;
@@ -28,7 +28,7 @@ class QuestionTypeController extends Controller
             $data['module']                 = $this->data;
             $title                          = $this->data['title'].' List';
             $page_name                      = 'question-type.list';
-            $data['rows']                   = QuestionType::where('status', '!=', 3)->orderBy('id', 'DESC')->get();
+            $data['rows']                   = QuestionTypes::where('status', '!=', 3)->orderBy('id', 'DESC')->get();
             echo $this->admin_after_login_layout($title,$page_name,$data);
         }
     /* list */
@@ -45,7 +45,7 @@ class QuestionTypeController extends Controller
                         'name'           => $postData['name'],
                         'slug'           => Helper::clean($postData['name']),
                     ];
-                    QuestionType::insert($fields);
+                    QuestionTypes::insert($fields);
                     return redirect("admin/" . $this->data['controller_route'] . "/list")->with('success_message', $this->data['title'].' Inserted Successfully !!!');
                 } else {
                     return redirect()->back()->with('error_message', 'All Fields Required !!!');
@@ -64,7 +64,7 @@ class QuestionTypeController extends Controller
             $id                             = Helper::decoded($id);
             $title                          = $this->data['title'].' Update';
             $page_name                      = 'question-type.add-edit';
-            $data['row']                    = QuestionType::where($this->data['primary_key'], '=', $id)->first();
+            $data['row']                    = QuestionTypes::where($this->data['primary_key'], '=', $id)->first();
 
             if($request->isMethod('post')){
                 $postData = $request->all();
@@ -77,7 +77,7 @@ class QuestionTypeController extends Controller
                         'slug'                  => Helper::clean($postData['name']),
                         'updated_at'            => date('Y-m-d H:i:s')
                     ];
-                    QuestionType::where($this->data['primary_key'], '=', $id)->update($fields);
+                    QuestionTypes::where($this->data['primary_key'], '=', $id)->update($fields);
                     return redirect("admin/" . $this->data['controller_route'] . "/list")->with('success_message', $this->data['title'].' Updated Successfully !!!');
                 } else {
                     return redirect()->back()->with('error_message', 'All Fields Required !!!');
@@ -92,14 +92,14 @@ class QuestionTypeController extends Controller
             $fields = [
                 'status'             => 3
             ];
-            QuestionType::where($this->data['primary_key'], '=', $id)->update($fields);
+            QuestionTypes::where($this->data['primary_key'], '=', $id)->update($fields);
             return redirect("admin/" . $this->data['controller_route'] . "/list")->with('success_message', $this->data['title'].' Deleted Successfully !!!');
         }
     /* delete */
     /* change status */
         public function change_status(Request $request, $id){
             $id                             = Helper::decoded($id);
-            $model                          = QuestionType::find($id);
+            $model                          = QuestionTypes::find($id);
             if ($model->status == 1)
             {
                 $model->status  = 0;

@@ -2,7 +2,7 @@
 use App\Helpers\Helper;
 use App\Models\SurveyGrades;
 use App\Models\SurveyQuestion;
-use App\models\QuestionType;
+use App\models\QuestionTypes;
 use App\models\SurveyFactor;
 $controllerRoute = $module['controller_route'];
 ?>
@@ -54,7 +54,7 @@ $controllerRoute = $module['controller_route'];
               <?php if($rows){ $sl=1; foreach($rows as $row){?>
                 <tr>
                   <th scope="row"><?=$sl++?></th>
-                  <?php $typeName  = QuestionType::where('status', '!=', 3)->where('id','=', $row->question_type)->first();  ?>
+                  <?php $typeName  = QuestionTypes::where('status', '!=', 3)->where('id','=', $row->question_type)->first();  ?>
                   <td><?=(($typeName)?$typeName->name:'')?></td>
                   <td><?=$row->title?></td>
                   <td><?= mb_strimwidth($row->short_description, 0, 40, "...."); ?></td>
