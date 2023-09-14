@@ -11,7 +11,7 @@ use App\models\SurveyFactor;
 use App\Models\SurveyQuestion;
 use App\Models\SurveyQuestionOptions;
 use App\Models\SurveyGrades;
-use App\models\QuestionType;
+use App\models\QuestionTypes;
 use App\models\SurveyCombinations;
 use Auth;
 use Session;
@@ -151,7 +151,7 @@ class SurveyController extends Controller
             $page_name                      = 'survey.add-edit';
             $data['row']                    = [];
             $data['questions']              = [];
-            $data['question_types']              = QuestionType::where('status', '!=', 3)->orderBy('id', 'DESC')->get();
+            $data['question_types']              = QuestionTypes::where('status', '!=', 3)->orderBy('id', 'DESC')->get();
             echo $this->admin_after_login_layout($title,$page_name,$data);
         }
     /* add */
@@ -319,7 +319,7 @@ class SurveyController extends Controller
             $page_name                      = 'survey.add-edit';
             $data['row']                    = Survey::where($this->data['primary_key'], '=', $id)->first();
             $data['questions']              = SurveyQuestion::where('survey_id', '=', $id)->get();
-            $data['question_types']         = QuestionType::where('status', '!=', 3)->orderBy('id', 'DESC')->get();
+            $data['question_types']         = QuestionTypes::where('status', '!=', 3)->orderBy('id', 'DESC')->get();
             echo $this->admin_after_login_layout($title,$page_name,$data);
         }
     /* edit */
