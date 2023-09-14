@@ -319,6 +319,10 @@ use Illuminate\Support\Facades\Route;
                     Route::get('survey/change-status/{id}', 'SurveyController@change_status');
                     Route::match(['get', 'post'], 'survey/grade/{id}', 'SurveyController@grade');
                     Route::match(['get', 'post'], 'survey/edit-grade/{id}', 'SurveyController@edit_grade');
+                    Route::match(['get', 'post'], 'survey/grade/{id}/{factor}', 'SurveyController@grade');
+                    Route::match(['get', 'post'], 'survey/edit-grade/{id}/{factor}', 'SurveyController@edit_grade');
+                    Route::match(['get', 'post'], 'survey/edit-factor/{id}/{factor}', 'SurveyController@factor');
+                    Route::match(['get', 'post'], 'survey/edit-combination/{id}', 'SurveyController@combination');
                 /* survey */
             /* survey */
             /* bookings */

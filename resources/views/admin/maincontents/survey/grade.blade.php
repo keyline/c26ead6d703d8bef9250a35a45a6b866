@@ -37,42 +37,44 @@ $controllerRoute = $module['controller_route'];
       $page_content = '';
     }
     ?>
-    <div class="col-xl-12">
+      <div class="col-xl-12">
       <div class="card">
         <div class="card-body pt-3">
           <form method="POST" action="" enctype="multipart/form-data">
             @csrf
-           
             <div class="row mb-3">
-              <label for="page_name" class="col-md-2 col-lg-2 col-form-label">Minimum Weight</label>
+              <label for="page_name" class="col-md-2 col-lg-2 col-form-label">Range From</label>
                <div class="col-md-5 col-lg-5">
-                <input type="text"class="form-control" id="minWeight" value="<?=$minWeight?>" readonly>
+                <input type="text"class="form-control" id="minWeight" value="<?=$range_from?>" readonly>
               </div>
             </div>
-            
             <div class="row mb-3">
-              <label for="page_name" class="col-md-2 col-lg-2 col-form-label">Maximum Weight</label>
+              <label for="page_name" class="col-md-2 col-lg-2 col-form-label">Range To</label>
                <div class="col-md-5 col-lg-5">
-                <input type="text" id="maxWeight" class="form-control" value="<?=$maxWeight?>" readonly>
+                <input type="text" id="maxWeight" class="form-control" value="<?=$range_to?>" readonly>
               </div>
             </div>
-            
-
             <div class="row mb-3">
               <label for="page_name" class="col-md-2 col-lg-2 col-form-label">Create Grade</label>
                <div class="col-md-10 col-lg-10">
                 <div class="field_wrapper">
                     <div class="row" style="margin-top: 10px;">
                         <div class="col-md-3">
-                            <input type="text" class="form-control" min="<?=$minWeight?>" max="<?=$maxWeight?>" name="minimum[]" id="minimum" placeholder="Minimum" required onkeypress="return isNumber(event)">
+                          <input type="text" name="factor[]" class="form-control" value="<?=$checkSurveyFactor->factor_name;?>" readonly>
                         </div>
-                        <div class="col-md-3">
-                            <input type="text" class="form-control"  min="<?=$minWeight?>" max="<?=$maxWeight?>" name="maximum[]" id="maximum" placeholder="Maximum" required onkeypress="return isNumber(event)">
+                        <div class="col-md-2">
+                            <input type="number" class="form-control" min="<?=$range_from?>" max="<?=$range_to?>" name="minimum[]" id="minimum" placeholder="Minimum" required onkeypress="return isNumber(event)">
+                        </div>
+                        <div class="col-md-2">
+                            <input type="number" class="form-control"  min="<?=$range_from?>" max="<?=$range_to?>" name="maximum[]" id="maximum" placeholder="Maximum" required onkeypress="return isNumber(event)">
                         </div>
                         <div class="col-md-3">
                             <input type="text" class="form-control" maxlength="3" name="grade[]" id="grade" placeholder="Grade" required>
                         </div>
-                        <div class="col-md-2">
+                        <div class="col-md-10" style="margin-top: 10px">
+                            <textarea class="form-control" name="review[]" id="review" rows="5" placeholder="Review"></textarea>
+                        </div>
+                        <div class="col-md-2" style="margin-top: 10px">
                             <a href="javascript:void(0);" class="add_button" title="Add field">
                               <i class="fa fa-plus-circle fa-2x text-success"></i>
                             </a>
@@ -100,16 +102,22 @@ $controllerRoute = $module['controller_route'];
         var addButton = $('.add_button');
         var wrapper = $('.field_wrapper');
         var fieldHTML ='<div class="row" style="margin-top: 10px;">\
-                          <div class="col-md-3">\
-                              <input type="number" class="form-control" min="<?=$minWeight?>" max="<?=$maxWeight?>" name="minimum[]" id="minimum" placeholder="Minimum" required>\
-                          </div>\
-                          <div class="col-md-3">\
-                              <input type="number" class="form-control" min="<?=$minWeight?>" max="<?=$maxWeight?>" name="maximum[]" id="maximum" placeholder="Maximum" required>\
-                          </div>\
-                          <div class="col-md-3">\
-                              <input type="text" class="form-control"  maxlength="3" name="grade[]" id="grade" placeholder="Grade" required>\
+                        <div class="col-md-3">\
+                          <input type="text" name="factor[]" class="form-control" value="<?=$checkSurveyFactor->factor_name;?>" readonly>\
+                        </div>\
+                          <div class="col-md-2">\
+                              <input type="number" class="form-control" min="<?=$range_from?>" max="<?=$range_to?>" name="minimum[]" id="minimum" placeholder="Minimum" required>\
                           </div>\
                           <div class="col-md-2">\
+                              <input type="number" class="form-control" min="<?=$range_from?>" max="<?=$range_to?>" name="maximum[]" id="maximum" placeholder="Maximum" required>\
+                          </div>\
+                          <div class="col-md-3">\
+                              <input type="text" class="form-control" name="grade[]" id="grade" placeholder="Grade" required>\
+                          </div>\
+                          <div class="col-md-10" style="margin-top: 10px">\
+                            <textarea class="form-control" name="review[]" id="review" rows="5" placeholder="Review"></textarea>\
+                          </div>\
+                          <div class="col-md-2" style="margin-top: 10px">\
                                 <a href="javascript:void(0);" class="remove_button" title="Add field">\
                                 <i class="fa fa-minus-circle fa-2x text-danger"></i>\
                                 </a>\
@@ -130,7 +138,7 @@ $controllerRoute = $module['controller_route'];
     });
 </script>
 <script type="text/javascript">
-  $(document).ready(function(){
+   $(document).ready(function(){
       var minweight = $("#minWeight").val();
       var maxweight = $("#maxWeight").val();
       $('#minimum').on('change', function(){
@@ -140,13 +148,13 @@ $controllerRoute = $module['controller_route'];
             document.getElementById('minimum').value = '';
           }
       });
-      $('#maximum').on('change', function(){
-          var value = $(this).val();
-          if(maxweight < value){
-            alert('Maximum score is too High');
-            document.getElementById('maximum').value = '';
-          }
-      });
+      // $('#maximum').on('change', function(){
+      //     var value = $(this).val();
+      //     if(maxweight < value){
+      //       alert('Maximum score is too High');
+      //       document.getElementById('maximum').value = '';
+      //     }
+      // });
   });
   function isNumber(evt) {
       evt = (evt) ? evt : window.event;
