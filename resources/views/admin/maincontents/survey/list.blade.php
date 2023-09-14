@@ -2,8 +2,8 @@
 use App\Helpers\Helper;
 use App\Models\SurveyGrades;
 use App\Models\SurveyQuestion;
-use App\models\QuestionTypes;
-use App\models\SurveyFactor;
+use App\Models\QuestionTypes;
+use App\Models\SurveyFactor;
 $controllerRoute = $module['controller_route'];
 ?>
 <div class="pagetitle">
