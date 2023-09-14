@@ -7,9 +7,8 @@ class QuestionTypes extends Model{
      *
      * @var array
      */
-    protected $fillable = [
-        'question_types'
-    ];
+    protected $table = 'question_types';
+    protected $fillable = ['name', 'slug'];
 
     /**
      * The attributes that should be hidden for arrays.
