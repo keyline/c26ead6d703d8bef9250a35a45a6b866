@@ -55,7 +55,7 @@ $controllerRoute = $module['controller_route'];
                 <tr>
                   <th scope="row"><?=$sl++?></th>
                   <?php $typeName  = QuestionType::where('status', '!=', 3)->where('id','=', $row->question_type)->first();  ?>
-                  <td><?=$typeName->name; ?></td>
+                  <td><?=(($typeName)?$typeName->name:'')?></td>
                   <td><?=$row->title?></td>
                   <td><?= mb_strimwidth($row->short_description, 0, 40, "...."); ?></td>
                   <td>
