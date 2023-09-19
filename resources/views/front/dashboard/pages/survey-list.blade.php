@@ -1,5 +1,6 @@
 <?php
 	use App\Models\User;
+	use App\Models\SurveyQuestion;
 ?>
 <div class="account_wrapper">
 	<?=$sidebar;?>
@@ -46,33 +47,20 @@
 											</tr>
 										</thead>
 										<tbody>
-											<tr>
-												<td>1</td>
-												<td>Test</td>
-												<td>In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content. Lorem ipsum may be used as a placeholder before final copy is available</td>
-												<td>10</td>
-												<td>
-													<a href="<?=url('user/survey-details')?>" class="btn_orgfill uppercase"> View</a>
-												</td>
-											</tr>
-											<tr>
-												<td>1</td>
-												<td>Test</td>
-												<td>In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content. Lorem ipsum may be used as a placeholder before final copy is available</td>
-												<td>10</td>
-												<td>
-													<a href="<?=url('user/survey-details')?>" class="btn_orgfill uppercase">View</a>
-												</td>
-											</tr>
-											<tr>
-												<td>1</td>
-												<td>Test</td>
-												<td>In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content. Lorem ipsum may be used as a placeholder before final copy is available</td>
-												<td>10</td>
-												<td>
-													<a href="<?=url('user/survey-details')?>" class="btn_orgfill uppercase"> VIEW</a>
-												</td>
-											</tr>
+											<?php if($surveys){ $sl=1; foreach($surveys as $survey){	?>
+												<tr>
+													<td><?=$sl++;?></td>
+													<td><?=$survey->title;?></td>
+													<td><?php echo mb_strimwidth($survey->short_description, 0, 300, "...");?></td>
+													<td>
+														<?php $QuestionCount = SurveyQuestion::where('survey_id','=',$survey->id )->where('status','=','1')->count(); 
+														echo $QuestionCount;?>
+													</td>
+													<td>
+														<a href="<?=url('user/survey-details/'.Helper::encoded($survey->id))?>" class="btn_orgfill uppercase"> View</a>
+													</td>
+												</tr>
+											<?php } } ?>
 										</tbody>
 									</table>
 								</div>

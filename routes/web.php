@@ -73,8 +73,8 @@ use Illuminate\Support\Facades\Route;
             Route::get('/mentor-availability', 'DashboardController@mentorAvailability');
             Route::get('/mentor-services', 'DashboardController@mentorServices');
             Route::get('/survey-list', 'DashboardController@surveyList');
-            Route::get('/survey-details', 'DashboardController@surveyDetails');
-            Route::get('/survey-result', 'DashboardController@surveyResult');
+            Route::match(['get','post'],'/survey-details/{id}', 'DashboardController@surveyDetails');
+            Route::get('/survey-result/{id}', 'DashboardController@surveyResult');
             Route::get('/logout', 'DashboardController@logout');
         /* common */
         /* mentor */

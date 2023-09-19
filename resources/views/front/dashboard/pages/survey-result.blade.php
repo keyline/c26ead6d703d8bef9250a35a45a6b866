@@ -35,10 +35,10 @@
 							<div class="survay_resulting_inner">
 								<div class="survay_resulting_tick"><i class="fa-solid fa-check"></i></div>
 								<div class="survay_resulting_content">
-									<p>Thank you for Survry, you have finish all <strong>21</strong> question. Your result given below:</p>
+									<p>Thank you for Survey, you have finish all <strong><?= $getResult->score ?></strong> question. Your result given below:</p>
 									
 									<blockquote>
-										In your case you have high self esteem: Pros of High self-esteem-Appraisal of the effects of self-esteem is complicated by several factors. Because many people with high self-esteem exaggerate their successes and good traits, we emphasize objective measures of outcomes. Cons of high self-esteem- High self-esteem is also a heterogeneous category, encompassing people who frankly accept their good qualities along with narcissistic, defensive, and conceited individuals. 
+										<?= $getResult->grade_review; ?> 
 									</blockquote>
 								</div>
 							</div>
