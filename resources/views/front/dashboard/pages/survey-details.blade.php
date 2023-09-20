@@ -50,8 +50,8 @@
 												if($surveyQuestionOptions){
 													foreach ($surveyQuestionOptions as $surveyQuestionOption) { ?>
 														<li>
-															<label for="option<?=$surveyQuestionOption->option_id?>">
-															<input name="option<?=$q?>[]" value="<?=$surveyQuestionOption->option_weight;?>" type="radio" id="option<?=$surveyQuestionOption->option_id?>" onchange="setAnswer(<?=$q?>);"> <?=$surveyQuestionOption->option_name; ?></label>
+															<label for="option-<?=$surveyQuestionOption->option_id?>">
+															<input name="option<?=$q?>[]" value="<?=$surveyQuestionOption->option_id;?>" type="radio" id="option-<?=$surveyQuestionOption->option_id?>" onchange="setAnswer(<?=$q?>);"> <?=$surveyQuestionOption->option_name; ?></label>
 														</li>
 												<?php } } ?>
 											</ul>

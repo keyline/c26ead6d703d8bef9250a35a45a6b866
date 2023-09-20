@@ -35,7 +35,7 @@
 							<div class="survay_resulting_inner">
 								<div class="survay_resulting_tick"><i class="fa-solid fa-check"></i></div>
 								<div class="survay_resulting_content">
-									<p>Thank you for Survey, you have finish all <strong><?= $getResult->score ?></strong> questions. Your result given below:</p>
+									<p>Thank you for Survey, you have finish all <strong><?=$totalQuestions;?></strong> questions. Your result given below:</p>
 									
 									<blockquote>
 										<?= $getResult->grade_review; ?> 

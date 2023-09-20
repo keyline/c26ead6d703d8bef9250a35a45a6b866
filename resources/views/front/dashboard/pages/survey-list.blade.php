@@ -1,6 +1,7 @@
 <?php
 	use App\Models\User;
 	use App\Models\SurveyQuestion;
+	use App\Models\SurveyResult;
 ?>
 <div class="account_wrapper">
 	<?=$sidebar;?>
@@ -54,10 +55,15 @@
 													<td><?php echo mb_strimwidth($survey->short_description, 0, 300, "...");?></td>
 													<td>
 														<?php $QuestionCount = SurveyQuestion::where('survey_id','=',$survey->id )->where('status','=','1')->count(); 
-														echo $QuestionCount;?>
+														echo $QuestionCount; ?>
 													</td>
 													<td>
-														<a href="<?=url('user/survey-details/'.Helper::encoded($survey->id))?>" class="btn_orgfill uppercase"> View</a>
+														<?php $checkResult = SurveyResult::where('status','=',1)->where('survey_id','=',$survey->id)->first(); 
+														if($checkResult){	?>
+															<span class="badge bg-info">Already Participate</span>
+														<?php }else{	?>
+															<a href="<?=url('user/survey-details/'.Helper::encoded($survey->id))?>" class="btn_orgfill uppercase"> View</a>
+														<?php } ?>
 													</td>
 												</tr>
 											<?php } } ?>
