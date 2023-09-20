@@ -501,4 +501,20 @@ class SurveyController extends Controller
         echo $this->admin_after_login_layout($title,$page_name,$data);
     }
     /*Edit combination*/
+    /* survey student list */
+        public function survey_students(){
+            $data['module']                 = $this->data;
+            $title                          = $this->data['title'].' Participated List';
+            $page_name                      = 'survey.survey-student-list';
+            $data['rows']                   = Survey::where('status', '!=', 3)->orderBy('id', 'DESC')->get();
+            echo $this->admin_after_login_layout($title,$page_name,$data);
+        }
+        public function viewSurveyDetails($id){
+            $id                             = Helper::decoded($id);
+            $data['module']                 = $this->data;
+            $title                          = 'Survey Details Of {{Survey title}}';
+            $page_name                      = 'survey.survey-details';
+            echo $this->admin_after_login_layout($title,$page_name,$data);
+        }
+    /* survey student list */
 }
