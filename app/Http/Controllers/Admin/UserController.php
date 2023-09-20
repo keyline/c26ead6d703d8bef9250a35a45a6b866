@@ -40,6 +40,7 @@ class UserController extends Controller
                         $request->session()->put('email', $sessionData->email);
                         $request->session()->put('is_admin_login', 1);
 
+                        // Helper::pr($request->session()->all());
                         /* user activity */
                             $activityData = [
                                 'user_email'        => $sessionData->email,

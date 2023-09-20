@@ -215,4 +215,22 @@ class StudentController extends Controller
             echo $this->admin_after_login_layout($title,$page_name,$data);
         }
     /* transactions */
+    /* surveys */
+        public function survey($id){
+            $id                             = Helper::decoded($id);
+            $data['student']                = StudentProfile::where('user_id', '=', $id)->first();
+            $data['module']                 = $this->data;
+            $title                          = 'Participated Survey List Of '.(($data['student'])?$data['student']->first_name.' '.$data['student']->last_name:'');
+            $page_name                      = 'student.survey';
+            echo $this->admin_after_login_layout($title,$page_name,$data);
+        }
+        public function viewSurveyDetails($id){
+            $id                             = Helper::decoded($id);
+            $data['student']                = StudentProfile::where('user_id', '=', $id)->first();
+            $data['module']                 = $this->data;
+            $title                          = 'Survey Details Of {{Survey title}}';
+            $page_name                      = 'student.survey-details';
+            echo $this->admin_after_login_layout($title,$page_name,$data);
+        }
+    /* surveys */
 }

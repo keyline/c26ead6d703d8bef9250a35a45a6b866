@@ -295,6 +295,8 @@ use Illuminate\Support\Facades\Route;
                 Route::get('student/transactions/{id}', 'StudentController@transactions');
                 Route::get('student/delete/{id}', 'StudentController@delete');
                 Route::get('student/change-status/{id}', 'StudentController@change_status');
+                Route::get('student/survey/{id}', 'StudentController@survey');
+                Route::get('student/view-survey-details/{id}', 'StudentController@viewSurveyDetails');
             /* student */
             /* survey */
                 /* question type */
@@ -323,6 +325,8 @@ use Illuminate\Support\Facades\Route;
                     Route::match(['get', 'post'], 'survey/edit-grade/{id}/{factor}', 'SurveyController@edit_grade');
                     Route::match(['get', 'post'], 'survey/edit-factor/{id}/{factor}', 'SurveyController@factor');
                     Route::match(['get', 'post'], 'survey/edit-combination/{id}', 'SurveyController@combination');
+                    Route::get('survey/survey-students', 'SurveyController@survey_students');
+                    Route::get('survey/view-survey-details/{id}', 'SurveyController@viewSurveyDetails');
                 /* survey */
             /* survey */
             /* bookings */

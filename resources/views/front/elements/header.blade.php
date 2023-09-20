@@ -39,7 +39,7 @@ $pageName = $routeName->uri();
                </div>
             </nav>
             <div class="header_loginbtn">
-               <?php if(empty(session('user_id'))){?>
+               <?php if(empty(session('is_user_login'))){?>
                   <ul>
                      <li>
                         <a class="btn_border" href="<?=url('signin')?>">Sign In</a>
