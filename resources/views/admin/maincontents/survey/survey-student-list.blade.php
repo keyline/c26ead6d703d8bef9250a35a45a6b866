@@ -1,5 +1,9 @@
 <?php
 use App\Helpers\Helper;
+use App\Models\User;
+use App\Models\Survey;
+use App\Models\QuestionTypes;
+use App\Models\SurveyQuestion;
 $controllerRoute = $module['controller_route'];
 ?>
 <div class="pagetitle">
@@ -47,28 +51,30 @@ $controllerRoute = $module['controller_route'];
               </tr>
             </thead>
             <tbody>
-              
+              <?php if($allSurveys){ foreach($allSurveys as $allSurvey) { ?>
               <tr>
                 <th scope="row">1</th>
+                <?php $getUser = User::where('id','=',$allSurvey->user_id)->first(); ?>
                 <td>
-                  <h6><i class="fa fa-user"></i> Makenna Robel</h6>
-                  <h6><i class="fa fa-envelope"></i> fjohnson@example.org</h6>
-                  <h6><i class="fa fa-mobile"></i> 2931574210</h6>
+                  <h6><i class="fa fa-user"></i> <?=$getUser->name;?></h6>
+                  <h6><i class="fa fa-envelope"></i> <?=$getUser->email;?></h6>
+                  <h6><i class="fa fa-mobile"></i> <?=$getUser->phone;?></h6>
                 </td>
-                <td>STUMENTO/SURVEY/000001</td>
-                <td>Aug 14, 2023 11:10 AM</td>
-                <td>Self-esteem</td>
-                <td>MCQ</td>
-                <td>10</td>
-                <td>25 (High)</td>
+                <td>STUMENTO/SURVEY/0000<?=$allSurvey->id;?></td>
+                <td><?=date_format(date_create($allSurvey->added_on), "M d, Y h:i A")?></td>
+                <?php $surveyData = Survey::where('id', '=', $allSurvey->survey_id)->where('status','=',1)->first(); ?>
+                <td><?=$surveyData->title;?></td>
+                <?php $questionType = QuestionTypes::where('id', '=', $surveyData->question_type)->where('status','=',1)->first(); ?>
+                <td><?=$questionType->name;?></td>
+                <?php $surveyCount = SurveyQuestion::where('survey_id', '=', $surveyData->id)->where('status','=',1)->count(); ?>
+                <td><?=$surveyCount;?></td>
+                <td><?=$allSurvey->score;?> (<?=$allSurvey->grade;?>)</td>
+                <td><?php echo mb_strimwidth($allSurvey->grade_review, 0, 200, "...");?></td>
                 <td>
-                  In your case you have high self esteem: Pros of High self-esteem-Appraisal of the effects of self-esteem is complicated by several factors. Because many people with high self-esteem exaggerate their successes and good traits, we emphasize objective measures of outcomes. Cons of high self-esteem- High self-esteem is also a heterogeneous category, encompassing people who frankly accept their good qualities along with narcissistic, defensive, and conceited individuals.
-                </td>
-                <td>
-                  <a target="_blank" href="<?=url('admin/' . $controllerRoute . '/view-survey-details/'.Helper::encoded(1))?>" class="btn btn-outline-info btn-sm" title="View Survey Details"><i class="fa fa-info-circle"></i></a>
+                  <a target="_blank" href="<?=url('admin/' . $controllerRoute . '/view-survey-details/'.Helper::encoded($allSurvey->user_id) .'/'. Helper::encoded($allSurvey->id)) ?>" class="btn btn-outline-info btn-sm" title="View Survey Details"><i class="fa fa-info-circle"></i></a>
                 </td>
               </tr>
-
+              <?php } } ?>
             </tbody>
           </table>
           

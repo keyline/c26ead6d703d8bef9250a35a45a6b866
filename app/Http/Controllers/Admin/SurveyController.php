@@ -13,6 +13,8 @@ use App\Models\SurveyQuestionOptions;
 use App\Models\SurveyGrades;
 use App\Models\QuestionTypes;
 use App\Models\SurveyCombinations;
+use App\Models\SurveyResult;
+use App\Models\SurveyRecords;
 use Auth;
 use Session;
 use Helper;
@@ -505,14 +507,18 @@ class SurveyController extends Controller
         public function survey_students(){
             $data['module']                 = $this->data;
             $title                          = $this->data['title'].' Participated List';
+            $data['allSurveys']             = SurveyResult::where('status','=',1)->get();
             $page_name                      = 'survey.survey-student-list';
             $data['rows']                   = Survey::where('status', '!=', 3)->orderBy('id', 'DESC')->get();
             echo $this->admin_after_login_layout($title,$page_name,$data);
         }
-        public function viewSurveyDetails($id){
-            $id                             = Helper::decoded($id);
+        public function viewSurveyDetails($userid,$surveyid){
+            $userid                         = Helper::decoded($userid);
+            $surveyid                       = Helper::decoded($surveyid);
+            $data['survey']                 = Survey::where('id', '=', $surveyid)->where('status','=',1)->first();
             $data['module']                 = $this->data;
-            $title                          = 'Survey Details Of {{Survey title}}';
+            $title                          = 'Survey Details Of '. $data['survey']->title;
+            $data['answersRecords']         = SurveyRecords::where('user_id', '=', $userid)->where('survey_id','=',$surveyid)->where('status','=',1)->get();
             $page_name                      = 'survey.survey-details';
             echo $this->admin_after_login_layout($title,$page_name,$data);
         }
