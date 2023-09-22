@@ -1,5 +1,8 @@
 <?php
 use App\Helpers\Helper;
+use App\Models\QuestionTypes;
+use App\Models\SurveyQuestion;
+use App\Models\SurveyQuestionOptions;
 $controllerRoute = $module['controller_route'];
 ?>
 <div class="pagetitle">
@@ -35,7 +38,8 @@ $controllerRoute = $module['controller_route'];
               <h6>Survey Type</h6>
             </div>
             <div class="col-md-9">
-              <small>MCQ</small>
+              <?php $questionType = QuestionTypes::where('id', '=', $survey->question_type)->where('status','=',1)->first(); ?>
+              <small><?=$questionType->name;?></small>
             </div>
           </div>
           <div class="row">
@@ -43,7 +47,7 @@ $controllerRoute = $module['controller_route'];
               <h6>Description</h6>
             </div>
             <div class="col-md-9">
-              <small>Self-esteem is determined by how you view yourself. We all value ourselves.Each of us has an opinion of who we are.There are several factors that can influence how you view yourself. It's possible for people to experience recurring shifts in their self-perception. However, some people don't always feel good about themselves. They may not value themselves highly.</small>
+              <small><?=$survey->short_description;?></small>
             </div>
           </div>
           <div class="row">
@@ -51,7 +55,7 @@ $controllerRoute = $module['controller_route'];
               <h6>Guidelines</h6>
             </div>
             <div class="col-md-9">
-              <small>Please click the appropriate answer for each item, depending on whether you Strongly agree, agree, disagree, or strongly disagree with it.</small>
+              <small><?=$survey->guideline;?></small>
             </div>
           </div>
           <div class="row">
@@ -59,7 +63,8 @@ $controllerRoute = $module['controller_route'];
               <h6>No Of Questions</h6>
             </div>
             <div class="col-md-9">
-              <small>10</small>
+              <?php $surveyCount = SurveyQuestion::where('survey_id', '=', $survey->id)->where('status','=',1)->count(); ?>
+              <small><?=$surveyCount;?></small>
             </div>
           </div>
         </div>
@@ -67,35 +72,19 @@ $controllerRoute = $module['controller_route'];
       <div class="card">
         <div class="card-body pt-3">
           <ul class="list-group">
-            <li class="list-group-item">
-              <h5>Q. dfasfasdfas</h5>
-              <h5>A. dfasfasdfas</h5>
-            </li>
-            <li class="list-group-item">
-              <h5>Q. dfasfasdfas</h5>
-              <h5>A. dfasfasdfas</h5>
-            </li>
-            <li class="list-group-item">
-              <h5>Q. dfasfasdfas</h5>
-              <h5>A. dfasfasdfas</h5>
-            </li>
-            <li class="list-group-item">
-              <h5>Q. dfasfasdfas</h5>
-              <h5>A. dfasfasdfas</h5>
-            </li>
-            <li class="list-group-item">
-              <h5>Q. dfasfasdfas</h5>
-              <h5>A. dfasfasdfas</h5>
-            </li>
-            <li class="list-group-item">
-              <h5>Q. dfasfasdfas</h5>
-              <h5>A. dfasfasdfas</h5>
-            </li>
+            <?php if($answersRecords){ $sl=1; foreach($answersRecords as $answersRecord){ ?>
+              <li class="list-group-item">
+                <?php 
+                  $getData     = SurveyQuestionOptions:: where('option_id', '=', $answersRecord->option_id)->where('status','=',1)->first(); 
+                  $getquestion = SurveyQuestion:: where('question_id', '=', $getData->question_id)->where('status','=',1)->first(); 
+                ?>
+                <h5>Q.<?=$sl++ . '.' ?> <?=$getquestion->question_name;?></h5>
+                <h5>Ans: <?=$getData->option_name;?></h5>
+              </li>
+            <?php }  } ?>
           </ul>
-          
         </div>
       </div>
-
     </div>
   </div>
 </section>

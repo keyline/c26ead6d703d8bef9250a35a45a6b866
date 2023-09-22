@@ -1,5 +1,8 @@
 <?php
 use App\Helpers\Helper;
+use App\Models\Survey;
+use App\Models\QuestionTypes;
+use App\Models\SurveyQuestion;
 $controllerRoute = $module['controller_route'];
 ?>
 <div class="pagetitle">
@@ -30,7 +33,6 @@ $controllerRoute = $module['controller_route'];
     <div class="col-lg-12">
       <div class="card">
         <div class="card-body pt-3">
-          
           <table class="table datatable">
             <thead>
               <tr>
@@ -48,35 +50,30 @@ $controllerRoute = $module['controller_route'];
               </tr>
             </thead>
             <tbody>
-              
-              <tr>
-                <th scope="row">1</th>
-                <td>STUMENTO/SURVEY/000001</td>
-                <td>Aug 14, 2023 11:10 AM</td>
-                <td>Self-esteem</td>
-                <td>MCQ</td>
+              <?php if($surveyResults){ $sl=1; foreach($surveyResults as $surveyResult){ ?>  
+                <tr>
+                <th scope="row"><?=$sl++;?></th>
+                <td>STUMENTO/SURVEY/0000<?=$surveyResult->id;?></td>
+                <td><?=date_format(date_create($surveyResult->added_on), "M d, Y h:i A")?></td>
+                <?php $surveyData = Survey::where('id', '=', $surveyResult->survey_id)->where('status','=',1)->first(); ?>
+                <td><?=$surveyData->title;?></td>
+                <?php $questionType = QuestionTypes::where('id', '=', $surveyData->question_type)->where('status','=',1)->first(); ?>
+                <td><?=$questionType->name;?></td>
+                <td><?php echo mb_strimwidth($surveyData->short_description, 0, 300, "...");?></td>
+                <td><?php echo mb_strimwidth($surveyData->guideline, 0, 200, "...");?></td>
+                <?php $surveyCount = SurveyQuestion::where('survey_id', '=', $surveyData->id)->where('status','=',1)->count(); ?>
+                <td><?=$surveyCount;?></td>
+                <td><?=$surveyResult->score;?> (<?=$surveyResult->grade;?>)</td>  
+                <td><?php echo mb_strimwidth($surveyResult->grade_review, 0, 200, "...");?></td>
                 <td>
-                  Self-esteem is determined by how you view yourself. We all value ourselves.Each of us has an opinion of who we are.There are several factors that can influence how you view yourself. It's possible for people to experience recurring shifts in their self-perception. However, some people don't always feel good about themselves. They may not value themselves highly.
-                </td>
-                <td>
-                  Please click the appropriate answer for each item, depending on whether you Strongly agree, agree, disagree, or strongly disagree with it.
-                </td>
-                <td>10</td>
-                <td>25 (High)</td>
-                <td>
-                  In your case you have high self esteem: Pros of High self-esteem-Appraisal of the effects of self-esteem is complicated by several factors. Because many people with high self-esteem exaggerate their successes and good traits, we emphasize objective measures of outcomes. Cons of high self-esteem- High self-esteem is also a heterogeneous category, encompassing people who frankly accept their good qualities along with narcissistic, defensive, and conceited individuals.
-                </td>
-                <td>
-                  <a target="_blank" href="<?=url('admin/' . $controllerRoute . '/view-survey-details/'.Helper::encoded(1))?>" class="btn btn-outline-info btn-sm" title="View Survey Details"><i class="fa fa-info-circle"></i></a>
+                  <a target="_blank" href="<?=url('admin/' . $controllerRoute . '/view-survey-details/'.Helper::encoded($user_id) .'/'. Helper::encoded($surveyResult->survey_id))?>" class="btn btn-outline-info btn-sm" title="View Survey Details"><i class="fa fa-info-circle"></i></a>
                 </td>
               </tr>
-
+              <?php } } ?>
             </tbody>
           </table>
-          
         </div>
       </div>
-
     </div>
   </div>
 </section>
