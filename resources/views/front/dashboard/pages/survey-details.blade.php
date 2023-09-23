@@ -2,6 +2,8 @@
 	use App\Models\User;
 	use App\Models\surveyQuestionOptions;
 	use App\Models\SurveyResult;
+	use App\Models\Survey;
+	use App\Helpers\Helper;
 ?>
 <div class="account_wrapper">
 	<?=$sidebar;?>
@@ -36,8 +38,12 @@
 					if($checkSurvey){ ?> 
 						<h1 style="text-align: center;color: red;"> You Have Already Participate In This Survey !!!</h1>
 					<?php }else{ ?>
+						<?php
+						$getSurveyDetail = Survey::where('id','=',$id)->first();
+						?>
 						<div class="col-sm-12 col-lg-12">
 							<form method="POST" action="" enctype="multipart/form-data">
+								<input type="hidden" name="question_type" value="<?=(($getSurveyDetail)?$getSurveyDetail->question_type:'')?>">
 							@csrf
 							<div class="survay_listing">							
 								<ul>
@@ -51,7 +57,7 @@
 													foreach ($surveyQuestionOptions as $surveyQuestionOption) { ?>
 														<li>
 															<label for="option-<?=$surveyQuestionOption->option_id?>">
-															<input name="option<?=$q?>[]" value="<?=$surveyQuestionOption->option_id;?>" type="radio" id="option-<?=$surveyQuestionOption->option_id?>" onchange="setAnswer(<?=$q?>);"> <?=$surveyQuestionOption->option_name; ?></label>
+															<input name="option<?=$q?>[]" value="<?=$surveyQuestionOption->option_id?>/<?=Helper::encoded($surveyQuestionOption->factor)?>/<?=Helper::encoded($surveyQuestionOption->option_weight)?>" type="radio" id="option-<?=$surveyQuestionOption->option_id?>" onchange="setAnswer(<?=$q?>);"> <?=$surveyQuestionOption->option_name; ?></label>
 														</li>
 												<?php } } ?>
 											</ul>
