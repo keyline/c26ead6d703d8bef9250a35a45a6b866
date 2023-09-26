@@ -53,9 +53,9 @@ $controllerRoute = $module['controller_route'];
               <?php if($surveyResults){ $sl=1; foreach($surveyResults as $surveyResult){ ?>  
                 <tr>
                 <th scope="row"><?=$sl++;?></th>
-                <td>STUMENTO/SURVEY/0000<?=$surveyResult->id;?></td>
-                <td><?=date_format(date_create($surveyResult->added_on), "M d, Y h:i A")?></td>
                 <?php $surveyData = Survey::where('id', '=', $surveyResult->survey_id)->where('status','=',1)->first(); ?>
+                <td><?=$surveyData->survey_sl_no;?></td>
+                <td><?=date_format(date_create($surveyResult->added_on), "M d, Y h:i A")?></td>
                 <td><?=$surveyData->title;?></td>
                 <?php $questionType = QuestionTypes::where('id', '=', $surveyData->question_type)->where('status','=',1)->first(); ?>
                 <td><?=$questionType->name;?></td>

@@ -60,9 +60,9 @@ $controllerRoute = $module['controller_route'];
                   <h6><i class="fa fa-envelope"></i> <?=$getUser->email;?></h6>
                   <h6><i class="fa fa-mobile"></i> <?=$getUser->phone;?></h6>
                 </td>
-                <td>STUMENTO/SURVEY/0000<?=$allSurvey->id;?></td>
-                <td><?=date_format(date_create($allSurvey->added_on), "M d, Y h:i A")?></td>
                 <?php $surveyData = Survey::where('id', '=', $allSurvey->survey_id)->where('status','=',1)->first(); ?>
+                <td><?=$surveyData->survey_sl_no;?></td>
+                <td><?=date_format(date_create($allSurvey->added_on), "M d, Y h:i A")?></td>                
                 <td><?=$surveyData->title;?></td>
                 <?php $questionType = QuestionTypes::where('id', '=', $surveyData->question_type)->where('status','=',1)->first(); ?>
                 <td><?=$questionType->name;?></td>

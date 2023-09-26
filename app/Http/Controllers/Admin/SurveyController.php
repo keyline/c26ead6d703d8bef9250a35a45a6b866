@@ -47,12 +47,20 @@ class SurveyController extends Controller
             $data['module']           = $this->data;
             if($request->isMethod('post')){ 
                 $postData = $request->all();
-                // Helper::pr($postData);die;
+                $getLatestSurvey         = Survey::where('status', '!=', 3)->orderBy('id', 'DESC')->first();
+                if($getLatestSurvey){
+                    $sl_no = $getLatestSurvey->id + 1;
+                    $survey_sl_no = 'STUMENTO/SURVEY/' .  str_pad($sl_no, 5, "0", STR_PAD_LEFT);
+                  } else {
+                    $sl_no = 1;
+                    $survey_sl_no = 'STUMENTO/SURVEY/' . str_pad($sl_no, 5, "0", STR_PAD_LEFT);
+                  }
                 /* survey table */
                     $question_array     = $postData['question'];
                     $factor_array       = $postData['factor'];
                     $label_array        = $postData['label'];
                     $fields = [
+                                    'survey_sl_no'          =>  $survey_sl_no,
                                     'question_type'         =>  $postData['question_type'],
                                     'title'                 =>  $postData['survey_name'],
                                     'slug'                  =>  Helper::clean($postData['survey_name']),
