@@ -236,14 +236,12 @@ $("#resetpwd_form").submit(function (e) {
         }
     }
 });
-
 $('#doc_type').on('change', function(){
     let doc_type = $('#doc_type').val();
     if(doc_type != ''){
         $('#fileName').addClass('requiredCheck');
     }
 })
-
 function isNumber(evt) {
     evt = (evt) ? evt : window.event;
     var charCode = (evt.which) ? evt.which : evt.keyCode;
@@ -252,7 +250,6 @@ function isNumber(evt) {
     }
     return true;
 }
-
 function resendOTP(id){
     $.ajax({
         type: "GET",
@@ -281,7 +278,6 @@ function resendOTP(id){
         }
     });
 }
-
 function validateFileType(input){
     var fileName    = document.getElementById("fileName").value;
     var idxDot      = fileName.lastIndexOf(".") + 1;
@@ -293,4 +289,70 @@ function validateFileType(input){
     }else{
         toastAlert("warning", "Only jpg/jpeg and png files are allowed!");
     }   
+}
+function getMentorFilter(){
+    let mentor_name     = $('#mentor_name').val();
+    let service_id      = $('#service_id').val();
+    let day_no          = $('#day_no').val();
+    $.ajax({
+        type: "GET",
+        url: base_url + "mentor-filter",
+        data: {"_token": "{{ csrf_token() }}", key: 'facb6e0a6fcbe200dca2fb60dec75be7', source: 'WEB', mentor_name:mentor_name, service_id:service_id, day_no:day_no},
+        // dataType: "JSON",
+        beforeSend: function () {
+            $("#mentor-list").loading();
+        },
+        success: function (res) {
+            $("#mentor-list").loading("stop");
+            $('#mentor-list').empty();
+            $('#mentor-list').html(res);
+            let mentorCount = $('.mentor-count').length;
+            $('#mentor-count').text(mentorCount);
+            if(mentorCount > 0){
+                $('#reset-btn').show();
+            } else {
+                $('#reset-btn').hide();
+            }
+        },
+        error:function (xhr, ajaxOptions, thrownError){
+            $("#mentor-list").loading("stop");
+            var res = xhr.responseJSON;
+            if(!res.status) {
+                toastAlert("error", res.message);
+            }
+        }
+    });
+}
+function getMentorFilterReset(){
+    let mentor_name     = $('#mentor_name').val();
+    let service_id      = $('#service_id').val();
+    let day_no          = $('#day_no').val();
+    $.ajax({
+        type: "GET",
+        url: base_url + "mentor-filter",
+        data: {"_token": "{{ csrf_token() }}", key: 'facb6e0a6fcbe200dca2fb60dec75be7', source: 'WEB', mentor_name:'', service_id:'', day_no:''},
+        // dataType: "JSON",
+        beforeSend: function () {
+            $("#mentor-list").loading();
+        },
+        success: function (res) {
+            $("#mentor-list").loading("stop");
+            $('#mentor-list').empty();
+            $('#mentor-list').html(res);
+            let mentorCount = $('.mentor-count').length;
+            $('#mentor-count').text(mentorCount);
+            if(mentorCount > 0){
+                $('#reset-btn').show();
+            } else {
+                $('#reset-btn').hide();
+            }
+        },
+        error:function (xhr, ajaxOptions, thrownError){
+            $("#mentor-list").loading("stop");
+            var res = xhr.responseJSON;
+            if(!res.status) {
+                toastAlert("error", res.message);
+            }
+        }
+    });
 }
