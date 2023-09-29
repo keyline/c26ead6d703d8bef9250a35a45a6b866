@@ -13,6 +13,7 @@ use App\Models\GeneralSetting;
 use App\Models\Admin;
 use App\Models\User;
 use App\Models\UserAccess;
+use App\Models\BookingRating;
 use Session;
 use Helper;
 
@@ -302,6 +303,40 @@ class Controller extends BaseController
         $data['sidebar']            = view('admin.elements.sidebar', $data);
         $data['maincontent']        = view('admin.maincontents.'.$page_name, $data);
         return view('admin.layout-after-login', $data);
+    }
+    public function getAvgRating($mentor_id){
+        $ratingStar = '';
+        $getRatingCount = BookingRating::where('mentor_id', '=', $mentor_id)->where('status', '=', 1)->count();
+        $getRatingTotal = BookingRating::where('mentor_id', '=', $mentor_id)->where('status', '=', 1)->sum('rating');
+        if($getRatingCount > 0){
+            $avgRating = ($getRatingTotal / $getRatingCount);
+        } else {
+            $avgRating = 0;
+        }
+        if(($avgRating >= 4)){
+            $ratingStar .= '<i class="fa-solid fa-star"></i>';
+            $ratingStar .= '<i class="fa-solid fa-star"></i>';
+            $ratingStar .= '<i class="fa-solid fa-star"></i>';
+            $ratingStar .= '<i class="fa-solid fa-star"></i>';
+            $ratingStar .= '<i class="fa-solid fa-star"></i>';
+        } elseif(($avgRating >= 3) && ($avgRating < 4)){
+            $ratingStar .= '<i class="fa-solid fa-star"></i>';
+            $ratingStar .= '<i class="fa-solid fa-star"></i>';
+            $ratingStar .= '<i class="fa-solid fa-star"></i>';
+            $ratingStar .= '<i class="fa-solid fa-star"></i>';
+        } elseif(($avgRating >= 2) && ($avgRating < 3)){
+            $ratingStar .= '<i class="fa-solid fa-star"></i>';
+            $ratingStar .= '<i class="fa-solid fa-star"></i>';
+            $ratingStar .= '<i class="fa-solid fa-star"></i>';
+        } elseif(($avgRating >= 1) && ($avgRating < 2)){
+            $ratingStar .= '<i class="fa-solid fa-star"></i>';
+            $ratingStar .= '<i class="fa-solid fa-star"></i>';
+        } elseif(($avgRating > 0) && ($avgRating < 1)){
+            $ratingStar .= '<i class="fa-solid fa-star"></i>';
+        } elseif(($avgRating <= 0)){
+            $ratingStar .= '';
+        }
+        return $ratingStar;
     }
     // currency converter
     public function convertCurrency($amount, $from, $to)

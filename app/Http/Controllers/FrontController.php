@@ -8,7 +8,6 @@ use Illuminate\Validation\Rule;
 use App\Models\Country;
 use App\Models\GeneralSetting;
 use App\Models\Page;
-use App\Models\User;
 use App\Models\Testimonial;
 use App\Models\Enquiry;
 use App\Models\EmailLog;
@@ -21,11 +20,17 @@ use App\Models\Team;
 use App\Models\Banner;
 use App\Models\ServiceType;
 use App\Models\Service;
+use App\Models\ServiceAttribute;
+use App\Models\ServiceDetail;
+use App\Models\ServiceTypeAttribute;
+use App\Models\MentorAvailability;
+use App\Models\User;
 use App\Models\StudentProfile;
 use App\Models\MentorProfile;
 use App\Models\UserActivity;
 use App\Models\UserDocument;
 use App\Models\RequireDocument;
+use App\Models\BookingRating;
 
 use App\Rules\ReCaptcha;
 use Auth;
@@ -168,7 +173,66 @@ class FrontController extends Controller
     /* page */
     /* Mentors */
         public function mentors(){
-            $data                           = [];
+            $mentors                        = [];
+            $mentorLists                    = User::select('mentor_profiles.*','users.role','users.valid','users.email','users.phone')->join('mentor_profiles', 'mentor_profiles.user_id', '=', 'users.id')->where('users.valid', '=', 1)->where('users.role', '=', 2)->inRandomOrder()->limit(6)->get();
+            if($mentorLists){
+                foreach($mentorLists as $mentorList){
+                    /* service details */
+                        $service_attribute_ids = [];
+                        $getServiceDetails = ServiceDetail::select('service_attribute_id')->where('mentor_user_id', '=', $mentorList->user_id)->where('status', '=', 1)->get();
+                        if($getServiceDetails){
+                            foreach($getServiceDetails as $getServiceDetail){
+                                $service_attribute_ids[] = $getServiceDetail->service_attribute_id;
+                            }
+                        }
+                        $service_ids = [];
+                        if(!empty($service_attribute_ids)){
+                            for($s=0;$s<count($service_attribute_ids);$s++){
+                                $getServiceDetails2 = ServiceTypeAttribute::select('service_id')->where('service_attribute_id', '=', $service_attribute_ids[$s])->where('is_active', '=', 1)->first();
+                                if($getServiceDetails2){
+                                    if(!in_array($getServiceDetails2->service_id, $service_ids)){
+                                        $service_ids[] = $getServiceDetails2->service_id;
+                                    }
+                                }
+                            }
+                        }
+                        $serviceNames = [];
+                        if(!empty($service_ids)){
+                            for($s=0;$s<count($service_ids);$s++){
+                                $service = Service::select('name')->where('id', '=', $service_ids[$s])->where('status', '=', 1)->first();
+                                if($service){
+                                    $serviceNames[] = (($service)?$service->name:'');
+                                }
+                            }
+                        }
+                    /* service details */
+                    /* availability */
+                        $todayNo        = date('w');
+                        $checkMentorAvl = MentorAvailability::where('mentor_user_id', '=', $mentorList->user_id)->where('day_of_week_id', '=', $todayNo)->count();
+                    /* availability */
+                    /* rating */
+                        $getLastReview = BookingRating::where('mentor_id', '=', $mentorList->user_id)->where('status', '=', 1)->orderBy('id', 'DESC')->first();
+                    /* rating */
+                    $mentors[] = [
+                        'mentor_id'     => $mentorList->user_id,
+                        'name'          => $mentorList->full_name,
+                        'display_name'  => $mentorList->display_name,
+                        'email'         => $mentorList->email,
+                        'phone'         => $mentorList->phone,
+                        'qualification' => $mentorList->qualification,
+                        'experience'    => $mentorList->experience,
+                        'service_name'  => implode(",", $serviceNames),
+                        'service_count' => count($service_ids),
+                        'avl_today'     => (($checkMentorAvl > 0)?1:0),
+                        'avg_rating'    => $this->getAvgRating($mentorList->user_id),
+                        'last_review'   => (($getLastReview)?$getLastReview->review:''),
+                        'profile_image' => (($mentorList->profile_pic != '')?env('UPLOADS_URL').'user/'.$mentorList->profile_pic:env('NO_IMAGE_AVATAR')),
+                    ];
+                }
+            }
+            // Helper::pr($mentors);
+            $data['mentors']                = $mentors;
+            $data['services']               = Service::select('id', 'name')->where('status', '=', 1)->get();
             $title                          = 'Mentors';
             $page_name                      = 'mentors';
             echo $this->front_before_login_layout($title,$page_name,$data);

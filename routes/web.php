@@ -92,6 +92,7 @@ use Illuminate\Support\Facades\Route;
         Route::match(['post'], 'signup', 'ApiController@signup');
         Route::match(['post'], 'validate-signup-otp', 'ApiController@validateSignupOtp');
         Route::match(['get'], 'resend-otp', 'ApiController@resendOtp');
+        Route::match(['get'], 'mentor-filter', 'ApiController@mentorFilter');
     });
 /* API */
 
