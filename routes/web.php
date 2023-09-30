@@ -28,7 +28,8 @@ use Illuminate\Support\Facades\Route;
                 Route::match(['get'], 'page/{id}', 'FrontController@page');
 
     Route::match(['get'], '/mentors', 'FrontController@mentors');
-    Route::match(['get'], '/mentor-details', 'FrontController@mentorDetails');
+    Route::match(['get'], '/mentor-details/{displayname}/{id}', 'FrontController@mentorDetails');
+    Route::match(['get'], '/service-details/{displayname}/{id}', 'FrontController@serviceDetails');
     /* common */
     /* authentication */
     //Route::match(['get'], '/mentor-signup', 'MentorController@createStep1')->name('mentor-signup');
