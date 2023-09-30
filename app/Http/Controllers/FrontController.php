@@ -239,13 +239,23 @@ class FrontController extends Controller
         }
     /* Mentors */
     /* Mentor Details */
-        public function mentorDetails(){
+        public function mentorDetails($displayName, $user_id){
+            $user_id                        = Helper::decoded($user_id);
             $data                           = [];
             $title                          = 'Mentor Details';
             $page_name                      = 'mentor-details';
             echo $this->front_before_login_layout($title,$page_name,$data);
         }
     /* Mentor Details */
+    /* Service Details */
+        public function serviceDetails($displayName, $user_id){
+            $user_id                        = Helper::decoded($user_id);
+            $data                           = [];
+            $title                          = 'Service Details';
+            $page_name                      = 'service-details';
+            echo $this->front_before_login_layout($title,$page_name,$data);
+        }
+    /* Service Details */
     /* authentication */
         public function studentSignup(Request $request){
             $data['testimonials']           = Testimonial::where('status', '=', 1)->orderBy('id', 'DESC')->get();
