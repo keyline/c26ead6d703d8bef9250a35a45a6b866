@@ -1,0 +1,542 @@
+/* login page css start */
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+.login-section{
+    padding: 70px 0;
+    background: url(../images/gradient-rainbow-background-a3adbf6f.png) no-repeat;
+    background-size: cover;
+}
+.login-box {
+    box-shadow: 0 0 30px -5px #ccc;
+    padding: 60px 50px;
+    background: #fff;
+    position: relative;
+}
+.login-box h3{
+    font-size: 25px;
+    text-align: center;
+    color: #5c5b5b;
+}
+.form-group{
+    margin: 20px 0;;
+}
+.form-group input{
+    padding: 10px 15px;
+    background: transparent;
+    border: 1px solid #ccc;
+}
+.form-group input[type="text"]:focus,
+.form-group input[type="password"]:focus{
+    border-color: #6935ec;
+}
+.login-btn{
+    width: 100%;
+    padding: 10px;
+    color: #000;
+    background: #fff;
+    border: 2px solid #5c5b5b;
+    border-radius: 4px;
+    transition: all .3s ease-in-out;
+}
+.form-group a{
+    text-decoration: none;
+}
+.login-btn:hover{
+    background: #e84d37;
+    color: #fff;
+	border-color: #e84d37;
+}
+.icon-box-1{
+    position: absolute;
+    top: 20px;
+    left: 15px;
+    animation: left-right-animation  2s infinite alternate;
+}
+.icon-box-2{
+    position: absolute;
+    bottom: 10px;
+    right: 15px;
+    animation: up-down-animation 2s infinite alternate;
+}
+.icon-box-1 img,
+.icon-box-2 img{
+    width: 100%;
+    max-width: 75px;
+}
+@keyframes up-down-animation {
+    to{
+        transform: translateY(0);
+    }
+    from{
+        transform: translateY(10px);
+    }
+}
+
+@keyframes left-right-animation {
+    to{
+        transform: rotate(-10deg);
+        transform-origin: center bottom;
+    }
+    from{
+        transform: rotate(10deg);
+        transform-origin: center bottom;
+    }
+}
+
+
+
+/* login page css end */
+
+
+/* validate opt page css start */
+.otpInput{
+    width: 45px;
+    height: 45px;
+    margin: 10px 15px;
+    border-radius: 5px;
+    text-align: center;
+}
+
+/* validate opt page css end */
+
+/* mentor page css start */
+.mentor-section{
+    padding: 80px 0;
+}
+.mentor-left-box{
+    padding: 30px 15px;
+    border: 1px solid #e3e8eb;
+    border-radius: 20px;
+    box-shadow: 0 10px 20px -5px #ccc;
+    position: sticky;
+    top: 20px;
+}
+.mentor-left-box h5{
+    color: #e84d37;
+    margin-bottom: 20px;
+    text-align: center;
+}
+.mentor-left-box .input-group{
+    align-items: baseline;
+}
+.mentor-left-box label{
+    color: var(--textColor);
+}
+.mentor-left-box  input,
+.mentor-left-box  select{
+    margin-bottom: 10px;
+    border-color: #ccc;
+    padding: 8px;
+    width: 100%;
+    border-radius: 8px
+}
+.mentor-left-box  input[type="checkbox"]{
+    width: auto;
+}
+.mentor-left-box select:focus{
+    border: 1px solid #76c7ea;
+}
+.mentor-left-box button{
+    margin-top: 10px;
+    padding: 7px;
+    background: #fff;
+    color: var(--textColor);
+    border:2px solid #e84d37;
+    border-radius: 50px;
+    width: 50%;
+    transition: all .3s ease-in-out;
+} 
+.mentor-left-box button:hover{
+    background: #e84d37;
+    color: #fff;
+}
+.total-mentor-box{
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+    border-bottom: 1px dashed #76c7ea;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.total-mentor-box .help-me-btn{
+    width: auto;
+    padding: 10px 30px 11px;
+    background: #fff;
+    border:2px solid #e84d37;
+    color: var(--textColor);
+    border-radius: 50px;
+}
+.total-mentor-box .help-me-btn:hover{
+    text-decoration: none;
+    background: #e84d37;
+    color: #fff;
+}
+.mentor-main-box{
+    background: #76c7ea;
+    border-radius: 24px;
+}
+.mentor-main-box a{
+    color: var(--textColor);
+    text-decoration: none;
+}
+.mentor-box{
+    position: relative;
+    padding: 100px 20px 25px;
+    transition: all .3s ease-in-out;
+    margin-top: 120px;
+    background: #76c7ea;
+    text-align: center;
+    border-radius: 24px;
+}
+.mentor-main-box-2,
+.mentor-box-2{
+    background: #c588d0;
+}
+.mentor-img-box{
+    overflow: hidden;
+    text-align: center;
+    position: absolute;
+    top: -26%;
+    left: 50%;
+    transform: translateX(-50%);
+}
+.mentor-img-box img{
+    width: 180px;
+}
+.check-icon{
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: #24E14D;
+    color: #fff;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 15px;
+    text-align: center;
+    margin-left: 5px
+}
+
+.rating {
+    text-align: center;
+    margin-bottom: 0.5rem;
+    color: #febe42
+}
+.mentor-list li{
+    color: #f4f3f3;
+    font-size: 14px;
+    margin-bottom: 5px;
+}
+.mentor-list li:last-child{
+    margin-bottom: 0px;
+}
+
+.mentor-list li i{
+    margin-right: 5px;
+    color: #fff
+}
+.available i{
+    color: green !important;
+}
+.mentor-list li.not-available i{
+    color: red;
+}
+.book-btn-div{
+    text-align: center;
+    padding-bottom: 30px;
+}
+.book-btn{
+    padding: 8px 25px;
+    display: inline-block;
+    border: 2px solid transparent;
+    border-radius: 50px;
+    color: var(--textColor);
+    transition: all .3s ease-in-out;
+    font-size: 18px;
+    background: #fff;
+    box-shadow: -1px 1px 5px #444;
+}
+.book-btn:hover{
+    background: #e84d37;
+    color: #fff;
+    text-decoration: none;
+    border: 2px solid #e84d37;
+}
+
+
+
+
+
+/* mentor page end start */
+
+
+/* mentor details page css start */
+.mentor-details-section{
+    padding: 80px 0;
+}
+.mentor-profile{
+    background: #76c7ea url(../images/profile-bg2.png) no-repeat;
+    background-position: center;
+    background-size: cover;
+    padding: 30px;
+    margin-bottom: 30px;
+    border-radius: 0.4rem;
+    color: #fff;
+}
+/* .mentor-profile-left{
+    display: flex;
+    flex-wrap: wrap;
+} */
+.profile-img img{
+    width: 180px;
+    height: 180px;
+    object-fit: cover;
+    object-position: center center;
+    margin-right: 15px
+}
+.mentor-profile-left li a{
+    color: #fff;
+    font-size: 25px;
+}
+.mentor-profile-left .rating{
+    text-align: left;
+    background: #fff;
+    padding: 5px;
+    margin: 5px 0;
+    width: auto;
+    display: inline-block;
+    border-radius: 5px;
+}
+.mentor-profile-left .rating i{
+    font-size: 12px;
+}
+.mentor-profile-left li{
+    margin: 5px 0;
+}
+.mentor-profile-left li i{
+    margin-right: 5px;
+	width: 20px;
+}
+.mentor-dtl-box{
+    border-radius: 0.4rem;
+    padding: 1.5rem;
+    border: 1px solid #e3e8eb;
+    box-shadow: 0 0 10px 5px rgba(0,0,0,.03);
+    margin-bottom: 30px;
+}
+.mentor-dtl-box h4{
+    background-color: #f4f3f3;
+    border-radius: 5px;
+    padding: 15px;
+    margin-bottom: 1.5rem;
+}
+.mentor-dtl-box p{
+    color: #5d5d5d
+}
+.overview-description, .education-details {
+    padding: 0 15px;
+}
+.mentor-dtl-right .user-booking a{
+    padding: 12px 30px;
+    font-size: 18px;
+    background-color: #fff;
+    border: 2px solid #e84d37;
+    color: var(--textColor);
+    display: block;
+    text-align: center;
+    border-radius: 50px;
+    transition: all .3s ease-in-out;
+    margin-bottom: 30px;
+}
+.mentor-dtl-right .user-booking a:hover{
+    background: #e84d37;
+    color: #fff;
+    text-decoration: none;
+}
+
+.education-details .info-list{
+    display: flex;
+    align-items: center;
+}
+.info-years{
+    margin-left: 60px;
+}
+.info-content{
+    width: 100%;
+    max-width: 200px
+}
+.user-languages a {
+    display: inline-block;
+    background-color: #fff;
+    border: 2px solid #e84d37;
+    color: var(--textColor);
+    padding: 5px 15px;
+    border-radius: 50px;
+    font-weight: 500;
+    text-align: center;
+    margin-right: 10px;
+    margin-bottom: 15px;
+    transition: all .3s ease-in-out;
+}
+.user-languages a:hover{
+    background: #e84d37;
+    color: #fff;
+    text-decoration: none;
+}
+
+.slot-info {
+    font-size: 14px;
+    border: 1px solid #ccc;
+    background-color: #fff;
+    border-radius: 4px;
+    padding: 8px 15px;
+    text-align: center;
+    margin: 5px 15px 5px 0;
+}
+
+.timing-box{
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    text-align: center;
+    color: var(--textColor);
+    margin: 0px 4px;
+    font-size: 14px;
+    padding: 10px;
+}
+.timing-box.active,
+.time-picker-list li.active{
+    border: 2px solid #000;
+}
+#timing-slider .zmdi{
+    width: 25px;
+    height: 25px;
+    border: 1px solid #ccc;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+} 
+#timing-slider .owl-nav{
+    position: absolute;
+    top: 32%;
+    /* transform: translateY(-50%); */
+    width: 100%;
+}
+#timing-slider .owl-prev{
+    position: absolute;
+    left: -22px;
+}
+#timing-slider .owl-next{
+    position: absolute;
+    right: -22px;
+}
+.time-picker-box li{
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-right: 15px;
+    margin-bottom: 15px;
+    display: inline-block;
+}
+.time-picker-box li a{
+    padding: 10px 15px; 
+    display: block;
+    color: var(--textColor);
+}
+
+
+
+/* mentor details page css start */
+
+
+
+/* login page responsive css */
+@media (min-width: 992px) and (max-width: 1400px){
+    .icon-box-1{
+        left: 0;
+    }
+    .otpInput{
+        margin-left: 5px;
+        margin-right: 5px;
+    }
+    
+}
+
+@media(max-width: 767px){
+    .login-section{
+        padding: 50px 0;
+    }
+    .login-box{
+        margin-bottom: 30px;
+    }
+    .login-box h3{
+        font-size: 20px;
+        margin-bottom: 10px;
+    }
+    .otpInput {
+        width: 40px;
+        height: 40px;
+        margin: 10px;
+    }
+    .validate-otp-box,
+    .signup-box,
+    .reset-pass-box,
+    .forgot-pass-box{
+        padding-bottom: 30px;
+    }
+    .mentor-section,
+    .mentor-details-section{
+        padding: 40px 0;
+    }
+  
+}
+@media(max-width: 575px){
+    .login-box{
+        padding: 70px 20px 55px;
+    }
+    .validate-otp-box,
+    .signup-box,
+    .reset-pass-box,
+    .forgot-pass-box{
+        padding-bottom: 30px;
+    }
+    .icon-box-1 img,
+    .icon-box-2 img{
+        width: 100%;
+        max-width: 50px;
+    }
+    .form-group.d-flex span,
+    .form-group.d-flex a{
+        font-size: 15px;
+    }
+    .login-btn{
+        padding: 5px;
+    }
+    .icon-box-1{
+        top: 10px
+    }
+    .otpInput {
+        width: 36px;
+        height: 36px;
+        margin: 5px;
+    }
+    .total-mentor-box .login-btn {
+        padding: 5px 5px;
+        font-size: 12px;
+    }
+    .total-mentor-box h5{
+        font-size: 17px;
+    }
+    .mentor-list ul li{
+        font-size: 14px;
+    }
+    .mentor-profile-left ul{
+        text-align: center;
+    }
+}
+
+
+
+

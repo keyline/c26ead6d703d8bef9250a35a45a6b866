@@ -1701,7 +1701,6 @@ button.add-slot-btn {
     background-size: cover;
 }
 
-
 .public-profile-v2 .service-card {
     background: hsla(0,0%,100%,.95);
     border: 1px solid #ebeaeb;
@@ -1777,12 +1776,12 @@ button.add-slot-btn {
     border-radius: 50px;
 }
 .prublic_arrowri i.fa-arrow-right:hover{
-	background: #000;
-	color: #fff;
+    background: #000;
+    color: #fff;
 }
 .mentor-profile.mentortime_bg {
     background: #999;
-	margin-bottom: 0;
+    margin-bottom: 0;
 }
 .metor_goback {
     display: flex;
@@ -1863,7 +1862,3 @@ button.add-slot-btn {
     font-size: 20px;
     margin: 0 10px;
 }
-
-
-
-
