@@ -8,6 +8,7 @@
  * Copyright (c) 2022 creativeLabs Łukasz Holeczek
  * License MIT  (https://coreui.io/license/)
  */
+
 @font-face {
 	font-family:'MyriadPro-Regular';
     src: url('font/MYRIADPRO-REGULAR.OTF');
@@ -14228,6 +14229,7 @@ ul.navbar-nav .dropdown-menu {
     text-decoration: none;
     font-size: 18px;
 	background: #f9233f;
+  border-collapse: initial;
 }
 .btn_orgfill:hover{
 	color: #000;
@@ -14770,4 +14772,146 @@ button.add-slot-btn {
 .metor_seriveall .ant-space-item {
     padding: 5px 0;
     font-size: 16px;
+}
+
+.survay_listing input[type=radio] {
+  --s: 1em;     /* control the size */
+  --c: #009688; /* the active color */
+  height: var(--s);
+  aspect-ratio: 1;
+  border: calc(var(--s)/8) solid #939393;
+  padding: calc(var(--s)/8);
+  background: 
+     radial-gradient(farthest-side,var(--c) 94%,#0000) 
+     50%/0 0 no-repeat content-box;
+  border-radius: 50%;
+  outline-offset: calc(var(--s)/10);
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  cursor: pointer;
+  font-size: inherit;
+  transition: .3s;
+}
+.survay_listing input[type=radio]:checked {
+  border-color: var(--c);
+  background-size: 100% 100%;
+}
+
+.survay_listing input[type=radio]:disabled {
+  background: 
+     linear-gradient(#939393 0 0) 
+     50%/100% 20% no-repeat content-box;
+  opacity: .5;
+  cursor: not-allowed;
+}
+
+@media print {
+  .survay_listing input[type=radio] {
+    -webkit-appearance: auto;
+    -moz-appearance: auto;
+    appearance: auto;
+    background: none;
+  }
+}
+
+.survay_listing label {
+  display:inline-flex;
+  align-items:center;
+  gap:10px;
+  margin:5px 0;
+  cursor: pointer;
+}
+.survay_listing {
+    background: #fff;
+    border-radius: 6px;
+    padding: 25px;
+}
+.survay_listing li.question h3 {
+    font-size: 20px;
+    color: #c718d3;
+}
+.survay_listing li.question {
+  margin-bottom: 15px;
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 25px;
+}
+.survay_listing li.question.inactive{
+  opacity: 0.3;
+  position: relative;
+}
+.survay_listing li.question.inactive:before{
+  content: "";
+  position: absolute;
+  left: 0;
+  top:0;
+  height: 100%;
+    width: 100%;
+    background: #fff;
+    opacity: 0.6;
+}
+.survay_resulting {
+  background: #fff;
+  border-radius: 6px;
+  padding: 25px;
+  max-width: 800px;
+}
+.survay_resulting_tick {
+  text-align: center;
+  background: #3acf1b99;
+  display: table;
+  margin: 0 auto 20px;
+  width: 100px;
+  height: 100px;
+  border-radius: 100%;
+  font-size: 40px;
+  line-height: 96px;
+  color: #fff;
+}
+.survay_resulting_content p {
+  text-align: center;
+  font-size: 26px;
+}
+blockquote {
+  font-size: 16px;
+  width: 100%;
+  margin: 20px auto;
+  font-style: italic;
+  color: #555555;
+  padding: 1.2em 30px 1.2em 75px;
+  border-left: 8px solid #78C0A8;
+  line-height: 1.6;
+  position: relative;
+  background: #EDEDED;
+}
+
+blockquote::before{
+  font-family:Arial;
+  content: "\201C";
+  color:#78C0A8;
+  font-size:4em;
+  position: absolute;
+  left: 10px;
+  top:-10px;
+}
+
+blockquote::after{
+  content: '';
+}
+
+blockquote span{
+  display:block;
+  color:#333333;
+  font-style: normal;
+  font-weight: bold;
+  margin-top:1em;
+}
+.bg-whitebg {
+  background: #fff;
+  padding: 25px;
+  border-radius: 6px;
+}
+ul.surveylist_stript {
+  display: flex;
+  justify-content: space-between;
 }

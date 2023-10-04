@@ -3,8 +3,8 @@ if(origin == 'https://stumento.keylines.net.in'){
     var base_url    = 'https://stumento.keylines.net.in/api/';
     var baseURL     = 'https://stumento.keylines.net.in/';
 } else {
-    var base_url    = 'http://localhost/stumento/api/';
-    var baseURL     = 'http://localhost/stumento/';
+    var base_url    = 'http://localhost/c26ead6d703d8bef9250a35a45a6b866/api/';
+    var baseURL     = 'http://localhost/c26ead6d703d8bef9250a35a45a6b866/';
 }
 var projectKey  = 'facb6e0a6fcbe200dca2fb60dec75be7';
 var source      = 'WEB';
@@ -46,7 +46,7 @@ $("#signup_form").submit(function (e) {
                 success: function (res) {
                     $("#signup_form").loading("stop");
                     if(res.status){
-                        $('#signup_form').trigger("reset");
+                        // $('#signup_form').trigger("reset");
                         toastAlert("success", res.message, true, res.data.redirectUrl);
                         // toastAlert("success", res.message);
                     }else{
@@ -57,7 +57,7 @@ $("#signup_form").submit(function (e) {
                     $("#signup_form").loading("stop");
                     var res = xhr.responseJSON;
                     if(!res.status) {
-                        $('#signup_form').trigger("reset");
+                        // $('#signup_form').trigger("reset");
                         toastAlert("error", res.message);
                     }
                 }
@@ -236,14 +236,12 @@ $("#resetpwd_form").submit(function (e) {
         }
     }
 });
-
 $('#doc_type').on('change', function(){
     let doc_type = $('#doc_type').val();
     if(doc_type != ''){
         $('#fileName').addClass('requiredCheck');
     }
 })
-
 function isNumber(evt) {
     evt = (evt) ? evt : window.event;
     var charCode = (evt.which) ? evt.which : evt.keyCode;
@@ -252,7 +250,6 @@ function isNumber(evt) {
     }
     return true;
 }
-
 function resendOTP(id){
     $.ajax({
         type: "GET",
@@ -281,7 +278,6 @@ function resendOTP(id){
         }
     });
 }
-
 function validateFileType(input){
     var fileName    = document.getElementById("fileName").value;
     var idxDot      = fileName.lastIndexOf(".") + 1;
@@ -293,4 +289,70 @@ function validateFileType(input){
     }else{
         toastAlert("warning", "Only jpg/jpeg and png files are allowed!");
     }   
+}
+function getMentorFilter(){
+    let mentor_name     = $('#mentor_name').val();
+    let service_id      = $('#service_id').val();
+    let day_no          = $('#day_no').val();
+    $.ajax({
+        type: "GET",
+        url: base_url + "mentor-filter",
+        data: {"_token": "{{ csrf_token() }}", key: 'facb6e0a6fcbe200dca2fb60dec75be7', source: 'WEB', mentor_name:mentor_name, service_id:service_id, day_no:day_no},
+        // dataType: "JSON",
+        beforeSend: function () {
+            $("#mentor-list").loading();
+        },
+        success: function (res) {
+            $("#mentor-list").loading("stop");
+            $('#mentor-list').empty();
+            $('#mentor-list').html(res);
+            let mentorCount = $('.mentor-count').length;
+            $('#mentor-count').text(mentorCount);
+            if(mentorCount > 0){
+                $('#reset-btn').show();
+            } else {
+                $('#reset-btn').hide();
+            }
+        },
+        error:function (xhr, ajaxOptions, thrownError){
+            $("#mentor-list").loading("stop");
+            var res = xhr.responseJSON;
+            if(!res.status) {
+                toastAlert("error", res.message);
+            }
+        }
+    });
+}
+function getMentorFilterReset(){
+    let mentor_name     = $('#mentor_name').val();
+    let service_id      = $('#service_id').val();
+    let day_no          = $('#day_no').val();
+    $.ajax({
+        type: "GET",
+        url: base_url + "mentor-filter",
+        data: {"_token": "{{ csrf_token() }}", key: 'facb6e0a6fcbe200dca2fb60dec75be7', source: 'WEB', mentor_name:'', service_id:'', day_no:''},
+        // dataType: "JSON",
+        beforeSend: function () {
+            $("#mentor-list").loading();
+        },
+        success: function (res) {
+            $("#mentor-list").loading("stop");
+            $('#mentor-list').empty();
+            $('#mentor-list').html(res);
+            let mentorCount = $('.mentor-count').length;
+            $('#mentor-count').text(mentorCount);
+            if(mentorCount > 0){
+                $('#reset-btn').show();
+            } else {
+                $('#reset-btn').hide();
+            }
+        },
+        error:function (xhr, ajaxOptions, thrownError){
+            $("#mentor-list").loading("stop");
+            var res = xhr.responseJSON;
+            if(!res.status) {
+                toastAlert("error", res.message);
+            }
+        }
+    });
 }

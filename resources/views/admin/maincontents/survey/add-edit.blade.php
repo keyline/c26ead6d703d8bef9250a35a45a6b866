@@ -7,7 +7,7 @@ $controllerRoute = $module['controller_route'];
       .input-field {
         /* display: block; */
         margin-top: 10px;
-        width: 50%;
+        width: auto;
         padding: 0.375rem 0.75rem;
         font-size: 1rem;
         font-weight: 400;
@@ -49,15 +49,17 @@ $controllerRoute = $module['controller_route'];
         </div>
       @endif
     </div>
-    <?php
+    <?php 
     if($row){
       $question_type      = $row->question_type;
       $title              = $row->title;
-      $short_description  = $row->short_description; 
+      $short_description  = $row->short_description;
+      $guideline          = $row->guideline; 
     } else {
       $question_type      = '';
       $title              = '';
       $short_description  = '';
+      $guideline          = '';
     }
     ?>
     <div class="col-xl-12">
@@ -70,12 +72,14 @@ $controllerRoute = $module['controller_route'];
                <div class="col-md-10 col-lg-10">
                 <select class="form-control" name="question_type" id="question_type" required>
                   <option value="">Select Question Type</option>
-                  <option value="1" <?=(($question_type == 1)?'selected':'')?>>MCQ</option>
+                  <?php if($question_types){ foreach($question_types as $type){ ?>
+                    <option value="<?=$type->id;?>" <?=(($question_type == $type->id)?'selected':'')?> ><?=$type->name;?></option> 
+                  <?php } } ?>
                 </select>
               </div> 
             </div>
             <div class="row mb-3">
-              <label for="page_name" class="col-md-2 col-lg-2 col-form-label">Survey Name</label>
+              <label for="page_name" class="col-md-2 col-lg-2 col-form-label">Survey Title</label>
                <div class="col-md-10 col-lg-10">
                 <input type="text" name="survey_name" class="form-control" id="survey_name" rows="5" value="<?=$title?>" required>
               </div> 
@@ -87,13 +91,19 @@ $controllerRoute = $module['controller_route'];
               </div>
             </div>
             <div class="row mb-3">
+              <label for="page_name" class="col-md-2 col-lg-2 col-form-label">Guideline</label>
+               <div class="col-md-10 col-lg-10">
+                <textarea name="guideline" class="form-control" id="guideline" rows="3" required><?=$guideline?></textarea>
+              </div>
+            </div>
+            <div class="row mb-3">
               <label for="page_name" class="col-md-2 col-lg-2 col-form-label">Survey Data</label>
               <div class="col-md-10 col-lg-10">
                 <div class="field_wrapper">
 
                   <?php if($questions){ $sl = 101; foreach($questions as $question){?>
                     <?php
-                    $questionOptions  = SurveyQuestionOptions::select('option_id','question_id','option_name','option_weight')->where('status', '=', 1)->where('question_id', '=', $question->question_id)->get();
+                    $questionOptions  = SurveyQuestionOptions::select('option_id','question_id','option_name','option_weight','factor')->where('status', '=', 1)->where('question_id', '=', $question->question_id)->get();
                     $optionIds        = [];
                     $questionIds      = [];
                     $optionLabels     = [];
@@ -112,12 +122,15 @@ $controllerRoute = $module['controller_route'];
                       <div class="col-md-6 col-lg-6">
                           <input type="text" style="margin-top: 10px;" class="form-control" name="question[]" id="question" placeholder="Question" value="<?=$question->question_name?>">
                       </div>
-                      <div class="col-md-2 col-lg-2">
+                      <div class="col-md-4 col-lg-4">
+                          <input type="text" style="margin-top: 10px;" class="form-control" name="factor[]" id="factor" placeholder="Factor" value="<?=$question->factor?>">
+                      </div>
+                      <div class="col-md-1 col-lg-1">
                         
-                          <input type="tel" style="margin-top: 10px;" class="form-control option-label" min="0" name="label[]" id="numFields<?=$sl?>" onkeyup="addInputFields0()" placeholder="Label" value="<?=$question->no_of_labels?>" onclick="getInputOptions('<?=$sl?>', <?=$question->no_of_labels?> , '<?=implode("|",$optionIds)?>', '<?=implode("|",$questionIds)?>', '<?=implode("|",$optionLabels)?>', '<?=implode("|",$optionWeights)?>')">
+                          <input type="tel" style="margin-top: 10px;" class="form-control option-label" min="0" name="label[]" id="numFields<?=$sl?>" onkeyup="addInputFields0()" placeholder="Option" value="<?=$question->no_of_labels?>" onclick="getInputOptions('<?=$sl?>', <?=$question->no_of_labels?> , '<?=implode("|",$optionIds)?>', '<?=implode("|",$questionIds)?>', '<?=implode("|",$optionLabels)?>', '<?=implode("|",$optionWeights)?>')">
 
                       </div>
-                      <div class="col-md-2 col-lg-2">
+                      <div class="col-md-1 col-lg-1">
                         <a href="javascript:void(0);" class="remove_button" title="Remove field" style="height: 100%;display: flex;align-items: center;" >
                           <i class="fa fa-minus-circle fa-2x text-danger"></i>
                         </a>
@@ -131,10 +144,13 @@ $controllerRoute = $module['controller_route'];
                     <div class="col-md-6 col-lg-6">
                         <input type="text" style="margin-top: 10px;" class="form-control" name="question[]" id="question" placeholder="Question">
                     </div>
-                    <div class="col-md-2 col-lg-2">
-                        <input type="tel" style="margin-top: 10px;" class="form-control" min="0" name="label[]" id="numFields0" onkeyup="addInputFields0()" placeholder="Label">
+                    <div class="col-md-4 col-lg-4">
+                        <input type="text" style="margin-top: 10px;" class="form-control" name="factor[]" id="factor" placeholder="Factor" value="">
                     </div>
-                    <div class="col-md-2 col-lg-2">
+                    <div class="col-md-1 col-lg-1">
+                        <input type="tel" style="margin-top: 10px;" class="form-control" min="0" name="label[]" id="numFields0" onkeyup="addInputFields0()" placeholder="Option">
+                    </div>
+                    <div class="col-md-1 col-lg-1">
                       <a href="javascript:void(0);" class="add_button" title="Add field" style="height: 100%;display: flex;align-items: center;" >
                         <i class="fa fa-plus-circle fa-2x text-success"></i>
                       </a>
@@ -158,7 +174,7 @@ $controllerRoute = $module['controller_route'];
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script type="text/javascript">
     $(document).ready(function(){
-        var maxField = 10;
+        var maxField = 100;
         var addButton = $('.add_button');
         var wrapper = $('.field_wrapper');
         var x = 1;
@@ -167,12 +183,15 @@ $controllerRoute = $module['controller_route'];
             var fieldHTML ='<div class="row" style="border:1px solid #0d6efd54; border-radius:10px; padding: 10px; margin-top: 10px;">\
                               <input type="hidden" name="questionID[]" value="">\
                               <div class="col-md-6 col-lg-6">\
-                                  <input type="text" style="margin-top: 10px;" class="form-control" name="question[]" id="question" placeholder="Question">\
+                                <input type="text" style="margin-top: 10px;" class="form-control" name="question[]" id="question" placeholder="Question">\
                               </div>\
-                              <div class="col-md-2 col-lg-2">\
-                                  <input type="tel" min="0" style="margin-top: 10px;" class="form-control" name="label[]" id="numFields'+x+'" onkeyup="addInputFields('+x+')" placeholder="Label">\
+                              <div class="col-md-4 col-lg-4">\
+                                <input type="text" style="margin-top: 10px;" class="form-control" name="factor[]" id="factor" placeholder="Factor" value="">\
                               </div>\
-                              <div class="col-md-2 col-lg-2">\
+                              <div class="col-md-1 col-lg-1">\
+                                  <input type="tel" min="0" style="margin-top: 10px;" class="form-control" name="label[]" id="numFields'+x+'" onkeyup="addInputFields('+x+')" placeholder="Option">\
+                              </div>\
+                              <div class="col-md-1 col-lg-1">\
                                 <a href="javascript:void(0);" class="remove_button" title="Remove field" style="height: 100%;display: flex;align-items: center;" >\
                                   <i class="fa fa-minus-circle fa-2x text-danger"></i>\
                                 </a>\
@@ -198,7 +217,7 @@ $controllerRoute = $module['controller_route'];
     var optionArray   = optionId.split("|");
     var questionArray = questionId.split("|");
     var labelArray    = label.split("|");
-    var weightArray   = weight.split("|");
+    var weightArray   = weight.split("|");    
     
     var container = document.getElementById('inputContainer' + containerId);
     container.innerHTML = '';
@@ -236,10 +255,11 @@ $controllerRoute = $module['controller_route'];
         input2.value = weightArray[i];
         input2.placeholder = "Score "+i;
         container.appendChild(input2);
-        
+        /* option weight */
+       
         var br = document.createElement("br");
         container.appendChild(br);
-      /* option weight */
+      
     }
   }
 </script>
@@ -249,7 +269,8 @@ $controllerRoute = $module['controller_route'];
         container.innerHTML = '';
         var numFields0 = parseInt(document.getElementById("numFields0").value);
         for (var i = 1; i <= numFields0; i++) {
-          var input1 = document.createElement("input");
+
+            var input1 = document.createElement("input");
             input1.type = "text";
             input1.name = "option0[]";
             input1.className = "input-field";
@@ -260,7 +281,7 @@ $controllerRoute = $module['controller_route'];
             input2.type = "tel";
             input2.name = "score0[]";
             input2.className = "input-field";
-            input2.placeholder = "Score "+i;
+            input2.placeholder = "Weight "+i;
             container.appendChild(input2);
             
             var br = document.createElement("br");
@@ -275,7 +296,8 @@ $controllerRoute = $module['controller_route'];
       container.innerHTML = '';
       var numFields = parseInt(document.getElementById("numFields"+Id).value);
       for (var i = 1; i <= numFields; i++) {
-        var input1 = document.createElement("input");
+
+          var input1 = document.createElement("input");
           input1.type = "text";
           input1.name = "option"+ Id +"[]";
           input1.className = "input-field";
@@ -286,7 +308,7 @@ $controllerRoute = $module['controller_route'];
           input2.type = "tel";
           input2.name = "score"+ Id +"[]";
           input2.className = "input-field";
-          input2.placeholder = "Score "+i;
+          input2.placeholder = "Weight "+i;
           container.appendChild(input2);
           
           var br = document.createElement("br");

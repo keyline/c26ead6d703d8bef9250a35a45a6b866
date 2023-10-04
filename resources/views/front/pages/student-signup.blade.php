@@ -12,27 +12,27 @@
                   <input type="hidden" class="form-control" name="key" id="key" value="facb6e0a6fcbe200dca2fb60dec75be7">
                   <input type="hidden" class="form-control" name="source" id="source" value="WEB">
                   <div class="form-group">
-                     <span class="text-danger">* required</span>
+                     <span class="text-danger">* Required</span>
                      <input type="text" class="form-control requiredCheck" name="fname" id="fname" placeholder="First name" data-check="First name">
                   </div>
                   <div class="form-group">
-                     <span class="text-danger">* required</span>
+                     <span class="text-danger">* Required</span>
                      <input type="text" class="form-control requiredCheck" name="lname" id="lname" placeholder="Last name" data-check="Last name">
                   </div>
                   <div class="form-group">
-                     <span class="text-danger">* required</span>
+                     <span class="text-danger">* Required</span>
                      <input type="email" class="form-control requiredCheck" name="email" id="email" placeholder="Email address" data-check="Email address">
                   </div>
                   <div class="form-group">
-                     <span class="text-danger">* required</span>
+                     <span class="text-danger">* Required</span>
                      <input type="tel" class="form-control requiredCheck" name="phone" id="phone" placeholder="Phone number" data-check="Phone number">
                   </div>
                   <div class="form-group">
-                     <span class="text-danger">* required</span>
+                     <span class="text-danger">* Required</span>
                      <input type="password" class="form-control requiredCheck" name="password" id="password" placeholder="Set password" data-check="Set password">
                   </div>
                   <div class="form-group">
-                     <span class="text-danger">* required</span>
+                     <span class="text-danger">* Required</span>
                      <input type="password" class="form-control requiredCheck" name="confirm_password" id="confirm_password" placeholder="Confirm password" data-check="Confirm password">
                   </div>
 

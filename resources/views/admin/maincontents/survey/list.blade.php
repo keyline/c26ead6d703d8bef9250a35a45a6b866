@@ -2,6 +2,8 @@
 use App\Helpers\Helper;
 use App\Models\SurveyGrades;
 use App\Models\SurveyQuestion;
+use App\Models\QuestionTypes;
+use App\Models\SurveyFactor;
 $controllerRoute = $module['controller_route'];
 ?>
 <div class="pagetitle">
@@ -43,7 +45,8 @@ $controllerRoute = $module['controller_route'];
                 <th scope="col">Question Type</th>
                 <th scope="col">Title</th>
                 <th scope="col">Short Description</th>
-                <th scope="col">Grade</th>
+                <th scope="col">Factors</th>
+                <th scope="col">Grade / Combination</th>
                 <th scope="col">Action</th>
               </tr>
             </thead>
@@ -51,17 +54,40 @@ $controllerRoute = $module['controller_route'];
               <?php if($rows){ $sl=1; foreach($rows as $row){?>
                 <tr>
                   <th scope="row"><?=$sl++?></th>
-                  <td><?=(($row->question_type == 1 )?'MCQ':'other')?></td>
+                  <?php $typeName  = QuestionTypes::where('status', '!=', 3)->where('id','=', $row->question_type)->first();  ?>
+                  <td><?=(($typeName)?$typeName->name:'')?></td>
                   <td><?=$row->title?></td>
                   <td><?= mb_strimwidth($row->short_description, 0, 40, "...."); ?></td>
                   <td>
-                    <?php 
-                      $checkGrade = SurveyGrades::where('survey_id', '=', $row->id)->first();
-                      if($checkGrade){ ?> 
-                        <a class="btn btn-info btn-sm" href="<?=url('admin/' . $controllerRoute . '/edit-grade/'.Helper::encoded($row->id))?>">Edit Grade</a>
-                      <?php  }else{ ?> 
-                        <a class="btn btn-primary btn-sm" href="<?=url('admin/' . $controllerRoute . '/grade/'.Helper::encoded($row->id))?>">Add Grade</a>
-                      <?php }  ?>
+                    <?php
+                    echo $factor_count = SurveyFactor::where('survey_id', '=', $row->id)->count();
+                    ?>
+                  </td>
+                  <td>
+                    <?php if($row->question_type == 3){ ?>
+                      <!-- combination -->
+                      <?php
+                      $factors = SurveyFactor::where('survey_id', '=', $row->id)->get();
+                        if($factors){ foreach($factors as $factor){
+                      ?>
+                        <p><a class="badge bg-primary mb-3" href="<?=url('admin/' . $controllerRoute . '/edit-factor/'.Helper::encoded($row->id). '/'. Helper::encoded($factor->factor_name))?>">Update Factor <?=$factor->factor_name?></a></p>
+                      <?php } }?>
+                      <p><a class="badge bg-info mb-3" href="<?=url('admin/' . $controllerRoute . '/edit-combination/'.Helper::encoded($row->id))?>">Update Combination</a></p>
+                      <!-- combination -->
+                    <?php } else {?>
+                      <!-- without combination -->
+                      <?php
+                        $factors = SurveyFactor::where('survey_id', '=', $row->id)->get();
+                        if($factors){ foreach($factors as $factor){
+                          $checkGrade = SurveyGrades::where('survey_id', '=', $row->id)->where('factor', '=', $factor->factor_name)->first();
+                          if($checkGrade){ ?> 
+                            <p><a class="badge bg-primary mb-3" href="<?=url('admin/' . $controllerRoute . '/edit-grade/'.Helper::encoded($row->id). '/'. Helper::encoded($factor->factor_name))?>">Update Grade For <?=$factor->factor_name?></a></p>
+                          <?php  }else{ ?> 
+                            <p><a class="badge bg-info mb-3" href="<?=url('admin/' . $controllerRoute . '/grade/'.Helper::encoded($row->id) . '/'. Helper::encoded($factor->factor_name))?>">Add Grade For <?=$factor->factor_name?></a></p>
+                          <?php } ?>
+                        <?php } } ?>
+                        <!-- without combination -->
+                    <?php }?>
                   </td>
                   <td>
                     <a href="<?=url('admin/' . $controllerRoute . '/edit/'.Helper::encoded($row->id))?>" class="btn btn-outline-primary btn-sm" title="Edit <?=$module['title']?>"><i class="fa fa-edit"></i></a>

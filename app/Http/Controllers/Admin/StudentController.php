@@ -9,7 +9,10 @@ use App\Models\GeneralSetting;
 use App\Models\User;
 use App\Models\StudentProfile;
 use App\Models\RequireDocument;
+use App\Models\Survey;
 use App\Models\UserDocument;
+use App\Models\SurveyResult;
+use App\Models\SurveyRecords;
 use Auth;
 use Session;
 use Helper;
@@ -215,4 +218,27 @@ class StudentController extends Controller
             echo $this->admin_after_login_layout($title,$page_name,$data);
         }
     /* transactions */
+    /* surveys */
+        public function survey($id){
+            $id                             = Helper::decoded($id);
+            $data['user_id']                = $id;
+            $data['student']                = StudentProfile::where('user_id', '=', $id)->first();
+            $data['surveyResults']          = SurveyResult::where('user_id', '=', $id)->where('status','=',1)->get();
+            // Helper::pr($data['surveyResults']);
+            $data['module']                 = $this->data;
+            $title                          = 'Participated Survey List Of '.(($data['student'])?$data['student']->first_name.' '.$data['student']->last_name:'');
+            $page_name                      = 'student.survey';
+            echo $this->admin_after_login_layout($title,$page_name,$data);
+        }
+        public function viewSurveyDetails($userid , $surveyid){
+            $userid                         = Helper::decoded($userid);
+            $surveyid                       = Helper::decoded($surveyid);
+            $data['survey']                 = Survey::where('id', '=', $surveyid)->where('status','=',1)->first();
+            $data['module']                 = $this->data;
+            $title                          = 'Survey Details Of '. $data['survey']->title;
+            $data['answersRecords']         = SurveyRecords::where('user_id', '=', $userid)->where('survey_id','=',$surveyid)->where('status','=',1)->get();
+            $page_name                      = 'student.survey-details';
+            echo $this->admin_after_login_layout($title,$page_name,$data);
+        }
+    /* surveys */
 }

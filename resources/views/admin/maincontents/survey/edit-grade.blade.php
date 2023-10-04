@@ -44,20 +44,19 @@ $controllerRoute = $module['controller_route'];
             @csrf
            
             <div class="row mb-3">
-              <label for="page_name" class="col-md-2 col-lg-2 col-form-label">Minimum Weight</label>
+              <label for="page_name" class="col-md-2 col-lg-2 col-form-label">Range From</label>
                <div class="col-md-5 col-lg-5">
-                <input type="text"class="form-control" id="minWeight" value="<?=$minWeight?>" readonly>
+                <input type="text"class="form-control" id="minWeight" value="<?=$range_from?>" readonly>
               </div>
             </div>
             
             <div class="row mb-3">
-              <label for="page_name" class="col-md-2 col-lg-2 col-form-label">Maximum Weight</label>
+              <label for="page_name" class="col-md-2 col-lg-2 col-form-label">Range To</label>
                <div class="col-md-5 col-lg-5">
-                <input type="text" id="maxWeight" class="form-control" value="<?=$maxWeight?>" readonly>
+                <input type="text" id="maxWeight" class="form-control" value="<?=$range_to?>" readonly>
               </div>
             </div>
             
-
             <div class="row mb-3">
               <label for="page_name" class="col-md-2 col-lg-2 col-form-label">Create Grade</label>
                <div class="col-md-10 col-lg-10">
@@ -65,15 +64,21 @@ $controllerRoute = $module['controller_route'];
                     <?php if(!empty($getSurvey)){ foreach($getSurvey as $row){  ?>
                     <div class="row" style="margin-top: 10px;">
                         <div class="col-md-3">
+                          <input type="text" name="factor[]" class="form-control" value="<?=$checkSurveyFactor->factor_name;?>" readonly>
+                        </div>
+                        <div class="col-md-2">
                             <input type="number" class="form-control" min="0" name="minimum[]" id="minimum" value="<?=$row->minimum?>" required>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-2">
                             <input type="number" class="form-control" min="0" name="maximum[]" id="maximum" value="<?=$row->maximum?>" required>
                         </div>
                         <div class="col-md-3">
                             <input type="text" class="form-control" maxlength="3" name="grade[]" id="grade" value="<?=$row->name?>" required>
                         </div>
-                        <div class="col-md-2">
+                        <div class="col-md-10" style="margin-top: 10px">
+                            <textarea class="form-control" name="review[]" id="review" rows="5" placeholder="Review"><?=$row->review?></textarea>
+                        </div>
+                        <div class="col-md-2" style="margin-top: 10px">
                             <a href="javascript:void(0);" class="remove_button" title="Add field">
                                 <i class="fa fa-minus-circle fa-2x text-danger"></i>
                             </a>
@@ -82,15 +87,21 @@ $controllerRoute = $module['controller_route'];
                     <?php    }  } ?>
                     <div class="row" style="margin-top: 10px;">
                         <div class="col-md-3">
-                            <input type="number" class="form-control" min="0" name="minimum[]" id="minimum" placeholder="Minimum">
-                        </div>
-                        <div class="col-md-3">
-                            <input type="number" class="form-control" min="0" name="maximum[]" id="maximum" placeholder="Maximum">
-                        </div>
-                        <div class="col-md-3">
-                            <input type="text" class="form-control" maxlength="3" name="grade[]" id="grade" placeholder="Grade">
+                          <input type="text" name="factor[]" class="form-control" value="<?=$checkSurveyFactor->factor_name;?>" readonly>
                         </div>
                         <div class="col-md-2">
+                            <input type="number" class="form-control" min="0" name="minimum[]" id="minimum" placeholder="Minimum">
+                        </div>
+                        <div class="col-md-2">
+                            <input type="number" class="form-control" min="0" name="maximum[]" id="maximum" placeholder="Maximum">
+                        </div>
+                        <div class="col-md-4">
+                            <input type="text" class="form-control" name="grade[]" id="grade" placeholder="Grade">
+                        </div>
+                        <div class="col-md-10" style="margin-top: 10px">
+                            <textarea class="form-control" name="review[]" id="review" rows="5" placeholder="Review"></textarea>
+                        </div>
+                        <div class="col-md-2" style="margin-top: 10px">
                             <a href="javascript:void(0);" class="add_button" title="Add field">
                               <i class="fa fa-plus-circle fa-2x text-success"></i>
                             </a>
@@ -106,6 +117,7 @@ $controllerRoute = $module['controller_route'];
         </div>
       </div>
     </div>
+
   </div>
 </section>
 <script src="https://cdn.ckeditor.com/4.16.0/standard/ckeditor.js"></script>
@@ -117,15 +129,21 @@ $controllerRoute = $module['controller_route'];
         var wrapper = $('.field_wrapper');
         var fieldHTML ='<div class="row" style="margin-top: 10px;">\
                           <div class="col-md-3">\
+                            <input type="text" name="factor[]" class="form-control" value="<?=$checkSurveyFactor->factor_name;?>" readonly>\
+                          </div>\
+                          <div class="col-md-2">\
                               <input type="number" class="form-control" min="0" name="minimum[]" id="minimum" placeholder="Minimum" required>\
                           </div>\
-                          <div class="col-md-3">\
+                          <div class="col-md-2">\
                               <input type="number" class="form-control" min="0" name="maximum[]" id="maximum" placeholder="Maximum" required>\
                           </div>\
                           <div class="col-md-3">\
                               <input type="text" class="form-control"  maxlength="3" name="grade[]" id="grade" placeholder="Grade" required>\
                           </div>\
-                          <div class="col-md-2">\
+                          <div class="col-md-10" style="margin-top: 10px">\
+                            <textarea class="form-control" name="review[]" id="review" rows="5" placeholder="Review"></textarea>\
+                          </div>\
+                          <div class="col-md-2" style="margin-top: 10px">\
                                 <a href="javascript:void(0);" class="remove_button" title="Add field">\
                                 <i class="fa fa-minus-circle fa-2x text-danger"></i>\
                                 </a>\

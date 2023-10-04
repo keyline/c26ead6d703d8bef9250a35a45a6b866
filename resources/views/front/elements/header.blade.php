@@ -65,7 +65,7 @@ $pageName = $routeName->uri();
                      </button>
                      <div class="dropdown-menu">
                          <ul>
-                             <li><a href="<?=url('signout')?>"> Sign Out</a></li>
+                             <li><a href="<?=url('logout')?>"> Sign Out</a></li>
                          </ul>
                      </div>
                  </div>

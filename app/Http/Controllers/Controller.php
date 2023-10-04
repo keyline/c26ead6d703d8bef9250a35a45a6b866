@@ -13,6 +13,7 @@ use App\Models\GeneralSetting;
 use App\Models\Admin;
 use App\Models\User;
 use App\Models\UserAccess;
+use App\Models\BookingRating;
 use Session;
 use Helper;
 
@@ -216,7 +217,7 @@ class Controller extends BaseController
     {
         // Helper::pr(session()->all());die;
         $data['generalSetting']     = GeneralSetting::find('1');
-
+        $data['user']               = [];
         $data['title']              = $title.' :: '.$data['generalSetting']->site_name;
         $data['page_header']        = $title;
 
@@ -244,7 +245,7 @@ class Controller extends BaseController
     }
     // front dashboard layout
     public function front_dashboard_layout($title, $page_name, $data)
-    {
+    {  
         $data['generalSetting']     = GeneralSetting::find('1');
         $data['title']              = $title.' :: '.$data['generalSetting']->site_name;
         $data['page_header']        = $title;
@@ -263,6 +264,7 @@ class Controller extends BaseController
         $data['generalSetting']     = GeneralSetting::find('1');
         $data['title']              = $title.' :: '.$data['generalSetting']->site_name;
         $data['page_header']        = $title;
+        $data['user']               = [];
         $data['head']               = view('admin.elements.head', $data);
         $data['maincontent']        = view('front.dashboard.pages.'.$page_name, $data);
         return view('front.dashboard.before-login-front-dashboard-layout', $data);
@@ -301,6 +303,40 @@ class Controller extends BaseController
         $data['sidebar']            = view('admin.elements.sidebar', $data);
         $data['maincontent']        = view('admin.maincontents.'.$page_name, $data);
         return view('admin.layout-after-login', $data);
+    }
+    public function getAvgRating($mentor_id){
+        $ratingStar = '';
+        $getRatingCount = BookingRating::where('mentor_id', '=', $mentor_id)->where('status', '=', 1)->count();
+        $getRatingTotal = BookingRating::where('mentor_id', '=', $mentor_id)->where('status', '=', 1)->sum('rating');
+        if($getRatingCount > 0){
+            $avgRating = ($getRatingTotal / $getRatingCount);
+        } else {
+            $avgRating = 0;
+        }
+        if(($avgRating >= 4)){
+            $ratingStar .= '<i class="fa-solid fa-star"></i>';
+            $ratingStar .= '<i class="fa-solid fa-star"></i>';
+            $ratingStar .= '<i class="fa-solid fa-star"></i>';
+            $ratingStar .= '<i class="fa-solid fa-star"></i>';
+            $ratingStar .= '<i class="fa-solid fa-star"></i>';
+        } elseif(($avgRating >= 3) && ($avgRating < 4)){
+            $ratingStar .= '<i class="fa-solid fa-star"></i>';
+            $ratingStar .= '<i class="fa-solid fa-star"></i>';
+            $ratingStar .= '<i class="fa-solid fa-star"></i>';
+            $ratingStar .= '<i class="fa-solid fa-star"></i>';
+        } elseif(($avgRating >= 2) && ($avgRating < 3)){
+            $ratingStar .= '<i class="fa-solid fa-star"></i>';
+            $ratingStar .= '<i class="fa-solid fa-star"></i>';
+            $ratingStar .= '<i class="fa-solid fa-star"></i>';
+        } elseif(($avgRating >= 1) && ($avgRating < 2)){
+            $ratingStar .= '<i class="fa-solid fa-star"></i>';
+            $ratingStar .= '<i class="fa-solid fa-star"></i>';
+        } elseif(($avgRating > 0) && ($avgRating < 1)){
+            $ratingStar .= '<i class="fa-solid fa-star"></i>';
+        } elseif(($avgRating <= 0)){
+            $ratingStar .= '';
+        }
+        return $ratingStar;
     }
     // currency converter
     public function convertCurrency($amount, $from, $to)

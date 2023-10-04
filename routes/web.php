@@ -29,7 +29,8 @@ Route::prefix('/')->namespace('App\Http\Controllers')->group(function () {
     Route::match(['get'], 'page/{id}', 'FrontController@page');
 
     Route::match(['get'], '/mentors', 'FrontController@mentors');
-    Route::match(['get'], '/mentor-details', 'FrontController@mentorDetails');
+    Route::match(['get'], '/mentor-details/{displayname}/{id}', 'FrontController@mentorDetails');
+    Route::match(['get'], '/service-details/{displayname}/{id}', 'FrontController@serviceDetails');
     /* common */
     /* authentication */
     //Route::match(['get'], '/mentor-signup', 'MentorController@createStep1')->name('mentor-signup');
@@ -41,33 +42,20 @@ Route::prefix('/')->namespace('App\Http\Controllers')->group(function () {
     Route::match(['get', 'post'], '/mentor-signup-4', 'MentorController@mentorSignup4');
     //After development
     Route::group(['prefix' => 'mentor', 'as' => 'mentor.'], function () {
-
         Route::get('/signup', [\App\Http\Controllers\MentorController::class, 'createStep1'])->name('signup');
-
         Route::post('/create/step1', [\App\Http\Controllers\MentorController::class, 'postCreateStep1'])->name('create.step1');
-
         Route::get('/step2', [\App\Http\Controllers\MentorController::class, 'createStep2'])->name('step2');
-
         Route::post('/create/step2', [\App\Http\Controllers\MentorController::class, 'postCreateStep2'])->name('create.step2');
-
         Route::get('/step3', [\App\Http\Controllers\MentorController::class, 'createStep3'])->name('step3');
-
         Route::post('/create/step3', [\App\Http\Controllers\MentorController::class, 'postCreateStep3'])->name('create.step3');
-
         Route::get('/step4', [\App\Http\Controllers\MentorController::class, 'createStep4'])->name('step4');
-
         Route::post('/create/step4', [\App\Http\Controllers\MentorController::class, 'postCreateStep4'])->name('create.step4');
-
         //ajax method
         Route::post('/timeslot/item', [\App\Http\Controllers\MentorController::class, 'getTimeSlotItem'])->name('timeslot.item');
 
         Route::post('/timeslot/change', [\App\Http\Controllers\MentorController::class, 'renderComponentAfterChange'])->name('timeslot.change');
 
         Route::post('/user/store', [\App\Http\Controllers\MentorController::class, 'store'])->name('user.save');
-
-
-
-
     });
 
 
@@ -83,12 +71,16 @@ Route::prefix('/')->namespace('App\Http\Controllers')->group(function () {
     /* authentication */
     /* before login */
     /* after login */
-    Route::group(['middleware' => ['user']], function () {
+    Route::group(['prefix' => 'user', 'middleware' => ['user']], function () {
         /* common */
-        Route::get('signout', 'FrontController@signout');
-        Route::get('dashboard', 'FrontController@dashboard');
-        Route::match(['get', 'post'], 'update-profile', 'FrontController@updateProfile');
-        Route::match(['get', 'post'], 'change-password', 'FrontController@changePassword');
+        Route::match(['get','post'], '/dashboard', 'DashboardController@index');
+        Route::match(['get','post'], '/profile', 'DashboardController@profile');
+        Route::get('/mentor-availability', 'DashboardController@mentorAvailability');
+        Route::get('/mentor-services', 'DashboardController@mentorServices');
+        Route::get('/survey-list', 'DashboardController@surveyList');
+        Route::match(['get','post'], '/survey-details/{id}', 'DashboardController@surveyDetails');
+        Route::get('/survey-result/{id}', 'DashboardController@surveyResult');
+        Route::get('/logout', 'DashboardController@logout');
         /* common */
         /* mentor */
 
@@ -105,21 +97,11 @@ Route::prefix('/api')->namespace('App\Http\Controllers')->group(function () {
     Route::match(['post'], 'signup', 'ApiController@signup');
     Route::match(['post'], 'validate-signup-otp', 'ApiController@validateSignupOtp');
     Route::match(['get'], 'resend-otp', 'ApiController@resendOtp');
+    Route::match(['get'], 'mentor-filter', 'ApiController@mentorFilter');
 });
 /* API */
-/*Front Dashboard */
-Route::prefix('/dashboard')->namespace('App\Http\Controllers')->group(function () {
-    // Route::get('/', 'DashboardController@home');
-    Route::match(['get','post'], '/', 'DashboardController@home');
-    Route::match(['get','post'], '/index', 'DashboardController@index');
-    Route::match(['get','post'], '/profile', 'DashboardController@profile');
-    Route::get('/mentor-availability', 'DashboardController@mentorAvailability');
-    Route::get('/mentor-services', 'DashboardController@mentorServices');
-    Route::get('/logout', 'DashboardController@logout');
-});
-/*Front Dashboard */
-/* Admin Panel */
 
+/* Admin Panel */
 Route::prefix('/admin')->namespace('App\Http\Controllers\Admin')->group(function () {
     Route::match(['get', 'post'], '/', 'UserController@login');
     Route::match(['get','post'], '/forgot-password', 'UserController@forgotPassword');
@@ -319,6 +301,8 @@ Route::prefix('/admin')->namespace('App\Http\Controllers\Admin')->group(function
         Route::get('student/transactions/{id}', 'StudentController@transactions');
         Route::get('student/delete/{id}', 'StudentController@delete');
         Route::get('student/change-status/{id}', 'StudentController@change_status');
+        Route::get('student/survey/{id}', 'StudentController@survey');
+        Route::get('student/view-survey-details/{userid}/{surveyid}', 'StudentController@viewSurveyDetails');
         /* student */
         /* survey */
         /* question type */
@@ -343,6 +327,12 @@ Route::prefix('/admin')->namespace('App\Http\Controllers\Admin')->group(function
         Route::get('survey/change-status/{id}', 'SurveyController@change_status');
         Route::match(['get', 'post'], 'survey/grade/{id}', 'SurveyController@grade');
         Route::match(['get', 'post'], 'survey/edit-grade/{id}', 'SurveyController@edit_grade');
+        Route::match(['get', 'post'], 'survey/grade/{id}/{factor}', 'SurveyController@grade');
+        Route::match(['get', 'post'], 'survey/edit-grade/{id}/{factor}', 'SurveyController@edit_grade');
+        Route::match(['get', 'post'], 'survey/edit-factor/{id}/{factor}', 'SurveyController@factor');
+        Route::match(['get', 'post'], 'survey/edit-combination/{id}', 'SurveyController@combination');
+        Route::get('survey/survey-students', 'SurveyController@survey_students');
+        Route::get('survey/view-survey-details/{userid}/{surveyid}', 'SurveyController@viewSurveyDetails');
         /* survey */
         /* survey */
         /* bookings */
@@ -357,10 +347,4 @@ Route::prefix('/admin')->namespace('App\Http\Controllers\Admin')->group(function
         /* enquiries */
     });
 });
-
-
-
 /* Admin Panel */
-/* Front Panel */
-
-/* Front Panel */
