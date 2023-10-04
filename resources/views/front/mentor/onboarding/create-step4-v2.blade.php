@@ -91,18 +91,18 @@
                                        </div>
                                        <div style="display: inline; margin: 0px 1em;">-</div>
                                        <div class="slot__duration">
-                                        <select class="select__slot__duration" style="width: 50%">
+                                        <select class="select__slot__duration" name="duration[{{ $day->id }}]" style="width: 50%">
                                         </select>
                                        </div>
                                        <div style="display: inline; margin: 0px 1em;">-</div>
 
                                        <div class="no__of__slots">
-                                        <select class="select__no__ofslot" style="width: 50%">
+                                        <select class="select__no__ofslot" name="no_of_slot[{{ $day->id }}]" style="width: 50%">
                                         </select>
                                        </div>
                                        <div style="display: inline; margin: 0px 1em;">-</div>
                                        <div class="slot_endtime">
-                                        <input type="text" class="slot__endtime__txt" name="availability[to][{{ $day->id }}][]" value="{{ date('h:i A', strtotime($option['selected_to'])) }}" disabled>
+                                        <input type="text" class="slot__endtime__txt" name="availability[to][{{ $day->id }}][]" value="{{ date('g:i A', strtotime($option['selected_to'])) }}" readonly="readonly">
                                         </div>
                                        <button class="add-slot-btn add__slot__parent" data-container="{{ strtolower($day->day_text) }}"><span style="pointer-events: none;"><i class="fa-solid fa-plus"></i></span></button>
                                     </div>
