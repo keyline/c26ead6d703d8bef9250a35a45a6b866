@@ -391,7 +391,7 @@ class MentorController extends Controller
 
             }
 
-            Log::channel('custom')->info('Mentor Onboarding: file attachment'. var_export($file_insert_schedule, true));
+            // Log::channel('custom')->info('Mentor Onboarding: file attachment'. var_export($file_insert_schedule, true));
 
 
             $saveDocument->fill($file_insert_schedule);
