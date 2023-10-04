@@ -320,7 +320,10 @@ class MentorController extends Controller
         }
 
         //dd($hours);
-        return \view('front.mentor.onboarding.create-step4', ['slot_dropdown' => $hours, 'days' => $daysOfWeek, 'documents' => $documents]);
+        //return \view('front.mentor.onboarding.create-step4', ['slot_dropdown' => $hours, 'days' => $daysOfWeek, 'documents' => $documents]);
+
+        return \view('front.mentor.onboarding.create-step4-v2', ['slot_dropdown' => $hours, 'days' => $daysOfWeek, 'documents' => $documents]);
+
     }
 
     public function postCreateStep4(Request $request)
@@ -452,7 +455,7 @@ class MentorController extends Controller
 
         // \App\Models\UserActivity::insert($activityData);
 
-            $request->session()->flush();
+        $request->session()->flush();
 
 
         return redirect('signin');
@@ -509,6 +512,157 @@ class MentorController extends Controller
                                     'containerIdentity' => strtolower($daysOfWeek[0]->day_text),
                                     ]);
         }
+
+    }
+
+    public function renderComponentAfterChange(Request $request)
+    {
+
+        if (!request()->action) {
+            abort('500');
+        }
+
+        $durationDataSource = array([
+            'id' => 30,
+            'text' => '30 mins'
+
+        ],
+        [
+            'id' => 60,
+            'text' => '60 mins'
+
+        ],
+    );
+
+        $timeSlotsDataSource = array(
+                [
+                "id" => 1,
+                "text" => 'One',
+
+            ],
+            [
+                "id" => 2,
+                "text" => 'Two'
+            ],
+            [
+                "id" => 3,
+                "text" => 'Three'
+            ],
+            [
+                "id" => 4,
+                "text" => 'Four'
+            ],
+            [
+                "id" => 5,
+                "text" => 'Five'
+            ],
+            [
+                "id" => 6,
+                "text" => 'Six'
+            ],
+            [
+                "id" => 7,
+                "text" => 'Seven'
+            ],
+            [
+                "id" => 8,
+                "text" => 'Eight'
+            ],
+            [
+                "id" => 9,
+                "text" => 'Nine'
+            ],
+            [
+                "id" => 10,
+                "text" => 'Ten',
+
+            ],
+            [
+               "id" => 11,
+               "text" => 'Eleven',
+
+
+            ]
+        );
+
+
+        $data = $request->validate([
+                    'day' => 'required',
+                    'fromTime' => 'required',
+                    'duration' => 'required',
+                    'slots'    => 'required',
+                    'endTime'   => 'required',
+                    'action' => 'required'
+                ]);
+
+        $daysOfWeek[] = \App\Models\DayOfWeek::where('day', $data['day'])->first();
+
+
+        $startPeriod = \Carbon\Carbon::parse('00:00');
+        $endPeriod   = \Carbon\Carbon::parse('24:00');
+
+
+        $period = \Carbon\CarbonPeriod::create($startPeriod, '15 minutes', $endPeriod)
+                    ->excludeEndDate();
+
+        $fromTime = \Carbon\Carbon::parse($data['fromTime']);
+
+        $endTime = $fromTime->addMinutes($data['slots'] * $data['duration']);
+
+
+
+        foreach ($period as $date) {
+            # code...
+            $hours[] = array('name' => $date->format('h:i A'),
+                             'value' => $date->format('Hi'),
+                             'selected_from' => $data['fromTime'],
+                             'selected_to'   => $endTime->format('Hi'),
+                );
+
+        }
+
+
+        $actionClass = $data['action'] !== 'stumento__ajax__update__slot' ? 'deleteItem' : 'add__slot__parent';
+        $iconClass = $data['action'] !== 'stumento__ajax__update__slot' ? 'minus' : 'plus';
+
+        //return options data duration
+        foreach ($durationDataSource as &$value) {
+            # code...
+            if(in_array($value['id'], [$data['duration']])) {
+                $value['selected'] = true;
+            }
+        }
+
+        //return options data no. of slots
+
+        foreach ($timeSlotsDataSource as &$value) {
+            # code...
+            if(in_array($value['id'], [$data['slots']])) {
+                $value['selected'] = true;
+            }
+        }
+
+
+
+        if ($request->ajax()) {
+            $html = \View::make('components.nested-time-schedule')
+            ->with(['daysOfWeek' => $daysOfWeek,
+                     'slot_dropdown' => $hours,
+                     'actionclass' =>  $actionClass,
+                    'iconclass' =>  $iconClass,
+                    ])
+            ->render();
+            return response()->json(['html' => $html,
+                                    'containerIdentity' => strtolower($daysOfWeek[0]->day_text),
+                                    'selectedTimeFrom'  => $data['fromTime'],
+                                    'durations'  => $durationDataSource,
+                                    'slots'      => $timeSlotsDataSource,
+                                    ]);
+        }
+
+
+
+
 
 
 
