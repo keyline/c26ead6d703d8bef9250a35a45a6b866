@@ -21,18 +21,18 @@
                                              <option value="9">2.00 AM</option> -->
                                           </select>
                                        </div>
-                                       <div style="display: inline; margin: 0px 1em;">-</div>
+                                       <div style="display: inline; margin: 0px 0.5em;">-</div>
                                        <div class="slot__duration">
                                         <select class="select__slot__duration" name="duration[{{ $day->id }}]" style="width: 50%">
                                         </select>
                                        </div>
-                                       <div style="display: inline; margin: 0px 1em;">-</div>
+                                       <div style="display: inline; margin: 0px 0.5em;">-</div>
 
                                        <div class="no__of__slots">
                                         <select class="select__no__ofslot" name="no_of_slot[{{ $day->id }}]" style="width: 50%">
                                         </select>
                                        </div>
-                                       <div style="display: inline; margin: 0px 1em;">-</div>
+                                       <div style="display: inline; margin: 0px 0.5em;">-</div>
                                        <div class="slot_endtime">
                                           <input type="text" class="slot__endtime__txt" name="availability[to][{{ $day->id }}][]" value="{{ date('g:i A', strtotime($option['selected_to'])) }}" readonly="readonly">
                                        </div>

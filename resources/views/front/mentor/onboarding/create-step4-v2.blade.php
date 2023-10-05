@@ -26,7 +26,7 @@
          </div>
       </div>
       <div class="row justify-content-around">
-         <div class="col-lg-5 col-md-8 col-sm-8">
+         <div class="col-lg-7 col-md-8 col-sm-8">
             <div class="metor_dashboard">
                <div class="metor_information">
                   <h2>Great! Now let's set your availability</h2>
@@ -89,18 +89,18 @@
                                              <option value="9">2.00 AM</option> -->
                                           </select>
                                        </div>
-                                       <div style="display: inline; margin: 0px 1em;">-</div>
+                                       <div style="display: inline; margin: 0px 0.5em;">-</div>
                                        <div class="slot__duration">
                                         <select class="select__slot__duration" name="duration[{{ $day->id }}]" style="width: 50%">
                                         </select>
                                        </div>
-                                       <div style="display: inline; margin: 0px 1em;">-</div>
+                                       <div style="display: inline; margin: 0px 0.5em;">-</div>
 
                                        <div class="no__of__slots">
                                         <select class="select__no__ofslot" name="no_of_slot[{{ $day->id }}]" style="width: 50%">
                                         </select>
                                        </div>
-                                       <div style="display: inline; margin: 0px 1em;">-</div>
+                                       <div style="display: inline; margin: 0px 0.5em;">-</div>
                                        <div class="slot_endtime">
                                         <input type="text" class="slot__endtime__txt" name="availability[to][{{ $day->id }}][]" value="{{ date('g:i A', strtotime($option['selected_to'])) }}" readonly="readonly">
                                         </div>
@@ -124,9 +124,10 @@
                         </div>
                         </br>
                         </br>
-                        <label><small>Document Preference</small></label>
-                        <div class="form-group pt5">
-                           <select name="document_head" id="document_head">
+                        <!-- <label><small>Document Preference</small></label> -->
+                        <p class="text-muted mb-2">Document Preference</p>
+                        <div class="form-group mt-1 pt5">
+                           <select class="docoument_selet" name="document_head" id="document_head">
                               <option value="">Select Any one of the document</option>
                                                
                         @foreach($documents AS $document)
@@ -138,7 +139,7 @@
                         </select>
                         </div>
                         @foreach($documents AS $document)
-                        <div class="form-group pt-5 hide" id="{{ strtolower(str_replace(' ', '_', $document->document)) }}">
+                        <div class="form-group pt-1 hide" id="{{ strtolower(str_replace(' ', '_', $document->document)) }}">
                            <label>{{ $document->document }}</label>
                            <label><small>Max 1 mb in size and supported format (Jpg/Jpeg/pdf)</small></label>
                            <input type="file" class="form-control" name="docs_attachment[{{ $document->document }}]">

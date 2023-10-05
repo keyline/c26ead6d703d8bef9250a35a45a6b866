@@ -1635,9 +1635,27 @@ section.contact-section {
     align-items: center;
     width: 100%;
     justify-content: center;
+    margin-bottom: 10px;
 }
 .slot_starttime, .slot_endtime {
-    width: 40%;
+    /* width: 40%; */
+}
+
+.slot_starttime{
+    width: 150px;
+}
+.select2-container{width: 100% !important;}
+.select2-container--default .select2-selection--single{border: 2px solid #e1e1e1 !important;}
+.select2-container .select2-selection--single{height: 40px !important; padding: 10px;}
+.select2-container--default .select2-selection--single .select2-selection__rendered{line-height: 19px !important;}
+.select2-container--default .select2-selection--single .select2-selection__arrow{height: 36px !important;}
+.slot_endtime input.slot__endtime__txt {
+    border: 2px solid #e1e1e1;
+    border-radius: 4px;
+    height: 40px;
+    padding: 10px;
+    width: 90px;
+    display: inline-block;
 }
 button.add-slot-btn {
     background: none;
@@ -1646,6 +1664,7 @@ button.add-slot-btn {
     height: 20px;
     font-size: 12px;
     line-height: 19px;
+    margin-left: 10px;
 }
 .slots-section {
     display: flex;
@@ -1656,7 +1675,20 @@ button.add-slot-btn {
 }
 .slot-item {
     border: 1px solid #f2f6f9;
-    padding: 16px 15px 4px;
+    padding: 16px 8px 4px;
+}
+select.docoument_selet {
+    padding: 10px;
+    border: 2px solid #e1e1e1 !important;
+    border-radius: 4px;
+    width: 100%;
+}
+.slot_starttime select.select2-frm {
+    border: 2px solid #e1e1e1 !important;
+    width: 100%;
+    padding: 8px 10px;
+    border-radius: 4px;
+    height: 40px;
 }
 .rightside_testslider .testmoric_item{
 	padding: 20px;
