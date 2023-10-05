@@ -14,6 +14,15 @@ use App\Models\Admin;
 use App\Models\User;
 use App\Models\UserAccess;
 use App\Models\BookingRating;
+use App\Models\ServiceType;
+use App\Models\Service;
+use App\Models\ServiceAttribute;
+use App\Models\ServiceDetail;
+use App\Models\ServiceTypeAttribute;
+use App\Models\MentorAvailability;
+use App\Models\StudentProfile;
+use App\Models\MentorProfile;
+
 use Session;
 use Helper;
 
@@ -220,6 +229,9 @@ class Controller extends BaseController
         $data['user']               = [];
         $data['title']              = $title.' :: '.$data['generalSetting']->site_name;
         $data['page_header']        = $title;
+        $user_id                    = session('user_id');
+        $data['user']               = User::find($user_id);
+        // Helper::pr($data['user']);
 
         $data['head']               = view('front.elements.head', $data);
         $data['header']             = view('front.elements.header', $data);
@@ -337,6 +349,56 @@ class Controller extends BaseController
             $ratingStar .= '';
         }
         return $ratingStar;
+    }
+    public function getAvgServiceRating($mentor_id, $mentor_service_id){
+        $ratingStar = '';
+        $getRatingCount = BookingRating::where('mentor_id', '=', $mentor_id)->where('mentor_service_id', '=', $mentor_service_id)->where('status', '=', 1)->count();
+        $getRatingTotal = BookingRating::where('mentor_id', '=', $mentor_id)->where('mentor_service_id', '=', $mentor_service_id)->where('status', '=', 1)->sum('rating');
+        if($getRatingCount > 0){
+            $avgRating = ($getRatingTotal / $getRatingCount);
+        } else {
+            $avgRating = 0.0;
+        }
+        return $avgRating;
+    }
+    public function getServiceDetails($mentor_service_id){
+        $service_array      = [];
+        $getServiceDetail   = ServiceDetail::select('id', 'service_attribute_id', 'mentor_user_id', 'title', 'description', 'duration', 'total_amount_payable', 'slashed_amount')->where('id', '=', $mentor_service_id)->where('status', '=', 1)->first();
+        if($getServiceDetail){
+            $serviceAttribute       = ServiceAttribute::select('title')->where('id', '=', $getServiceDetail->service_attribute_id)->first();
+            $serviceTypeAttribute   = ServiceTypeAttribute::select('service_type_id', 'service_id')->where('service_attribute_id', '=', $getServiceDetail->service_attribute_id)->where('is_active', '=', 1)->first();
+            $serviceType            = [];
+            $service                = [];
+            if($serviceTypeAttribute){
+                $serviceType            = ServiceType::select('name')->where('id', '=', $serviceTypeAttribute->service_type_id)->first();
+                $service                = Service::select('name')->where('id', '=', $serviceTypeAttribute->service_id)->first();
+            }
+            $mentor_user_id         = $getServiceDetail->mentor_user_id;
+            $profileDetail          = MentorProfile::where('user_id', '=', $mentor_user_id)->first();
+
+            $rating_star            = $this->getAvgServiceRating($mentor_user_id, $mentor_service_id);
+
+            $service_array          = [
+                'id'                        => $getServiceDetail->id,
+                'service_attribute_id'      => $getServiceDetail->service_attribute_id,
+                'service_attribute_name'    => (($serviceAttribute)?$serviceAttribute->title:''),
+                'service_type_id'           => (($serviceTypeAttribute)?$serviceTypeAttribute->service_type_id:0),
+                'service_type_name'         => (($serviceType)?$serviceType->name:''),
+                'service_id'                => (($serviceTypeAttribute)?$serviceTypeAttribute->service_id:0),
+                'service_name'              => (($service)?$service->name:''),
+                'title'                     => $getServiceDetail->title,
+                'description'               => $getServiceDetail->description,
+                'duration'                  => $getServiceDetail->duration,
+                'total_amount_payable'      => $getServiceDetail->total_amount_payable,
+                'slashed_amount'            => $getServiceDetail->slashed_amount,
+                'mentor_id'                 => (($profileDetail)?$profileDetail->user_id:''),
+                'name'                      => (($profileDetail)?$profileDetail->full_name:''),
+                'profile_image'             => (($profileDetail)?(($profileDetail->profile_pic != '')?env('UPLOADS_URL').'user/'.$profileDetail->profile_pic:env('NO_IMAGE_AVATAR')):env('NO_IMAGE_AVATAR')),
+                'rating_star'               => $rating_star
+            ];
+        }
+        // Helper::pr($service_array);
+        return $service_array;
     }
     // currency converter
     public function convertCurrency($amount, $from, $to)

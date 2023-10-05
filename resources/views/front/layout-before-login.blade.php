@@ -187,5 +187,64 @@ $pageName = $routeName->uri();
              });
           </script>
       <?php }?>
+
+      <script type="text/javascript">
+          function getTimeSlots(d){
+            $('.timing-box').removeClass('active');
+            $('#cal' + d).addClass('active');
+            $('#booking_date').val(d);
+
+            let booking_date    = d;
+            let mentor_user_id  = $('#mentor_user_id').val();
+            let duration        = $('#duration').val();
+            let base_url        = '<?=url('/')?>/api/';
+            $.ajax({
+                type: "POST",
+                url: base_url + "get-mentor-time-slots",
+                data: {key : 'facb6e0a6fcbe200dca2fb60dec75be7', booking_date : booking_date, mentor_user_id : mentor_user_id, duration : duration},
+                dataType: "JSON",
+                beforeSend: function () {
+                    $(".time-picker-list").loading();
+                },
+                success: function (res) {
+                    $(".time-picker-list").loading("stop");
+                    if(res.status){
+                        toastAlert("success", res.message);
+                        $(".time-picker-list").empty();
+                        let html = '';
+                        if(res.data.length > 0){
+                            $.each(res.data, function(key, item) {
+                                
+                                html += '<li class="timeslot" id="slot' + item.slot_id + '" onclick="setTimeSlot(\'' + item.slot_id + '\',\'' + item.from_time + '\', \'' + item.to_time + '\');">\
+                                            <a href="javascript:vold(0);">' + item.from_time + '</a>\
+                                        </li>';
+                            });
+                        } else {
+                            html = '<b style="color:red;margin: 0 auto">No Slots Available</b>';
+                        }
+                        $(".time-picker-list").html(html);
+                    }else{
+                        toastAlert("error", res.message);
+                    }
+                },
+                error:function (xhr, ajaxOptions, thrownError){
+                    $(".time-picker-list").loading("stop");
+                    var res = xhr.responseJSON;
+                    if(!res.status) {
+                        $(".time-picker-list").empty();
+                        toastAlert("error", res.message);
+                    }
+                }
+            });
+
+        }
+        function setTimeSlot(slotId, fromTime, toTime){
+            $('.timeslot').removeClass('active');
+            $('#slot' + slotId).addClass('active');
+            $('#booking_slot_from').val(fromTime);
+            $('#booking_slot_to').val(toTime);
+            $('.next-btn').attr('disabled', false);
+        }
+      </script>
    </body>
 </html>

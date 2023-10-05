@@ -4,7 +4,11 @@ namespace App\Http\Controllers;
 use App\Helpers\Helper;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\SocialPlatform;
+use App\Models\Language;
+use App\Models\Subject;
 use App\Models\StudentProfile;
+use App\Models\MentorProfile;
 use App\Models\User;
 use App\Models\Survey;
 use App\Models\SurveyQuestion;
@@ -60,9 +64,7 @@ class DashboardController extends Controller
     /*profile*/
     public function profile(Request $request){
         $userId = $request->session()->get('user_id');
-        // Helper::pr($userId);
-        $getStudentId = StudentProfile::where('user_id', '=', $userId)->first();
-        // Helper::pr($getStudentId);
+        $getStudentId = MentorProfile::where('user_id', '=', $userId)->first();
         if($request->isMethod('post')){
             $postData = $request->all();
             if($request->post('mode')=='updateBankDetails'){
@@ -89,8 +91,8 @@ class DashboardController extends Controller
                                 'ifsc_code'             => $ifsc_code,
                             ];
                 // Helper::pr($fields);
-                StudentProfile::where('id', '=', $ID)->update($fields);
-                return redirect()->back()->with('success_message', 'Your Bank Details Updated Successfully !!!');
+                MentorProfile::where('id', '=', $ID)->update($fields);
+                return redirect()->back()->with('success_message', 'Bank Details Updated Successfully !!!');
                 } else {
                     return redirect()->back()->with('error_message', 'All Fields Required !!!');
                 }
@@ -106,7 +108,7 @@ class DashboardController extends Controller
                 $fields = [
                             'email'          => $email,
                         ];
-                $getID = StudentProfile::where('id', '=', $ID)->first();
+                $getID = MentorProfile::where('id', '=', $ID)->first();
                 User::where('id', '=', $getID->user_id)->update($fields);
                 return redirect()->back()->with('success_message', 'Your Email Updated Successfully !!!');
                 } else {
@@ -124,7 +126,7 @@ class DashboardController extends Controller
                 $fields = [
                             'phone'          => $phone,
                         ];
-                $getID = StudentProfile::where('id', '=', $ID)->first();
+                $getID = MentorProfile::where('id', '=', $ID)->first();
                 User::where('id', '=', $getID->user_id)->update($fields);
                 return redirect()->back()->with('success_message', 'Your Mobile Number Updated Successfully !!!');
                 } else {
@@ -142,7 +144,7 @@ class DashboardController extends Controller
                 $fields = [
                             'password'  =>  Hash::make($password),
                         ];
-                $getID = StudentProfile::where('id', '=', $ID)->first();
+                $getID = MentorProfile::where('id', '=', $ID)->first();
                 User::where('id', '=', $getID->user_id)->update($fields);
                 return redirect()->back()->with('success_message', 'Your Password Updated Successfully !!!');
                 } else {
@@ -151,22 +153,19 @@ class DashboardController extends Controller
             }
             if($request->post('mode10')=='updateData'){
                 $postData = $request->all();
-                $getDetail  = StudentProfile::where('id', '=', $getStudentId->id)->first();
+                $getDetail  = MentorProfile::where('id', '=', $getStudentId->id)->first();
                 // Helper::pr($postData);
                 $rules = [
-                            'page_link'         => 'required',
+                            'display_name'      => 'required',
                             'fname'             => 'required',
                             'lname'             => 'required',
-                            'dname'             => 'required',
-                            'intro'             => 'required',
-                            'about_yourself'    => 'required',
-                            // 'image'             => 'required'
+                            'description'       => 'required',
                         ];
                     /* image */
                     $imageFile          = $request->file('image');
                     if($imageFile != ''){
                         $imageName      = $imageFile->getClientOriginalName();
-                        $uploadedFile   = $this->upload_single_file('image', $imageName, 'student', 'image');
+                        $uploadedFile   = $this->upload_single_file('image', $imageName, 'user', 'image');
                         if($uploadedFile['status']){
                             $image = $uploadedFile['newFilename'];
                         } else {
@@ -177,35 +176,57 @@ class DashboardController extends Controller
                     }
                     /* image */
                     if($this->validate($request, $rules)){
-                    $social_plartform_array   = $postData['social_plartform'];
-                    $social_link_array        = $postData['social_link'];
-                    if(!empty($social_plartform_array)){
-                        for($k=0;$k<count($social_plartform_array);$k++){
-                                $socialData = array($social_plartform_array[$k] => $social_link_array[$k]);
-                        }
-                    }
+                    $social_platform_array      = array_filter($postData['social_platform']);
+                    $social_link_array          = array_filter($postData['social_url']);
+
+                    $edu_institute              = array_filter($postData['edu_institute']);
+                    $edu_title                  = array_filter($postData['edu_title']);
+                    $edu_year                   = array_filter($postData['edu_year']);
+
+                    $work_institute             = array_filter($postData['work_institute']);
+                    $work_title                 = array_filter($postData['work_title']);
+                    $work_year                  = array_filter($postData['work_year']);
+
+                    $award_title                = array_filter($postData['award_title']);
+                    $award_year                 = array_filter($postData['award_year']);
+                    
                     $fields = [
                                 'first_name'        => $postData['fname'],
                                 'last_name'         => $postData['lname'],
-                                'full_name'         => $postData['dname'],
-                                'page_link'         => $postData['page_link'],
-                                'stumento_intro'    => $postData['intro'],
-                                'about_yourself'    => $postData['about_yourself'],
-                                'social_link'       => json_encode($socialData),
+                                'full_name'         => $postData['fname'].' '.$postData['lname'],
+                                'display_name'      => $postData['display_name'],
+                                'description'       => $postData['description'],
+                                'social_platform'   => json_encode($social_platform_array),
+                                'social_url'        => json_encode($social_link_array),
                                 'profile_pic'       => $image,
+                                'city'              => $postData['city'],
+                                'languages'         => json_encode($postData['languages']),
+                                'subjects'          => json_encode($postData['subjects']),
+                                'edu_institute'     => json_encode($edu_institute),
+                                'edu_title'         => json_encode($edu_title),
+                                'edu_year'          => json_encode($edu_year),
+                                'work_institute'    => json_encode($work_institute),
+                                'work_title'        => json_encode($work_title),
+                                'work_year'         => json_encode($work_year),
+                                'award_title'       => json_encode($award_title),
+                                'award_year'        => json_encode($award_year),
                                 'updated_at'        => date('Y-m-d H:i:s'),
                             ];
                     // Helper::pr($fields);
-                    StudentProfile::where('id', '=', $postData['student_id'])->update($fields);
-                    return redirect()->back()->with('success_message', 'Your Details Updated Successfully !!!');
+                    MentorProfile::where('id', '=', $postData['user_id'])->update($fields);
+                    return redirect()->back()->with('success_message', 'Profile Updated Successfully !!!');
                 } else {
                     return redirect()->back()->with('error_message', 'All Fields Required !!!');
                 }
             }
         }
-        $data['profileDetail']  = StudentProfile::where('id', '=', $getStudentId->id)->first();
-        $title                  = 'Profile';
-        $page_name              = 'profile';
+        $data['socialPlatforms']    = SocialPlatform::where('status', '=', 1)->get();
+        $data['languages']          = Language::where('status', '=', 1)->get();
+        $data['subjects']           = Subject::where('status', '=', 1)->get();
+        $data['profileDetail']      = MentorProfile::where('id', '=', $getStudentId->id)->first();
+        // Helper::pr($data['profileDetail']);
+        $title                      = 'Profile';
+        $page_name                  = 'profile';
         echo $this->front_dashboard_layout($title,$page_name,$data);
     }
     /*profile*/

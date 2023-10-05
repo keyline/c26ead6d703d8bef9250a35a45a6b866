@@ -94,6 +94,7 @@ use Illuminate\Support\Facades\Route;
         Route::match(['post'], 'validate-signup-otp', 'ApiController@validateSignupOtp');
         Route::match(['get'], 'resend-otp', 'ApiController@resendOtp');
         Route::match(['get'], 'mentor-filter', 'ApiController@mentorFilter');
+        Route::match(['post'], 'get-mentor-time-slots', 'ApiController@getMentorTimeSlots');
     });
 /* API */
 
@@ -213,6 +214,13 @@ use Illuminate\Support\Facades\Route;
                     Route::get('language/delete/{id}', 'LanguageController@delete');
                     Route::get('language/change-status/{id}', 'LanguageController@change_status');
                 /* language */
+                /* subject */
+                    Route::get('subject/list', 'SubjectController@list');
+                    Route::match(['get', 'post'], 'subject/add', 'SubjectController@add');
+                    Route::match(['get', 'post'], 'subject/edit/{id}', 'SubjectController@edit');
+                    Route::get('subject/delete/{id}', 'SubjectController@delete');
+                    Route::get('subject/change-status/{id}', 'SubjectController@change_status');
+                /* subject */
                 /* social platforms */
                     Route::get('social-platform/list', 'SocialPlatformController@list');
                     Route::match(['get', 'post'], 'social-platform/add', 'SocialPlatformController@add');

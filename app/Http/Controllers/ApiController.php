@@ -31,6 +31,8 @@ use App\Models\UserActivity;
 use App\Models\UserDocument;
 use App\Models\RequireDocument;
 use App\Models\BookingRating;
+use App\Models\MentorSlot;
+
 use Auth;
 use Session;
 use Helper;
@@ -816,6 +818,63 @@ class ApiController extends Controller
             // $apiMessage                         = 'Data Available !!!';
             // $apiExtraField                      = 'response_code';
             // $apiExtraData                       = http_response_code();
+        } else {
+            http_response_code(400);
+            $apiStatus          = FALSE;
+            $apiMessage         = $this->getResponseCode(http_response_code());
+            $apiExtraField      = 'response_code';
+            $apiExtraData       = http_response_code();
+        }
+        $this->response_to_json($apiStatus, $apiMessage, $apiResponse, $apiExtraField, $apiExtraData);
+    }
+    public function getMentorTimeSlots(Request $request){
+        $apiStatus          = TRUE;
+        $apiMessage         = '';
+        $apiResponse        = [];
+        $apiExtraField      = '';
+        $apiExtraData       = '';
+        $requestData        = $request->all();
+        if($requestData['key'] == env('PROJECT_KEY')){
+            $mentor_user_id         = $requestData['mentor_user_id'];
+            $getUser    = User::where('id', '=', $mentor_user_id)->first();
+            if($getUser){
+                
+                $booking_date   = $requestData['booking_date'];
+                $duration       = $requestData['duration'];
+                $day_no         = Helper::getDayNo(date_format(date_create($booking_date), "D"));
+                $mentor_slots   = [];
+                $getMentorSlots = MentorSlot::select('id', 'from_time', 'to_time')->where('status', '=', 1)->where('mentor_user_id', '=', $mentor_user_id)->where('day_of_week_id', '=', $day_no)->where('duration', '=', $duration)->get();
+                if($getMentorSlots){
+                    foreach($getMentorSlots as $getMentorSlot){
+
+                        $mentor_slots[]   = [
+                            'slot_id'   => $getMentorSlot->id,
+                            'from_time' => date_format(date_create($getMentorSlot->from_time), "h:i A"),
+                            'to_time'   => date_format(date_create($getMentorSlot->to_time), "h:i A")
+                        ];
+                    }
+                }
+                if(!empty($mentor_slots)){
+                    $apiResponse                        = $mentor_slots;
+                    $apiStatus                          = TRUE;
+                    http_response_code(200);
+                    $apiMessage                         = 'Slots Available !!!';
+                    $apiExtraField                      = 'response_code';
+                    $apiExtraData                       = http_response_code();
+                } else {
+                    $apiStatus                          = TRUE;
+                    http_response_code(200);
+                    $apiMessage                         = 'Slots Not Available !!!';
+                    $apiExtraField                      = 'response_code';
+                    $apiExtraData                       = http_response_code();
+                }
+            } else {
+                $apiStatus          = FALSE;
+                http_response_code(400);
+                $apiMessage         = 'User Not Found !!!';
+                $apiExtraField      = 'response_code';
+                $apiExtraData       = http_response_code();
+            }
         } else {
             http_response_code(400);
             $apiStatus          = FALSE;
