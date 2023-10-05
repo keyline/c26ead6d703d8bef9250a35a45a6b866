@@ -392,6 +392,7 @@ class Controller extends BaseController
                 'total_amount_payable'      => $getServiceDetail->total_amount_payable,
                 'slashed_amount'            => $getServiceDetail->slashed_amount,
                 'mentor_id'                 => (($profileDetail)?$profileDetail->user_id:''),
+                'display_name'              => (($profileDetail)?$profileDetail->display_name:''),
                 'name'                      => (($profileDetail)?$profileDetail->full_name:''),
                 'profile_image'             => (($profileDetail)?(($profileDetail->profile_pic != '')?env('UPLOADS_URL').'user/'.$profileDetail->profile_pic:env('NO_IMAGE_AVATAR')):env('NO_IMAGE_AVATAR')),
                 'rating_star'               => $rating_star

@@ -8,7 +8,7 @@
             <div class="col-12">
               <div class="mentor-profile mentortime_bg">
                 <div class="metor_goback">
-                  <a href="#">
+                  <a href="<?=url('mentor-details/'.$mentorService['display_name'].'/'.Helper::encoded($mentorService['mentor_id']))?>">
                     <i class="fa-solid fa-arrow-left"></i>
                   </a>
                   <h3><?=$mentorService['name']?></h3>

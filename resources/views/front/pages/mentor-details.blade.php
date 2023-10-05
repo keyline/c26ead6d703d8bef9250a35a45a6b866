@@ -123,32 +123,37 @@ use App\Helpers\Helper;
               <div class="mentor-dtl-right public-profile-v2">
                 <div class="row">
                   <?php if($mentor_services){ foreach($mentor_services as $mentor_service){?>
-                    <div class="col-md-6">
-                      <div class="service-card cursor-hover">
-                        <div class="ant-typography">
-                        <div class="sc-header">
-                          <div class="ant-space sc-icon" style="gap: 8px;">
-                          <div class="ant-space-item" style="">
-                            <i class="fa-regular fa-calendar"></i>
+                      <div class="col-md-6">
+                          <div class="service-card cursor-hover">
+                            <div class="ant-typography">
+                              <div class="sc-header">
+                                <div class="ant-space sc-icon" style="gap: 8px;">
+                                <div class="ant-space-item" style="">
+                                  <i class="fa-regular fa-calendar"></i>
+                                </div>
+                                <div class="ant-space-item"><span><?=$mentor_service['service_category']?></span></div>
+                                </div>
+                                <a href="<?=url('service-details/'.$profileDetail->display_name.'/'.Helper::encoded($mentor_service['mentor_service_id']))?>" style="color:#000"><div class="prublic_arrowri"><i class="fa-solid fa-arrow-right"></i></div></a>
+                              </div>
+                              <div class="sc-details">
+                                <h3 class="sc-name" style="word-break: break-word; -webkit-line-clamp: 2;"><?=$mentor_service['service_title']?></h3>
+                                <div class="sc-description"><?=$mentor_service['service_description']?></div>
+                              </div>
+                            </div>
+                            <div class="sc-footer service-price">
+                              <div class="booking-page-footer public-profile-pricing" style="color: rgb(20, 20, 20); display: flex; align-items: center; width: fit-content;">
+                                <div style="text-align: left;">
+                                  <span style="font-weight: 700; color: rgb(102, 102, 102); font-size: 14px; display: inline-block; margin-right: 8px;text-decoration: line-through;"><i class="fa fa-inr"></i> <?=$mentor_service['service_slashed_amount']?></span>
+                                  <span style="display: inline-block;"><i class="fa fa-inr"></i> <?=$mentor_service['service_amount']?></span></div>
+                              </div>
+                              <div class="booking-page-footer public-profile-pricing" style="color: rgb(20, 20, 20); display: flex; align-items: center; width: fit-content;">
+                                <div style="text-align: right;">
+                                  <span style="display: inline-block;"><i class="fa fa-clock"></i> <?=$mentor_service['service_duration']?> Mins</span>
+                                </div>
+                              </div>
+                            </div>
                           </div>
-                          <div class="ant-space-item"><span><?=$mentor_service['service_category']?></span></div>
-                          </div>
-                          <a href="<?=url('service-details/'.$profileDetail->display_name.'/'.Helper::encoded($mentor_service['mentor_service_id']))?>" style="color:#000"><div class="prublic_arrowri"><i class="fa-solid fa-arrow-right"></i></div></a>
-                        </div>
-                        <div class="sc-details">
-                          <h3 class="sc-name" style="word-break: break-word; -webkit-line-clamp: 2;"><?=$mentor_service['service_title']?></h3>
-                          <div class="sc-description"><?=$mentor_service['service_description']?></div>
-                        </div>
-                        </div>
-                        <div class="sc-footer service-price">
-                        <div class="booking-page-footer public-profile-pricing" style="color: rgb(20, 20, 20); display: flex; align-items: center; width: fit-content;">
-                          <div style="text-align: center;">
-                            <span style="font-weight: 700; color: rgb(102, 102, 102); font-size: 14px; display: inline-block; margin-right: 8px;text-decoration: line-through;"><i class="fa fa-inr"></i> <?=$mentor_service['service_slashed_amount']?></span>
-                            <span style="display: inline-block;"><i class="fa fa-inr"></i> <?=$mentor_service['service_amount']?></span></div>
-                        </div>
-                        </div>
                       </div>
-                    </div>
                   <?php } }?>
                 </div>
               </div>

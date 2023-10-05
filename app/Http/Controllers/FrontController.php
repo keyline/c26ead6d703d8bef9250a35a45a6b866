@@ -278,7 +278,7 @@ class FrontController extends Controller
                 }
             }
             $data['mentor_services']        = $mentor_services;
-
+            
             $title                          = 'Mentor Details';
             $page_name                      = 'mentor-details';
             echo $this->front_before_login_layout($title,$page_name,$data);
