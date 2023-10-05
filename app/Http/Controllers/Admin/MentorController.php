@@ -14,6 +14,7 @@ use App\Models\RequireDocument;
 use App\Models\MentorProfile;
 use App\Models\UserDocument;
 use App\Models\MentorAvailability;
+use App\Models\MentorSlot;
 use Auth;
 use Session;
 use Helper;
@@ -92,6 +93,42 @@ class MentorController extends Controller
                 $model->valid  = 0;
                 $msg            = 'Deactivated';
             } else {
+                /* mentor slots add on approval of mentor */
+                    $mentorAvls = MentorAvailability::select('id', 'day_of_week_id', 'duration', 'no_of_slot', 'avail_from', 'avail_to')->where('is_active', '=', 1)->where('mentor_user_id', '=', $id)->get();
+                    MentorSlot::where('mentor_user_id', '=', $id)->delete();
+                    if($mentorAvls){
+                        foreach($mentorAvls as $mentorAvl){
+                            $mentor_user_id             = $id;
+                            $mentor_availability_id     = $mentorAvl->id;
+                            $day_of_week_id             = $mentorAvl->day_of_week_id;
+                            $duration                   = $mentorAvl->duration;
+                            $no_of_slot                 = $mentorAvl->no_of_slot;
+                            $from_time                  = $mentorAvl->avail_from;
+                            $to_time                    = $mentorAvl->avail_to;
+                            $currentDate                = date('Y-m-d');
+                            $fTime                      = $currentDate.' '.$from_time;
+                            $tTime                      = $currentDate.' '.$to_time;
+                            $slots                      = Helper::SplitTime($fTime, $tTime, $duration);
+                            if(!empty($slots)) {
+                                for($s=0;$s<(count($slots)-1);$s++) {
+                                    $sTime = $slots[$s];
+                                    $eTime = date('H:i:s', strtotime("+".$duration." minutes", strtotime($sTime)));
+                                    $fields = [
+                                        'mentor_user_id'            => $mentor_user_id,
+                                        'mentor_availability_id'    => $mentor_availability_id,
+                                        'day_of_week_id'            => $day_of_week_id,
+                                        'duration'                  => $duration,
+                                        'from_time'                 => $sTime,
+                                        'to_time'                   => $eTime,
+                                    ];
+                                    // Helper::pr($fields);
+                                    MentorSlot::insert($fields);
+                                }
+                            }
+                            
+                        }
+                    }
+                /* mentor slots add on approval of mentor */
                 $model->valid  = 1;
                 $msg            = 'Activated';
             }            

@@ -267,6 +267,12 @@ $user_type = session('type');
                     <input name="stumento_commision_percent" type="text" class="form-control" id="stumento_commision_percent" value="<?=$setting->stumento_commision_percent?>">
                   </div>
                 </div>
+                <div class="row mb-3">
+                  <label for="date_available" class="col-md-4 col-lg-3 col-form-label">Advance Dates Available For Booking</label>
+                  <div class="col-md-8 col-lg-9">
+                    <input name="date_available" type="text" class="form-control" id="date_available" value="<?=$setting->date_available?>">
+                  </div>
+                </div>
 
                 <div class="row mb-3">
                   <label for="twitter_profile" class="col-md-4 col-lg-3 col-form-label">Twitter Profile</label>
