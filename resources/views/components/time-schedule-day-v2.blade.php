@@ -2,7 +2,7 @@
 ]
 )
 
-    <div class="slots_section_parent slots-select-box">
+    
                                        <div class="slots_section_item slot_starttime">
                                           <select class="select2-frm" name="availability[from][{{ $day->id }}][]">
                                              @foreach($slots AS $option)
@@ -38,4 +38,3 @@
                                        </div>
                                        <button type="button" class="add-slot-btn {{ $action }}" data-container="{{ strtolower($day->day_text) }}"><span style="pointer-events: none;"><i class="fa-solid fa-{{ $icon }}"></i></span></button>
                                     </div>
-</div>

@@ -552,12 +552,12 @@ class MentorController extends Controller
 
         $durationDataSource = array([
             'id' => 30,
-            'text' => '30 mins'
+            'text' => '30 minutes'
 
         ],
         [
             'id' => 60,
-            'text' => '60 mins'
+            'text' => '60 minutes'
 
         ],
     );
@@ -650,8 +650,8 @@ class MentorController extends Controller
         }
 
 
-        $actionClass = $data['action'] !== 'stumento__ajax__update__slot' ? 'deleteItem' : 'add__slot__parent';
-        $iconClass = $data['action'] !== 'stumento__ajax__update__slot' ? 'minus' : 'plus';
+        $actionClass = $data['action'] == 'stumento__ajax__update__slot' ? 'deleteItem' : 'add__slot__parent';
+        $iconClass = $data['action'] == 'stumento__ajax__update__slot' ? 'minus' : 'plus';
 
         //return options data duration
         foreach ($durationDataSource as &$value) {

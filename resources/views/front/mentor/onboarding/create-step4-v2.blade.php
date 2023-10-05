@@ -321,8 +321,14 @@ if (e.target.classList.contains('add__slot__parent')) {
       //const el= document.getElementById('item-list-container-' + data.containerIdentity);
       //const el = document.querySelector('#item-list-container-' + data.containerIdentity);
       //el.insertAdjacentHTML('beforeend', data.html);
-      
-      parent.insertAdjacentHTML('afterend', data.html);
+      //Creating parent Div
+      //const wrapEl= document.createElement('div');
+      //let classes= "slots_section_parent slots-select-box".split(' ');
+      //wrapEl.classList.add('slots_section_parent slots-select-box');
+      //wrapEl.classList.add(...classes);
+      //wrapEl.innerHtml= data.html;
+      parent.insertAdjacentHTML('afterend', '<div class="slots_section_parent slots-select-box">' + data.html + '</div>') ;
+      //parent.after(wrapEl);
 
       $('.select2-frm').select2();
       initializeDurationSelect2(duration);
@@ -390,7 +396,7 @@ const handleAddSlotFrmChkBtn= (e) => {
          addSelectInput(postData).then((data)=>{
             //const el= e.currentTarget.querySelector('.slots-section');
             //iDiv.appendChild(data.html);
-            iDiv.insertAdjacentHTML('afterbegin', data.html);
+            iDiv.insertAdjacentHTML('afterbegin', '<div class="slots_section_parent slots-select-box">' + data.html + '</div>');
             initializeDurationSelect2(duration);
             initializeSlotNumberSelect2(noofslot);
             //console.log({'parent' : element});
@@ -581,7 +587,7 @@ const initializeDurationSelect2 = (duration) => {
         };
         updateOnChangeInput(postData).then((data) => {
          parentEl= $(e.target).closest('div.slots-select-box');
-         $(parentEl).html(data.html);
+         $(parentEl).html( data.html );
          $('.select2-frm').select2();
          initializeDurationSelect2(data.durations);
          initializeSlotNumberSelect2(data.slots);
@@ -621,7 +627,7 @@ const initializeDurationSelect2 = (duration) => {
         };
         updateOnChangeInput(postData).then((data) => {
          parentEl= $(e.target).closest('div.slots-select-box');
-         $(parentEl).html(data.html);
+         $(parentEl).html('<div class="slots_section_parent slots-select-box">' + data.html + '</div>');
          $('.select2-frm').select2();
          //$('.select2-frm').val(data.selectedTimeFrom);
          //$('.select2-frm').trigger('change');
