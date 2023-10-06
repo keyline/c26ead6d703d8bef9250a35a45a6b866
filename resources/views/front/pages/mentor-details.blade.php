@@ -22,7 +22,7 @@ use App\Helpers\Helper;
                                         <img src="<?=env('NO_IMAGE')?>" alt="<?=(($profileDetail)?$profileDetail->full_name:'')?>" class="img-fluid img-thumbnail" style="border-radius: 50%;">
                                       <?php }?>
                                   </div>
-                                  <ul>
+                                  <ul class="mentorprofile_info">
                                       <li><a href="javascript:void(0);"> <?=(($profileDetail)?$profileDetail->full_name:'')?> <i class="fas fa-check check-icon" data-toggle="tooltip" title="Verified user"></i></a></li>
                                       <?php if($rating_star != ''){?>
                                         <div class="rating">
@@ -139,8 +139,7 @@ use App\Helpers\Helper;
                                 <h3 class="sc-name" style="word-break: break-word; -webkit-line-clamp: 2;"><?=$mentor_service['service_title']?></h3>
                                 <div class="sc-description"><?=$mentor_service['service_description']?></div>
                               </div>
-                            </div>
-                            <div class="sc-footer service-price">
+                              <div class="sc-footer service-price">
                               <div class="booking-page-footer public-profile-pricing" style="color: rgb(20, 20, 20); display: flex; align-items: center; width: fit-content;">
                                 <div style="text-align: left;">
                                   <span style="font-weight: 700; color: rgb(102, 102, 102); font-size: 14px; display: inline-block; margin-right: 8px;text-decoration: line-through;"><i class="fa fa-inr"></i> <?=$mentor_service['service_slashed_amount']?></span>
@@ -153,6 +152,8 @@ use App\Helpers\Helper;
                               </div>
                             </div>
                           </div>
+                            </div>
+                            
                       </div>
                   <?php } }?>
                 </div>
