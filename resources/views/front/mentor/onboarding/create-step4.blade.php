@@ -72,7 +72,7 @@
                                  <div class="slots-section">
                                     <div class="slots-select-box">
                                        <div class="slot_starttime">
-                                          <select id="selectbox21" name="availability[from][{{ $day->id }}][]">
+                                          <select class="select2-frm" name="availability[from][{{ $day->id }}][]">
                                              @foreach($slot_dropdown AS $option)
                                              <option value="{{ $option['value'] }}" 
                                              {{ ($option['selected_from'] == $option['value']) ? 'selected' : '' }}>
@@ -91,7 +91,7 @@
                                        </div>
                                        <div style="display: inline; margin: 0px 1em;">-</div>
                                        <div class="slot_endtime">
-                                          <select id="selectbox22" name="availability[to][{{ $day->id }}][]">
+                                          <select class="select2-to" name="availability[to][{{ $day->id }}][]">
                                              @foreach($slot_dropdown AS $option)
                                              <option value="{{ $option['value'] }}"
                                              {{ ($option['selected_to'] == $option['value']) ? 'selected' : '' }}>
@@ -147,15 +147,17 @@
 </section>
 @endsection
 @push('scripts')
-<!-- <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" /> -->
-<!-- <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script> -->
+
 <script>
 //const parentaddItmBtn= document.querySelectorAll('.add-slots > div');
 //const addItmBtn= document.querySelectorAll('.add-slot-btn');
 const addItmBtn= document.querySelectorAll('.slots__parent');
 //var selectItems = document.getElementsByClassName("slots-select-box");
 const addFromChkBtn= document.querySelectorAll('.form-check-input');
-const slotList= document.querySelectorAll('.slots__parent');
+//const slotList= document.querySelectorAll('.slots__parent');//slot__items__component
+
+const slotList = document.querySelectorAll('.slots__parent');
+
 //For adding items with add button
 
 //collect data that is inserted 
@@ -194,7 +196,7 @@ if (e.target.classList.contains('add__slot__parent')) {
       
       //const el= document.getElementById('item-list-container-' + data.containerIdentity);
       const el = document.querySelector('#item-list-container-' + data.containerIdentity);
-      el.insertAdjacentHTML('afterbegin', data.html);
+      el.insertAdjacentHTML('beforeend', data.html);
 
    });
    
@@ -287,8 +289,12 @@ const handleDeleteSlot = (e) =>{
    //alert("You clicked me!");                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          
    // if user clicks on delete item, find and remove the parent article
    if (e.target.classList.contains('deleteItem')) {
-        const parent = e.target.parentElement;
-        //const list= e.currentTarget.querySelector('.slot__items__component');
+      
+       //const list= e.currentTarget.parentElement;
+       const parent = e.target.parentNode;
+        //const list= e.currentTarget.querySelector('.slots_section_parent');
+
+        //list.removeChild(list.lastChild);
         parent.remove();
         //updateLocalCartLocalStorage(<id>);
     } else {
@@ -305,6 +311,14 @@ function collectionContains(collection, searchText) {
     }
     return false;
 }
+
+//function to initialize select2
+  function initializeSelect2(selectElementObj) {
+    selectElementObj.select2({
+      width: "80%",
+      tags: true
+    });
+  }
 
 //this will check for a click event and create new list item
 addItmBtn.forEach(item => {

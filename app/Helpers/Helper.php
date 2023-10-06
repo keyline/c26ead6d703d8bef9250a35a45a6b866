@@ -1,6 +1,10 @@
 <?php
 namespace App\Helpers;
 use Session;
+use DateInterval;
+use DateTime;
+use DatePeriod;
+
 class Helper{
  
     public static function pr($data, $action = TRUE){
@@ -185,6 +189,77 @@ class Helper{
         } else {
             return FALSE;
         }
+    }
+    // get short day name
+    public static function getShortDayName($dayNo){
+        $day_name = '';
+        if($dayNo == 0){
+            $day_name = 'Sun';
+        } elseif($dayNo == 1){
+            $day_name = 'Mon';
+        } elseif($dayNo == 2){
+            $day_name = 'Tue';
+        } elseif($dayNo == 3){
+            $day_name = 'Wed';
+        } elseif($dayNo == 4){
+            $day_name = 'Thu';
+        } elseif($dayNo == 5){
+            $day_name = 'Fri';
+        } elseif($dayNo == 6){
+            $day_name = 'Sat';
+        }
+        return $day_name;
+    }
+    // get short day name
+    public static function getDayNo($dayName){
+        $day_no = '';
+        if($dayName == 'Sun'){
+            $day_no = 0;
+        } elseif($dayName == 'Mon'){
+            $day_no = 1;
+        } elseif($dayName == 'Tue'){
+            $day_no = 2;
+        } elseif($dayName == 'Wed'){
+            $day_no = 3;
+        } elseif($dayName == 'Thu'){
+            $day_no = 4;
+        } elseif($dayName == 'Fri'){
+            $day_no = 5;
+        } elseif($dayName == 'Sat'){
+            $day_no = 6;
+        }
+        return $day_no;
+    }
+    // get time slots between two times
+    public static function SplitTime($StartTime, $EndTime, $Duration="60"){
+        $ReturnArray = array ();// Define output
+        $StartTime    = strtotime ($StartTime); //Get Timestamp
+        $EndTime      = strtotime ($EndTime); //Get Timestamp
+
+        $AddMins  = $Duration * 60;
+
+        while ($StartTime <= $EndTime) //Run loop
+        {
+            $ReturnArray[]  = date ("G:i:s", $StartTime);
+            $StartTime += $AddMins; //Endtime check
+        }
+        return $ReturnArray;
+    }
+    // get date list between two dates
+    public static function getDatesFromRange($start, $end, $format = 'Y-m-d') {
+        $array = array();
+        $interval = new DateInterval('P1D');
+    
+        $realEnd = new DateTime($end);
+        $realEnd->add($interval);
+    
+        $period = new DatePeriod(new DateTime($start), $interval, $realEnd);
+    
+        foreach($period as $date) { 
+            $array[] = $date->format($format); 
+        }
+    
+        return $array;
     }
 }
 ?>

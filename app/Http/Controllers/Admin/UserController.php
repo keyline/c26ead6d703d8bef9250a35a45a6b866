@@ -322,6 +322,7 @@ class UserController extends Controller
                     'sgst_percent'                      => $postData['sgst_percent'],
                     'igst_percent'                      => $postData['igst_percent'],
                     'stumento_commision_percent'        => $postData['stumento_commision_percent'],
+                    'date_available'                    => $postData['date_available'],
                     'twitter_profile'                   => $postData['twitter_profile'],
                     'facebook_profile'                  => $postData['facebook_profile'],
                     'instagram_profile'                 => $postData['instagram_profile'],

@@ -1,4 +1,5 @@
 <?php
+
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,17 +16,17 @@ use Illuminate\Support\Facades\Route;
 //     return view('welcome');
 // });
 /* Front Panel */
-    Route::prefix('/')->namespace('App\Http\Controllers')->group(function(){
-        /* before login */
-            /* common */
-                Route::match(['get'], '/', 'FrontController@home');
-                Route::match(['get'], '/about-us', 'FrontController@aboutUs');
-                Route::match(['get'], '/team-member-profile/{id}', 'FrontController@teamMemberProfile');
-                Route::match(['get', 'post'], '/contact-us', 'FrontController@contactUs');
-                Route::match(['get'], '/how-it-works', 'FrontController@howItWorks');
-                Route::match(['get'], '/blogs', 'FrontController@blogs');
-                Route::match(['get'], '/blog-details/{id}', 'FrontController@blogDetails');
-                Route::match(['get'], 'page/{id}', 'FrontController@page');
+Route::prefix('/')->namespace('App\Http\Controllers')->group(function () {
+    /* before login */
+    /* common */
+    Route::match(['get'], '/', 'FrontController@home');
+    Route::match(['get'], '/about-us', 'FrontController@aboutUs');
+    Route::match(['get'], '/team-member-profile/{id}', 'FrontController@teamMemberProfile');
+    Route::match(['get', 'post'], '/contact-us', 'FrontController@contactUs');
+    Route::match(['get'], '/how-it-works', 'FrontController@howItWorks');
+    Route::match(['get'], '/blogs', 'FrontController@blogs');
+    Route::match(['get'], '/blog-details/{id}', 'FrontController@blogDetails');
+    Route::match(['get'], 'page/{id}', 'FrontController@page');
 
     Route::match(['get'], '/mentors', 'FrontController@mentors');
     Route::match(['get'], '/mentor-details/{displayname}/{id}', 'FrontController@mentorDetails');
@@ -51,6 +52,9 @@ use Illuminate\Support\Facades\Route;
         Route::post('/create/step4', [\App\Http\Controllers\MentorController::class, 'postCreateStep4'])->name('create.step4');
         //ajax method
         Route::post('/timeslot/item', [\App\Http\Controllers\MentorController::class, 'getTimeSlotItem'])->name('timeslot.item');
+
+        Route::post('/timeslot/change', [\App\Http\Controllers\MentorController::class, 'renderComponentAfterChange'])->name('timeslot.change');
+
         Route::post('/user/store', [\App\Http\Controllers\MentorController::class, 'store'])->name('user.save');
     });
 
@@ -69,14 +73,14 @@ use Illuminate\Support\Facades\Route;
     /* after login */
     Route::group(['prefix' => 'user', 'middleware' => ['user']], function () {
         /* common */
-            Route::match(['get','post'],'/dashboard', 'DashboardController@index');
-            Route::match(['get','post'],'/profile', 'DashboardController@profile');
-            Route::get('/mentor-availability', 'DashboardController@mentorAvailability');
-            Route::get('/mentor-services', 'DashboardController@mentorServices');
-            Route::get('/survey-list', 'DashboardController@surveyList');
-            Route::match(['get','post'],'/survey-details/{id}', 'DashboardController@surveyDetails');
-            Route::get('/survey-result/{id}', 'DashboardController@surveyResult');
-            Route::get('/logout', 'DashboardController@logout');
+        Route::match(['get','post'], '/dashboard', 'DashboardController@index');
+        Route::match(['get','post'], '/profile', 'DashboardController@profile');
+        Route::get('/mentor-availability', 'DashboardController@mentorAvailability');
+        Route::get('/mentor-services', 'DashboardController@mentorServices');
+        Route::get('/survey-list', 'DashboardController@surveyList');
+        Route::match(['get','post'], '/survey-details/{id}', 'DashboardController@surveyDetails');
+        Route::get('/survey-result/{id}', 'DashboardController@surveyResult');
+        Route::get('/logout', 'DashboardController@logout');
         /* common */
         /* mentor */
 
@@ -94,9 +98,9 @@ use Illuminate\Support\Facades\Route;
         Route::match(['post'], 'validate-signup-otp', 'ApiController@validateSignupOtp');
         Route::match(['get'], 'resend-otp', 'ApiController@resendOtp');
         Route::match(['get'], 'mentor-filter', 'ApiController@mentorFilter');
+        Route::match(['post'], 'get-mentor-time-slots', 'ApiController@getMentorTimeSlots');
     });
 /* API */
-
 /* Admin Panel */
     Route::prefix('/admin')->namespace('App\Http\Controllers\Admin')->group(function(){
         Route::match(['get', 'post'], '/', 'UserController@login');
@@ -213,6 +217,13 @@ use Illuminate\Support\Facades\Route;
                     Route::get('language/delete/{id}', 'LanguageController@delete');
                     Route::get('language/change-status/{id}', 'LanguageController@change_status');
                 /* language */
+                /* subject */
+                    Route::get('subject/list', 'SubjectController@list');
+                    Route::match(['get', 'post'], 'subject/add', 'SubjectController@add');
+                    Route::match(['get', 'post'], 'subject/edit/{id}', 'SubjectController@edit');
+                    Route::get('subject/delete/{id}', 'SubjectController@delete');
+                    Route::get('subject/change-status/{id}', 'SubjectController@change_status');
+                /* subject */
                 /* social platforms */
                     Route::get('social-platform/list', 'SocialPlatformController@list');
                     Route::match(['get', 'post'], 'social-platform/add', 'SocialPlatformController@add');
@@ -342,5 +353,7 @@ use Illuminate\Support\Facades\Route;
                 Route::get('enquiry/view-details/{id}', 'EnquiryController@details');
             /* enquiries */
         });
+
     });
+
 /* Admin Panel */

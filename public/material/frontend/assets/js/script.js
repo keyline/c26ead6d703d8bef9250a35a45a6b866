@@ -438,7 +438,7 @@ $(document).ready(function() {
 // surajit js
 
 $('#timing-slider').owlCarousel({
-    loop: true,
+    loop: false,
     nav: true,
     dots: false,
     navText: ["<i class='zmdi zmdi-arrow-left'></i>", "<i class='zmdi zmdi-arrow-right'></i>"],

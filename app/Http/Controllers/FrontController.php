@@ -31,12 +31,14 @@ use App\Models\UserActivity;
 use App\Models\UserDocument;
 use App\Models\RequireDocument;
 use App\Models\BookingRating;
+use App\Models\MentorSlot;
 
 use App\Rules\ReCaptcha;
 use Auth;
 use Session;
 use Helper;
 use Hash;
+use DateTime;
 
 class FrontController extends Controller
 {
@@ -241,16 +243,84 @@ class FrontController extends Controller
     /* Mentor Details */
         public function mentorDetails($displayName, $user_id){
             $user_id                        = Helper::decoded($user_id);
-            $data                           = [];
+            $data['profileDetail']          = MentorProfile::where('user_id', '=', $user_id)->first();
+            $data['rating_star']            = $this->getAvgRating($user_id);
+            $getMentorAvls                  = MentorAvailability::select('day_of_week_id')->where('mentor_user_id', '=', $user_id)->orderBy('day_of_week_id', 'ASC')->get();
+            $avl_days                       = [];
+            if($getMentorAvls){
+                foreach($getMentorAvls as $getMentorAvl){
+                    $avl_days[] = Helper::getShortDayName($getMentorAvl->day_of_week_id);
+                }
+            }
+            $data['avl_days']               = $avl_days;
+            $mentor_services                = [];
+            $getServiceDetails = ServiceDetail::select('id', 'service_attribute_id', 'title', 'description', 'duration', 'total_amount_payable', 'slashed_amount')->where('mentor_user_id', '=', $user_id)->where('status', '=', 1)->get();
+            if($getServiceDetails){
+                foreach($getServiceDetails as $getServiceDetail){
+                    $service_attribute_id   = $getServiceDetail->service_attribute_id;
+                    $getServiceDetails2     = ServiceTypeAttribute::select('service_id')->where('service_attribute_id', '=', $service_attribute_id)->where('is_active', '=', 1)->first();
+                    if($getServiceDetails2){
+                        $service = Service::select('name')->where('id', '=', $getServiceDetails2->service_id)->where('status', '=', 1)->first();
+                        if($service){
+                            $mentor_services[] = [
+                                'mentor_service_id'         => $getServiceDetail->id,
+                                'service_id'                => $getServiceDetails2->service_id,
+                                'service_attribute_id'      => $service_attribute_id,
+                                'service_category'          => $service->name,
+                                'service_title'             => $getServiceDetail->title,
+                                'service_description'       => $getServiceDetail->description,
+                                'service_duration'          => $getServiceDetail->duration,
+                                'service_amount'            => $getServiceDetail->total_amount_payable,
+                                'service_slashed_amount'    => $getServiceDetail->slashed_amount,
+                            ];
+                        }
+                    }
+                }
+            }
+            $data['mentor_services']        = $mentor_services;
+            
             $title                          = 'Mentor Details';
             $page_name                      = 'mentor-details';
             echo $this->front_before_login_layout($title,$page_name,$data);
         }
     /* Mentor Details */
     /* Service Details */
-        public function serviceDetails($displayName, $user_id){
-            $user_id                        = Helper::decoded($user_id);
-            $data                           = [];
+        public function serviceDetails($displayName, $mentor_service_id){
+            $mentor_service_id              = Helper::decoded($mentor_service_id);
+            $mentorService                  = $this->getServiceDetails($mentor_service_id);
+            $bookingTestimonials            = BookingRating::where('mentor_id', '=', $mentorService['mentor_id'])->where('mentor_service_id', '=', $mentor_service_id)->where('status', '=', 1)->get();
+            $testimonials                   = [];
+            if($bookingTestimonials){ foreach($bookingTestimonials as $bookingTestimonial){
+                $studentProfile          = StudentProfile::where('user_id', '=', $bookingTestimonial->student_id)->first();
+                $testimonials[] = [
+                    'student_id'    => $bookingTestimonial->student_id,
+                    'student_name'  => (($studentProfile)?$studentProfile->full_name:''),
+                    'student_image' => (($studentProfile)?(($studentProfile->profile_pic != '')?env('UPLOADS_URL').'user/'.$studentProfile->profile_pic:env('NO_IMAGE_AVATAR')):env('NO_IMAGE_AVATAR')),
+                    'review'        => $bookingTestimonial->review,
+                ];
+            } }
+            /* available dates for booking */
+                $generalSetting         = GeneralSetting::find('1');
+                $date_available         = $generalSetting->date_available;
+                $datetime               = new DateTime('tomorrow');
+                $startDate              = $datetime->format('Y-m-d');
+                $endDate                = date('Y-m-d', strtotime('+'.$date_available.' days'));
+                $dateList               = Helper::getDatesFromRange($startDate, $endDate);
+                $date_range             = [];
+                if(!empty($dateList)){
+                    for($d=0;$d<count($dateList);$d++){
+                        $date_range[]             = [
+                            'actual_date'   => $dateList[$d],
+                            'display_date'  => date_format(date_create($dateList[$d]), "d M"),
+                            'date_day'      => date_format(date_create($dateList[$d]), "D"),
+                        ];
+                    }
+                }
+            /* available dates for booking */
+            $data['date_range']             = $date_range;
+            $data['mentorService']          = $mentorService;
+            // Helper::pr($data['mentorService']);
+            $data['testimonials']           = $testimonials;
             $title                          = 'Service Details';
             $page_name                      = 'service-details';
             echo $this->front_before_login_layout($title,$page_name,$data);
