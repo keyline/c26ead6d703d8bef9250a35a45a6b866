@@ -1,10 +1,11 @@
 var origin   = window.location.origin;
+//alert(origin);
 if(origin == 'https://stumento.keylines.net.in'){
     var base_url    = 'https://stumento.keylines.net.in/api/';
     var baseURL     = 'https://stumento.keylines.net.in/';
 } else {
-    var base_url    = 'http://localhost/c26ead6d703d8bef9250a35a45a6b866/api/';
-    var baseURL     = 'http://localhost/c26ead6d703d8bef9250a35a45a6b866/';
+    var base_url    = 'https://stumento.test/api/';
+    var baseURL     = 'https://stumento.test/';
 }
 var projectKey  = 'facb6e0a6fcbe200dca2fb60dec75be7';
 var source      = 'WEB';
