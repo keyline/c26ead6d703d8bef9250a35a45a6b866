@@ -63,10 +63,15 @@ class DashboardController extends Controller
     /* index */
     /*profile*/
     public function profile(Request $request){
-        $userId = $request->session()->get('user_id');
-        $getStudentId = MentorProfile::where('user_id', '=', $userId)->first();
+        $userId         = $request->session()->get('user_id');
+        $role           = $request->session()->get('role');
+        if($role == 2){
+            $getStudentId   = MentorProfile::where('user_id', '=', $userId)->first();
+        } else {
+            $getStudentId   = StudentProfile::where('user_id', '=', $userId)->first();
+        }
         if($request->isMethod('post')){
-            $postData = $request->all();
+            $postData   = $request->all();
             if($request->post('mode')=='updateBankDetails'){
                 $ID       = $postData['student_id'];
                 // Helper::pr($postData);
@@ -108,8 +113,13 @@ class DashboardController extends Controller
                 $fields = [
                             'email'          => $email,
                         ];
-                $getID = MentorProfile::where('id', '=', $ID)->first();
-                User::where('id', '=', $getID->user_id)->update($fields);
+                if($role == 2){
+                    $getID = MentorProfile::where('id', '=', $ID)->first();
+                    User::where('id', '=', $getID->user_id)->update($fields);
+                } else {
+                    $getID = StudentProfile::where('id', '=', $ID)->first();
+                    User::where('id', '=', $getID->user_id)->update($fields);
+                }
                 return redirect()->back()->with('success_message', 'Your Email Updated Successfully !!!');
                 } else {
                     return redirect()->back()->with('error_message', 'All Fields Required !!!');
@@ -126,8 +136,13 @@ class DashboardController extends Controller
                 $fields = [
                             'phone'          => $phone,
                         ];
-                $getID = MentorProfile::where('id', '=', $ID)->first();
-                User::where('id', '=', $getID->user_id)->update($fields);
+                if($role == 2){
+                    $getID = MentorProfile::where('id', '=', $ID)->first();
+                    User::where('id', '=', $getID->user_id)->update($fields);
+                } else {
+                    $getID = StudentProfile::where('id', '=', $ID)->first();
+                    User::where('id', '=', $getID->user_id)->update($fields);
+                }
                 return redirect()->back()->with('success_message', 'Your Mobile Number Updated Successfully !!!');
                 } else {
                     return redirect()->back()->with('error_message', 'All Fields Required !!!');
@@ -144,8 +159,13 @@ class DashboardController extends Controller
                 $fields = [
                             'password'  =>  Hash::make($password),
                         ];
-                $getID = MentorProfile::where('id', '=', $ID)->first();
-                User::where('id', '=', $getID->user_id)->update($fields);
+                if($role == 2){
+                    $getID = MentorProfile::where('id', '=', $ID)->first();
+                    User::where('id', '=', $getID->user_id)->update($fields);
+                } else {
+                    $getID = StudentProfile::where('id', '=', $ID)->first();
+                    User::where('id', '=', $getID->user_id)->update($fields);
+                }
                 return redirect()->back()->with('success_message', 'Your Password Updated Successfully !!!');
                 } else {
                     return redirect()->back()->with('error_message', 'All Fields Required !!!');
@@ -153,8 +173,11 @@ class DashboardController extends Controller
             }
             if($request->post('mode10')=='updateData'){
                 $postData = $request->all();
-                $getDetail  = MentorProfile::where('id', '=', $getStudentId->id)->first();
-                // Helper::pr($postData);
+                if($role == 2){
+                    $getDetail  = MentorProfile::where('id', '=', $getStudentId->id)->first();
+                } else {
+                    $getDetail  = StudentProfile::where('id', '=', $getStudentId->id)->first();
+                }
                 $rules = [
                             'display_name'      => 'required',
                             'fname'             => 'required',
@@ -178,42 +201,58 @@ class DashboardController extends Controller
                     if($this->validate($request, $rules)){
                     $social_platform_array      = array_filter($postData['social_platform']);
                     $social_link_array          = array_filter($postData['social_url']);
+                    if($role == 2){
+                        $edu_institute              = array_filter($postData['edu_institute']);
+                        $edu_title                  = array_filter($postData['edu_title']);
+                        $edu_year                   = array_filter($postData['edu_year']);
 
-                    $edu_institute              = array_filter($postData['edu_institute']);
-                    $edu_title                  = array_filter($postData['edu_title']);
-                    $edu_year                   = array_filter($postData['edu_year']);
+                        $work_institute             = array_filter($postData['work_institute']);
+                        $work_title                 = array_filter($postData['work_title']);
+                        $work_year                  = array_filter($postData['work_year']);
 
-                    $work_institute             = array_filter($postData['work_institute']);
-                    $work_title                 = array_filter($postData['work_title']);
-                    $work_year                  = array_filter($postData['work_year']);
-
-                    $award_title                = array_filter($postData['award_title']);
-                    $award_year                 = array_filter($postData['award_year']);
-                    
-                    $fields = [
-                                'first_name'        => $postData['fname'],
-                                'last_name'         => $postData['lname'],
-                                'full_name'         => $postData['fname'].' '.$postData['lname'],
-                                'display_name'      => $postData['display_name'],
-                                'description'       => $postData['description'],
-                                'social_platform'   => json_encode($social_platform_array),
-                                'social_url'        => json_encode($social_link_array),
-                                'profile_pic'       => $image,
-                                'city'              => $postData['city'],
-                                'languages'         => json_encode($postData['languages']),
-                                'subjects'          => json_encode($postData['subjects']),
-                                'edu_institute'     => json_encode($edu_institute),
-                                'edu_title'         => json_encode($edu_title),
-                                'edu_year'          => json_encode($edu_year),
-                                'work_institute'    => json_encode($work_institute),
-                                'work_title'        => json_encode($work_title),
-                                'work_year'         => json_encode($work_year),
-                                'award_title'       => json_encode($award_title),
-                                'award_year'        => json_encode($award_year),
-                                'updated_at'        => date('Y-m-d H:i:s'),
-                            ];
-                    // Helper::pr($fields);
-                    MentorProfile::where('id', '=', $postData['user_id'])->update($fields);
+                        $award_title                = array_filter($postData['award_title']);
+                        $award_year                 = array_filter($postData['award_year']);
+                        $fields = [
+                                    'first_name'        => $postData['fname'],
+                                    'last_name'         => $postData['lname'],
+                                    'full_name'         => $postData['fname'].' '.$postData['lname'],
+                                    'display_name'      => $postData['display_name'],
+                                    'description'       => $postData['description'],
+                                    'social_platform'   => json_encode($social_platform_array),
+                                    'social_url'        => json_encode($social_link_array),
+                                    'profile_pic'       => $image,
+                                    'city'              => $postData['city'],
+                                    'languages'         => json_encode($postData['languages']),
+                                    'subjects'          => json_encode($postData['subjects']),
+                                    'edu_institute'     => json_encode($edu_institute),
+                                    'edu_title'         => json_encode($edu_title),
+                                    'edu_year'          => json_encode($edu_year),
+                                    'work_institute'    => json_encode($work_institute),
+                                    'work_title'        => json_encode($work_title),
+                                    'work_year'         => json_encode($work_year),
+                                    'award_title'       => json_encode($award_title),
+                                    'award_year'        => json_encode($award_year),
+                                    'updated_at'        => date('Y-m-d H:i:s'),
+                                ];
+                        // Helper::pr($fields);
+                        MentorProfile::where('id', '=', $postData['user_id'])->update($fields);
+                    } else {
+                        $fields = [
+                                    'first_name'        => $postData['fname'],
+                                    'last_name'         => $postData['lname'],
+                                    'full_name'         => $postData['fname'].' '.$postData['lname'],
+                                    'display_name'      => $postData['display_name'],
+                                    'about_yourself'    => $postData['description'],
+                                    'social_platform'   => json_encode($social_platform_array),
+                                    'social_url'        => json_encode($social_link_array),
+                                    'profile_pic'       => $image,
+                                    'city'              => $postData['city'],
+                                    'updated_at'        => date('Y-m-d H:i:s'),
+                                ];
+                        // Helper::pr($fields);
+                        StudentProfile::where('id', '=', $postData['user_id'])->update($fields);
+                    }
+                    User::where('id', '=', $postData['user_id'])->update(['name' => $postData['fname'].' '.$postData['lname']]);
                     return redirect()->back()->with('success_message', 'Profile Updated Successfully !!!');
                 } else {
                     return redirect()->back()->with('error_message', 'All Fields Required !!!');
@@ -223,10 +262,14 @@ class DashboardController extends Controller
         $data['socialPlatforms']    = SocialPlatform::where('status', '=', 1)->get();
         $data['languages']          = Language::where('status', '=', 1)->get();
         $data['subjects']           = Subject::where('status', '=', 1)->get();
-        $data['profileDetail']      = MentorProfile::where('id', '=', $getStudentId->id)->first();
-        // Helper::pr($data['profileDetail']);
+        if($role == 2){
+            $data['profileDetail']      = MentorProfile::where('user_id', '=', $userId)->first();
+            $page_name                  = 'profile';
+        } else {
+            $data['profileDetail']      = StudentProfile::where('user_id', '=', $userId)->first();
+            $page_name                  = 'student-profile';
+        }
         $title                      = 'Profile';
-        $page_name                  = 'profile';
         echo $this->front_dashboard_layout($title,$page_name,$data);
     }
     /*profile*/

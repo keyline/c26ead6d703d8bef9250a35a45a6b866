@@ -192,7 +192,11 @@ $pageName = $routeName->uri();
           function getTimeSlots(d){
             $('.timing-box').removeClass('active');
             $('#cal' + d).addClass('active');
-            $('#booking_date').val(d);
+            $('#booking_date1').val(d);
+            $('#booking_date2').val(d);
+            $('#booking_date3').val(d);
+            $('#bookingDate').text(d);
+            $('.next-btn').attr('disabled', true);
 
             let booking_date    = d;
             let mentor_user_id  = $('#mentor_user_id').val();
@@ -241,10 +245,21 @@ $pageName = $routeName->uri();
         function setTimeSlot(slotId, fromTime, toTime){
             $('.timeslot').removeClass('active');
             $('#slot' + slotId).addClass('active');
-            $('#booking_slot_from').val(fromTime);
-            $('#booking_slot_to').val(toTime);
+            $('#booking_slot_from1').val(fromTime);
+            $('#booking_slot_to1').val(toTime);
+            $('#booking_slot_from2').val(fromTime);
+            $('#booking_slot_to2').val(toTime);
+            $('#booking_slot_from3').val(fromTime);
+            $('#booking_slot_to3').val(toTime);
+            $('#bookingFTime').text(fromTime);
+            $('#bookingTTime').text(toTime);
             $('.next-btn').attr('disabled', false);
         }
+
+        $('#bookingModal').modal({
+            backdrop: 'static',
+            keyboard: false
+        })
       </script>
    </body>
 </html>

@@ -92,7 +92,7 @@ use App\Helpers\Helper;
                                        <ul class="d-flex justify-content-center flex-column flex-wrap">
                                           <?php if($mentor['last_review'] != ''){?>
                                              <li>
-                                                <i class="fas fa-comment"></i> <?=$mentor['last_review']?>
+                                                <i class="fas fa-comment"></i> <?=substr($mentor['last_review'], 0, 40).' ...'?>
                                              </li>
                                           <?php } ?>
                                           <li class="<?=(($mentor['avl_today'])?'available':'not-available')?>">

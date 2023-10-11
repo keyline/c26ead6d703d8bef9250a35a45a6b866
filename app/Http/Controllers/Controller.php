@@ -230,7 +230,13 @@ class Controller extends BaseController
         $data['title']              = $title.' :: '.$data['generalSetting']->site_name;
         $data['page_header']        = $title;
         $user_id                    = session('user_id');
-        $data['user']               = User::find($user_id);
+        $role                       = session('role');
+        if($role == 2){
+            $data['user']      = MentorProfile::where('user_id', '=', $user_id)->first();
+        } else {
+            $data['user']      = StudentProfile::where('user_id', '=', $user_id)->first();
+        }
+        // $data['user']               = User::find($user_id);
         // Helper::pr($data['user']);
 
         $data['head']               = view('front.elements.head', $data);
