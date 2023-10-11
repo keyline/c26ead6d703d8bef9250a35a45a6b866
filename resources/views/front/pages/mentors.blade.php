@@ -47,8 +47,8 @@ use App\Helpers\Helper;
                      <input type="checkbox"> &nbsp;Available today
                   </div> -->
                   <div class="input-group justify-content-center">
-                     <button type="button" onclick="getMentorFilter();">Search</button>
-                     <button type="button" id="reset-btn" onclick="getMentorFilterReset();" style="display: none;">Reset</button>
+                     <button class="mx-2" type="button" onclick="getMentorFilter();">Search</button>
+                     <button class="mx-2" type="button" id="reset-btn" onclick="getMentorFilterReset();" style="display: none;">Reset</button>
                   </div>
                <!-- </form> -->
             </div>
@@ -77,7 +77,7 @@ use App\Helpers\Helper;
                            <a href="<?=url('mentor-details/'.$mentorDisplayName.'/'.Helper::encoded($mentorId))?>">
                               <div class="mentor-box <?=$className2?>">
                                  <div class="mentor-img-box">
-                                    <img src="<?=$mentor['profile_image']?>" alt="<?=$mentor['name']?>" style="width: 150px;border-radius: 50%;">
+                                    <img src="<?=$mentor['profile_image']?>" alt="<?=$mentor['name']?>">
                                  </div>
                                  <div class="mentor-content">
                                     <h4><?=$mentor['name']?> <i class="fas fa-check check-icon" data-toggle="tooltip"

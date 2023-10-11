@@ -16,7 +16,7 @@
         <div class="mentor-dtl-left">
           <div class="row">
             <div class="col-12">
-              <div class="mentor-profile mentortime_bg">
+              <div class="mentor-profile mentortime_bg service-mentordetails">
                 <div class="metor_goback">
                   <a href="<?=url('mentor-details/'.$mentorService['display_name'].'/'.Helper::encoded($mentorService['mentor_id']))?>">
                     <i class="fa-solid fa-arrow-left"></i>

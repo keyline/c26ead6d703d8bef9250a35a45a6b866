@@ -50,7 +50,31 @@ $pageName = $routeName->uri();
                   </ul>
                <?php } else {?>
                   <div class="header_loginbtn">
+
                      <!-- <button class="dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false">
+                     <div class="dropdown">
+                        <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+                           <div class="avatar avatar-md">
+                                 <?php if($user->image != ''){?>
+                                 <img src="<?=env('UPLOADS_URL').'user/'.$user->image?>" alt="<?=$user->name?>" class="avatar-img">
+                              <?php } else {?>
+                                 <img src="<?=env('NO_IMAGE')?>" alt="<?=$user->name?>" class="avatar-img">
+                              <?php }?>
+                           </div>
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                           <li>Welcome</li>
+                           <li><h4><?=(($user)?$user->name:'')?></h4></li>
+                           <li><hr class="dropdown-divider"></li>
+                           <li><a class="dropdown-item" href="<?=url('logout')?>"><i class="fa-regular fa-sign-out"></i> Sign Out</a></li>
+                        </ul>
+                            
+
+                     </div>
+                  </div>
+                  <div class="login-profile dropdown">
+                     <button class="dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false">
+
                          <div class="login-profile-avatar">
                              <?php if($user->image != ''){?>
                                <img src="<?=env('UPLOADS_URL').'user/'.$user->image?>" alt="<?=$user->name?>" style="width: 100px; height:100px; border-radius: 50%;">

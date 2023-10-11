@@ -347,6 +347,19 @@ ul.navbar-nav {
     display: table;
 	padding-bottom: 40px;
 }
+.mentor-profile .mentor-profile-left .profile-img {
+    width: 100%;
+    text-align: center;
+}
+.mentor-profile .mentor-profile-left ul.mentorprofile_info {
+    width: 100%;
+    margin-left: 0;
+}
+.total-mentor-box {
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+}
 }
 
 
