@@ -19,7 +19,7 @@ $mentor           = MentorProfile::where('user_id', '=', $booking->mentor_id)->f
       <div class="innerpage_banner">
          <div class="innerbanner_img"><img src="<?=env('FRONT_ASSETS_URL')?>assets/images/success_banner.jpg" alt="banner"></div>
          <div class="innerbanner_bredcum">
-            <h1>Success</h1>
+            <h1>Payment Success</h1>
          </div>
       </div>
    </div>
@@ -82,14 +82,22 @@ $mentor           = MentorProfile::where('user_id', '=', $booking->mentor_id)->f
                            <td><?=$booking->duration?> Mins</td>
                         </tr>
                         <tr>
-                           <th>Payable amount</th>
-                           <td><?=number_format($booking->payable_amt,2)?></td>
+                           <th>Payment amount</th>
+                           <td><?=number_format($booking->payment_amount,2)?></td>
+                        </tr>
+                        <tr>
+                           <th>Txn No.</th>
+                           <td><?=$booking->txn_id?></td>
+                        </tr>
+                        <tr>
+                           <th>Payment Time</th>
+                           <td><?=date_format(date_create($booking->payment_date_time), "M d, Y h:i A")?></td>
                         </tr>
                      </tbody>
                   </table>
                </div>
                <div class="paynow_btn">
-                  <a href="javascript:void(0);">Pay Now  <strong><i class="fa-solid fa-indian-rupee-sign"></i> <?=$booking->payable_amt?></strong></a>
+                  <a href="<?=url('user/student-transactions')?>"><strong><i class="fa fa-arrow-right"></i> Go To Transactions</strong></a>
                </div>
             </div>
          </div>

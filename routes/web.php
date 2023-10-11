@@ -70,12 +70,16 @@ Route::prefix('/')->namespace('App\Http\Controllers')->group(function () {
             /* common */
                 Route::match(['get','post'], '/dashboard', 'DashboardController@index');
                 Route::match(['get','post'], '/profile', 'DashboardController@profile');
+                Route::get('/logout', 'DashboardController@logout');
+
+                Route::match(['get','post'], '/student-bookings', 'DashboardController@studentBookings');
+                Route::match(['get','post'], '/student-transactions', 'DashboardController@studentTransactions');
+
                 Route::get('/mentor-availability', 'DashboardController@mentorAvailability');
                 Route::get('/mentor-services', 'DashboardController@mentorServices');
                 Route::get('/survey-list', 'DashboardController@surveyList');
                 Route::match(['get','post'], '/survey-details/{id}', 'DashboardController@surveyDetails');
                 Route::get('/survey-result/{id}', 'DashboardController@surveyResult');
-                Route::get('/logout', 'DashboardController@logout');
             /* common */
             /* mentor */
 

@@ -22,6 +22,8 @@ use App\Models\ServiceTypeAttribute;
 use App\Models\MentorAvailability;
 use App\Models\StudentProfile;
 use App\Models\MentorProfile;
+use App\Models\AdminPayment;
+use App\Models\MentorPayment;
 
 use Session;
 use Helper;
@@ -427,6 +429,24 @@ class Controller extends BaseController
                 // Handle JSON parse error...
             }
         }
+    }
+    // get admin balance
+    public function getAdminBalance(){
+        $adminBal   = 0;
+        $getBalance = AdminPayment::select('closing_amt')->orderBy('id', 'DESC')->first();
+        if($getBalance){
+            $adminBal   = $getBalance->closing_amt;
+        }
+        return $adminBal;
+    }
+    // get mentor balance
+    public function getMentorBalance($mentor_id){
+        $mentorBal   = 0;
+        $getBalance = MentorPayment::select('closing_amt')->where('mentor_id', '=', $mentor_id)->orderBy('id', 'DESC')->first();
+        if($getBalance){
+            $mentorBal   = $getBalance->closing_amt;
+        }
+        return $mentorBal;
     }
     public function jobseekerNamingFormat($fname, $lname, $dob)
     {

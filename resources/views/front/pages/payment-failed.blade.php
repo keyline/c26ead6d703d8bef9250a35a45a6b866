@@ -89,7 +89,7 @@ $mentor           = MentorProfile::where('user_id', '=', $booking->mentor_id)->f
                   </table>
                </div>
                <div class="paynow_btn">
-                  <a href="javascript:void(0);">Pay Now  <strong><i class="fa-solid fa-indian-rupee-sign"></i> <?=$booking->payable_amt?></strong></a>
+                  <a href="<?=url('booking-success/'.Helper::encoded($booking->id))?>"><strong><i class="fa fa-arrow-right"></i> Retry Payment</strong></a>
                </div>
             </div>
          </div>

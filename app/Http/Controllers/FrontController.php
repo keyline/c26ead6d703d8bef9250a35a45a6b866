@@ -33,6 +33,8 @@ use App\Models\RequireDocument;
 use App\Models\BookingRating;
 use App\Models\MentorSlot;
 use App\Models\Booking;
+use App\Models\AdminPayment;
+use App\Models\MentorPayment;
 
 use App\Rules\ReCaptcha;
 use Auth;
@@ -1085,32 +1087,63 @@ class FrontController extends Controller
                     $ch = $this->get_curl_handle($razorpay_payment_id, $amount);
                     //execute post
                     $result = curl_exec($ch);
-                    // echo $result;
-                    // $response_array = json_decode($result, true);
-                    // echo "<pre>";print_r($response_array);die;
-
                     $http_status = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-                    // echo $http_status;
-                    // die;
-
                     if ($result === false) {
                         $success = false;
                         $error = 'Curl error: '.curl_error($ch);
                     } else {
                         $response_array = json_decode($result, true);
-                        // echo "<pre>";print_r($response_array);die;
-                        // exit;
-                        $payment_id = $response_array['description'];
-                        $fields     = array(
-                                        'payment_status'        => 1,
-                                        'txn_id'                => $response_array['id'],
-                                        'payment_amount'        => ($response_array['amount']/100),
-                                        'payment_date_time'     => date('Y-m-d H:i:s'),
-                                        'payment_method'        => 'RAZORPAY',
-                                        'payment_mode'          => $response_array['method'],
-                                        'card_id'               => $response_array['card_id'],
-                                    );
-                        Booking::where('id', '=', $payment_id)->update();                                            
+                        $payment_id     = $response_array['description'];
+                        /* booking table update */
+                            $fields     = array(
+                                            'payment_status'        => 1,
+                                            'txn_id'                => $response_array['id'],
+                                            'payment_amount'        => ($response_array['amount']/100),
+                                            'payment_date_time'     => date('Y-m-d H:i:s'),
+                                            'payment_method'        => 'RAZORPAY',
+                                            'payment_mode'          => $response_array['method'],
+                                            'card_id'               => $response_array['card_id'],
+                                            'status'                => 1,
+                                        );
+                            Booking::where('id', '=', $payment_id)->update($fields);
+                        /* booking table update */
+                        /* admin payments */
+                            $generalSetting             = GeneralSetting::find('1');
+                            $booking                    = Booking::where('id', '=', $payment_id)->first();
+                            $adminBalance               = $this->getAdminBalance();
+                            $transactionAmt             = ($response_array['amount']/100);
+                            $closing_amt                = ($adminBalance + $transactionAmt);
+                            $actual_amount              = $booking->actual_amount;
+                            $stumento_commision_percent = $generalSetting->stumento_commision_percent;
+                            $admin_commision            = (($actual_amount * $stumento_commision_percent)/100);
+                            $mentor_commision           = ($actual_amount - $admin_commision);
+                            $fields2        = array(
+                                            'type'                  => 'CREDIT',
+                                            'mentor_id'             => $booking->mentor_id,
+                                            'booking_id'            => $payment_id,
+                                            'opening_amt'           => $adminBalance,
+                                            'student_pay_amt'       => $transactionAmt,
+                                            'closing_amt'           => $closing_amt,
+                                            'gst_percent'           => $booking->gst_percent,
+                                            'gst_amount'            => $booking->gst_amount,
+                                            'admin_commision'       => $admin_commision,
+                                            'mentor_commision'      => $mentor_commision,
+                                        );
+                            AdminPayment::insert($fields2);
+                        /* admin payments */
+                        /* mentor payments */
+                            $mentorBalance              = $this->getMentorBalance($booking->mentor_id);
+                            $mentor_closing_amt         = ($mentorBalance + $mentor_commision);
+                            $fields3        = array(
+                                            'type'                  => 'CREDIT',
+                                            'mentor_id'             => $booking->mentor_id,
+                                            'booking_id'            => $payment_id,
+                                            'opening_amt'           => $mentorBalance,
+                                            'transaction_amt'       => $mentor_commision,
+                                            'closing_amt'           => $mentor_closing_amt
+                                        );
+                            MentorPayment::insert($fields3);
+                        /* mentor payments */
                         //Check success response
                         if ($http_status === 200 and isset($response_array['error']) === false) {
                             $success = true;
@@ -1131,17 +1164,13 @@ class FrontController extends Controller
                     $error = 'OPENCART_ERROR:Request to Razorpay Failed';
                 }
                 if ($success === true) {
-                    // if(!empty($this->session->userdata('ci_subscription_keys'))) {
-                    //     $this->session->unset_userdata('ci_subscription_keys');
-                    //  }
                     if (!$payment_id) {
-                        redirect(base_url().'online-payment-success/'.urlencode(base64_encode($payment_id)));
+                        return redirect('/payment/success/'.Helper::encoded($payment_id))->with('success_message', 'Payment Completed Successfully !!!');
                     } else {
-                        redirect(base_url().'online-payment-success/'.urlencode(base64_encode($payment_id)));
+                        return redirect('/payment/success/'.Helper::encoded($payment_id))->with('success_message', 'Payment Completed Successfully !!!');
                     }
-
                 } else {
-                    redirect(base_url().'online-payment-success/'.urlencode(base64_encode($payment_id)));
+                    return redirect('/payment/success/'.Helper::encoded($payment_id))->with('success_message', 'Payment Completed Successfully !!!');
                 }
             } else {
                 echo 'An error occured. Contact site administrator, please!';
