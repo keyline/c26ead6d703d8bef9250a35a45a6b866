@@ -28,10 +28,21 @@
     <script src="<?=env('FRONT_DASHBOARD_ASSETS_URL')?>vendors/simplebar/js/simplebar.min.js"></script>
     <script src="<?=env('FRONT_DASHBOARD_ASSETS_URL')?>vendors/@coreui/utils/js/coreui-utils.js"></script>
     <script src="<?=env('FRONT_DASHBOARD_ASSETS_URL')?>js/main.js"></script>
-    
+    <script defer type="text/javascript" src="<?=env('FRONT_DASHBOARD_ASSETS_URL')?>js/script.js"></script>
+    <script src="<?=env('FRONT_DASHBOARD_ASSETS_URL')?>owl/owl-min.js"></script>
+    <script src="https://cdn.datatables.net/v/dt/dt-1.13.6/datatables.min.js"></script>
    </body>
 </html>
    <script type="text/javascript">
+   		$(document).ready( function () {
+				var table =	$('#example')
+					.addClass( 'nowrap' )
+					.DataTable( {
+						responsive: true,
+						"order": [[1, 'asc']],
+						search: {"search": ""},
+					});
+			});
         (function() {
 			'use strict'
 			document.querySelector('#myNavbarToggler4').addEventListener('click', function() {

@@ -61,6 +61,22 @@ class DashboardController extends Controller
         echo $this->front_dashboard_layout($title,$page_name,$data);
     }
     /* index */
+    /* student bookings */
+        public function studentBookings(){
+            $data           = [];
+            $title          = 'Booking History';
+            $page_name      = 'student-bookings';
+            echo $this->front_dashboard_layout($title,$page_name,$data);
+        }
+    /* student bookings */
+    /* student transaction */
+        public function studentTransactions(){
+            $data           = [];
+            $title          = 'Transactions History';
+            $page_name      = 'student-transactions';
+            echo $this->front_dashboard_layout($title,$page_name,$data);
+        }
+    /* student transaction */
     /*profile*/
     public function profile(Request $request){
         $userId         = $request->session()->get('user_id');

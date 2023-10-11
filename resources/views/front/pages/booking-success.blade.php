@@ -19,7 +19,7 @@ $mentor           = MentorProfile::where('user_id', '=', $booking->mentor_id)->f
       <div class="innerpage_banner">
          <div class="innerbanner_img"><img src="<?=env('FRONT_ASSETS_URL')?>assets/images/success_banner.jpg" alt="banner"></div>
          <div class="innerbanner_bredcum">
-            <h1>Success</h1>
+            <h1>Booking Success</h1>
          </div>
       </div>
    </div>
