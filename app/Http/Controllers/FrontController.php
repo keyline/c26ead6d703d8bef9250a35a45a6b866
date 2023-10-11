@@ -32,6 +32,7 @@ use App\Models\UserDocument;
 use App\Models\RequireDocument;
 use App\Models\BookingRating;
 use App\Models\MentorSlot;
+use App\Models\Booking;
 
 use App\Rules\ReCaptcha;
 use Auth;
@@ -285,7 +286,7 @@ class FrontController extends Controller
         }
     /* Mentor Details */
     /* Service Details */
-        public function serviceDetails($displayName, $mentor_service_id){
+        public function serviceDetails(Request $request, $displayName, $mentor_service_id){
             $mentor_service_id              = Helper::decoded($mentor_service_id);
             $mentorService                  = $this->getServiceDetails($mentor_service_id);
             $bookingTestimonials            = BookingRating::where('mentor_id', '=', $mentorService['mentor_id'])->where('mentor_service_id', '=', $mentor_service_id)->where('status', '=', 1)->get();
@@ -319,10 +320,367 @@ class FrontController extends Controller
             /* available dates for booking */
             $data['date_range']             = $date_range;
             $data['mentorService']          = $mentorService;
-            // Helper::pr($data['mentorService']);
             $data['testimonials']           = $testimonials;
+            $data['documents']              = RequireDocument::where('status', '=', 1)->where('user_type', '=', 'student')->orderBy('id', 'ASC')->get();
+
+            if($request->isMethod('post')){
+                $postData = $request->all();
+                // Helper::pr($postData);
+                /* direct */
+                    $getLastBooking     = Booking::select('id', 'sl_no')->orderBy('id', 'DESC')->first();
+                    if($getLastBooking){
+                        $sl_no = $getLastBooking->sl_no + 1;
+                        $booking_no = 'STUMENTO/'.str_pad($sl_no, 6, "0", STR_PAD_LEFT);
+                    } else {
+                        $sl_no = 1;
+                        $booking_no = 'STUMENTO/'.str_pad($sl_no, 6, "0", STR_PAD_LEFT);
+                    }
+                    /* gst calculation */
+                        $actual_amount  = $postData['payable_amt'];
+                        $gst_percent    = $generalSetting->igst_percent;
+                        $gst_amount     = (($actual_amount * $gst_percent)/100);
+                        $payable_amt    = $actual_amount + $gst_amount;
+                    /* gst calculation */
+                    /* booking submit */
+                        $activityData   = [
+                            'sl_no'                 => $sl_no,
+                            'booking_no'            => $booking_no,
+                            'mentor_id'             => $postData['mentor_user_id'],
+                            'student_id'            => $request->session()->get('user_id'),
+                            'mentor_service_id'     => $postData['mentor_service_id'],
+                            'service_type_id'       => $postData['service_type_id'],
+                            'service_attribute_id'  => $postData['service_attribute_id'],
+                            'service_id'            => $postData['service_id'],
+                            'booking_date'          => $postData['booking_date'],
+                            'booking_slot_from'     => date_format(date_create($postData['booking_slot_from']), "H:i:s"),
+                            'booking_slot_to'       => date_format(date_create($postData['booking_slot_to']), "H:i:s"),
+                            'booking_date_time'     => date('Y-m-d H:i:s'),
+                            'duration'              => $postData['duration'],
+                            'discount'              => 0,
+                            'actual_amount'         => $actual_amount,
+                            'gst_percent'           => $gst_percent,
+                            'gst_amount'            => $gst_amount,
+                            'payable_amt'           => $payable_amt,
+                        ];
+                        // Helper::pr($activityData);
+                        $booking_id = Booking::insertGetId($activityData);
+                    /* booking submit */
+                    /* metting lnk generation */
+
+                    /* metting lnk generation */
+                    return redirect('booking-success/'.Helper::encoded($booking_id));
+                /* direct */
+                /* signin */
+                    if($postData['mode'] == 'SIGNIN'){
+                        $rules = [
+                            'email'     => 'required|email|max:255',
+                            'password'  => 'required|max:30',
+                        ];
+                        if($this->validate($request, $rules)){
+                            if(Auth::guard('web')->attempt(['email' => $postData['email'], 'password' => $postData['password'], 'valid' => 1, 'role' => 1])){
+                                // Helper::pr(Auth::guard('web')->user());
+                                $sessionData    = Auth::guard('web')->user();
+                                $user_id        = $sessionData['id'];
+                                $role           = $sessionData['role'];
+                                if($role == 1){
+                                    $getUserProfile = StudentProfile::where('user_id', '=', $user_id)->first();
+                                } else {
+                                    $getUserProfile = MentorProfile::where('user_id', '=', $user_id)->first();
+                                }
+                                $request->session()->put('user_id', $sessionData['id']);
+                                $request->session()->put('name', $sessionData['name']);
+                                $request->session()->put('fname', (($getUserProfile)?$getUserProfile->first_name:''));
+                                $request->session()->put('lname', (($getUserProfile)?$getUserProfile->last_name:''));
+                                $request->session()->put('email', $sessionData['email']);
+                                $request->session()->put('role', $sessionData['role']);
+                                $request->session()->put('is_user_login', 1);
+                                // Helper::pr($request->session()->all());die;
+
+                                /* user activity */
+                                    $activityData = [
+                                        'user_email'        => $sessionData['email'],
+                                        'user_name'         => $sessionData['name'],
+                                        'user_type'         => 'USER',
+                                        'ip_address'        => $request->ip(),
+                                        'activity_type'     => 1,
+                                        'activity_details'  => 'Signin Success !!!',
+                                        'platform_type'     => 'WEB',
+                                    ];
+                                    UserActivity::insert($activityData);
+                                /* user activity */
+
+                                $getLastBooking     = Booking::select('id', 'sl_no')->orderBy('id', 'DESC')->first();
+                                if($getLastBooking){
+                                    $sl_no = $getLastBooking->sl_no + 1;
+                                    $booking_no = 'STUMENTO/'.str_pad($sl_no, 6, "0", STR_PAD_LEFT);
+                                } else {
+                                    $sl_no = 1;
+                                    $booking_no = 'STUMENTO/'.str_pad($sl_no, 6, "0", STR_PAD_LEFT);
+                                }
+                                /* gst calculation */
+                                    $actual_amount  = $postData['payable_amt'];
+                                    $gst_percent    = $generalSetting->igst_percent;
+                                    $gst_amount     = (($actual_amount * $gst_percent)/100);
+                                    $payable_amt    = $actual_amount + $gst_amount;
+                                /* gst calculation */
+                                /* booking submit */
+                                    $activityData   = [
+                                        'sl_no'                 => $sl_no,
+                                        'booking_no'            => $booking_no,
+                                        'mentor_id'             => $postData['mentor_user_id'],
+                                        'student_id'            => $sessionData['id'],
+                                        'mentor_service_id'     => $postData['mentor_service_id'],
+                                        'service_type_id'       => $postData['service_type_id'],
+                                        'service_attribute_id'  => $postData['service_attribute_id'],
+                                        'service_id'            => $postData['service_id'],
+                                        'booking_date'          => $postData['booking_date'],
+                                        'booking_slot_from'     => date_format(date_create($postData['booking_slot_from']), "H:i:s"),
+                                        'booking_slot_to'       => date_format(date_create($postData['booking_slot_to']), "H:i:s"),
+                                        'booking_date_time'     => date('Y-m-d H:i:s'),
+                                        'duration'              => $postData['duration'],
+                                        'discount'              => 0,
+                                        'actual_amount'         => $actual_amount,
+                                        'gst_percent'           => $gst_percent,
+                                        'gst_amount'            => $gst_amount,
+                                        'payable_amt'           => $payable_amt,
+                                    ];
+                                    $booking_id = Booking::insertGetId($activityData);
+                                    // Helper::pr($activityData);
+                                /* booking submit */
+                                /* metting lnk generation */
+
+                                /* metting lnk generation */
+                                return redirect('booking-success/'.Helper::encoded($booking_id));
+                            } else {
+                                /* email sent */
+                                    $generalSetting             = GeneralSetting::find('1');
+                                    $subject                    = $generalSetting->site_name.' :: Failed Signin';
+                                    $message                    = view('front.email-templates.failed-login',$postData);
+                                    // echo $message;die;
+                                    // $this->sendMail($postData['email'], $subject, $message);
+                                /* email sent */
+                                /* email log save */
+                                    $postData2 = [
+                                        'name'                  => '',
+                                        'email'                 => $postData['email'],
+                                        'subject'               => $subject,
+                                        'message'               => $message
+                                    ];
+                                    EmailLog::insertGetId($postData2);
+                                /* email log save */
+                                /* user activity */
+                                    $activityData = [
+                                        'user_email'        => $postData['email'],
+                                        'user_name'         => '',
+                                        'user_type'         => 'USER',
+                                        'ip_address'        => $request->ip(),
+                                        'activity_type'     => 0,
+                                        'activity_details'  => 'Invalid Email Or Password !!!',
+                                        'platform_type'     => 'WEB',
+                                    ];
+                                    UserActivity::insert($activityData);
+                                /* user activity */
+                                return redirect()->back()->with('error_message', 'Invalid Email Or Password !!!');
+                            }
+                        } else {
+                            return redirect()->back()->with('error_message', 'All Fields Required !!!');
+                        }
+                    }
+                /* signin */
+                /* signup */
+                    if($postData['mode'] == 'SIGNUP'){
+                        $requestData        = $postData;
+                        $fname              = $requestData['fname'];
+                        $lname              = $requestData['lname'];
+                        $phone              = $requestData['phone'];
+                        $doc_type           = $requestData['doc_type'];
+                        $getRequiredDoc = RequireDocument::where('id', '=', $doc_type)->first();
+                        $checkEmail = User::where('email', '=', $requestData['email'])->first();
+                        if(empty($checkEmail)){
+                            $checkPhone = User::where('phone', '=', $phone)->count();
+                            if($checkPhone <= 0){
+                                if($requestData['password'] == $requestData['confirm_password']){
+                                    $remember_token = rand(1000,9999);
+                                    $postData = [
+                                        'name'                  => $fname.' '.$lname,
+                                        'email'                 => $requestData['email'],
+                                        'email_verified_at'     => date('Y-m-d H:i:s'),
+                                        'phone'                 => $phone,
+                                        'password'              => Hash::make($requestData['password']),
+                                        'remember_token'        => $remember_token,
+                                        'role'                  => 1,
+                                        'valid'                 => 1,
+                                    ];
+                                    $id = User::insertGetId($postData);
+                                    if($doc_type != ''){
+                                        /* student documents */
+                                            $user_doc       = '';
+                                            $imageFile      = $request->file('user_doc');
+                                            if($imageFile != ''){
+                                                $imageName      = $imageFile->getClientOriginalName();
+                                                $uploadedFile   = $this->upload_single_file('user_doc', $imageName, 'user', 'image');
+                                                if($uploadedFile['status']){
+                                                    $user_doc = $uploadedFile['newFilename'];
+
+                                                    $postData3 = [
+                                                        'type'                  => 'STUDENT',
+                                                        'user_id'               => $id,
+                                                        'doucument_id'          => $doc_type,
+                                                        'document_slug'         => Helper::clean((($getRequiredDoc)?$getRequiredDoc->document:'')),
+                                                        'document'              => $user_doc
+                                                    ];
+                                                    UserDocument::insert($postData3);
+                                                } else {
+                                                    $user_doc = '';
+                                                }
+                                            } else {
+                                                $user_doc = '';
+                                            }
+                                        /* student documents */
+                                    }
+                                    /* student profile table */
+                                        $postData2 = [
+                                            'user_id'               => $id,
+                                            'first_name'            => $fname,
+                                            'last_name'             => $lname,
+                                            'full_name'             => $fname.' '.$lname,
+                                            'profile_pic'           => ''
+                                        ];
+                                        StudentProfile::insert($postData2);
+                                    /* student profile table */
+                                    /* email sent */
+                                        $generalSetting             = GeneralSetting::find('1');
+                                        $subject                    = $generalSetting->site_name.' :: Signup Complete';
+                                        $message                    = view('front.email-templates.student-signup',$requestData);
+                                        // $this->sendMail($requestData['email'], $subject, $message);
+                                    /* email sent */
+                                    /* email log save */
+                                        $postData2 = [
+                                            'name'                  => $fname.' '.$lname,
+                                            'email'                 => $requestData['email'],
+                                            'subject'               => $subject,
+                                            'message'               => $message
+                                        ];
+                                        EmailLog::insertGetId($postData2);
+                                    /* email log save */
+                                    /* set session */
+                                        if(Auth::guard('web')->attempt(['email' => $requestData['email'], 'password' => $requestData['password'], 'valid' => 1, 'role' => 1])){
+                                            // Helper::pr(Auth::guard('web')->user());die;
+                                            $sessionData    = Auth::guard('web')->user();
+                                            $user_id        = $sessionData['id'];
+                                            $role           = $sessionData['role'];
+                                            if($role == 1){
+                                                $getUserProfile = StudentProfile::where('user_id', '=', $user_id)->first();
+                                            } else {
+                                                $getUserProfile = MentorProfile::where('user_id', '=', $user_id)->first();
+                                            }
+                                            $request->session()->put('user_id', $sessionData['id']);
+                                            $request->session()->put('name', $sessionData['name']);
+                                            $request->session()->put('fname', (($getUserProfile)?$getUserProfile->first_name:''));
+                                            $request->session()->put('lname', (($getUserProfile)?$getUserProfile->last_name:''));
+                                            $request->session()->put('email', $sessionData['email']);
+                                            $request->session()->put('role', $sessionData['role']);
+                                            $request->session()->put('is_user_login', 1);
+                                            // Helper::pr($request->session()->all());die;
+
+                                            /* user activity */
+                                                $activityData = [
+                                                    'user_email'        => $sessionData['email'],
+                                                    'user_name'         => $sessionData['name'],
+                                                    'user_type'         => 'USER',
+                                                    'ip_address'        => $request->ip(),
+                                                    'activity_type'     => 1,
+                                                    'activity_details'  => 'Signin Success !!!',
+                                                    'platform_type'     => 'WEB',
+                                                ];
+                                                UserActivity::insert($activityData);
+                                            /* user activity */
+
+                                            $getLastBooking     = Booking::select('id', 'sl_no')->orderBy('id', 'DESC')->first();
+                                            if($getLastBooking){
+                                                $sl_no = $getLastBooking->sl_no + 1;
+                                                $booking_no = 'STUMENTO/'.str_pad($sl_no, 6, "0", STR_PAD_LEFT);
+                                            } else {
+                                                $sl_no = 1;
+                                                $booking_no = 'STUMENTO/'.str_pad($sl_no, 6, "0", STR_PAD_LEFT);
+                                            }
+                                            /* gst calculation */
+                                                $actual_amount  = $postData['payable_amt'];
+                                                $gst_percent    = $generalSetting->igst_percent;
+                                                $gst_amount     = (($actual_amount * $gst_percent)/100);
+                                                $payable_amt    = $actual_amount + $gst_amount;
+                                            /* gst calculation */
+                                            /* booking submit */
+                                                $activityData   = [
+                                                    'sl_no'                 => $sl_no,
+                                                    'booking_no'            => $booking_no,
+                                                    'mentor_id'             => $requestData['mentor_user_id'],
+                                                    'student_id'            => $sessionData['id'],
+                                                    'mentor_service_id'     => $requestData['mentor_service_id'],
+                                                    'service_type_id'       => $requestData['service_type_id'],
+                                                    'service_attribute_id'  => $requestData['service_attribute_id'],
+                                                    'service_id'            => $requestData['service_id'],
+                                                    'booking_date'          => $requestData['booking_date'],
+                                                    'booking_slot_from'     => date_format(date_create($requestData['booking_slot_from']), "H:i:s"),
+                                                    'booking_slot_to'       => date_format(date_create($requestData['booking_slot_to']), "H:i:s"),
+                                                    'booking_date_time'     => date('Y-m-d H:i:s'),
+                                                    'duration'              => $requestData['duration'],
+                                                    'discount'              => 0,
+                                                    'actual_amount'         => $actual_amount,
+                                                    'gst_percent'           => $gst_percent,
+                                                    'gst_amount'            => $gst_amount,
+                                                    'payable_amt'           => $payable_amt,
+                                                ];
+                                                $booking_id = Booking::insertGetId($activityData);
+                                                // Helper::pr($activityData);
+                                            /* booking submit */
+                                            /* metting lnk generation */
+
+                                            /* metting lnk generation */
+
+                                            return redirect('booking-success/'.Helper::encoded($booking_id));
+                                        } else {
+                                            return redirect()->back()->with('error_message', 'Invalid Email Or Password !!!');
+                                        }
+                                    /* set session */
+                                    return redirect('booking-success/'.Helper::encoded($booking_id));
+                                } else {
+                                    return redirect()->back()->with('error_message', 'Password & Confirm Password Does Not Matched !!!');
+                                }
+                            } else {
+                                return redirect()->back()->with('error_message', 'Phone Already Registered !!!');
+                            }
+                        }
+                    }
+                /* signup */
+            }
+
             $title                          = 'Service Details';
             $page_name                      = 'service-details';
+            echo $this->front_before_login_layout($title,$page_name,$data);
+        }
+        public function bookingSuccess($id){
+            $booking_id                     = Helper::decoded($id);
+            $data['booking']                = Booking::where('id', '=', $booking_id)->first();
+            $data['return_url']             = url('payment/callback');
+            $data['surl']                   = url('payment/success');
+            $data['furl']                   = url('payment/failed');
+
+            $title                          = 'Booking Success';
+            $page_name                      = 'booking-success';
+            echo $this->front_before_login_layout($title,$page_name,$data);
+        }
+        public function paymentSuccess($id){
+            $booking_id                     = Helper::decoded($id);
+            $data['booking']                = Booking::where('id', '=', $booking_id)->first();
+            $title                          = 'Payment Success';
+            $page_name                      = 'payment-success';
+            echo $this->front_before_login_layout($title,$page_name,$data);
+        }
+        public function paymentFailed() {
+            $data                           = [];
+            $title                          = 'Payment Failed | '.$generalSetting->site_name;            
+            $page_name                      = 'payment-failed';
             echo $this->front_before_login_layout($title,$page_name,$data);
         }
     /* Service Details */
@@ -693,4 +1051,101 @@ class FrontController extends Controller
             echo $this->front_after_login_layout($title,$page_name,$data);
         }
     /* Change Password */
+    ############################### Razor Pay Code ##########################################
+        // initialized cURL Request
+        private function get_curl_handle($payment_id, $amount)  {
+            $url = 'https://api.razorpay.com/v1/payments/'.$payment_id.'/capture';
+            $key_id = env('RAZOR_KEY_ID');
+            $key_secret = env('RAZOR_KEY_SECRET');
+            $fields_string = "amount=$amount";
+            //cURL Request
+            $ch = curl_init();
+            //set the url, number of POST vars, POST data
+            curl_setopt($ch, CURLOPT_URL, $url);
+            curl_setopt($ch, CURLOPT_USERPWD, $key_id.':'.$key_secret);
+            curl_setopt($ch, CURLOPT_TIMEOUT, 60);
+            curl_setopt($ch, CURLOPT_POST, 1);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $fields_string);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, true);
+            curl_setopt($ch, CURLOPT_CAINFO, dirname(__FILE__).'/ca-bundle.crt');
+            return $ch;
+        }
+        // callback method
+        public function callback(Request $request) {
+            if (!empty($request->razorpay_payment_id) && !empty($request->merchant_order_id)) {
+                $razorpay_payment_id    = $request->razorpay_payment_id;
+                $merchant_order_id      = $request->merchant_order_id;
+                $currency_code          = 'INR';
+                $amount                 = $request->merchant_total;
+                $success                = false;
+                $error                  = '';
+                // Helper::pr($request->all());die;
+                try {                
+                    $ch = $this->get_curl_handle($razorpay_payment_id, $amount);
+                    //execute post
+                    $result = curl_exec($ch);
+                    // echo $result;
+                    // $response_array = json_decode($result, true);
+                    // echo "<pre>";print_r($response_array);die;
+
+                    $http_status = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+                    // echo $http_status;
+                    // die;
+
+                    if ($result === false) {
+                        $success = false;
+                        $error = 'Curl error: '.curl_error($ch);
+                    } else {
+                        $response_array = json_decode($result, true);
+                        // echo "<pre>";print_r($response_array);die;
+                        // exit;
+                        $payment_id = $response_array['description'];
+                        $fields     = array(
+                                        'payment_status'        => 1,
+                                        'txn_id'                => $response_array['id'],
+                                        'payment_amount'        => ($response_array['amount']/100),
+                                        'payment_date_time'     => date('Y-m-d H:i:s'),
+                                        'payment_method'        => 'RAZORPAY',
+                                        'payment_mode'          => $response_array['method'],
+                                        'card_id'               => $response_array['card_id'],
+                                    );
+                        Booking::where('id', '=', $payment_id)->update();                                            
+                        //Check success response
+                        if ($http_status === 200 and isset($response_array['error']) === false) {
+                            $success = true;
+                        } else {
+                            $success = false;
+                            echo "<pre>";print_r($response_array);exit;
+                            if (!empty($response_array['error']['code'])) {
+                                $error = $response_array['error']['code'].':'.$response_array['error']['description'];
+                            } else {
+                                $error = 'RAZORPAY_ERROR:Invalid Response <br/>'.$result;
+                            }
+                        }
+                    }
+                    //close connection
+                    curl_close($ch);
+                } catch (Exception $e) {
+                    $success = false;
+                    $error = 'OPENCART_ERROR:Request to Razorpay Failed';
+                }
+                if ($success === true) {
+                    // if(!empty($this->session->userdata('ci_subscription_keys'))) {
+                    //     $this->session->unset_userdata('ci_subscription_keys');
+                    //  }
+                    if (!$payment_id) {
+                        redirect(base_url().'online-payment-success/'.urlencode(base64_encode($payment_id)));
+                    } else {
+                        redirect(base_url().'online-payment-success/'.urlencode(base64_encode($payment_id)));
+                    }
+
+                } else {
+                    redirect(base_url().'online-payment-success/'.urlencode(base64_encode($payment_id)));
+                }
+            } else {
+                echo 'An error occured. Contact site administrator, please!';
+            }
+        }
+    ############################### Razor Pay Code ##########################################
 }

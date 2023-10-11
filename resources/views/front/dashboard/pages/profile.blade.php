@@ -346,7 +346,7 @@ use App\Models\User;
 											@csrf
 												<input type="hidden" name="mode1" value="updateMobile">
 												<input type="hidden" name="student_id" value="<?=$profileDetail->id?>">
-												<input type="tel" class="form-control" name="mobile" id="mobile" placeholder="+91 9876543210"  value="<?=(($getUserID->phone)?$getUserID->phone:'')?>">
+												<input type="tel" class="form-control" name="mobile" id="mobile" placeholder="+91 9876543210" value="<?=(($getUserID->phone)?$getUserID->phone:'')?>">
 												<input type="submit" value="Save"></input>
 											</form>
 										</div>
@@ -361,7 +361,7 @@ use App\Models\User;
 											@csrf
 												<input type="hidden" name="mode2" value="updatePassword">
 												<input type="hidden" name="student_id" value="<?=$profileDetail->id?>">
-												<input type="password" class="form-control" name="password" id="password"  value="<?=(($getUserID->password)?$getUserID->password:'')?>">
+												<input type="password" class="form-control" name="password" id="password" value="">
 												<input type="submit" value="Save"></input>
 											</form>
 										</div>
@@ -419,12 +419,12 @@ use App\Models\User;
 	function myFunction() {
 		var copyText = document.getElementById("myInput");
 		copyText.select();
+		let baseUrl = '<?=url('')?>';
 		copyText.setSelectionRange(0, 99999);
-		navigator.clipboard.writeText(copyText.value);
-		alert("Copied the text: " + copyText.value);
+		let finalCopyValue = baseUrl + '/' + copyText.value;
+		navigator.clipboard.writeText(finalCopyValue);
+		alert("Copied the text: " + finalCopyValue);
 	}
-</script>
-<script>
     function img_pathUrl(input){
         $('#img_url')[0].src = (window.URL ? URL : webkitURL).createObjectURL(input.files[0]);
     }

@@ -1635,9 +1635,27 @@ section.contact-section {
     align-items: center;
     width: 100%;
     justify-content: center;
+    margin-bottom: 10px;
 }
 .slot_starttime, .slot_endtime {
-    width: 40%;
+    /* width: 40%; */
+}
+
+.slot_starttime{
+    width: 150px;
+}
+.select2-container{width: 100% !important;}
+.select2-container--default .select2-selection--single{border: 2px solid #e1e1e1 !important;}
+.select2-container .select2-selection--single{height: 40px !important; padding: 10px;}
+.select2-container--default .select2-selection--single .select2-selection__rendered{line-height: 19px !important;}
+.select2-container--default .select2-selection--single .select2-selection__arrow{height: 36px !important;}
+.slot_endtime input.slot__endtime__txt {
+    border: 2px solid #e1e1e1;
+    border-radius: 4px;
+    height: 40px;
+    padding: 10px;
+    width: 90px;
+    display: inline-block;
 }
 button.add-slot-btn {
     background: none;
@@ -1646,6 +1664,7 @@ button.add-slot-btn {
     height: 20px;
     font-size: 12px;
     line-height: 19px;
+    margin-left: 10px;
 }
 .slots-section {
     display: flex;
@@ -1656,7 +1675,20 @@ button.add-slot-btn {
 }
 .slot-item {
     border: 1px solid #f2f6f9;
-    padding: 16px 15px 4px;
+    padding: 16px 8px 4px;
+}
+select.docoument_selet {
+    padding: 10px;
+    border: 2px solid #e1e1e1 !important;
+    border-radius: 4px;
+    width: 100%;
+}
+.slot_starttime select.select2-frm {
+    border: 2px solid #e1e1e1 !important;
+    width: 100%;
+    padding: 8px 10px;
+    border-radius: 4px;
+    height: 40px;
 }
 .rightside_testslider .testmoric_item{
 	padding: 20px;
@@ -1863,142 +1895,7 @@ button.add-slot-btn {
     font-size: 20px;
     margin: 0 10px;
 }
-/*================ 05-10-23 ==================*/
 
-.sucees_usertable {
-    background: #fcfcfc;
-    box-shadow: -1px -1px 5px 3px #ccc;
-    padding: 40px;
-    border-radius: 10px;
-    max-width: 650px;
-    margin: 0 auto;
-}
-.sucess_icon {
-    text-align: center;
-    width: 100px;
-    height: 100px;
-    background: #82ce34;
-    color: #fff;
-    margin: 0 auto;
-    border-radius: 50%;
-}
-.sucess_icon i {
-    font-size: 60px;
-    line-height: 98px;
-}
-.sucees_usertable h3 {
-    text-align: center;
-    color: #82ce34;
-    padding: 12px 0;
-    text-transform: uppercase;
-	    font-size: 24px;
-}
-.paynow_btn {
-    display: table;
-    margin: 0 auto;
-	width: 100%;
-}
-.paynow_btn a {
-    width: 100%;
-    padding: 10px 15px;
-    border: 2px solid #32a92c;
-    background: #35d22d;
-    transition: all .3s ease-in-out;
-    color: #fff;
-    border-radius: 5px;
-    margin: 10px auto 0;
-    text-align: center;
-    display: table;
-    max-width: 400px;
-	text-transform: uppercase;
-}
-.paynow_btn a:hover {
-    border: 2px solid #32a92c;
-    background: #fff;
-	color: #35d22d;
-}
-.booking_usertable{
-	background: #fff;
-        border-radius: 0.4rem;
-    padding: 1.5rem;
-    border: 1px solid #e3e8eb;
-    box-shadow: 0 0 10px 5px rgba(0,0,0,.03);
-    margin-bottom: 30px;
-}
-.mentor-book-title h4 {
-    background-color: #f4f3f3;
-    border-radius: 5px;
-    padding: 15px;
-    margin-bottom: 1.5rem;
-}
-.booking_usertable .nav-link {
-    color: #000;
-}
-.booking_usertable .nav-link.active {
-    color: #f9233f;
-}
-/*11-10-2023*/
-.avatar {
-    position: relative;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    vertical-align: middle;
-    border-radius: 50em;
-    transition: margin 0.15s;
-    width: 2rem;
-    height: 2rem;
-    font-size: 0.8rem;
-}
-.avatar-md {
-    width: 40px;
-    height: 40px;
-    font-size: 1rem;
-    overflow: hidden;
-}
-.avatar-img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-.header_loginbtn a.dropdown-toggle {
-    background: none;
-    border: none;
-}
-.header_loginbtn .dropdown-toggle::after{border: none; margin-left:0;}
-.service-mentordetails .mentor-profile-left .profile-img img {
-    border-radius: 50%;
-    border: 6px solid #fff;
-}
-.service-mentordetails .mentor-profile-left .profile-img {
-    width:25%;
-}
-.header_loginbtn ul h4 {
-    font-size: 16px;
-    color: #f9233f;
-}
-.header_loginbtn ul li {
-    margin: 0 10px;
-}
-.header_loginbtn ul {
-    display: flex;
-    align-items: center;
-    left: auto;
-    right: 0;
-    min-width: 15rem;
-}
-.header_loginbtn ul li.dropsub_link a {
-    color: #000;
-    padding: 5px 0;
-    display: inline-block;
-    width: 100%;
-}
-.header_loginbtn ul li.dropsub_link a:hover {
-    color: #f9233f;
-}
-.header_loginbtn a.dropdown-toggle {
-    background: none;
-    border: none;
-    padding: 0;
-}
-/*11-10-2023*/
+
+
+

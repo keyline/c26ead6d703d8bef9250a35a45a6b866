@@ -18,77 +18,72 @@ use Illuminate\Support\Facades\Route;
 /* Front Panel */
 Route::prefix('/')->namespace('App\Http\Controllers')->group(function () {
     /* before login */
-    /* common */
-    Route::match(['get'], '/', 'FrontController@home');
-    Route::match(['get'], '/about-us', 'FrontController@aboutUs');
-    Route::match(['get'], '/team-member-profile/{id}', 'FrontController@teamMemberProfile');
-    Route::match(['get', 'post'], '/contact-us', 'FrontController@contactUs');
-    Route::match(['get'], '/how-it-works', 'FrontController@howItWorks');
-    Route::match(['get'], '/blogs', 'FrontController@blogs');
-    Route::match(['get'], '/blog-details/{id}', 'FrontController@blogDetails');
-    Route::match(['get'], 'page/{id}', 'FrontController@page');
+        /* common */
+            Route::match(['get'], '/', 'FrontController@home');
+            Route::match(['get'], '/about-us', 'FrontController@aboutUs');
+            Route::match(['get'], '/team-member-profile/{id}', 'FrontController@teamMemberProfile');
+            Route::match(['get', 'post'], '/contact-us', 'FrontController@contactUs');
+            Route::match(['get'], '/how-it-works', 'FrontController@howItWorks');
+            Route::match(['get'], '/blogs', 'FrontController@blogs');
+            Route::match(['get'], '/blog-details/{id}', 'FrontController@blogDetails');
+            Route::match(['get'], 'page/{id}', 'FrontController@page');
 
-    Route::match(['get'], '/mentors', 'FrontController@mentors');
-    Route::match(['get'], '/mentor-details/{displayname}/{id}', 'FrontController@mentorDetails');
-    Route::match(['get'], '/service-details/{displayname}/{id}', 'FrontController@serviceDetails');
-    /* common */
-    /* authentication */
-    //Route::match(['get'], '/mentor-signup', 'MentorController@createStep1')->name('mentor-signup');
+            Route::match(['get'], '/mentors', 'FrontController@mentors');
+            Route::match(['get'], '/mentor-details/{displayname}/{id}', 'FrontController@mentorDetails');
+            Route::match(['get'], '/service-details/{displayname}/{id}', 'FrontController@serviceDetails');
+            Route::match(['post'], '/service-details/{displayname}/{id}', 'FrontController@serviceDetails');
+            Route::match(['get'], '/booking-success/{id}', 'FrontController@bookingSuccess');
+            Route::match(['get','post'], '/payment/callback', 'FrontController@callback');
+            Route::match(['get','post'], '/payment/success/{id}', 'FrontController@paymentSuccess');
+            Route::match(['get','post'], '/payment/failed/{id}', 'FrontController@paymentFailed');
+        /* common */
+        /* authentication */
+            Route::match(['get', 'post'], '/mentor-signup-2', 'MentorController@mentorSignup2');
+            Route::match(['get', 'post'], '/mentor-signup-3', 'MentorController@mentorSignup3');
+            Route::match(['get', 'post'], '/mentor-signup-4', 'MentorController@mentorSignup4');
+            //After development
+            Route::group(['prefix' => 'mentor', 'as' => 'mentor.'], function () {
+                Route::get('/signup', [\App\Http\Controllers\MentorController::class, 'createStep1'])->name('signup');
+                Route::post('/create/step1', [\App\Http\Controllers\MentorController::class, 'postCreateStep1'])->name('create.step1');
+                Route::get('/step2', [\App\Http\Controllers\MentorController::class, 'createStep2'])->name('step2');
+                Route::post('/create/step2', [\App\Http\Controllers\MentorController::class, 'postCreateStep2'])->name('create.step2');
+                Route::get('/step3', [\App\Http\Controllers\MentorController::class, 'createStep3'])->name('step3');
+                Route::post('/create/step3', [\App\Http\Controllers\MentorController::class, 'postCreateStep3'])->name('create.step3');
+                Route::get('/step4', [\App\Http\Controllers\MentorController::class, 'createStep4'])->name('step4');
+                Route::post('/create/step4', [\App\Http\Controllers\MentorController::class, 'postCreateStep4'])->name('create.step4');
+                //ajax method
+                Route::post('/timeslot/item', [\App\Http\Controllers\MentorController::class, 'getTimeSlotItem'])->name('timeslot.item');
 
-    //Route::match(['post'], '/mentor-createstep1', 'MentorController@postCreateStep1')->name('mentor-createstep1');
+                Route::post('/timeslot/change', [\App\Http\Controllers\MentorController::class, 'renderComponentAfterChange'])->name('timeslot.change');
 
-    Route::match(['get', 'post'], '/mentor-signup-2', 'MentorController@mentorSignup2');
-    Route::match(['get', 'post'], '/mentor-signup-3', 'MentorController@mentorSignup3');
-    Route::match(['get', 'post'], '/mentor-signup-4', 'MentorController@mentorSignup4');
-    //After development
-    Route::group(['prefix' => 'mentor', 'as' => 'mentor.'], function () {
-        Route::get('/signup', [\App\Http\Controllers\MentorController::class, 'createStep1'])->name('signup');
-        Route::post('/create/step1', [\App\Http\Controllers\MentorController::class, 'postCreateStep1'])->name('create.step1');
-        Route::get('/step2', [\App\Http\Controllers\MentorController::class, 'createStep2'])->name('step2');
-        Route::post('/create/step2', [\App\Http\Controllers\MentorController::class, 'postCreateStep2'])->name('create.step2');
-        Route::get('/step3', [\App\Http\Controllers\MentorController::class, 'createStep3'])->name('step3');
-        Route::post('/create/step3', [\App\Http\Controllers\MentorController::class, 'postCreateStep3'])->name('create.step3');
-        Route::get('/step4', [\App\Http\Controllers\MentorController::class, 'createStep4'])->name('step4');
-        Route::post('/create/step4', [\App\Http\Controllers\MentorController::class, 'postCreateStep4'])->name('create.step4');
-        //ajax method
-        Route::post('/timeslot/item', [\App\Http\Controllers\MentorController::class, 'getTimeSlotItem'])->name('timeslot.item');
-
-        Route::post('/timeslot/change', [\App\Http\Controllers\MentorController::class, 'renderComponentAfterChange'])->name('timeslot.change');
-
-        Route::post('/user/store', [\App\Http\Controllers\MentorController::class, 'store'])->name('user.save');
-    });
-
-
-    Route::match(['get', 'post'], '/student-signup', 'FrontController@studentSignup');
-    // Route::match(['get', 'post'], '/signup-otp/{id}', 'FrontController@signupOtp');
-
-    // Route::match(['get', 'post'], '/validate-otp/{id}', 'FrontController@validateOtp');
-    // Route::match(['get', 'post'], '/reset-password/{id}', 'FrontController@resetPassword');
-    Route::match(['get', 'post'], 'signin', 'FrontController@signin');
-    Route::match(['get', 'post'], '/forgot-password', 'FrontController@forgotPassword');
-    Route::match(['get', 'post'], '/validate-otp', 'FrontController@validateOtp');
-    Route::match(['get', 'post'], '/reset-password', 'FrontController@resetPassword');
-    /* authentication */
+                Route::post('/user/store', [\App\Http\Controllers\MentorController::class, 'store'])->name('user.save');
+            });
+            Route::match(['get', 'post'], '/student-signup', 'FrontController@studentSignup');
+            Route::match(['get', 'post'], 'signin', 'FrontController@signin');
+            Route::match(['get', 'post'], '/forgot-password', 'FrontController@forgotPassword');
+            Route::match(['get', 'post'], '/validate-otp', 'FrontController@validateOtp');
+            Route::match(['get', 'post'], '/reset-password', 'FrontController@resetPassword');
+        /* authentication */
     /* before login */
     /* after login */
-    Route::group(['prefix' => 'user', 'middleware' => ['user']], function () {
-        /* common */
-        Route::match(['get','post'], '/dashboard', 'DashboardController@index');
-        Route::match(['get','post'], '/profile', 'DashboardController@profile');
-        Route::get('/mentor-availability', 'DashboardController@mentorAvailability');
-        Route::get('/mentor-services', 'DashboardController@mentorServices');
-        Route::get('/survey-list', 'DashboardController@surveyList');
-        Route::match(['get','post'], '/survey-details/{id}', 'DashboardController@surveyDetails');
-        Route::get('/survey-result/{id}', 'DashboardController@surveyResult');
-        Route::get('/logout', 'DashboardController@logout');
-        /* common */
-        /* mentor */
+        Route::group(['prefix' => 'user', 'middleware' => ['user']], function () {
+            /* common */
+                Route::match(['get','post'], '/dashboard', 'DashboardController@index');
+                Route::match(['get','post'], '/profile', 'DashboardController@profile');
+                Route::get('/mentor-availability', 'DashboardController@mentorAvailability');
+                Route::get('/mentor-services', 'DashboardController@mentorServices');
+                Route::get('/survey-list', 'DashboardController@surveyList');
+                Route::match(['get','post'], '/survey-details/{id}', 'DashboardController@surveyDetails');
+                Route::get('/survey-result/{id}', 'DashboardController@surveyResult');
+                Route::get('/logout', 'DashboardController@logout');
+            /* common */
+            /* mentor */
 
-        /* mentor */
-        /* student */
+            /* mentor */
+            /* student */
 
-        /* student */
-    });
+            /* student */
+        });
     /* after login */
 });
 /* Front Panel */
@@ -353,7 +348,5 @@ Route::prefix('/')->namespace('App\Http\Controllers')->group(function () {
                 Route::get('enquiry/view-details/{id}', 'EnquiryController@details');
             /* enquiries */
         });
-
     });
-
 /* Admin Panel */

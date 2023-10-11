@@ -32,6 +32,7 @@ use App\Models\UserDocument;
 use App\Models\RequireDocument;
 use App\Models\BookingRating;
 use App\Models\MentorSlot;
+use App\Models\Booking;
 
 use Auth;
 use Session;
@@ -846,12 +847,14 @@ class ApiController extends Controller
                 $getMentorSlots = MentorSlot::select('id', 'from_time', 'to_time')->where('status', '=', 1)->where('mentor_user_id', '=', $mentor_user_id)->where('day_of_week_id', '=', $day_no)->where('duration', '=', $duration)->get();
                 if($getMentorSlots){
                     foreach($getMentorSlots as $getMentorSlot){
-
-                        $mentor_slots[]   = [
-                            'slot_id'   => $getMentorSlot->id,
-                            'from_time' => date_format(date_create($getMentorSlot->from_time), "h:i A"),
-                            'to_time'   => date_format(date_create($getMentorSlot->to_time), "h:i A")
-                        ];
+                        $checkBookedTimeSlots = Booking::select('id')->where('status', '<', 2)->where('mentor_id', '=', $mentor_user_id)->where('booking_date', '=', $booking_date)->where('booking_slot_from', '=', $getMentorSlot->from_time)->count();
+                        if($checkBookedTimeSlots <= 0){
+                            $mentor_slots[]   = [
+                                'slot_id'   => $getMentorSlot->id,
+                                'from_time' => date_format(date_create($getMentorSlot->from_time), "h:i A"),
+                                'to_time'   => date_format(date_create($getMentorSlot->to_time), "h:i A")
+                            ];
+                        }
                     }
                 }
                 if(!empty($mentor_slots)){
