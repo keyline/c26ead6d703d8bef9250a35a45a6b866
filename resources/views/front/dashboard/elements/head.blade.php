@@ -13,3 +13,9 @@
 <link href="https://cdn.datatables.net/v/dt/dt-1.13.6/datatables.min.css" rel="stylesheet">
 <link href="<?=env('FRONT_DASHBOARD_ASSETS_URL')?>css/style.css" rel="stylesheet">
 <link rel="stylesheet" type="text/css" href="<?=env('FRONT_DASHBOARD_ASSETS_URL')?>css/responsive.css">
+<style type="text/css">
+	.sidebar-nav .nav-link.active {
+	    color: #fff;
+	    background: rgb(249 35 63);
+	}
+</style>

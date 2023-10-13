@@ -17,7 +17,7 @@ use App\Models\User;
 				<button class="header-toggler px-md-0 me-md-3 d-md-none" type="button" onclick="coreui.Sidebar.getInstance(document.querySelector('#sidebar')).toggle()">
 					<i class="fa-solid fa-bars"></i>
 				</button>
-				<h4 class="pagestitle-item mb-0">Profile</h4>
+				<h4 class="pagestitle-item mb-0"><?=$page_header?></h4>
 				<ul class="header-nav ms-auto"></ul>
 			</div>
 		</header>
@@ -36,7 +36,7 @@ use App\Models\User;
 		@endif
 		</div>
 		<div class="body flex-grow-1 px-3">
-			<div class="container-lg">
+			<div class="container-fluid-lg">
 				<div class="row">
 					<div class="col-sm-12 col-lg-6">
 						<div class="card mb-4 text-white bg-whitebg">
