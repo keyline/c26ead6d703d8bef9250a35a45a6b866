@@ -39,7 +39,6 @@
 					.addClass( 'nowrap' )
 					.DataTable( {
 						responsive: true,
-						"order": [[1, 'asc']],
 						search: {"search": ""},
 					});
 			});
