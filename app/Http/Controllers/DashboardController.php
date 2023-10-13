@@ -61,7 +61,16 @@ class DashboardController extends Controller
     /* home */
     /* index */
         public function index(){
-            $data           = [];
+            $role                                   = Session::get('role');
+            $userId                                 = Session::get('user_id');
+            if($role == 1){
+                $data['all_bookings']                   = Booking::where('student_id', '=', $userId)->where('status', '>=', 1)->get();
+                $data['upcoming_bookings']              = Booking::where('student_id', '=', $userId)->where('status', '=', 1)->get();
+                $data['past_bookings']                  = Booking::where('student_id', '=', $userId)->where('status', '=', 2)->get();
+                $data['transaction']                    = Booking::where('student_id', '=', $userId)->where('status', '=', 1)->sum('payment_amount');
+            } else {
+                $data           = [];
+            }
             $title          = 'Dashboard';
             $page_name      = 'index';
             echo $this->front_dashboard_layout($title,$page_name,$data);
@@ -69,7 +78,10 @@ class DashboardController extends Controller
     /* index */
     /* student bookings */
         public function studentBookings(){
-            $data           = [];
+            $userId                                 = Session::get('user_id');
+            $data['all_bookings']                   = Booking::where('student_id', '=', $userId)->where('status', '>=', 1)->get();
+            $data['upcoming_bookings']              = Booking::where('student_id', '=', $userId)->where('status', '=', 1)->get();
+            $data['past_bookings']                  = Booking::where('student_id', '=', $userId)->where('status', '=', 2)->get();
             $title          = 'Booking History';
             $page_name      = 'student-bookings';
             echo $this->front_dashboard_layout($title,$page_name,$data);
@@ -79,7 +91,7 @@ class DashboardController extends Controller
         public function studentTransactions(){
             $userId                         = Session::get('user_id');
             $data['transactions']           = Booking::where('student_id', '=', $userId)->orderBy('id', 'DESC')->get();
-            $title                          = 'Transactions History';
+            $title                          = 'Transaction History';
             $page_name                      = 'student-transactions';
             echo $this->front_dashboard_layout($title,$page_name,$data);
         }

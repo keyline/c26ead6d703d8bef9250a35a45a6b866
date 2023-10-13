@@ -23,15 +23,23 @@
       <?=$footer?>
       <!-- ********|| FOOTER ENDS ||******** ---->
 
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-    <script src="<?=env('FRONT_DASHBOARD_ASSETS_URL')?>vendors/@coreui/coreui/js/coreui.bundle.min.js"></script>
-    <script src="<?=env('FRONT_DASHBOARD_ASSETS_URL')?>vendors/simplebar/js/simplebar.min.js"></script>
-    <script src="<?=env('FRONT_DASHBOARD_ASSETS_URL')?>vendors/@coreui/utils/js/coreui-utils.js"></script>
-    <script src="<?=env('FRONT_DASHBOARD_ASSETS_URL')?>js/main.js"></script>
-    <script defer type="text/javascript" src="<?=env('FRONT_DASHBOARD_ASSETS_URL')?>js/script.js"></script>
-    <script src="<?=env('FRONT_DASHBOARD_ASSETS_URL')?>owl/owl-min.js"></script>
-    <script src="https://cdn.datatables.net/v/dt/dt-1.13.6/datatables.min.js"></script>
-   </body>
+		<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+		<script src="<?=env('FRONT_DASHBOARD_ASSETS_URL')?>js/bootstrap/bootstrap.bundle.min.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/bs5-lightbox@1.8.3/dist/index.bundle.min.js"></script>
+    	<script src="<?=env('FRONT_DASHBOARD_ASSETS_URL')?>js/jquery.serialtabs.js"></script>
+		<script src="https://cdn.datatables.net/v/dt/dt-1.13.6/datatables.min.js"></script>
+    	<script src="<?=env('FRONT_DASHBOARD_ASSETS_URL')?>js/script.js" defer type="text/javascript"></script>
+    	<script src="<?=env('FRONT_DASHBOARD_ASSETS_URL')?>owl/owl-min.js"></script>
+		<script src="<?=env('FRONT_DASHBOARD_ASSETS_URL')?>js/easyResponsiveTabs.js"></script>
+
+		<script src="<?=env('FRONT_DASHBOARD_ASSETS_URL')?>vendors/@coreui/coreui/js/coreui.bundle.min.js"></script>
+		<script src="<?=env('FRONT_DASHBOARD_ASSETS_URL')?>vendors/simplebar/js/simplebar.min.js"></script>
+		<script src="<?=env('FRONT_DASHBOARD_ASSETS_URL')?>vendors/@coreui/utils/js/coreui-utils.js"></script>
+	 	<!-- 
+	 	
+	 	 -->
+	 	
+	</body>
 </html>
    <script type="text/javascript">
    		$(document).ready( function () {
@@ -39,8 +47,23 @@
 					.addClass( 'nowrap' )
 					.DataTable( {
 						responsive: true,
+						"order": [[1, 'asc']],
 						search: {"search": ""},
-					});
+				});
+				var table2 = $('#example2')
+					.addClass( 'nowrap' )
+					.DataTable( {
+	 				  	responsive: true,
+						"order": [[1, 'asc']],
+						search: {"search": ""},
+				});
+				var table3 = $('#example3')
+					.addClass( 'nowrap' )
+					.DataTable( {
+						responsive: true,
+						"order": [[1, 'asc']],
+						search: {"search": ""},
+				});
 			});
         (function() {
 			'use strict'
@@ -81,52 +104,6 @@
 		});
 	</script>
 	<script>
-		document.addEventListener("DOMContentLoaded", function() {
-				var demo1 = new BVSelect({
-				selector: "#selectbox",
-				searchbox: false,
-				offset: false
-				});
-			var demo2 = new BVSelect({
-				selector: "#selectbox2",
-				searchbox: false,
-				offset: false
-				});
-			var demo3 = new BVSelect({
-				selector: "#selectbox3",
-				searchbox: false,
-				offset: false
-				});
-			var demo4 = new BVSelect({
-				selector: "#selectbox4",
-				searchbox: false,
-				offset: false
-				});
-			var demo5 = new BVSelect({
-				selector: "#selectbox5",
-				searchbox: false,
-				offset: false
-				});
-			var demo6 = new BVSelect({
-				selector: "#selectbox6",
-				searchbox: false,
-				offset: false
-				});
-				
-		});
-	</script>
-<script>
-// 	jQuery('.choice').on('change', function() {
-//     var nextQuestion = jQuery(this).closest('.question').next();
-    
-//     if (nextQuestion.length !== 0) {
-//         jQuery('html, body').animate({
-//             scrollTop: nextQuestion.offset().top
-//         }, 1000);
-//     }
-// });
-</script>
-	<script>
 	$(function () {
 		$("#chkPassport").click(function () {
 			if ($(this).is(":checked")) {
@@ -151,8 +128,3 @@
 		});
 	});
 	</script>
-   <script>
-      $(function() {
-         rome(inline_cal, { time: false });
-      });
-   </script>

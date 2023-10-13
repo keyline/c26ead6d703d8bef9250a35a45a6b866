@@ -61,7 +61,9 @@ use App\Helpers\Helper;
 											</td>
 											<td>
 												<?php if($row->payment_status){?>
-													<a href="<?=url('user/print-student-invoice/'.Helper::encoded($row->id))?>" target="_blank" class="btn btn-primary btn-sm"><i class="fa fa-print"></i></a>
+													<a href="<?=url('user/print-student-invoice/'.Helper::encoded($row->id))?>" target="_blank" class="btn btn-primary btn-sm"><i class="fa fa-print"></i> Print Invoice</a>
+												<?php } else {?>
+													<a href="<?=url('booking-success/'.Helper::encoded($row->id))?>" class="btn btn-danger btn-sm text-light"><i class="fa fa-inr"></i> Retry Payment</a>
 												<?php }?>
 											</td>
 										</tr>

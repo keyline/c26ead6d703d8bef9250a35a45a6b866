@@ -329,48 +329,50 @@ class FrontController extends Controller
                 $postData = $request->all();
                 // Helper::pr($postData);
                 /* direct */
-                    $getLastBooking     = Booking::select('id', 'sl_no')->orderBy('id', 'DESC')->first();
-                    if($getLastBooking){
-                        $sl_no = $getLastBooking->sl_no + 1;
-                        $booking_no = 'STUMENTO/'.str_pad($sl_no, 6, "0", STR_PAD_LEFT);
-                    } else {
-                        $sl_no = 1;
-                        $booking_no = 'STUMENTO/'.str_pad($sl_no, 6, "0", STR_PAD_LEFT);
-                    }
-                    /* gst calculation */
-                        $actual_amount  = $postData['payable_amt'];
-                        $gst_percent    = $generalSetting->igst_percent;
-                        $gst_amount     = (($actual_amount * $gst_percent)/100);
-                        $payable_amt    = $actual_amount + $gst_amount;
-                    /* gst calculation */
-                    /* booking submit */
-                        $activityData   = [
-                            'sl_no'                 => $sl_no,
-                            'booking_no'            => $booking_no,
-                            'mentor_id'             => $postData['mentor_user_id'],
-                            'student_id'            => $request->session()->get('user_id'),
-                            'mentor_service_id'     => $postData['mentor_service_id'],
-                            'service_type_id'       => $postData['service_type_id'],
-                            'service_attribute_id'  => $postData['service_attribute_id'],
-                            'service_id'            => $postData['service_id'],
-                            'booking_date'          => $postData['booking_date'],
-                            'booking_slot_from'     => date_format(date_create($postData['booking_slot_from']), "H:i:s"),
-                            'booking_slot_to'       => date_format(date_create($postData['booking_slot_to']), "H:i:s"),
-                            'booking_date_time'     => date('Y-m-d H:i:s'),
-                            'duration'              => $postData['duration'],
-                            'discount'              => 0,
-                            'actual_amount'         => $actual_amount,
-                            'gst_percent'           => $gst_percent,
-                            'gst_amount'            => $gst_amount,
-                            'payable_amt'           => $payable_amt,
-                        ];
-                        // Helper::pr($activityData);
-                        $booking_id = Booking::insertGetId($activityData);
-                    /* booking submit */
-                    /* metting lnk generation */
+                    if($postData['mode'] == 'DIRECT'){
+                        $getLastBooking     = Booking::select('id', 'sl_no')->orderBy('id', 'DESC')->first();
+                        if($getLastBooking){
+                            $sl_no = $getLastBooking->sl_no + 1;
+                            $booking_no = 'STUMENTO/'.str_pad($sl_no, 6, "0", STR_PAD_LEFT);
+                        } else {
+                            $sl_no = 1;
+                            $booking_no = 'STUMENTO/'.str_pad($sl_no, 6, "0", STR_PAD_LEFT);
+                        }
+                        /* gst calculation */
+                            $actual_amount  = $postData['payable_amt'];
+                            $gst_percent    = $generalSetting->igst_percent;
+                            $gst_amount     = (($actual_amount * $gst_percent)/100);
+                            $payable_amt    = $actual_amount + $gst_amount;
+                        /* gst calculation */
+                        /* booking submit */
+                            $activityData   = [
+                                'sl_no'                 => $sl_no,
+                                'booking_no'            => $booking_no,
+                                'mentor_id'             => $postData['mentor_user_id'],
+                                'student_id'            => $request->session()->get('user_id'),
+                                'mentor_service_id'     => $postData['mentor_service_id'],
+                                'service_type_id'       => $postData['service_type_id'],
+                                'service_attribute_id'  => $postData['service_attribute_id'],
+                                'service_id'            => $postData['service_id'],
+                                'booking_date'          => $postData['booking_date'],
+                                'booking_slot_from'     => date_format(date_create($postData['booking_slot_from']), "H:i:s"),
+                                'booking_slot_to'       => date_format(date_create($postData['booking_slot_to']), "H:i:s"),
+                                'booking_date_time'     => date('Y-m-d H:i:s'),
+                                'duration'              => $postData['duration'],
+                                'discount'              => 0,
+                                'actual_amount'         => $actual_amount,
+                                'gst_percent'           => $gst_percent,
+                                'gst_amount'            => $gst_amount,
+                                'payable_amt'           => $payable_amt,
+                            ];
+                            // Helper::pr($activityData);
+                            $booking_id = Booking::insertGetId($activityData);
+                        /* booking submit */
+                        /* metting lnk generation */
 
-                    /* metting lnk generation */
-                    return redirect('booking-success/'.Helper::encoded($booking_id));
+                        /* metting lnk generation */
+                        return redirect('booking-success/'.Helper::encoded($booking_id));
+                    }
                 /* direct */
                 /* signin */
                     if($postData['mode'] == 'SIGNIN'){
@@ -446,8 +448,8 @@ class FrontController extends Controller
                                         'gst_amount'            => $gst_amount,
                                         'payable_amt'           => $payable_amt,
                                     ];
-                                    $booking_id = Booking::insertGetId($activityData);
                                     // Helper::pr($activityData);
+                                    $booking_id = Booking::insertGetId($activityData);
                                 /* booking submit */
                                 /* metting lnk generation */
 
