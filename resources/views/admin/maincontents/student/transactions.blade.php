@@ -1,4 +1,5 @@
 <?php
+use App\Models\User;
 use App\Helpers\Helper;
 $controllerRoute = $module['controller_route'];
 ?>
@@ -34,47 +35,55 @@ $controllerRoute = $module['controller_route'];
           <table class="table datatable">
             <thead>
               <tr>
-                <th scope="col">#</th>
-                <th scope="col">Booking No</th>
-                <th scope="col">Txn No</th>
-                <th scope="col">Date</th>
-                <th scope="col">Mentor Details</th>
-                <th scope="col">Base Price</th>
-                <th scope="col">GST</th>
-                <th scope="col">Total Amount</th>
-                <th scope="col">Payment Status</th>
-                <th scope="col">Payment Method</th>
-                <th scope="col">Action</th>
+                <th>#</th>
+                <th>Booking No</th>
+                <th>Mentor Details</th>
+                <th>Txn No</th>
+                <th>Transaction Date</th>
+                <th>Payable/Payment Amount</th>
+                <th>Payment Status</th>
+                <th>Payment Method<br>Payment Mode</th>
+                <th>Action</th>
               </tr>
             </thead>
             <tbody>
-              
+              <?php
+              if($transactions) { $sl=1; foreach($transactions as $row){
+                $mentor = User::where('id', '=', $row->mentor_id)->first();
+              ?>
               <tr>
-                <th scope="row">1</th>
-                <td>STUMENTO/2023-2024/000001</td>
-                <td>h4684h8945b6758945674565467</td>
-                <td>Aug 14, 2023 11:10 AM</td>
-                <td>
-                  <h6><i class="fa fa-user"></i> Makenna Robel</h6>
-                  <h6><i class="fa fa-envelope"></i> fjohnson@example.org</h6>
-                  <h6><i class="fa fa-mobile"></i> 2931574210</h6>
-                </td>
-                <td>1000.00</td>
-                <td>118.00 (18%)</td>
-                <td>1180.00</td>
-                <td><span class="badge bg-success">SUCCESS</span></td>
-                <td>Razor Pay</td>
-                <td>
-                  <a target="_blank" href="<?=url('admin/' . $controllerRoute . '/print-invoice/'.Helper::encoded(1))?>" class="btn btn-outline-info btn-sm" title="Print Invoice"><i class="fa fa-print"></i></a>
-                </td>
-              </tr>
-
+                  <td><?=$sl++?></td>
+                  <td><?=$row->booking_no?></td>
+                  <td>
+                      <h6><i class="fa fa-user"></i> <?=(($mentor)?$mentor->name:'')?></h6>
+                      <h6><i class="fa fa-envelope"></i> <?=(($mentor)?$mentor->email:'')?></h6>
+                      <h6><i class="fa fa-mobile"></i> <?=(($mentor)?$mentor->phone:'')?></h6>
+                  </td>
+                  <td><?=$row->txn_id?></td>
+                  <td><?=(($row->payment_date_time != '')?date_format(date_create($row->payment_date_time), "M d, Y h:i A"):'')?></td>
+                  <td><?=number_format($row->payable_amt,2)?></td>
+                  <td>
+                    <?php if($row->payment_status){?>
+                      <span class="badge bg-success">SUCCESS</span>
+                    <?php } else {?>
+                      <span class="badge bg-danger">NOT PAID</span>
+                    <?php }?>
+                  </td>
+                  <td>
+                    <strong><?=$row->payment_method?></strong><br>
+                    <strong><?=$row->payment_mode?></strong>
+                  </td>
+                  <td>
+                    <?php if($row->payment_status){?>
+                      <a href="<?=url('admin/student/print-student-invoice/'.Helper::encoded($row->id))?>" target="_blank" class="btn btn-primary btn-sm"><i class="fa fa-print"></i> Print Invoice</a>
+                    <?php }?>
+                  </td>
+                </tr>
+              <?php } }?>
             </tbody>
           </table>
-          
         </div>
       </div>
-
     </div>
   </div>
 </section>

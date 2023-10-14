@@ -70,23 +70,22 @@ Route::prefix('/')->namespace('App\Http\Controllers')->group(function () {
             /* common */
                 Route::match(['get','post'], '/dashboard', 'DashboardController@index');
                 Route::match(['get','post'], '/profile', 'DashboardController@profile');
-                Route::get('/logout', 'DashboardController@logout');
-
+                Route::get('/logout', 'DashboardController@logout');                
+            /* common */
+            /* mentor */
+                Route::get('/mentor-availability', 'DashboardController@mentorAvailability');
+                Route::get('/mentor-services', 'DashboardController@mentorServices');
+                Route::match(['get','post'], '/mentor-bookings', 'DashboardController@mentorBookings');
+                Route::match(['get','post'], '/mentor-transactions', 'DashboardController@mentorTransactions');
+                Route::match(['get','post'], '/print-mentor-invoice/{id}', 'DashboardController@printMentorInvoice');
+            /* mentor */
+            /* student */
                 Route::match(['get','post'], '/student-bookings', 'DashboardController@studentBookings');
                 Route::match(['get','post'], '/student-transactions', 'DashboardController@studentTransactions');
                 Route::match(['get','post'], '/print-student-invoice/{id}', 'DashboardController@printStudentInvoice');
-
-                Route::get('/mentor-availability', 'DashboardController@mentorAvailability');
-                Route::get('/mentor-services', 'DashboardController@mentorServices');
                 Route::get('/survey-list', 'DashboardController@surveyList');
                 Route::match(['get','post'], '/survey-details/{id}', 'DashboardController@surveyDetails');
                 Route::get('/survey-result/{id}', 'DashboardController@surveyResult');
-            /* common */
-            /* mentor */
-
-            /* mentor */
-            /* student */
-
             /* student */
         });
     /* after login */
@@ -299,6 +298,7 @@ Route::prefix('/')->namespace('App\Http\Controllers')->group(function () {
                 Route::get('mentor/change-status/{id}', 'MentorController@change_status');
                 Route::get('mentor/profile/{id}', 'MentorController@profile');
                 Route::post('mentor/profile/{id}', 'MentorController@profile');
+                Route::match(['get','post'], 'mentor/print-mentor-invoice/{id}', 'MentorController@printMentorInvoice');
             /* mentor */
             /* student */
                 Route::get('student/list', 'StudentController@list');
@@ -310,6 +310,7 @@ Route::prefix('/')->namespace('App\Http\Controllers')->group(function () {
                 Route::get('student/change-status/{id}', 'StudentController@change_status');
                 Route::get('student/survey/{id}', 'StudentController@survey');
                 Route::get('student/view-survey-details/{userid}/{surveyid}', 'StudentController@viewSurveyDetails');
+                Route::match(['get','post'], 'student/print-student-invoice/{id}', 'StudentController@printStudentInvoice');
             /* student */
             /* survey */
                 /* question type */

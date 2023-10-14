@@ -1,4 +1,6 @@
-Base <?php
+<?php
+use App\Models\Booking;
+use App\Models\User;
 use App\Helpers\Helper;
 $controllerRoute = $module['controller_route'];
 ?>
@@ -34,47 +36,63 @@ $controllerRoute = $module['controller_route'];
             <table class="table datatable">
               <thead>
                 <tr>
-                  <th scope="col">#</th>
-                  <th scope="col">Booking No<br>Txn No<br>Date</th>
-                  <th scope="col">Mentor</th>
-                  <th scope="col">Student</th>
-                  <th scope="col">Base Price</th>
-                  <th scope="col">GST</th>
-                  <th scope="col">Student Paid</th>
-                  <th scope="col">Platform Charges</th>
-                  <th scope="col">My Payment</th>
-                  <th scope="col">Payment Status</th>
-                  <th scope="col">Payment Method</th>
-                  <th scope="col">Action</th>
+                  <th>#</th>
+                  <th>Type</th>
+                  <th>Date</th>
+                  <th>Booking No</th>
+                  <th>Mentor</th>
+                  <th>Student</th>
+                  <th>Opening Balance</th>
+                  <th>Transaction Amount</th>
+                  <th>Closing Balance</th>
+                  <!-- <th>Withdrawl</th> -->
                 </tr>
               </thead>
               <tbody>
-                
-                <tr>
-                  <th scope="row">1</th>
-                  <td>STUMENTO/2023-2024/000001<br>h4684h8945b6758945674565467<br>Aug 14, 2023 11:10 AM</td>
-                  <td>
-                    <h6><i class="fa fa-user"></i> Makenna Robel</h6>
-                    <h6><i class="fa fa-envelope"></i> fjohnson@example.org</h6>
-                    <h6><i class="fa fa-mobile"></i> 2931574210</h6>
-                  </td>
-                  <td>
-                    <h6><i class="fa fa-user"></i> Makenna Robel</h6>
-                    <h6><i class="fa fa-envelope"></i> fjohnson@example.org</h6>
-                    <h6><i class="fa fa-mobile"></i> 2931574210</h6>
-                  </td>
-                  <td>1000.00</td>
-                  <td>118.00 (18%)</td>
-                  <td>1180.00</td>
-                  <td>200.00 (20 %)</td>
-                  <td>800.00 (80 %)</td>
-                  <td><span class="badge bg-success">SUCCESS</span></td>
-                  <td>Razor Pay</td>
-                  <td>
-                    <a target="_blank" href="<?=url('admin/' . $controllerRoute . '/print-invoice/'.Helper::encoded(1))?>" class="btn btn-outline-info btn-sm" title="Print Invoice"><i class="fa fa-print"></i></a>
-                  </td>
-                </tr>
-
+                <?php
+                if($transactions) { $sl=1; foreach($transactions as $row){
+                  $booking = Booking::where('id', '=', $row->booking_id)->first();
+                  if($booking){
+                    $mentor = User::where('id', '=', $booking->mentor_id)->first();
+                    $student = User::where('id', '=', $booking->student_id)->first();
+                  } else {
+                    $mentor = [];
+                    $student = [];
+                  }
+                ?>
+                  <tr>
+                    <td><?=$sl++?></td>
+                    <td>
+                      <?php if($row->type == 'CREDIT'){?>
+                        <span class="badge bg-success">CREDIT</span>
+                      <?php } else {?>
+                        <span class="badge bg-danger">DEBIT</span>
+                      <?php }?>
+                    </td>
+                    <td><?=(($row->created_at != '')?date_format(date_create($row->created_at), "M d, Y h:i A"):'')?></td>
+                    <td><?=(($booking)?$booking->booking_no:'NA')?></td>
+                    <td>
+                        <h6><i class="fa fa-user"></i> <?=(($mentor)?$mentor->name:'')?></h6>
+                        <h6><i class="fa fa-envelope"></i> <?=(($mentor)?$mentor->email:'')?></h6>
+                        <h6><i class="fa fa-mobile"></i> <?=(($mentor)?$mentor->phone:'')?></h6>
+                    </td>
+                    <td>
+                        <h6><i class="fa fa-user"></i> <?=(($student)?$student->name:'')?></h6>
+                        <h6><i class="fa fa-envelope"></i> <?=(($student)?$student->email:'')?></h6>
+                        <h6><i class="fa fa-mobile"></i> <?=(($student)?$student->phone:'')?></h6>
+                    </td>
+                    <td><?=number_format($row->opening_amt,2)?></td>
+                    <td><?=number_format($row->student_pay_amt,2)?></td>
+                    <td><?=number_format($row->closing_amt,2)?></td>
+                    <!-- <td>
+                      <?php if($row->status){?>
+                        <span class="badge bg-success">YES</span>
+                      <?php } else {?>
+                        <span class="badge bg-danger">NO</span>
+                      <?php }?>
+                    </td> -->
+                  </tr>
+                <?php } }?>
               </tbody>
             </table>
           </div>
