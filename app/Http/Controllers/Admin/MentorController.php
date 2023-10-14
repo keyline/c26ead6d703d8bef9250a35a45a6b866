@@ -15,6 +15,11 @@ use App\Models\MentorProfile;
 use App\Models\UserDocument;
 use App\Models\MentorAvailability;
 use App\Models\MentorSlot;
+use App\Models\BookingRating;
+use App\Models\Booking;
+use App\Models\AdminPayment;
+use App\Models\MentorPayment;
+
 use Auth;
 use Session;
 use Helper;
@@ -161,19 +166,35 @@ class MentorController extends Controller
     /* assigned services */
     /* bookings */
         public function bookings($id){
-            $id                             = Helper::decoded($id);
-            $data['mentor']                 = MentorProfile::where('user_id', '=', $id)->first();
-            $data['module']                 = $this->data;
-            $title                          = 'Booking List Of '.(($data['mentor'])?$data['mentor']->first_name.' '.$data['mentor']->last_name:'');
-            $page_name                      = 'mentor.bookings';
+            $id                                     = Helper::decoded($id);
+            $data['mentor']                         = MentorProfile::where('user_id', '=', $id)->first();
+            $data['module']                         = $this->data;
+            $data['all_bookings']                   = Booking::where('mentor_id', '=', $id)->where('status', '>=', 1)->orderBy('id', 'DESC')->get();
+            $data['upcoming_bookings']              = Booking::where('mentor_id', '=', $id)->where('status', '=', 1)->orderBy('id', 'DESC')->get();
+            $data['past_bookings']                  = Booking::where('mentor_id', '=', $id)->where('status', '=', 2)->orderBy('id', 'DESC')->get();
+
+            $title                                  = 'Booking List Of '.(($data['mentor'])?$data['mentor']->first_name.' '.$data['mentor']->last_name:'');
+            $page_name                              = 'mentor.bookings';
             echo $this->admin_after_login_layout($title,$page_name,$data);
         }
     /* bookings */
+    /* print mentor invoice */
+        public function printMentorInvoice($id){
+            $id                             = Helper::decoded($id);
+            $data['row']                    = Booking::where('id', '=', $id)->first();
+            $title                          = 'Mentor Invoice';
+            $page_name                      = 'print-mentor-invoice';
+            return view('admin.maincontents.mentor.'.$page_name, $data);
+        }
+    /* print mentor invoice */
     /* transactions */
         public function transactions($id){
             $id                             = Helper::decoded($id);
             $data['mentor']                 = MentorProfile::where('user_id', '=', $id)->first();
             $data['module']                 = $this->data;
+            $data['mentor_balance']         = $this->getMentorBalance($id);
+            $data['transactions']           = MentorPayment::where('mentor_id', '=', $id)->orderBy('id', 'DESC')->get();
+
             $title                          = 'Transactions List Of '.(($data['mentor'])?$data['mentor']->first_name.' '.$data['mentor']->last_name:'');
             $page_name                      = 'mentor.transactions';
             echo $this->admin_after_login_layout($title,$page_name,$data);
@@ -190,102 +211,102 @@ class MentorController extends Controller
         }
     /* payouts */
     /*profile*/
-    public function profile(Request $request , $id){
-        $id    = Helper::decoded($id);
-        // echo $id;die;
-        if($request->isMethod('post')){
-            if($request->post('mode')=='updateDocument'){
-                $postData = $request->all();
-                // Helper::pr($postData);
-                $getDocumentName = RequireDocument::where('id', '=', $postData['doucument_id'])->first();
-                $mentorDocument  = UserDocument::where('user_id', '=', $id)->first();
-                $rules = [
+        public function profile(Request $request , $id){
+            $id    = Helper::decoded($id);
+            // echo $id;die;
+            if($request->isMethod('post')){
+                if($request->post('mode')=='updateDocument'){
+                    $postData = $request->all();
+                    // Helper::pr($postData);
+                    $getDocumentName = RequireDocument::where('id', '=', $postData['doucument_id'])->first();
+                    $mentorDocument  = UserDocument::where('user_id', '=', $id)->first();
+                    $rules = [
+                                'doucument_id'      => 'required',
+                                'image'             => 'required',
+                            ];
+                    if($this->validate($request, $rules)){
+                        /* Document */
+                            $imageFile      = $request->file('image');
+                            if($imageFile != ''){
+                                $imageName         = $imageFile->getClientOriginalName();
+                                $imageFileType     = pathinfo($imageName, PATHINFO_EXTENSION);
+                                if($imageFileType == 'jpg' || 'png' || 'jepg' || 'svg'){
+                                    $uploadedFile  = $this->upload_single_file('image', $imageName, 'mentor_document', 'image');
+                                }else{
+                                    $uploadedFile  = $this->upload_single_file('image', $imageName, 'mentor_document', 'pdf');
+                                }
+                                if($uploadedFile['status']){
+                                    $image = $uploadedFile['newFilename'];
+                                } else {
+                                    return redirect()->back()->with(['error_message' => $uploadedFile['message']]);
+                                }
+                            } else {
+                                $image = $mentorDocument->document;
+                            }
+                        /* Document */
+                        $fields = [
+                                    'type'             => $postData['type'],
+                                    // 'mentor_id'        => $postData['mentor_id'],
+                                    'user_id'          => $postData['user_id'],
+                                    'doucument_id'     => $postData['doucument_id'],
+                                    'document_slug'    => Helper::clean($getDocumentName->document),
+                                    'document'         => $image,
+                                    'updated_at'     => date('Y-m-d H:i:s')
+                                ];
+                        // Helper::pr($fields);
+                        UserDocument::where('user_id', '=', $id)->update($fields);
+                        return redirect("admin/" . $this->data['controller_route'] . "/list")->with('success_message', $this->data['title'].' Document Updated Successfully !!!');
+                    } else {
+                        return redirect()->back()->with('error_message', 'All Fields Required !!!');
+                    }
+                }else{
+                    $postData = $request->all();
+                    $getDocumentName = RequireDocument::where('id', '=', $postData['doucument_id'])->first();
+                    $rules = [
                             'doucument_id'      => 'required',
                             'image'             => 'required',
                         ];
                 if($this->validate($request, $rules)){
-                    /* Document */
-                        $imageFile      = $request->file('image');
-                        if($imageFile != ''){
-                            $imageName         = $imageFile->getClientOriginalName();
-                            $imageFileType     = pathinfo($imageName, PATHINFO_EXTENSION);
-                            if($imageFileType == 'jpg' || 'png' || 'jepg' || 'svg'){
-                                $uploadedFile  = $this->upload_single_file('image', $imageName, 'mentor_document', 'image');
-                            }else{
-                                $uploadedFile  = $this->upload_single_file('image', $imageName, 'mentor_document', 'pdf');
-                            }
-                            if($uploadedFile['status']){
-                                $image = $uploadedFile['newFilename'];
-                            } else {
-                                return redirect()->back()->with(['error_message' => $uploadedFile['message']]);
-                            }
-                        } else {
-                            $image = $mentorDocument->document;
-                        }
-                    /* Document */
-                    $fields = [
-                                'type'             => $postData['type'],
-                                // 'mentor_id'        => $postData['mentor_id'],
-                                'user_id'          => $postData['user_id'],
-                                'doucument_id'     => $postData['doucument_id'],
-                                'document_slug'    => Helper::clean($getDocumentName->document),
-                                'document'         => $image,
-                                'updated_at'     => date('Y-m-d H:i:s')
-                            ];
-                    // Helper::pr($fields);
-                    UserDocument::where('user_id', '=', $id)->update($fields);
-                    return redirect("admin/" . $this->data['controller_route'] . "/list")->with('success_message', $this->data['title'].' Document Updated Successfully !!!');
+                /* document upload */
+                $imageFile      = $request->file('image');
+                if($imageFile != ''){
+                    $imageName         = $imageFile->getClientOriginalName();
+                    $imageFileType     = pathinfo($imageName, PATHINFO_EXTENSION);
+                    if($imageFileType == 'jpg' && 'png' && 'jepg' && 'svg'){
+                        $uploadedFile  = $this->upload_single_file('image', $imageName, 'mentor_document', 'image');
+                    }else{
+                        $uploadedFile  = $this->upload_single_file('image', $imageName, 'mentor_document', 'pdf');
+                    }
+                    if($uploadedFile['status']){
+                        $image = $uploadedFile['newFilename'];
+                    } else {
+                        return redirect()->back()->with(['error_message' => $uploadedFile['message']]);
+                    }
                 } else {
-                    return redirect()->back()->with('error_message', 'All Fields Required !!!');
+                    return redirect()->back()->with(['error_message' => 'Please Upload Banner Image !!!']);
                 }
-            }else{
-                $postData = $request->all();
-                $getDocumentName = RequireDocument::where('id', '=', $postData['doucument_id'])->first();
-                $rules = [
-                        'doucument_id'      => 'required',
-                        'image'             => 'required',
-                    ];
-            if($this->validate($request, $rules)){
-            /* document upload */
-            $imageFile      = $request->file('image');
-            if($imageFile != ''){
-                $imageName         = $imageFile->getClientOriginalName();
-                $imageFileType     = pathinfo($imageName, PATHINFO_EXTENSION);
-                if($imageFileType == 'jpg' && 'png' && 'jepg' && 'svg'){
-                    $uploadedFile  = $this->upload_single_file('image', $imageName, 'mentor_document', 'image');
-                }else{
-                    $uploadedFile  = $this->upload_single_file('image', $imageName, 'mentor_document', 'pdf');
-                }
-                if($uploadedFile['status']){
-                    $image = $uploadedFile['newFilename'];
+                /* document upload */
+                $fields = [
+                            'type'             => $postData['type'],
+                            // 'mentor_id'        => $postData['mentor_id'],
+                            'user_id'          => $postData['user_id'],
+                            'doucument_id'     => $postData['doucument_id'],
+                            'document_slug'    => Helper::clean($getDocumentName->document),
+                            'document'         => $image
+                        ];
+                // Helper::pr($fields);
+                UserDocument::insert($fields);
+                return redirect("admin/" . $this->data['controller_route'] . "/list")->with('success_message', $this->data['title'].' Document Uploaded Successfully !!!');
                 } else {
-                    return redirect()->back()->with(['error_message' => $uploadedFile['message']]);
-                }
-            } else {
-                return redirect()->back()->with(['error_message' => 'Please Upload Banner Image !!!']);
-            }
-            /* document upload */
-            $fields = [
-                        'type'             => $postData['type'],
-                        // 'mentor_id'        => $postData['mentor_id'],
-                        'user_id'          => $postData['user_id'],
-                        'doucument_id'     => $postData['doucument_id'],
-                        'document_slug'    => Helper::clean($getDocumentName->document),
-                        'document'         => $image
-                    ];
-            // Helper::pr($fields);
-            UserDocument::insert($fields);
-            return redirect("admin/" . $this->data['controller_route'] . "/list")->with('success_message', $this->data['title'].' Document Uploaded Successfully !!!');
-            } else {
-                    return redirect()->back()->with('error_message', 'All Fields Required !!!');
+                        return redirect()->back()->with('error_message', 'All Fields Required !!!');
+                    }
                 }
             }
+            $data['mentor']                 = MentorProfile::where('user_id', '=', $id)->first();
+            $data['module']                 = $this->data;
+            $title                          = 'Profile: '.(($data['mentor'])?$data['mentor']->first_name.' '.$data['mentor']->last_name:'');
+            $page_name                      = 'mentor.profile';
+            echo $this->admin_after_login_layout($title,$page_name,$data);
         }
-        $data['mentor']                 = MentorProfile::where('user_id', '=', $id)->first();
-        $data['module']                 = $this->data;
-        $title                          = 'Profile: '.(($data['mentor'])?$data['mentor']->first_name.' '.$data['mentor']->last_name:'');
-        $page_name                      = 'mentor.profile';
-        echo $this->admin_after_login_layout($title,$page_name,$data);
-    }
     /*profile*/
 }

@@ -1,4 +1,12 @@
-Base <?php
+<?php
+use App\Models\User;
+use App\Models\MentorProfile;
+use App\Models\ServiceType;
+use App\Models\Service;
+use App\Models\ServiceAttribute;
+use App\Models\ServiceDetail;
+use App\Models\ServiceTypeAttribute;
+use App\Models\StudentProfile;
 use App\Helpers\Helper;
 $controllerRoute = $module['controller_route'];
 ?>
@@ -32,13 +40,13 @@ $controllerRoute = $module['controller_route'];
         <div class="card-body pt-3">
           <ul class="nav nav-tabs nav-tabs-bordered">
             <li class="nav-item">
-              <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab1">All</button>
+              <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab1">All (<?=count($all_bookings)?>)</button>
             </li>
             <li class="nav-item">
-              <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab2">Past</button>
+              <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab3">Upcoming (<?=count($upcoming_bookings)?>)</button>
             </li>
             <li class="nav-item">
-              <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab3">Upcoming</button>
+              <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab2">Past (<?=count($past_bookings)?>)</button>
             </li>
           </ul>
           <div class="tab-content pt-2">
@@ -48,39 +56,52 @@ $controllerRoute = $module['controller_route'];
                 <table class="table datatable">
                   <thead>
                     <tr>
-                      <th scope="col">#</th>
-                      <th scope="col">Booking No</th>
-                      <th scope="col">Booking Date</th>
-                      <th scope="col">Mentor Details</th>
-                      <th scope="col">Service Type<br>Service<br>Service Attribute</th>
-                      <th scope="col">Duration</th>
-                      <th scope="col">Base Price</th>
-                      <th scope="col">GST</th>
-                      <th scope="col">Total Amount</th>
-                      <th scope="col">Action</th>
+                      <th>#</th>
+                      <th>Booking Number</th>
+                      <th>Booking Date</th>
+                      <th>Mentor Details</th>
+                      <th>Service Type<br> Service</th>
+                      <th>Duration</th>
+                      <th>Total Amount</th>
+                      <th>Action</th>
                     </tr>
                   </thead>
                   <tbody>
-                    
-                    <tr>
-                      <th scope="row">1</th>
-                      <td>STUMENTO/2023-2024/000001</td>
-                      <td>Aug 14, 2023 11:08 AM</td>
-                      <td>
-                        <h6><i class="fa fa-user"></i> Makenna Robel</h6>
-                        <h6><i class="fa fa-envelope"></i> fjohnson@example.org</h6>
-                        <h6><i class="fa fa-mobile"></i> 2931574210</h6>
-                      </td>
-                      <td>Discovery Call<br>Career Counselling<br>ONE TO ONE session ON mental health</td>
-                      <td>60 mins</td>
-                      <td>1000.00</td>
-                      <td>118.00 (18%)</td>
-                      <td>1180.00</td>
-                      <td>
-                        <a target="_blank" href="<?=url('admin/' . $controllerRoute . '/print-invoice/'.Helper::encoded(1))?>" class="btn btn-outline-info btn-sm" title="Print Invoice"><i class="fa fa-print"></i></a>
-                      </td>
-                    </tr>
-
+                    <?php
+                    if($all_bookings){ $sl=1;foreach($all_bookings as $booking){
+                      $mentor = User::where('id', '=', $booking->mentor_id)->first();
+                    ?>
+                      <tr>
+                        <td><?=$sl++?></td>
+                        <td><?=$booking->booking_no?></td>
+                        <td>
+                          <?=date_format(date_create($booking->booking_date), "M d, Y")?> <?=date_format(date_create($booking->booking_slot_from), "h:i A")?> - <?=date_format(date_create($booking->booking_slot_to), "h:i A")?>
+                        </td>
+                        <td>
+                          <h6><i class="fa fa-user"></i> <?=(($mentor)?$mentor->name:'')?></h6>
+                            <h6><i class="fa fa-envelope"></i> <?=(($mentor)?$mentor->email:'')?></h6>
+                            <h6><i class="fa fa-mobile"></i> <?=(($mentor)?$mentor->phone:'')?></h6>
+                          </td>
+                        <td>
+                          <?php
+                          $service_type = ServiceType::select('name')->where('id', '=', $booking->service_type_id)->first();
+                          echo (($service_type)?$service_type->name:'');
+                          ?>
+                          <br>
+                          <?php
+                          $service = Service::select('name')->where('id', '=', $booking->service_id)->first();
+                          echo (($service)?$service->name:'');
+                          ?>
+                        </td>
+                        <td><?=$booking->duration?> mins</td>
+                        <td><?=number_format($booking->payable_amt,2)?></td>
+                        <td>
+                          <?php if($booking->payment_status){?>
+                            <a href="<?=url('admin/student/print-student-invoice/'.Helper::encoded($booking->id))?>" target="_blank" class="btn btn-primary btn-sm"><i class="fa fa-print"></i> Print Invoice</a>
+                          <?php }?>
+                        </td>
+                      </tr>
+                    <?php } }?>
                   </tbody>
                 </table>
               </div>
@@ -91,39 +112,52 @@ $controllerRoute = $module['controller_route'];
                 <table class="table datatable">
                   <thead>
                     <tr>
-                      <th scope="col">#</th>
-                      <th scope="col">Booking No</th>
-                      <th scope="col">Booking Date</th>
-                      <th scope="col">Mentor Details</th>
-                      <th scope="col">Service Type<br>Service<br>Service Attribute</th>
-                      <th scope="col">Duration</th>
-                      <th scope="col">Price</th>
-                      <th scope="col">GST</th>
-                      <th scope="col">Total Amount</th>
-                      <th scope="col">Action</th>
+                      <th>#</th>
+                      <th>Booking Number</th>
+                      <th>Booking Date</th>
+                      <th>Mentor Details</th>
+                      <th>Service Type<br> Service</th>
+                      <th>Duration</th>
+                      <th>Total Amount</th>
+                      <th>Action</th>
                     </tr>
                   </thead>
                   <tbody>
-                    
-                    <tr>
-                      <th scope="row">1</th>
-                      <td>STUMENTO/2023-2024/000001</td>
-                      <td>Ayg 14, 2023 11:08 AM</td>
-                      <td>
-                        <h6><i class="fa fa-user"></i> Makenna Robel</h6>
-                        <h6><i class="fa fa-envelope"></i> fjohnson@example.org</h6>
-                        <h6><i class="fa fa-mobile"></i> 2931574210</h6>
-                      </td>
-                      <td>Discovery Call<br>Career Counselling<br>ONE TO ONE session ON mental health</td>
-                      <td>60 mins</td>
-                      <td>1000.00</td>
-                      <td>118.00 (18%)</td>
-                      <td>1180.00</td>
-                      <td>
-                        <a target="_blank" href="<?=url('admin/' . $controllerRoute . '/print-invoice/'.Helper::encoded(1))?>" class="btn btn-outline-info btn-sm" title="Print Invoice"><i class="fa fa-print"></i></a>
-                      </td>
-                    </tr>
-
+                    <?php
+                    if($past_bookings){ $sl=1;foreach($past_bookings as $booking){
+                      $mentor = User::where('id', '=', $booking->mentor_id)->first();
+                    ?>
+                      <tr>
+                        <td><?=$sl++?></td>
+                        <td><?=$booking->booking_no?></td>
+                        <td>
+                          <?=date_format(date_create($booking->booking_date), "M d, Y")?> <?=date_format(date_create($booking->booking_slot_from), "h:i A")?> - <?=date_format(date_create($booking->booking_slot_to), "h:i A")?>
+                        </td>
+                        <td>
+                          <h6><i class="fa fa-user"></i> <?=(($mentor)?$mentor->name:'')?></h6>
+                            <h6><i class="fa fa-envelope"></i> <?=(($mentor)?$mentor->email:'')?></h6>
+                            <h6><i class="fa fa-mobile"></i> <?=(($mentor)?$mentor->phone:'')?></h6>
+                          </td>
+                        <td>
+                          <?php
+                          $service_type = ServiceType::select('name')->where('id', '=', $booking->service_type_id)->first();
+                          echo (($service_type)?$service_type->name:'');
+                          ?>
+                          <br>
+                          <?php
+                          $service = Service::select('name')->where('id', '=', $booking->service_id)->first();
+                          echo (($service)?$service->name:'');
+                          ?>
+                        </td>
+                        <td><?=$booking->duration?> mins</td>
+                        <td><?=number_format($booking->payable_amt,2)?></td>
+                        <td>
+                          <?php if($booking->payment_status){?>
+                            <a href="<?=url('admin/student/print-student-invoice/'.Helper::encoded($booking->id))?>" target="_blank" class="btn btn-primary btn-sm"><i class="fa fa-print"></i> Print Invoice</a>
+                          <?php }?>
+                        </td>
+                      </tr>
+                    <?php } }?>
                   </tbody>
                 </table>
               </div>
@@ -134,39 +168,52 @@ $controllerRoute = $module['controller_route'];
                 <table class="table datatable">
                   <thead>
                     <tr>
-                      <th scope="col">#</th>
-                      <th scope="col">Booking No</th>
-                      <th scope="col">Booking Date</th>
-                      <th scope="col">Mentor Details</th>
-                      <th scope="col">Service Type<br>Service<br>Service Attribute</th>
-                      <th scope="col">Duration</th>
-                      <th scope="col">Price</th>
-                      <th scope="col">GST</th>
-                      <th scope="col">Total Amount</th>
-                      <th scope="col">Action</th>
+                      <th>#</th>
+                      <th>Booking Number</th>
+                      <th>Booking Date</th>
+                      <th>Mentor Details</th>
+                      <th>Service Type<br> Service</th>
+                      <th>Duration</th>
+                      <th>Total Amount</th>
+                      <th>Action</th>
                     </tr>
                   </thead>
                   <tbody>
-                    
-                    <tr>
-                      <th scope="row">1</th>
-                      <td>STUMENTO/2023-2024/000001</td>
-                      <td>Ayg 14, 2023 11:08 AM</td>
-                      <td>
-                        <h6><i class="fa fa-user"></i> Makenna Robel</h6>
-                        <h6><i class="fa fa-envelope"></i> fjohnson@example.org</h6>
-                        <h6><i class="fa fa-mobile"></i> 2931574210</h6>
-                      </td>
-                      <td>Discovery Call<br>Career Counselling<br>ONE TO ONE session ON mental health</td>
-                      <td>60 mins</td>
-                      <td>1000.00</td>
-                      <td>118.00 (18%)</td>
-                      <td>1180.00</td>
-                      <td>
-                        <a target="_blank" href="<?=url('admin/' . $controllerRoute . '/print-invoice/'.Helper::encoded(1))?>" class="btn btn-outline-info btn-sm" title="Print Invoice"><i class="fa fa-print"></i></a>
-                      </td>
-                    </tr>
-
+                    <?php
+                    if($upcoming_bookings){ $sl=1;foreach($upcoming_bookings as $booking){
+                      $mentor = User::where('id', '=', $booking->mentor_id)->first();
+                    ?>
+                      <tr>
+                        <td><?=$sl++?></td>
+                        <td><?=$booking->booking_no?></td>
+                        <td>
+                          <?=date_format(date_create($booking->booking_date), "M d, Y")?> <?=date_format(date_create($booking->booking_slot_from), "h:i A")?> - <?=date_format(date_create($booking->booking_slot_to), "h:i A")?>
+                        </td>
+                        <td>
+                          <h6><i class="fa fa-user"></i> <?=(($mentor)?$mentor->name:'')?></h6>
+                            <h6><i class="fa fa-envelope"></i> <?=(($mentor)?$mentor->email:'')?></h6>
+                            <h6><i class="fa fa-mobile"></i> <?=(($mentor)?$mentor->phone:'')?></h6>
+                          </td>
+                        <td>
+                          <?php
+                          $service_type = ServiceType::select('name')->where('id', '=', $booking->service_type_id)->first();
+                          echo (($service_type)?$service_type->name:'');
+                          ?>
+                          <br>
+                          <?php
+                          $service = Service::select('name')->where('id', '=', $booking->service_id)->first();
+                          echo (($service)?$service->name:'');
+                          ?>
+                        </td>
+                        <td><?=$booking->duration?> mins</td>
+                        <td><?=number_format($booking->payable_amt,2)?></td>
+                        <td>
+                          <?php if($booking->payment_status){?>
+                            <a href="<?=url('admin/student/print-student-invoice/'.Helper::encoded($booking->id))?>" target="_blank" class="btn btn-primary btn-sm"><i class="fa fa-print"></i> Print Invoice</a>
+                          <?php }?>
+                        </td>
+                      </tr>
+                    <?php } }?>
                   </tbody>
                 </table>
               </div>

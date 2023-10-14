@@ -47,21 +47,18 @@
 					.addClass( 'nowrap' )
 					.DataTable( {
 						responsive: true,
-						"order": [[1, 'asc']],
 						search: {"search": ""},
 				});
 				var table2 = $('#example2')
 					.addClass( 'nowrap' )
 					.DataTable( {
 	 				  	responsive: true,
-						"order": [[1, 'asc']],
 						search: {"search": ""},
 				});
 				var table3 = $('#example3')
 					.addClass( 'nowrap' )
 					.DataTable( {
 						responsive: true,
-						"order": [[1, 'asc']],
 						search: {"search": ""},
 				});
 			});

@@ -13,6 +13,10 @@ use App\Models\Survey;
 use App\Models\UserDocument;
 use App\Models\SurveyResult;
 use App\Models\SurveyRecords;
+use App\Models\BookingRating;
+use App\Models\Booking;
+use App\Models\AdminPayment;
+use App\Models\MentorPayment;
 use Auth;
 use Session;
 use Helper;
@@ -100,9 +104,13 @@ class StudentController extends Controller
     /* change status */
     /* bookings */
         public function bookings($id){
-            $id                             = Helper::decoded($id);
-            $data['student']                = StudentProfile::where('user_id', '=', $id)->first();
-            $data['module']                 = $this->data;
+            $id                                     = Helper::decoded($id);
+            $data['student']                        = StudentProfile::where('user_id', '=', $id)->first();
+            $data['module']                         = $this->data;
+            $data['all_bookings']                   = Booking::where('student_id', '=', $id)->where('status', '>=', 1)->orderBy('id', 'DESC')->get();
+            $data['upcoming_bookings']              = Booking::where('student_id', '=', $id)->where('status', '=', 1)->orderBy('id', 'DESC')->get();
+            $data['past_bookings']                  = Booking::where('student_id', '=', $id)->where('status', '=', 2)->orderBy('id', 'DESC')->get();
+            
             $title                          = 'Booking List Of '.(($data['student'])?$data['student']->first_name.' '.$data['student']->last_name:'');
             $page_name                      = 'student.bookings';
             echo $this->admin_after_login_layout($title,$page_name,$data);
@@ -213,11 +221,22 @@ class StudentController extends Controller
             $id                             = Helper::decoded($id);
             $data['student']                = StudentProfile::where('user_id', '=', $id)->first();
             $data['module']                 = $this->data;
+            $data['transactions']           = Booking::where('student_id', '=', $id)->orderBy('id', 'DESC')->get();
+
             $title                          = 'Transactions List Of '.(($data['student'])?$data['student']->first_name.' '.$data['student']->last_name:'');
             $page_name                      = 'student.transactions';
             echo $this->admin_after_login_layout($title,$page_name,$data);
         }
     /* transactions */
+    /* print student invoice */
+        public function printStudentInvoice($id){
+            $id                             = Helper::decoded($id);
+            $data['row']                    = Booking::where('id', '=', $id)->first();
+            $title                          = 'Student Invoice';
+            $page_name                      = 'print-student-invoice';
+            return view('admin.maincontents.student.'.$page_name, $data);
+        }
+    /* print student invoice */
     /* surveys */
         public function survey($id){
             $id                             = Helper::decoded($id);
