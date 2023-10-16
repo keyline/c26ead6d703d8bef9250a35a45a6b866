@@ -19,6 +19,11 @@ use App\Models\BookingRating;
 use App\Models\Booking;
 use App\Models\AdminPayment;
 use App\Models\MentorPayment;
+use App\Models\ServiceDetail;
+use App\Models\ServiceAttribute;
+use App\Models\Service;
+use App\Models\ServiceType;
+use App\Models\ServiceTypeAttribute;
 
 use Auth;
 use Session;
@@ -159,6 +164,7 @@ class MentorController extends Controller
             $id                             = Helper::decoded($id);
             $data['mentor']                 = MentorProfile::where('user_id', '=', $id)->first();
             $data['module']                 = $this->data;
+            $data['assign_services']        = ServiceDetail::where('mentor_user_id', '=', $id)->orderBy('id', 'DESC')->get();
             $title                          = 'Assigned Services Of '.(($data['mentor'])?$data['mentor']->first_name.' '.$data['mentor']->last_name:'');
             $page_name                      = 'mentor.assigned-services';
             echo $this->admin_after_login_layout($title,$page_name,$data);

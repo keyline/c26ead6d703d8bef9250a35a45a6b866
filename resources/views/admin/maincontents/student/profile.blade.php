@@ -40,7 +40,7 @@ $controllerRoute = $module['controller_route'];
                     <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab1">Basic Details</button>
                   </li>
                   <li class="nav-item">
-                    <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab2">Upload Document</button>
+                    <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab2">Upload Documents</button>
                   </li>
                 </ul>
                 <div class="tab-content pt-2">
@@ -50,7 +50,7 @@ $controllerRoute = $module['controller_route'];
                                 <tbody>
                                     <?php $profiledetail = User::where('id', '=', $student->user_id)->first(); ?>
                                     <tr>
-                                        <th style="background: #ccc; color: #000; width: 30%; padding: 10px; text-align: left; font-family: sans-serif; font-size: 14px;">Full Name Updating</th>
+                                        <th style="background: #ccc; color: #000; width: 30%; padding: 10px; text-align: left; font-family: sans-serif; font-size: 14px;">Full Name</th>
                                         <td style="padding: 10px; background: #ccc; text-align: left; color: #000;font-family: sans-serif;font-size: 15px;"><?=$student->first_name . ' ' . $student->last_name; ?></td>
                                     </tr>
                                     <tr>
@@ -59,7 +59,7 @@ $controllerRoute = $module['controller_route'];
                                     </tr>
                                     <tr>
                                         <th style="background: #ccc; color: #000; width: 30%; padding: 10px; text-align: left; font-family: sans-serif; font-size: 14px;">Phone</th>
-                                        <td style="padding: 10px; background: #ccc; text-align: left; color: #000;font-family: sans-serif;font-size: 15px;"><?=$student->mobile;?></td>
+                                        <td style="padding: 10px; background: #ccc; text-align: left; color: #000;font-family: sans-serif;font-size: 15px;"><?=$student->phone;?></td>
                                     </tr>
                                     <tr>
                                         <th style="background: #cccccc42; color: #000; width: 30%; padding: 10px; text-align: left; font-family: sans-serif; font-size: 14px;">Registered at</th>
@@ -69,10 +69,10 @@ $controllerRoute = $module['controller_route'];
                                         <th style="background: #ccc; color: #000; width: 30%; padding: 10px; text-align: left; font-family: sans-serif; font-size: 14px;">Profile Pic</th>
                                         <td style="padding: 10px; background: #ccc; text-align: left; color: #000;font-family: sans-serif;font-size: 15px;">
                                         <?php if($student->profile_pic != ''){?>
-                                            <img src="<?=$student->profile_pic?>" class="img-thumbnail" alt="<?=$student->first_name.' '.$student->last_name?>" style="width: 150px; height: 150px; margin-top: 10px;">
-                                            <?php } else {?>
+                                            <img src="<?=env('UPLOADS_URL').'/'.$student->profile_pic?>" class="img-thumbnail" alt="<?=$student->first_name.' '.$student->last_name?>" style="width: 150px; height: 150px; margin-top: 10px;">
+                                        <?php } else {?>
                                             <img src="<?=env('NO_IMAGE')?>" alt="<?=$student->first_name.' '.$student->last_name?>" class="img-thumbnail" style="width: 150px; height: 150px; margin-top: 10px;">
-                                            <?php }?>
+                                        <?php }?>
                                         </td>
                                     </tr>
                                 </tbody>
@@ -106,7 +106,7 @@ $controllerRoute = $module['controller_route'];
                                 <input type="file" name="image" class="form-control" id="img_file" onChange="img_pathUrl(this);" >
                                 <small class="text-info">* Only JPG, JPEG, ICO, SVG, PNG, PDF files are allowed</small><br>
                                 <?php if($checkStudentDocument->document != ''){?>
-                                  <img src="<?=env('UPLOADS_URL').'student_document/'.$checkStudentDocument->document?>" class="img-thumbnail" alt="<?=$checkStudentDocument->document?>" style="height: 110px; margin-top: 10px;" id="img_url">
+                                  <img src="<?=env('UPLOADS_URL').'user/'.$checkStudentDocument->document?>" class="img-thumbnail" alt="<?=$checkStudentDocument->document?>" style="height: 110px; margin-top: 10px;" id="img_url">
                                 <?php } else {?>
                                   <img src="<?=env('NO_IMAGE')?>" alt="<?=$checkStudentDocument->document?>" class="img-thumbnail" style="height: 110px; margin-top: 10px;">
                                 <?php }?>

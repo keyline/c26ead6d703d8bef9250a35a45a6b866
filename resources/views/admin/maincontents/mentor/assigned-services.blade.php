@@ -1,5 +1,10 @@
 <?php
 use App\Helpers\Helper;
+use App\Models\ServiceDetail;
+use App\Models\ServiceAttribute;
+use App\Models\Service;
+use App\Models\ServiceType;
+use App\Models\ServiceTypeAttribute;
 $controllerRoute = $module['controller_route'];
 ?>
 <div class="pagetitle">
@@ -31,21 +36,33 @@ $controllerRoute = $module['controller_route'];
       <div class="card">
         <div class="card-body pt-3">
           <div class="row">
-            <?php for($i=1;$i<=8;$i++){?>
+            <?php
+            if($assign_services){ foreach($assign_services as $assign_service){
+              $service_type_attribute = ServiceTypeAttribute::select('service_type_id', 'service_id')->where('service_attribute_id', '=', $assign_service->service_attribute_id)->first();
+              if($service_type_attribute){
+                $serviceType = ServiceType::select('name')->where('id', '=', $service_type_attribute->service_type_id)->first();
+                $service = Service::select('name')->where('id', '=', $service_type_attribute->service_id)->first();
+              } else {
+                $serviceType  = [];
+                $service      = [];
+              }
+              
+            ?>
               <div class="col-lg-3">
                 <!-- Card with an image on top -->
                 <div class="card">
-                  <img src="http://localhost/stumento/public/uploads/1690805871logo.jpeg" class="card-img-top" alt="...">
+                  <!-- <img src="http://localhost/stumento/public/uploads/1690805871logo.jpeg" class="card-img-top" alt="..."> -->
                   <div class="card-body">
-                    <h class="card-title">ONE TO ONE session ON mental health</h>
-                    <p class="card-text">Service Type : Discovery Call</p>
-                    <p class="card-text">Service : Career Counselling</p>
-                    <span style="float: left;">Price : 1000.00</span>
-                    <span style="float: right;">Duration : 60 mins</span>
+                    <h class="card-title"><?=$assign_service->title?></h>
+                    <p><?=$assign_service->description?></p>
+                    <p class="card-text">Service Type : <?=(($serviceType)?$serviceType->name:'')?></p>
+                    <p class="card-text">Service : <?=(($service)?$service->name:'')?></p>
+                    <span style="float: left;">Price : <?=$assign_service->total_amount_payable?></span>
+                    <span style="float: right;">Duration : <?=$assign_service->duration?> mins</span>
                   </div>
                 </div><!-- End Card with an image on top -->
               </div>
-            <?php }?>
+            <?php } }?>
           </div>
         </div>
       </div>
