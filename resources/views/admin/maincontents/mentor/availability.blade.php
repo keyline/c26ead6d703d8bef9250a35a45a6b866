@@ -1,7 +1,8 @@
 <?php
-  use App\Helpers\Helper;
-  $controllerRoute = $module['controller_route'];
-  use App\Models\DayOfWeeks;
+use App\Helpers\Helper;
+$controllerRoute = $module['controller_route'];
+use App\Models\MentorSlot;
+use App\Models\Booking;
 ?>
 <div class="pagetitle">
   <h1><?=$page_header?></h1>
@@ -31,26 +32,31 @@
     <div class="col-lg-12">
       <div class="card">
         <div class="card-body pt-3">
-          <?php if($getSlotAvailability){ foreach($getSlotAvailability as $slot){ 
-            $getName = DayOfWeeks::where('id', '=', $slot->day_of_week_id)->first();
-            // Helper::pr($getName);
-             ?>
-            <div class="row">
-              <div class="col-lg-4 col-md-4 col-sm-12 mb-3">
-                <p style="font-weight:bold;"><?=$getName->day;?></p>
-              </div>
-              <div class="col-lg-4 col-md-4 col-sm-12 mb-3">
-                <p class="text-success"><?= date('h:i:s A', strtotime($slot->avail_from));?></p>
-              </div>
-              <div class="col-lg-4 col-md-4 col-sm-12 mb-3">
-                <p class="text-success"><?= date('h:i:s A', strtotime($slot->avail_to));?></p>
+          <div class="row">
+            <?php if($getSlotAvailability){ foreach($getSlotAvailability as $slot){ 
+            $getSlots = MentorSlot::select('from_time', 'to_time')->where('mentor_availability_id', '=', $slot->id)->get();
+            ?>
+            <div class="col-md-4">
+              <div class="card">
+                <div class="card-header">
+                  <h5><?=Helper::getShortDayName($slot->day_of_week_id)?></h5>
+                  <small><?=date('h:i A', strtotime($slot->avail_from));?> - <?= date('h:i A', strtotime($slot->avail_to));?></small>
+                </div>
+                <div class="card-body">
+                  <div class="row">
+                    <?php if($getSlots){ foreach($getSlots as $getSlot){ ?>
+                      <div class="col-md-3">
+                        <span class="badge bg-primary"><?=date('h:i A', strtotime($getSlot->from_time))?></span>
+                      </div>
+                    <?php } }?>
+                  </div>
+                </div>
               </div>
             </div>
-          <hr>
-          <?php } }else{  ?>
+          <?php } }else{ ?>
             
           <?php } ?>
-         
+        </div> 
           
           <!-- <div class="row">
             <div class="col-lg-4 col-md-4 col-sm-12 mb-3">

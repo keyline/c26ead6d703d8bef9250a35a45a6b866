@@ -46,7 +46,7 @@ $controllerRoute = $module['controller_route'];
               <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab3">Upcoming (<?=count($upcoming_bookings)?>)</button>
             </li>
             <li class="nav-item">
-              <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab2">Past (<?=count($past_bookings)?>)</button>
+              <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab2">Completed (<?=count($past_bookings)?>)</button>
             </li>
           </ul>
           <div class="tab-content pt-2">

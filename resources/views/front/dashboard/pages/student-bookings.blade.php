@@ -29,7 +29,7 @@ use App\Helpers\Helper;
 							  	<div class="nav nav-tabs" id="nav-tab" role="tablist">
 									<button class="nav-link active" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home" aria-selected="true">All (<?=count($all_bookings)?>)</button>
 									<button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile" type="button" role="tab" aria-controls="nav-profile" aria-selected="false">Upcoming (<?=count($upcoming_bookings)?>)</button>
-									<button class="nav-link" id="nav-contact-tab" data-bs-toggle="tab" data-bs-target="#nav-contact" type="button" role="tab" aria-controls="nav-contact" aria-selected="false">Past (<?=count($past_bookings)?>)</button>
+									<button class="nav-link" id="nav-contact-tab" data-bs-toggle="tab" data-bs-target="#nav-contact" type="button" role="tab" aria-controls="nav-contact" aria-selected="false">Completed (<?=count($past_bookings)?>)</button>
 							  	</div>
 							</nav>
 							<div class="tab-content" id="nav-tabContent">
