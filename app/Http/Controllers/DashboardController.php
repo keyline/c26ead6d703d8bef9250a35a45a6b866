@@ -479,6 +479,15 @@ class DashboardController extends Controller
                 return view('front.dashboard.pages.'.$page_name, $data);
             }
         /* print student invoice */
+        /* student feedback */
+            public function studentFeedbackList(){
+                $userId                         = Session::get('user_id');
+                $data                           = [];
+                $title                          = 'Feedbacks';
+                $page_name                      = 'student-feedback';
+                echo $this->front_dashboard_layout($title,$page_name,$data);
+            }
+        /* student feedback */
     /* student */
     /* mentor */
         /* mentor bookings */
