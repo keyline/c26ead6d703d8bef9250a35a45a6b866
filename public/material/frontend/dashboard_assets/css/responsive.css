@@ -3,16 +3,20 @@
 }
 
 /*LARGE PC VERSION*/
-@media screen and (max-width: 1400px) {
+@media screen and (min-width: 1300px) {
+    .dataresposnive_width {
+        max-width: 1220px;
+    }
+}
+@media (min-width: 1201px) and (max-width: 1699px) {
     
 }
-
 /*PC VERSION*/
 @media screen and (max-width: 1200px) {
     .headlogo img {
         
     }
-
+    
 }
 @media (min-width: 992px) and (max-width: 1199px) {
     .header nav ul.navbar-nav a{

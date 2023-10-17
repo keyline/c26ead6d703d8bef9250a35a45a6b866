@@ -61,6 +61,7 @@
 						responsive: true,
 						search: {"search": ""},
 				});
+				
 			});
         (function() {
 			'use strict'

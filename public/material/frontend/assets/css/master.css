@@ -4,6 +4,7 @@
     padding: 0;
     box-sizing: border-box;
 }
+
 .login-section{
     padding: 70px 0;
     background: url(../images/gradient-rainbow-background-a3adbf6f.png) no-repeat;
@@ -53,19 +54,30 @@
     position: absolute;
     top: 20px;
     left: 15px;
-    animation: left-right-animation  2s infinite alternate;
+    /* animation: left-right-animation  2s infinite alternate; */
 }
 .icon-box-2{
     position: absolute;
     bottom: 10px;
     right: 15px;
-    animation: up-down-animation 2s infinite alternate;
+    /* animation: up-down-animation 2s infinite alternate; */
 }
 .icon-box-1 img,
 .icon-box-2 img{
     width: 100%;
     max-width: 75px;
 }
+.form_password{
+    position: relative;
+}
+.login-box .form_password i.fa-eye {
+    cursor: pointer;
+    position: absolute;
+    top: 15px;
+    right: 10px;
+    z-index: 99999;
+}
+
 @keyframes up-down-animation {
     to{
         transform: translateY(0);

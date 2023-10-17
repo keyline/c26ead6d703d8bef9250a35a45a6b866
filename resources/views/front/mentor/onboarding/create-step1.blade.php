@@ -32,11 +32,13 @@
                   <div class="form-group">
                      <input type="tel" class="form-control" id="phone" placeholder="Phone number" name="phone_number">
                   </div>
-                  <div class="form-group">
+                  <div class="form-group form_password">
                      <input type="password" class="form-control" placeholder="Set password" name="password">
+                     <i class="fa-regular fa-eye" id="togglePassword"></i>
                   </div>
-                  <div class="form-group">
+                  <div class="form-group form_password">
                      <input type="password" class="form-control" placeholder="Confirm password" name="password_confirmation">
+                     <i class="fa-regular fa-eye" id="togglePassword"></i>
                   </div>
                   <div class="form-group">
                      <button class="login-btn">Sign Up</button>

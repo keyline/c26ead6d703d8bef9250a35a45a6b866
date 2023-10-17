@@ -35,6 +35,25 @@
     font-weight: normal;
     font-style: normal;
 }
+::-webkit-scrollbar-track
+{
+	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+	border-radius: 10px;
+	background-color: #F5F5F5;
+}
+
+::-webkit-scrollbar
+{
+	width: 6px;
+	background-color: #F5F5F5;
+}
+
+::-webkit-scrollbar-thumb
+{
+	border-radius: 10px;
+	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+	background-color: #D62929;
+}
 :root {
   --cui-blue: #0d6efd;
   --cui-indigo: #6610f2;
@@ -14467,8 +14486,13 @@ text-decoration: none;
     border-radius: 4px;
     font-weight: 600;
 }
+.myprof_btn:hover {
+  background: #f9233f;
+  color: #fff;
+  border-color: transparent;
+}
 .profileuser-icon {
-    color: #c7860c;
+    color: #999;
     font-size: 72px;
     opacity: 0.2;
 }
@@ -14914,4 +14938,13 @@ blockquote span{
 ul.surveylist_stript {
   display: flex;
   justify-content: space-between;
+}
+button.student_feedback {
+  display: table;
+  color: #fff;
+  margin: 10px auto 0;
+}
+.feedstar {
+  margin: auto;
+  display: table;
 }

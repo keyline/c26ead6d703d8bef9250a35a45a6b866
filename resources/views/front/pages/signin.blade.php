@@ -22,8 +22,9 @@
                   <div class="form-group">
                      <input type="email" name="email" id="email" class="form-control" placeholder="Email address" required>
                   </div>
-                  <div class="form-group">
+                  <div class="form-group form_password">
                      <input type="password" name="password" id="password" class="form-control" placeholder="Password" required>
+                     <i class="fa-regular fa-eye" id="togglePassword"></i>
                   </div>
                   <div class="form-group d-flex align-items-center">
                      <input type="checkbox" name="" id="remember_me" class="me-2"> <span class="text-muted"><label for="remember_me">Remember me</label></span>

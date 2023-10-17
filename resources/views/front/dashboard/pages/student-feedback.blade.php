@@ -14,11 +14,38 @@ use App\Helpers\Helper;
 			</div>
 		</header>
 		<div class="body flex-grow-1 px-3">
-			<div class="container-fluid-lg">
+			<div class="container-lg">
 				<div class="row">
 					<div class="col-sm-12 col-lg-12">
 						<div class="table-responsive">
-						  	
+							<table id="example3" class="stripe table cell-border hover">
+								<thead>
+									<tr>
+										<th>#</th>
+										<th>Booking Number</th>
+										<th>Rating</th>
+										<th>Total Amount</th>
+										<th>Action</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td>1</td>
+										<td>STUMENTO/000004</td>
+										<td>
+											<div class="m-left d-table">
+												<span class="fa fa-star checked"></span>
+												<span class="fa fa-star checked"></span>
+												<span class="fa fa-star checked"></span>
+												<span class="fa fa-star"></span>
+												<span class="fa fa-star"></span>
+											</div>
+										</td>
+										<td>1800.00</td>
+										<td><button type="button" class="btn btn-success btn-sm">Approve</button></td>
+									</tr>
+								</tbody>
+							</table>
 						</div>
 					</div>
 				</div>
@@ -26,3 +53,8 @@ use App\Helpers\Helper;
 		</div>
 	</div>
 </div>
+<style>
+.checked {
+  color: orange;
+}
+</style>

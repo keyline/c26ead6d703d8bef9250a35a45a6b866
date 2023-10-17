@@ -14,10 +14,10 @@ use App\Helpers\Helper;
 			</div>
 		</header>
 		<div class="body flex-grow-1 px-3">
-			<div class="container-fluid-lg">
+			<div class="container-fluid">
 				<div class="row">
-					<div class="col-sm-12 col-lg-12">
-						<div class="table-responsive">
+					<div class="col-lg-12 px-0">
+						<div class="table-responsive dataresposnive_width">
 						  	<table id="example" class="table table-striped table-hover" style="width:100%">
 								<thead>
 									<tr>
@@ -38,7 +38,7 @@ use App\Helpers\Helper;
 										$mentor = User::where('id', '=', $row->mentor_id)->first();
 									?>
 										<tr>
-											<td><?=$sl++?></td>
+											<td><div class="form-check"><input class="form-check-input" type="checkbox" value="" id="flexCheckDefault"> <?=$sl++?></div></td>
 											<td><?=$row->booking_no?></td>
 											<td>
 											  	<h6><i class="fa fa-user"></i> <?=(($mentor)?$mentor->name:'')?></h6>
