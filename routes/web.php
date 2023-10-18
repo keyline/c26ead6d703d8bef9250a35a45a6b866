@@ -348,9 +348,17 @@ Route::prefix('/')->namespace('App\Http\Controllers')->group(function () {
             /* bookings */
                 Route::get('bookings/list', 'BookingController@list');
             /* bookings */
+            /* withdrawls */
+                Route::get('withdrawls/list', 'WithdrawlController@list');
+                Route::get('withdrawls/change-status/{id}', 'WithdrawlController@change_status');
+            /* withdrawls */
             /* transactions */
                 Route::get('transactions/list', 'TransactionController@list');
             /* transactions */
+            /* feedbacks */
+                Route::get('feedbacks/list', 'FeedbackController@list');
+                Route::get('feedbacks/change-status/{id}', 'FeedbackController@change_status');
+            /* feedbacks */
             /* enquiries */
                 Route::get('enquiry/list', 'EnquiryController@list');
                 Route::get('enquiry/view-details/{id}', 'EnquiryController@details');

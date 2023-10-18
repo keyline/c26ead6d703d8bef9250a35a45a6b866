@@ -23,11 +23,11 @@ $pageFunction = ((count($pageName)>2)?$pageName[2]:'');
       </a>
       <ul id="permission-nav" class="nav-content collapse <?=(($pageSegment == 'module' || $pageSegment == 'sub-user' || $pageSegment == 'access')?'show':'')?>" data-bs-parent="#sidebar-nav">
         <?php if(in_array(8, $module_id)){?>
-        <!-- <li>
+        <li>
           <a class="<?=(($pageSegment == 'module')?'active':'')?>" href="{{ url('admin/module/list') }}">
             <i class="bi bi-arrow-right"></i><span>Modules</span>
           </a>
-        </li> -->
+        </li>
         <?php }?>
         <?php if(in_array(9, $module_id)){?>
         <li>
@@ -321,6 +321,15 @@ $pageFunction = ((count($pageName)>2)?$pageName[2]:'');
       <span>Transactions</span>
     </a>
   </li><!-- End Profile Page Nav -->
+  <?php }?>
+
+  <?php if(in_array(34, $module_id)){?>
+    <li class="nav-item">
+      <a class="nav-link <?=(($pageSegment == 'feedbacks')?'active':'')?>" href="{{ url('admin/feedbacks/list') }}">
+        <i class="fa fa-comment"></i>
+        <span>Feedbacks</span>
+      </a>
+    </li><!-- End Profile Page Nav -->
   <?php }?>
 
   <?php if(in_array(25, $module_id)){?>
