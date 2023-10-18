@@ -46,7 +46,7 @@ $controllerRoute = $module['controller_route'];
                 <th>Opening Balance</th>
                 <th>Transaction Amount</th>
                 <th>Closing Balance</th>
-                <th>Withdrawl</th>
+                <th>Withdrawl<br>Status</th>
               </tr>
             </thead>
             <tbody>
@@ -79,10 +79,31 @@ $controllerRoute = $module['controller_route'];
                   <td><?=number_format($row->transaction_amt,2)?></td>
                   <td><?=number_format($row->closing_amt,2)?></td>
                   <td>
-                    <?php if($row->status){?>
-                      <span class="badge bg-success">YES</span>
-                    <?php } else {?>
-                      <span class="badge bg-danger">NO</span>
+                    <?php if($row->type == 'CREDIT'){?>
+                      <?php if($row->status == 1){?>
+                        <span class="badge bg-warning">Request Done</span>
+                      <?php } elseif($row->status == 2){?>
+                        <span class="badge bg-danger">Withdrwal Done</span>
+                      <?php } elseif($row->status == 0){?>
+                        <span class="badge bg-danger">Not Requested</span>
+                      <?php }?>
+                      <br>
+
+                      <?php if($booking->status == 1){?>
+                        <h5 class="badge bg-info">Student Paid</h5>
+                      <?php }?>
+                      <?php if($booking->status == 2){?>
+                        <h5 class="badge bg-info">Meeting Done</h5>
+                      <?php }?>
+                      <?php if($booking->status == 3){?>
+                        <h5 class="badge bg-info">Cancelled</h5>
+                      <?php }?>
+                      <?php if($booking->status == 4){?>
+                        <h5 class="badge bg-info">Withdrawl Requested</h5>
+                      <?php }?>
+                      <?php if($booking->status == 5){?>
+                        <h5 class="badge bg-info">Withdrawl Done</h5>
+                      <?php }?>
                     <?php }?>
                   </td>
                 </tr>
