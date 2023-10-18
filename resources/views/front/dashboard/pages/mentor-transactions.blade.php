@@ -94,7 +94,7 @@ use App\Helpers\Helper;
 												<td><?=number_format($row->closing_amt,2)?></td>
 												<td>
 													<?php if($row->status == 1){?>
-														<span class="badge bg-warning">Requested Done</span>
+														<span class="badge bg-warning">Request Done</span>
 													<?php } elseif($row->status == 2){?>
 														<span class="badge bg-danger">Withdrwal Done</span>
 													<?php } elseif($row->status == 0){?>

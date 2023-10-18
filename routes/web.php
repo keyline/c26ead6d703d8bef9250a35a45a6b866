@@ -77,6 +77,7 @@ Route::prefix('/')->namespace('App\Http\Controllers')->group(function () {
                 Route::get('/mentor-services', 'DashboardController@mentorServices');
                 Route::match(['get','post'], '/mentor-bookings', 'DashboardController@mentorBookings');
                 Route::match(['get','post'], '/mentor-transactions', 'DashboardController@mentorTransactions');
+                Route::match(['get','post'], '/mentor-withdrawls', 'DashboardController@mentorWithdrawls');
                 Route::match(['get','post'], '/print-mentor-invoice/{id}', 'DashboardController@printMentorInvoice');
                 Route::match(['get','post'], '/mentor-feedback-list', 'DashboardController@mentorFeedbackList');
             /* mentor */

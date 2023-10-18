@@ -595,5 +595,14 @@ class DashboardController extends Controller
                 echo $this->front_dashboard_layout($title,$page_name,$data);
             }
         /* mentor feedback */
+        /* mentor feedback */
+            public function mentorWithdrawls(){
+                $userId                         = Session::get('user_id');
+                $data['withdrawls']             = Withdrawl::where('mentor_id', '=', $userId)->orderBy('id', 'DESC')->get();
+                $title                          = 'Withdral Requests';
+                $page_name                      = 'mentor-withdrawl';
+                echo $this->front_dashboard_layout($title,$page_name,$data);
+            }
+        /* mentor feedback */
     /* mentor */
 }
