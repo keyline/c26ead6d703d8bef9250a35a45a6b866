@@ -21,6 +21,20 @@ use App\Helpers\Helper;
 				<ul class="header-nav ms-auto"></ul>
 			</div>
 		</header>
+		<div class="col-xl-12">
+		@if(session('success_message'))
+			<div class="alert alert-success bg-success text-light border-0 alert-dismissible fade show autohide" role="alert">
+			{{ session('success_message') }}
+			<button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
+			</div>
+		@endif
+		@if(session('error_message'))
+			<div class="alert alert-danger bg-danger text-light border-0 alert-dismissible fade show autohide" role="alert">
+			{{ session('error_message') }}
+			<button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
+			</div>
+		@endif
+		</div>
 		<div class="body flex-grow-1 px-3">
 			<div class="container-fluid-lg">
 				<div class="row">
