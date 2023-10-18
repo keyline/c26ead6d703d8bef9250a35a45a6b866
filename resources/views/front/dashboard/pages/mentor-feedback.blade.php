@@ -46,7 +46,7 @@ use App\Helpers\Helper;
 									<tr>
 										<th>#</th>
 										<th>Booking Number</th>
-										<th>Mentor</th>
+										<th>Student</th>
 										<th>Service</th>
 										<th>Rating</th>
 										<th>Review</th>
@@ -57,15 +57,15 @@ use App\Helpers\Helper;
 									<?php
 									if($feedbacks){ $sl=1; foreach($feedbacks as $feedback){
 										$booking = Booking::where('id', '=', $feedback->booking_id)->first();
-										$mentor = User::where('id', '=', $booking->mentor_id)->first();
+										$student = User::where('id', '=', $booking->student_id)->first();
 									?>
 										<tr>
 											<td><?=$sl++?></td>
 											<td><?=(($booking)?$booking->booking_no:'')?></td>
 											<td>
-												<h6><i class="fa fa-user"></i> <?=(($mentor)?$mentor->name:'')?></h6>
-										  	<h6><i class="fa fa-envelope"></i> <?=(($mentor)?$mentor->email:'')?></h6>
-										  	<h6><i class="fa fa-mobile"></i> <?=(($mentor)?$mentor->phone:'')?></h6>
+												<h6><i class="fa fa-user"></i> <?=(($student)?$student->name:'')?></h6>
+										  	<h6><i class="fa fa-envelope"></i> <?=(($student)?$student->email:'')?></h6>
+										  	<h6><i class="fa fa-mobile"></i> <?=(($student)?$student->phone:'')?></h6>
 									  	</td>
 									  	<td>
 												<?php

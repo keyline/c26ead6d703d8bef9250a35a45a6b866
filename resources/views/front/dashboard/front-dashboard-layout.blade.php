@@ -35,10 +35,12 @@
 		<script src="<?=env('FRONT_DASHBOARD_ASSETS_URL')?>vendors/@coreui/coreui/js/coreui.bundle.min.js"></script>
 		<script src="<?=env('FRONT_DASHBOARD_ASSETS_URL')?>vendors/simplebar/js/simplebar.min.js"></script>
 		<script src="<?=env('FRONT_DASHBOARD_ASSETS_URL')?>vendors/@coreui/utils/js/coreui-utils.js"></script>
-	 	<!-- 
 	 	
-	 	 -->
-	 	
+	 	<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/js/toastr.js"></script>
+      <script src="<?=env('FRONT_ASSETS_URL')?>assets/js/jquery.loading.js"></script>
+      <script src="<?=env('FRONT_ASSETS_URL')?>assets/js/sweetalert2.all.min.js"></script>
+      <script src="<?=env('FRONT_ASSETS_URL')?>assets/js/common-function.js"></script>
+      <script src="<?=env('FRONT_ASSETS_URL')?>assets/js/stumento.js"></script>
 	</body>
 </html>
    <script type="text/javascript">

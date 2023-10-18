@@ -23,6 +23,7 @@ use App\Models\MentorSlot;
 use App\Models\Booking;
 use App\Models\AdminPayment;
 use App\Models\MentorPayment;
+use App\Models\Withdrawl;
 use Hash;
 use Auth;
 use Session;
@@ -453,6 +454,7 @@ class DashboardController extends Controller
         /* student bookings */
             public function studentBookings(){
                 $userId                                 = Session::get('user_id');
+                $data['user_id']                        = $userId;
                 $data['all_bookings']                   = Booking::where('student_id', '=', $userId)->where('status', '>=', 1)->orderBy('id', 'DESC')->get();
                 $data['upcoming_bookings']              = Booking::where('student_id', '=', $userId)->where('status', '=', 1)->orderBy('id', 'DESC')->get();
                 $data['past_bookings']                  = Booking::where('student_id', '=', $userId)->where('status', '=', 2)->orderBy('id', 'DESC')->get();
@@ -480,9 +482,23 @@ class DashboardController extends Controller
             }
         /* print student invoice */
         /* student feedback */
-            public function studentFeedbackList(){
+            public function studentFeedbackList(Request $request){
                 $userId                         = Session::get('user_id');
-                $data                           = [];
+                $data['feedbacks']              = BookingRating::where('student_id', '=', $userId)->orderBy('id', 'DESC')->get();
+                if($request->isMethod('post')){
+                    $postData = $request->all();
+                    $fields = [
+                        'mentor_id'         => $postData['mentor_id'],
+                        'mentor_service_id' => $postData['mentor_service_id'],
+                        'booking_id'        => $postData['booking_id'],
+                        'student_id'        => $postData['student_id'],
+                        'rating'            => $postData['stars'],
+                        'review'            => $postData['review'],
+                    ];
+                    // Helper::pr($fields);
+                    BookingRating::insert($fields);
+                    return redirect('user/student-feedback-list/')->with('success_message', 'Review Submitted Successfully. Wait For Admin Approval To Show !!!');
+                }
                 $title                          = 'Feedbacks';
                 $page_name                      = 'student-feedback';
                 echo $this->front_dashboard_layout($title,$page_name,$data);
@@ -502,10 +518,44 @@ class DashboardController extends Controller
             }
         /* mentor bookings */
         /* mentor transaction */
-            public function mentorTransactions(){
+            public function mentorTransactions(Request $request){
                 $userId                         = Session::get('user_id');
+                $data['user_id']                = $userId;
                 $data['mentor_balance']         = $this->getMentorBalance($userId);
                 $data['transactions']           = MentorPayment::where('mentor_id', '=', $userId)->orderBy('id', 'DESC')->get();
+                if($request->isMethod('post')){
+                    $postData = $request->all();
+                    if(array_key_exists("booking_ids",$postData)){
+                        $request_amount         = 0;
+                        $request_booking_ids    = $postData['booking_ids'];
+                        if(!empty($request_booking_ids)){
+                            for($b=0;$b<count($request_booking_ids);$b++){
+                                $getBooking             = MentorPayment::where('booking_id', '=', $request_booking_ids[$b])->first();
+
+                                $fields = [
+                                    'status'                     => 1
+                                ];
+                                MentorPayment::where('booking_id', '=', $request_booking_ids[$b])->update($fields);
+
+                                if($getBooking){
+                                    if(!$getBooking->status){
+                                        $request_amount         += $getBooking->transaction_amt;
+                                    }
+                                }
+                            }
+                        }
+                        $fields = [
+                            'mentor_id'                     => $postData['mentor_id'],
+                            'request_amount'                => $request_amount,
+                            'request_booking_ids'           => json_encode($postData['booking_ids']),
+                        ];
+                        // Helper::pr($fields);
+                        Withdrawl::insert($fields);
+                        return redirect('user/mentor-transactions/')->with('success_message', 'Withdrawl Request Submitted Successfully !!!');
+                    } else {
+                        return redirect('user/mentor-transactions/')->with('error_message', 'Please Select Atleast One Booking For Withdrawl !!!');
+                    }
+                }
                 $title                          = 'Transaction History';
                 $page_name                      = 'mentor-transactions';
                 echo $this->front_dashboard_layout($title,$page_name,$data);
@@ -536,5 +586,14 @@ class DashboardController extends Controller
                 echo $this->front_dashboard_layout($title,$page_name,$data);
             }
         /*mentor-services */
+        /* mentor feedback */
+            public function mentorFeedbackList(){
+                $userId                         = Session::get('user_id');
+                $data['feedbacks']              = BookingRating::where('mentor_id', '=', $userId)->orderBy('id', 'DESC')->get();
+                $title                          = 'Feedbacks';
+                $page_name                      = 'mentor-feedback';
+                echo $this->front_dashboard_layout($title,$page_name,$data);
+            }
+        /* mentor feedback */
     /* mentor */
 }
