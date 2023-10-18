@@ -45,8 +45,10 @@ use App\Helpers\Helper;
 								<thead>
 									<tr>
 										<th>#</th>
+                  	<th>Request Date</th>
 										<th>Booking Number</th>
 										<th>Requested Amount</th>
+										<th>Approve/Reject Date</th>
 										<th>Status</th>
 									</tr>
 								</thead>
@@ -57,6 +59,7 @@ use App\Helpers\Helper;
 									?>
 										<tr>
 											<td><?=$sl++?></td>
+                      <td><?=date_format(date_create($row->created_at), "M d, Y h:i A")?></td>
 											<td>
 												<?php
 												$booking_no = [];
@@ -72,6 +75,14 @@ use App\Helpers\Helper;
 												?>
 											</td>
 											<td><?=number_format($row->request_amount,2)?></td>
+                      <td>
+                        <?php if($row->status == 1){?>
+                          <h6><?=date_format(date_create($row->accept_reject_date), "M d, Y h:i A")?></h6>
+                          <h6><?=$row->txn_no?></h6>
+                        <?php } elseif($row->status == 3){?>
+                          <?=date_format(date_create($row->accept_reject_date), "M d, Y h:i A")?>
+                        <?php }?>
+                      </td>
 											<td>
 												<?php if($row->status == 0){?>
 													<span class="badge bg-warning">Request Done</span>

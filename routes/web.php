@@ -351,7 +351,7 @@ Route::prefix('/')->namespace('App\Http\Controllers')->group(function () {
             /* bookings */
             /* withdrawls */
                 Route::get('withdrawls/list', 'WithdrawlController@list');
-                Route::get('withdrawls/change-status/{id}', 'WithdrawlController@change_status');
+                Route::get('withdrawls/change-status/{id}/{id2}', 'WithdrawlController@change_status');
             /* withdrawls */
             /* transactions */
                 Route::get('transactions/list', 'TransactionController@list');

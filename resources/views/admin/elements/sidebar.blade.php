@@ -315,12 +315,21 @@ $pageFunction = ((count($pageName)>2)?$pageName[2]:'');
   <?php }?>
 
   <?php if(in_array(21, $module_id)){?>
-  <li class="nav-item">
-    <a class="nav-link <?=(($pageSegment == 'transactions')?'active':'')?>" href="{{ url('admin/transactions/list') }}">
-      <i class="fa fa-inr"></i>
-      <span>Transactions</span>
-    </a>
-  </li><!-- End Profile Page Nav -->
+    <li class="nav-item">
+      <a class="nav-link <?=(($pageSegment == 'transactions')?'active':'')?>" href="{{ url('admin/transactions/list') }}">
+        <i class="fa fa-inr"></i>
+        <span>Transactions</span>
+      </a>
+    </li><!-- End Profile Page Nav -->
+  <?php }?>
+
+  <?php if(in_array(21, $module_id)){?>
+    <li class="nav-item">
+      <a class="nav-link <?=(($pageSegment == 'withdrawls')?'active':'')?>" href="{{ url('admin/withdrawls/list') }}">
+        <i class="fa fa-inr"></i>
+        <span>Withdrawls</span>
+      </a>
+    </li><!-- End Profile Page Nav -->
   <?php }?>
 
   <?php if(in_array(34, $module_id)){?>
