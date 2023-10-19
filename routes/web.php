@@ -80,6 +80,7 @@ Route::prefix('/')->namespace('App\Http\Controllers')->group(function () {
                 Route::match(['get','post'], '/mentor-withdrawls', 'DashboardController@mentorWithdrawls');
                 Route::match(['get','post'], '/print-mentor-invoice/{id}', 'DashboardController@printMentorInvoice');
                 Route::match(['get','post'], '/mentor-feedback-list', 'DashboardController@mentorFeedbackList');
+                Route::match(['get','post'], '/mentor-booking-cancel/{id}', 'DashboardController@mentorBookingCancel');
             /* mentor */
             /* student */
                 Route::match(['get','post'], '/student-bookings', 'DashboardController@studentBookings');
@@ -89,6 +90,7 @@ Route::prefix('/')->namespace('App\Http\Controllers')->group(function () {
                 Route::match(['get','post'], '/survey-details/{id}', 'DashboardController@surveyDetails');
                 Route::get('/survey-result/{id}', 'DashboardController@surveyResult');
                 Route::match(['get','post'], '/student-feedback-list', 'DashboardController@studentFeedbackList');
+                Route::match(['get','post'], '/student-booking-cancel/{id}', 'DashboardController@studentBookingCancel');
             /* student */
         });
     /* after login */

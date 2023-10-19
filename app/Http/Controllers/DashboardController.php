@@ -504,6 +504,19 @@ class DashboardController extends Controller
                 echo $this->front_dashboard_layout($title,$page_name,$data);
             }
         /* student feedback */
+        /* student booking cancel */
+            public function studentBookingCancel(Request $request, $id){
+                $userId                         = Session::get('user_id');
+                $id                             = Helper::decoded($id);
+                $fields                         = [
+                    'status'            => 3,
+                    'cancel_by'         => $userId,
+                    'cancel_date_time'  => date('Y-m-d H:i:s'),
+                ];
+                Booking::where('id', '=', $id)->update($fields);
+                return redirect('user/student-bookings/')->with('success_message', 'Booking Cancelled Successfully !!!');
+            }
+        /* student booking cancel */
     /* student */
     /* mentor */
         /* mentor bookings */
@@ -604,5 +617,18 @@ class DashboardController extends Controller
                 echo $this->front_dashboard_layout($title,$page_name,$data);
             }
         /* mentor feedback */
+        /* mentor booking cancel */
+            public function mentorBookingCancel(Request $request, $id){
+                $userId                         = Session::get('user_id');
+                $id                             = Helper::decoded($id);
+                $fields                         = [
+                    'status'            => 3,
+                    'cancel_by'         => $userId,
+                    'cancel_date_time'  => date('Y-m-d H:i:s'),
+                ];
+                Booking::where('id', '=', $id)->update($fields);
+                return redirect('user/mentor-bookings/')->with('success_message', 'Booking Cancelled Successfully !!!');
+            }
+        /* mentor booking cancel */
     /* mentor */
 }

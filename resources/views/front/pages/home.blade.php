@@ -88,94 +88,23 @@
                </div>
                <!--main carousel element-->
                <div id="projects-carousel" class="owl-carousel career-carousel">
-                  <div class="project mentalhealth">
-                     <div class="projec_homecare">
-                        <div class="homecare_img"><img src="<?=env('FRONT_ASSETS_URL')?>assets/images/home_carrea_img1.png" alt=""></div>
-                        <div class="homecare_info">
-                           <h3>Yogesh Kashyap</h3>
-                           <h5>Mental Health, Career Counselling</h5>
-                           <h3>MSc.</h3>
-                           <a href="#">View Profile</a>
+                  <?php
+                  if($mentors) { foreacH($mentors as $mentor){
+                     $mentorDisplayName   = $mentor['display_name'];
+                     $mentorId            = $mentor['mentor_id'];
+                  ?>
+                     <div class="project <?=$mentor['service_class_name']?>">
+                        <div class="projec_homecare">
+                           <div class="homecare_img"><img src="<?=$mentor['profile_image']?>" alt="<?=$mentor['name']?>"></div>
+                           <div class="homecare_info">
+                              <h3><?=$mentor['name']?></h3>
+                              <h5><?=$mentor['service_name']?></h5>
+                              <h3><?=$mentor['qualification']?></h3>
+                              <a href="<?=url('mentor-details/'.$mentorDisplayName.'/'.Helper::encoded($mentorId))?>">View Profile</a>
+                           </div>
                         </div>
                      </div>
-                  </div>
-                  <div class="project careercounselling">
-                     <div class="projec_homecare">
-                        <div class="homecare_img"><img src="<?=env('FRONT_ASSETS_URL')?>assets/images/home_carrea_img2.png" alt=""></div>
-                        <div class="homecare_info">
-                           <h3>Yogesh Kashyap</h3>
-                           <h5>Mental Health, Career Counselling</h5>
-                           <h3>MSc.</h3>
-                           <a href="#">View Profile</a>
-                        </div>
-                     </div>
-                  </div>
-                  <div class="project mentalhealth">
-                     <div class="projec_homecare">
-                        <div class="homecare_img"><img src="<?=env('FRONT_ASSETS_URL')?>assets/images/home_carrea_img2.png" alt=""></div>
-                        <div class="homecare_info">
-                           <h3>Yogesh Kashyap</h3>
-                           <h5>Mental Health, Career Counselling</h5>
-                           <h3>MSc.</h3>
-                           <a href="#">View Profile</a>
-                        </div>
-                     </div>
-                  </div>
-                  <div class="project careercounselling">
-                     <div class="projec_homecare">
-                        <div class="homecare_img"><img src="<?=env('FRONT_ASSETS_URL')?>assets/images/home_carrea_img3.png" alt=""></div>
-                        <div class="homecare_info">
-                           <h3>Yogesh Kashyap</h3>
-                           <h5>Mental Health, Career Counselling</h5>
-                           <h3>MSc.</h3>
-                           <a href="#">View Profile</a>
-                        </div>
-                     </div>
-                  </div>
-                  <div class="project mentalhealth">
-                     <div class="projec_homecare">
-                        <div class="homecare_img"><img src="<?=env('FRONT_ASSETS_URL')?>assets/images/home_carrea_img2.png" alt=""></div>
-                        <div class="homecare_info">
-                           <h3>Yogesh Kashyap</h3>
-                           <h5>Mental Health, Career Counselling</h5>
-                           <h3>MSc.</h3>
-                           <a href="#">View Profile</a>
-                        </div>
-                     </div>
-                  </div>
-                  <div class="project careercounselling">
-                     <div class="projec_homecare">
-                        <div class="homecare_img"><img src="<?=env('FRONT_ASSETS_URL')?>assets/images/home_carrea_img1.png" alt=""></div>
-                        <div class="homecare_info">
-                           <h3>Yogesh Kashyap</h3>
-                           <h5>Mental Health, Career Counselling</h5>
-                           <h3>MSc.</h3>
-                           <a href="#">View Profile</a>
-                        </div>
-                     </div>
-                  </div>
-                  <div class="project careercounselling">
-                     <div class="projec_homecare">
-                        <div class="homecare_img"><img src="<?=env('FRONT_ASSETS_URL')?>assets/images/home_carrea_img2.png" alt=""></div>
-                        <div class="homecare_info">
-                           <h3>Yogesh Kashyap</h3>
-                           <h5>Mental Health, Career Counselling</h5>
-                           <h3>MSc.</h3>
-                           <a href="#">View Profile</a>
-                        </div>
-                     </div>
-                  </div>
-                  <div class="project careercounselling">
-                     <div class="projec_homecare">
-                        <div class="homecare_img"><img src="<?=env('FRONT_ASSETS_URL')?>assets/images/home_carrea_img3.png" alt=""></div>
-                        <div class="homecare_info">
-                           <h3>Yogesh Kashyap</h3>
-                           <h5>Mental Health, Career Counselling</h5>
-                           <h3>MSc.</h3>
-                           <a href="#">View Profile</a>
-                        </div>
-                     </div>
-                  </div>
+                  <?php } }?>
                </div>
                <!--element to hold filtered out items-->
                <div id="projects-hidden" class="hide"></div>

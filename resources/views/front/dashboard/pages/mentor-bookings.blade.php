@@ -88,6 +88,24 @@ use App\Helpers\Helper;
 														<td><?=$booking->duration?> mins</td>
 														<td><?=number_format($booking->payable_amt,2)?></td>
 														<td>
+															<?php if($booking->status <= 1){?>
+																<?php
+																$currentDate = date('Y-m-d');
+																if($currentDate < $booking->booking_date){
+																?>
+																	<a href="<?=url('user/mentor-booking-cancel/'.Helper::encoded($booking->id))?>" class="btn btn-danger btn-sm text-light" onclick="return confirm('Do You Want To Cancel This Boooking ?');"><i class="fa fa-times"></i> Cancel Booking</a>
+																<?php }?>
+																<br>	
+															<?php }?>
+															<?php if($booking->status == 1){?>
+																<h5 class="badge bg-info">Payment Done</h5>
+															<?php }?>
+															<?php if($booking->status == 2){?>
+																<h5 class="badge bg-success">Meeting Done</h5>
+															<?php }?>
+															<?php if($booking->status == 3){?>
+																<h5 class="badge bg-danger">Cancelled</h5>
+															<?php }?><br>
 															<?php if($booking->payment_status){?>
 																<a href="<?=url('user/print-mentor-invoice/'.Helper::encoded($booking->id))?>" target="_blank" class="btn btn-primary btn-sm"><i class="fa fa-print"></i> Print Invoice</a>
 															<?php }?>
@@ -104,8 +122,7 @@ use App\Helpers\Helper;
 											<thead>
 												<tr>
 													<th>#</th>
-													<th>Booking Number</th>
-													<th>Booking Date</th>
+													<th>Booking Number<br>Booking Date</th>
 													<th>Student Details</th>
 													<th>Service Type<br> Service</th>
 													<th>Duration</th>
@@ -120,10 +137,7 @@ use App\Helpers\Helper;
 												?>
 													<tr>
 														<td><?=$sl++?></td>
-														<td><?=$booking->booking_no?></td>
-														<td>
-															<?=date_format(date_create($booking->booking_date), "M d, Y")?> <?=date_format(date_create($booking->booking_slot_from), "h:i A")?> - <?=date_format(date_create($booking->booking_slot_to), "h:i A")?>
-														</td>
+														<td><?=$booking->booking_no?><br><?=date_format(date_create($booking->booking_date), "M d, Y")?> <?=date_format(date_create($booking->booking_slot_from), "h:i A")?> - <?=date_format(date_create($booking->booking_slot_to), "h:i A")?></td>
 														<td>
 															<h6><i class="fa fa-user"></i> <?=(($student)?$student->name:'')?></h6>
 														  	<h6><i class="fa fa-envelope"></i> <?=(($student)?$student->email:'')?></h6>
@@ -143,6 +157,24 @@ use App\Helpers\Helper;
 														<td><?=$booking->duration?> mins</td>
 														<td><?=number_format($booking->payable_amt,2)?></td>
 														<td>
+															<?php if($booking->status <= 1){?>
+																<?php
+																$currentDate = date('Y-m-d');
+																if($currentDate < $booking->booking_date){
+																?>
+																	<a href="<?=url('user/mentor-booking-cancel/'.Helper::encoded($booking->id))?>" class="btn btn-danger btn-sm text-light" onclick="return confirm('Do You Want To Cancel This Boooking ?');"><i class="fa fa-times"></i> Cancel Booking</a>
+																<?php }?>
+																<br>	
+															<?php }?>
+															<?php if($booking->status == 1){?>
+																<h5 class="badge bg-info">Payment Done</h5>
+															<?php }?>
+															<?php if($booking->status == 2){?>
+																<h5 class="badge bg-success">Meeting Done</h5>
+															<?php }?>
+															<?php if($booking->status == 3){?>
+																<h5 class="badge bg-danger">Cancelled</h5>
+															<?php }?><br>
 															<?php if($booking->payment_status){?>
 																<a href="<?=url('user/print-mentor-invoice/'.Helper::encoded($booking->id))?>" target="_blank" class="btn btn-primary btn-sm"><i class="fa fa-print"></i> Print Invoice</a>
 															<?php }?>
@@ -159,8 +191,7 @@ use App\Helpers\Helper;
 											<thead>
 												<tr>
 													<th>#</th>
-													<th>Booking Number</th>
-													<th>Booking Date</th>
+													<th>Booking Number<br>Booking Date</th>
 													<th>Student Details</th>
 													<th>Service Type<br> Service</th>
 													<th>Duration</th>
@@ -175,10 +206,7 @@ use App\Helpers\Helper;
 												?>
 													<tr>
 														<td><?=$sl++?></td>
-														<td><?=$booking->booking_no?></td>
-														<td>
-															<?=date_format(date_create($booking->booking_date), "M d, Y")?> <?=date_format(date_create($booking->booking_slot_from), "h:i A")?> - <?=date_format(date_create($booking->booking_slot_to), "h:i A")?>
-														</td>
+														<td><?=$booking->booking_no?><br><?=date_format(date_create($booking->booking_date), "M d, Y")?> <?=date_format(date_create($booking->booking_slot_from), "h:i A")?> - <?=date_format(date_create($booking->booking_slot_to), "h:i A")?></td>
 														<td>
 															<h6><i class="fa fa-user"></i> <?=(($student)?$student->name:'')?></h6>
 														  	<h6><i class="fa fa-envelope"></i> <?=(($student)?$student->email:'')?></h6>
@@ -198,6 +226,15 @@ use App\Helpers\Helper;
 														<td><?=$booking->duration?> mins</td>
 														<td><?=number_format($booking->payable_amt,2)?></td>
 														<td>
+															<?php if($booking->status == 1){?>
+																<h5 class="badge bg-info">Payment Done</h5>
+															<?php }?>
+															<?php if($booking->status == 2){?>
+																<h5 class="badge bg-success">Meeting Done</h5>
+															<?php }?>
+															<?php if($booking->status == 3){?>
+																<h5 class="badge bg-danger">Cancelled</h5>
+															<?php }?><br>
 															<?php if($booking->payment_status){?>
 																<a href="<?=url('user/print-mentor-invoice/'.Helper::encoded($booking->id))?>" target="_blank" class="btn btn-primary btn-sm"><i class="fa fa-print"></i> Print Invoice</a>
 															<?php }?>
