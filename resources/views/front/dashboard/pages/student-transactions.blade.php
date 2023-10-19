@@ -37,12 +37,10 @@ use App\Helpers\Helper;
 									<tr>
 										<th>#</th>
 										<th>Booking No</th>
-										<th>Mentor Details</th>
+										<th>Mentor Details<br>Transaction Date</th>
 										<th>Txn No</th>
-										<th>Transaction Date</th>
 										<th>Payable/Payment Amount</th>
-										<th>Payment Status</th>
-										<th>Payment Method<br>Payment Mode</th>
+										<th>Payment Method<br>Payment Mode<br>Payment Status</th>
 										<th>Action</th>
 									</tr>
 								</thead>
@@ -53,14 +51,14 @@ use App\Helpers\Helper;
 									?>
 										<tr>
 											<td><div class="form-check"><input class="form-check-input" type="checkbox" value="" id="flexCheckDefault"> <?=$sl++?></div></td>
-											<td><?=$row->booking_no?></td>
+											<td><?=$row->booking_no?><br>
+											<?=(($row->payment_date_time != '')?date_format(date_create($row->payment_date_time), "M d, Y h:i A"):'')?></td>
 											<td>
 											  	<h6><i class="fa fa-user"></i> <?=(($mentor)?$mentor->name:'')?></h6>
 											  	<h6><i class="fa fa-envelope"></i> <?=(($mentor)?$mentor->email:'')?></h6>
 											  	<h6><i class="fa fa-mobile"></i> <?=(($mentor)?$mentor->phone:'')?></h6>
 											</td>
 											<td><?=$row->txn_id?></td>
-											<td><?=(($row->payment_date_time != '')?date_format(date_create($row->payment_date_time), "M d, Y h:i A"):'')?></td>
 											<td><?=number_format($row->payable_amt,2)?></td>
 											<td>
 												<?php if($row->payment_status){?>
@@ -68,8 +66,7 @@ use App\Helpers\Helper;
 												<?php } else {?>
 													<span class="badge bg-danger">NOT PAID</span>
 												<?php }?>
-											</td>
-											<td>
+												<br>
 												<strong><?=$row->payment_method?></strong><br>
 												<strong><?=$row->payment_mode?></strong>
 											</td>

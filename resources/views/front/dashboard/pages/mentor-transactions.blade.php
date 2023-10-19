@@ -8,13 +8,21 @@ use App\Helpers\Helper;
 <div class="account_wrapper">
 	<?=$sidebar;?>
 	<div class="wrapper account_inner_section d-flex flex-column min-vh-100 bg-light">
-		<header class="header header-sticky mb-4">
+		<header class="header header-sticky mentor_transtion_top mb-4">
 			<div class="container-fluid">
-				<button class="header-toggler px-md-0 me-md-3 d-md-none" type="button" onclick="coreui.Sidebar.getInstance(document.querySelector('#sidebar')).toggle()"><i class="fa-solid fa-bars"></i></button>
-				<h4 class="pagestitle-item mb-0"><?=$page_header?></h4>
-				<ul class="header-nav ms-auto"></ul>
+				<div class="row">
+					<div class="col-md-6">
+						<button class="header-toggler px-md-0 me-md-3 d-md-none" type="button" onclick="coreui.Sidebar.getInstance(document.querySelector('#sidebar')).toggle()"><i class="fa-solid fa-bars"></i></button>
+						<h4 class="pagestitle-item mb-0"><?=$page_header?></h4>
+						<ul class="header-nav ms-auto"></ul>
+					</div>
+					<div class="col-md-6">
+						<h4 class="pagestitle-item mb-0 badge bg-primary">Balance : <?=$mentor_balance?></h4>
+					</div>
+				</div>
+				
 			</div>
-			<h4 class="pagestitle-item mb-0 badge bg-primary">Balance : <?=$mentor_balance?></h4>
+			
 		</header>
 		<div class="col-xl-12">
 		@if(session('success_message'))
@@ -37,7 +45,7 @@ use App\Helpers\Helper;
 						<form name="withdrawlForm" method="POST" action="<?=url('user/mentor-transactions')?>">
 							@csrf
 		                    <input type="hidden" name="mentor_id" class="requiredCheck" value="<?=$user_id?>">
-							<button type="submit" class="btn btn-success btn-sm" id="withdrawl-form-submit"><i class="fa fa-inr"></i> Withdrawl</button>
+							<button type="submit" class="btn btn-success" id="withdrawl-form-submit"><i class="fa fa-inr"></i> Withdrawl</button>
 							<div class="table-responsive">
 							  	<table id="example" class="table table-striped table-hover" style="width:100%">
 									<thead>
@@ -64,17 +72,20 @@ use App\Helpers\Helper;
 										?>
 											<tr>
 												<td>
-													<?=$sl++?><br>
-													<?php if($booking->status >= 2){?>
-														<?php if($booking->status != 3){?>
-															<?php
-															$checkWithdrawl = Withdrawl::where('mentor_id', '=', $user_id)->where('request_booking_ids', 'LIKE', '%'.$row->booking_id.'%')->count();
-															if($checkWithdrawl<=0){
-															?>
-																<input type="checkbox" name="booking_ids[]" value="<?=$row->booking_id?>">
+													<div class="form-check">
+														<?php if($booking->status >= 2){?>
+															<?php if($booking->status != 3){?>
+																<?php
+																$checkWithdrawl = Withdrawl::where('mentor_id', '=', $user_id)->where('request_booking_ids', 'LIKE', '%'.$row->booking_id.'%')->count();
+																if($checkWithdrawl<=0){
+																?>
+																	<input class="form-check-input" type="checkbox" name="booking_ids[]" value="<?=$row->booking_id?>">
+																<?php } ?>
 															<?php } ?>
 														<?php } ?>
-													<?php } ?>
+														<?=$sl++?>
+													</div>
+													
 												</td>
 												<td>
 													<?php if($row->type == 'CREDIT'){?>
@@ -143,3 +154,10 @@ use App\Helpers\Helper;
 		});
 	})
 </script>
+<style>
+button#withdrawl-form-submit {
+    clear: both;
+    margin: 0px 0 30px;
+    color: #fff;
+}
+</style>

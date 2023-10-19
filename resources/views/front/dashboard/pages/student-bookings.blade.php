@@ -168,7 +168,7 @@ use App\Helpers\Helper;
 														</td>
 														<td><?=$booking->duration?> mins</td>
 														<td><?=number_format($booking->payable_amt,2)?></td>
-														<td>
+														<td class="text-center">
 															<?php if($booking->status == 1){?>
 																<h5 class="badge bg-info">Payment Done</h5>
 															<?php }?>
@@ -233,7 +233,7 @@ use App\Helpers\Helper;
 														</td>
 														<td><?=$booking->duration?> mins</td>
 														<td><?=number_format($booking->payable_amt,2)?></td>
-														<td>
+														<td class="text-center">
 															<?php if($booking->status == 1){?>
 																<h5 class="badge bg-info">Payment Done</h5>
 															<?php }?>
@@ -290,8 +290,8 @@ if($past_bookings){ $sl=1;foreach($past_bookings as $booking){
 			      <div class="modal-body">
 			        <div class="feedback_start">
 			            <p>Please give mentor feedabck</p>
-			            <form method="POST" action="<?=url('user/student-feedback-list')?>">
-				            <div class="feedstar">
+			            <form class="" method="POST" action="<?=url('user/student-feedback-list')?>">
+				            <div class="feedstar rating">
 	                    @csrf
 	                    <input type="hidden" name="booking_id" value="<?=$booking->id?>">
 	                    <input type="hidden" name="mentor_id" value="<?=$getBooking->mentor_id?>">
@@ -328,7 +328,7 @@ if($past_bookings){ $sl=1;foreach($past_bookings as $booking){
 	                        <span class="icon">★</span>
 	                    </label>
 				            </div>
-				            <div class="mb-3">
+				            <div class="mb-3 feedbcknote_label">
 			                <label for="exampleFormControlTextarea1" class="form-label">Feedback Note:</label>
 			                <textarea class="form-control" id="exampleFormControlTextarea1" name="review" rows="3" required></textarea>
 			                <button type="submit" class="btn mt-3 m-auto d-table btn-primary">Submit</button>

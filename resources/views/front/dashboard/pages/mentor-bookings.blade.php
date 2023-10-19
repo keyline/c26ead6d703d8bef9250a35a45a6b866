@@ -35,10 +35,10 @@ use App\Helpers\Helper;
 			</div>
 		@endif
 		</div>
-		<div class="body flex-grow-1 px-3">
-			<div class="container-fluid-lg">
+		<div class="body flex-grow-1 px-3 py-3">
+			<div class="container-fluid">
 				<div class="row">
-					<div class="col-md-12">
+					<div class="col-md-12 px-0">
 							<nav class="mb-4">
 							  	<div class="nav nav-tabs" id="nav-tab" role="tablist">
 									<button class="nav-link active" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home" aria-selected="true">All (<?=count($all_bookings)?>)</button>
@@ -49,12 +49,11 @@ use App\Helpers\Helper;
 							<div class="tab-content" id="nav-tabContent">
 							  	<div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
 									<div class="table-responsive">
-									  	<table id="example" class="stripe cell-border hover" style="width:100%">
+									  	<table id="example" class="stripe table cell-border hover" style="width:100%">
 											<thead>
 												<tr>
 													<th>#</th>
-													<th>Booking Number</th>
-													<th>Booking Date</th>
+													<th>Booking Number<br>Booking Date</th>
 													<th>Student Details</th>
 													<th>Service Type<br> Service</th>
 													<th>Duration</th>
@@ -69,10 +68,7 @@ use App\Helpers\Helper;
 												?>
 													<tr>
 														<td><?=$sl++?></td>
-														<td><?=$booking->booking_no?></td>
-														<td>
-															<?=date_format(date_create($booking->booking_date), "M d, Y")?> <?=date_format(date_create($booking->booking_slot_from), "h:i A")?> - <?=date_format(date_create($booking->booking_slot_to), "h:i A")?>
-														</td>
+														<td><?=$booking->booking_no?><br><?=date_format(date_create($booking->booking_date), "M d, Y")?> <?=date_format(date_create($booking->booking_slot_from), "h:i A")?> - <?=date_format(date_create($booking->booking_slot_to), "h:i A")?></td>
 														<td>
 															<h6><i class="fa fa-user"></i> <?=(($student)?$student->name:'')?></h6>
 														  	<h6><i class="fa fa-envelope"></i> <?=(($student)?$student->email:'')?></h6>
@@ -104,7 +100,7 @@ use App\Helpers\Helper;
 								</div>
 							  	<div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
 									<div class="table-responsive">
-									  	<table id="example2" class="stripe cell-border hover" style="width:100%">
+									  	<table id="example2" class="stripe table cell-border hover" style="width:100%">
 											<thead>
 												<tr>
 													<th>#</th>
@@ -159,7 +155,7 @@ use App\Helpers\Helper;
 								</div>	
 							  	<div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">
 									<div class="table-responsive">
-									  	<table id="example3" class="stripe cell-border hover" style="width:100%">
+									  	<table id="example3" class="stripe table cell-border hover" style="width:100%">
 											<thead>
 												<tr>
 													<th>#</th>
