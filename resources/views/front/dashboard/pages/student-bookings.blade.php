@@ -93,14 +93,24 @@ use App\Helpers\Helper;
 														<td><?=$booking->duration?> mins</td>
 														<td><?=number_format($booking->payable_amt,2)?></td>
 														<td class="text-center">
+
+															<?php if($booking->status <= 1){?>
+																<?php
+																$currentDate = date('Y-m-d');
+																if($currentDate < $booking->booking_date){
+																?>
+																	<a href="<?=url('user/student-booking-cancel/'.Helper::encoded($booking->id))?>" class="btn btn-danger btn-sm text-light" onclick="return confirm('Do You Want To Cancel This Boooking ?');"><i class="fa fa-times"></i> Cancel Booking</a>
+																<?php }?>
+																<br>	
+															<?php }?>
 															<?php if($booking->status == 1){?>
 																<h5 class="badge bg-info">Payment Done</h5>
 															<?php }?>
 															<?php if($booking->status == 2){?>
-																<h5 class="badge bg-info">Meeting Done</h5>
+																<h5 class="badge bg-success">Meeting Done</h5>
 															<?php }?>
 															<?php if($booking->status == 3){?>
-																<h5 class="badge bg-info">Cancelled</h5>
+																<h5 class="badge bg-danger">Cancelled</h5>
 															<?php }?><br>
 															<?php if($booking->payment_status){?>
 																<a href="<?=url('user/print-student-invoice/'.Helper::encoded($booking->id))?>" target="_blank" class="btn btn-primary btn-sm"><i class="fa fa-print"></i> Print Invoice</a>
@@ -157,26 +167,36 @@ use App\Helpers\Helper;
 														  </td>
 														<td>
 															<?php
-                             	$service_type = ServiceType::select('name')->where('id', '=', $booking->service_type_id)->first();
-                             	echo (($service_type)?$service_type->name:'');
-                             	?>
+							                             	$service_type = ServiceType::select('name')->where('id', '=', $booking->service_type_id)->first();
+							                             	echo (($service_type)?$service_type->name:'');
+							                             	?>
 															<br>
 															<?php
-		                         	$service = Service::select('name')->where('id', '=', $booking->service_id)->first();
-		                         	echo (($service)?$service->name:'');
-		                         	?>
+								                         	$service = Service::select('name')->where('id', '=', $booking->service_id)->first();
+								                         	echo (($service)?$service->name:'');
+								                         	?>
 														</td>
 														<td><?=$booking->duration?> mins</td>
 														<td><?=number_format($booking->payable_amt,2)?></td>
 														<td class="text-center">
+
+															<?php if($booking->status <= 1){?>
+																<?php
+																$currentDate = date('Y-m-d');
+																if($currentDate < $booking->booking_date){
+																?>
+																	<a href="<?=url('user/student-booking-cancel/'.Helper::encoded($booking->id))?>" class="btn btn-danger btn-sm text-light" onclick="return confirm('Do You Want To Cancel This Boooking ?');"><i class="fa fa-times"></i> Cancel Booking</a>
+																<?php }?>
+																<br>	
+															<?php }?>
 															<?php if($booking->status == 1){?>
 																<h5 class="badge bg-info">Payment Done</h5>
 															<?php }?>
 															<?php if($booking->status == 2){?>
-																<h5 class="badge bg-info">Meeting Done</h5>
+																<h5 class="badge bg-success">Meeting Done</h5>
 															<?php }?>
 															<?php if($booking->status == 3){?>
-																<h5 class="badge bg-info">Cancelled</h5>
+																<h5 class="badge bg-danger">Cancelled</h5>
 															<?php }?><br>
 															<?php if($booking->payment_status){?>
 																<a href="<?=url('user/print-student-invoice/'.Helper::encoded($booking->id))?>" target="_blank" class="btn btn-primary btn-sm"><i class="fa fa-print"></i> Print Invoice</a>
@@ -222,14 +242,14 @@ use App\Helpers\Helper;
 														  </td>
 														<td>
 															<?php
-                             	$service_type = ServiceType::select('name')->where('id', '=', $booking->service_type_id)->first();
-                             	echo (($service_type)?$service_type->name:'');
-                             	?>
+							                             	$service_type = ServiceType::select('name')->where('id', '=', $booking->service_type_id)->first();
+							                             	echo (($service_type)?$service_type->name:'');
+							                             	?>
 															<br>
 															<?php
-                             	$service = Service::select('name')->where('id', '=', $booking->service_id)->first();
-                             	echo (($service)?$service->name:'');
-                             	?>
+							                             	$service = Service::select('name')->where('id', '=', $booking->service_id)->first();
+							                             	echo (($service)?$service->name:'');
+							                             	?>
 														</td>
 														<td><?=$booking->duration?> mins</td>
 														<td><?=number_format($booking->payable_amt,2)?></td>
@@ -238,10 +258,10 @@ use App\Helpers\Helper;
 																<h5 class="badge bg-info">Payment Done</h5>
 															<?php }?>
 															<?php if($booking->status == 2){?>
-																<h5 class="badge bg-info">Meeting Done</h5>
+																<h5 class="badge bg-success">Meeting Done</h5>
 															<?php }?>
 															<?php if($booking->status == 3){?>
-																<h5 class="badge bg-info">Cancelled</h5>
+																<h5 class="badge bg-danger">Cancelled</h5>
 															<?php }?><br>
 															<?php if($booking->payment_status){?>
 																<a href="<?=url('user/print-student-invoice/'.Helper::encoded($booking->id))?>" target="_blank" class="btn btn-primary btn-sm"><i class="fa fa-print"></i> Print Invoice</a>
