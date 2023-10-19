@@ -19,11 +19,13 @@ use App\Models\SurveyResult;
 use App\Models\SurveyRecords;
 use App\Models\SurveyCombinations;
 use App\Models\BookingRating;
-use App\Models\MentorSlot;
 use App\Models\Booking;
 use App\Models\AdminPayment;
 use App\Models\MentorPayment;
 use App\Models\Withdrawl;
+use App\Models\MentorAvailability;
+use App\Models\MentorSlot;
+
 use Hash;
 use Auth;
 use Session;
@@ -519,6 +521,121 @@ class DashboardController extends Controller
         /* student booking cancel */
     /* student */
     /* mentor */
+        /* mentor availability */
+            public function mentorAvailability(Request $request){
+                $userId             = Session::get('user_id');
+                $mentorAvlDays      = MentorAvailability::select('day_of_week_id')->where('mentor_user_id', '=', $userId)->where('is_active', '=', 1)->groupBy('day_of_week_id')->get();
+                $mentorDBDays       = [];
+                if($mentorAvlDays){
+                    foreach($mentorAvlDays as $mentorAvlDay){
+                        $mentorDBDays[]       = $mentorAvlDay->day_of_week_id;
+                    }
+                }
+                // Helper::pr($mentorDBDays);
+
+                $sortOrderWeekDay = [0,1,2,3,4,5,6]; // Your choices
+                //$daysOfWeek = \App\Models\DayOfWeek::orderBy('day_index', 'desc')->get();
+                $daysOfWeek = \App\Models\DayOfWeek::all();
+                // Sort the $items collection based on your choices
+                $sortedDaysOfWeek = $daysOfWeek->sortBy(function ($item) use ($sortOrderWeekDay) {
+                    $choiceIndex = array_search($item->day_index, $sortOrderWeekDay);
+                    // If the choice is found in the $choices array, return its index; otherwise, return a high value.
+                    return $choiceIndex !== false ? $choiceIndex : count($sortOrderWeekDay);
+                });
+                $startPeriod = \Carbon\Carbon::parse('00:00');
+                $endPeriod   = \Carbon\Carbon::parse('24:00');
+                $period = \Carbon\CarbonPeriod::create($startPeriod, '15 minutes', $endPeriod)->excludeEndDate();
+                $documents = \App\Models\RequireDocument::where('user_type', '=', 'mentor')->get();
+                foreach ($period as $date) {
+                    $hours[] = array('name' => $date->format('h:i A'),
+                                     'value' => $date->format('Hi'),
+                                     'selected_from' => '0900',
+                                     'selected_to'   => '2000'
+                                );
+
+                }
+                // Helper::pr($sortedDaysOfWeek);
+                $data['userId']                 = $userId;
+                $data['mentor_days']            = $mentorDBDays;
+                $data['slot_dropdown']          = $hours;
+                $data['days']                   = $sortedDaysOfWeek;
+                $data['documents']              = $documents;
+
+                if($request->isMethod('post')) {
+                    $postData = $request->all();
+                    // Helper::pr($postData);
+
+                    $days           = $request->input('day_of_week');
+                    $availabilities = $request->input('availability');
+                    $durations      = $request->input('duration');
+                    $no_of_slots    = $request->input('no_of_slot');
+                    MentorAvailability::where('mentor_user_id', '=', $userId)->delete($data);
+                    if($days){
+                        foreach ($days as $key => $value) {
+                            $day_id = $key;
+                            $data   = [];
+                            if(is_array($availabilities['from'][$day_id])) {
+                                $data['day_of_week_id'] = ($day_id - 1);
+                                // $duration               = $durations[$day_id];
+                                // $no_of_slot             = $no_of_slots[$day_id];
+                                foreach($availabilities['from'][$day_id] as $key => $value) {
+                                    $data['avail_from']     = date('H:i:s', strtotime($value));
+                                    $data['duration']       = $durations[$day_id][$key];
+                                    $data['no_of_slot']     = $no_of_slots[$day_id][$key];
+                                    $data['avail_to']       = date('H:i:s', strtotime($availabilities['to'][$day_id][$key]));
+                                    $data['mentor_user_id'] = $userId;
+                                    $data['is_active']      = 1;
+                                    MentorAvailability::insert($data);
+                                }
+                            }
+                        }
+                    }
+                    /* mentor slots add on approval of mentor */
+                        $id         = $userId;
+                        $mentorAvls = MentorAvailability::select('id', 'day_of_week_id', 'duration', 'no_of_slot', 'avail_from', 'avail_to')->where('is_active', '=', 1)->where('mentor_user_id', '=', $id)->get();
+                        MentorSlot::where('mentor_user_id', '=', $id)->delete();
+                        if($mentorAvls){
+                            foreach($mentorAvls as $mentorAvl){
+                                $mentor_user_id             = $id;
+                                $mentor_availability_id     = $mentorAvl->id;
+                                $day_of_week_id             = $mentorAvl->day_of_week_id;
+                                $duration                   = $mentorAvl->duration;
+                                $no_of_slot                 = $mentorAvl->no_of_slot;
+                                $from_time                  = $mentorAvl->avail_from;
+                                $to_time                    = $mentorAvl->avail_to;
+                                $currentDate                = date('Y-m-d');
+                                $fTime                      = $currentDate.' '.$from_time;
+                                $tTime                      = $currentDate.' '.$to_time;
+                                $slots                      = Helper::SplitTime($fTime, $tTime, $duration);
+                                if(!empty($slots)) {
+                                    for($s=0;$s<(count($slots)-1);$s++) {
+                                        $sTime = $slots[$s];
+                                        $eTime = date('H:i:s', strtotime("+".$duration." minutes", strtotime($sTime)));
+                                        $fields = [
+                                            'mentor_user_id'            => $mentor_user_id,
+                                            'mentor_availability_id'    => $mentor_availability_id,
+                                            'day_of_week_id'            => $day_of_week_id,
+                                            'duration'                  => $duration,
+                                            'from_time'                 => $sTime,
+                                            'to_time'                   => $eTime,
+                                        ];
+                                        // Helper::pr($fields);
+                                        MentorSlot::insert($fields);
+                                    }
+                                }
+                                
+                            }
+                        }
+                    /* mentor slots add on approval of mentor */
+
+                    return redirect('user/mentor-availability/')->with('success_message', 'Availability Updated Successfully !!!');
+                }
+
+                $title          = 'Booking Availability';
+                $page_name      = 'mentor-availability';
+                echo $this->front_dashboard_layout($title,$page_name,$data);
+            }
+        /* mentor availability */
         /* mentor bookings */
             public function mentorBookings(){
                 $userId                                 = Session::get('user_id');
@@ -583,14 +700,6 @@ class DashboardController extends Controller
                 return view('front.dashboard.pages.'.$page_name, $data);
             }
         /* print mentor invoice */
-        /*mentor-availability*/
-            public function mentorAvailability(){
-                $data[]         = [];
-                $title          = 'Mentor Availability';
-                $page_name      = 'mentor-availability';
-                echo $this->front_dashboard_layout($title,$page_name,$data);
-            }
-        /*mentor-availability*/
         /*mentor-services */
             public function mentorServices(){
                 $data[]         = [];

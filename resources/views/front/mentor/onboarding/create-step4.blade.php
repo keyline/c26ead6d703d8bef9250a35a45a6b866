@@ -149,198 +149,198 @@
 @push('scripts')
 
 <script>
-//const parentaddItmBtn= document.querySelectorAll('.add-slots > div');
-//const addItmBtn= document.querySelectorAll('.add-slot-btn');
-const addItmBtn= document.querySelectorAll('.slots__parent');
-//var selectItems = document.getElementsByClassName("slots-select-box");
-const addFromChkBtn= document.querySelectorAll('.form-check-input');
-//const slotList= document.querySelectorAll('.slots__parent');//slot__items__component
+   //const parentaddItmBtn= document.querySelectorAll('.add-slots > div');
+   //const addItmBtn= document.querySelectorAll('.add-slot-btn');
+   const addItmBtn= document.querySelectorAll('.slots__parent');
+   //var selectItems = document.getElementsByClassName("slots-select-box");
+   const addFromChkBtn= document.querySelectorAll('.form-check-input');
+   //const slotList= document.querySelectorAll('.slots__parent');//slot__items__component
 
-const slotList = document.querySelectorAll('.slots__parent');
+   const slotList = document.querySelectorAll('.slots__parent');
 
-//For adding items with add button
+   //For adding items with add button
 
-//collect data that is inserted 
-const addSelectInput = (postData) => {
-  return fetch("{{route('mentor.timeslot.item')}}", {
-         method: 'POST',
-         headers: {
-            'Content-Type': 'application/json',
-            'X-Requested-With': 'XMLHttpRequest',
-            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-         },
-         body: JSON.stringify(postData)
+   //collect data that is inserted 
+   const addSelectInput = (postData) => {
+     return fetch("{{route('mentor.timeslot.item')}}", {
+            method: 'POST',
+            headers: {
+               'Content-Type': 'application/json',
+               'X-Requested-With': 'XMLHttpRequest',
+               'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+            },
+            body: JSON.stringify(postData)
 
-            })
-            .then(response => response.json())
-            .catch(error => {
-                console.error('Error fetching items:', error);
-            });
-
-}
-
-
-const handleAddSlot = (e) =>{
-   //add-slot-btn
-   debugger;
-      event.preventDefault();
-      //event.stopPropagation();
-      
-if (e.target.classList.contains('add__slot__parent')) {
-   const postData= {
-      'day': e.target.getAttribute("data-container"),
-      'action': 'stumentoAjx__new__slot__can__be__removed'
-   }
-   //alert('clicked ' + postData.day);
-   addSelectInput(postData).then((data) => {
-      
-      //const el= document.getElementById('item-list-container-' + data.containerIdentity);
-      const el = document.querySelector('#item-list-container-' + data.containerIdentity);
-      el.insertAdjacentHTML('beforeend', data.html);
-
-   });
-   
-}
-   return;
-
-   
-
-}
-const handleAddSlotFrmChkBtn= (e) => {
-         const parent= e.target.closest('div > .row');
-
-         let divs= parent.children;
-
-         const d= collectionContains(divs, 'unavailable');
-
-         let nestedElements = e.target.closest('.slot-item').querySelectorAll('.slots-unavailable');
-
-         let el= e.target.closest('.slot-item').querySelector('.slots__parent');
-         const iDiv = document.createElement('div');
-            
-            iDiv.className = 'slots-section';
-            el.insertAdjacentElement('afterbegin', iDiv);
-            //el.appendChild(iDiv);
-   if(e.target.checked)
-      {
-         
-
-         //console.log({'divs': divs, 'is_txt': d, 'target': event.currentTarget});
-
-         if(d){
-            // Get all nested elements with the class "target-class"
-            
-            //console.log({'parentElem': nestedElements});
-            nestedElements.forEach(ele => {
-               ele.innerText="";
-            });
-         }
-         
-      
-         const postData= {
-            'day': e.target.getAttribute("data-chkcontainer"),
-            'action': 'stumentoAjx_new_slot_add'
-         }
-         
-         
-         
-         //.classList.add('invisible');
-         
-         addSelectInput(postData).then((data)=>{
-            //const el= e.currentTarget.querySelector('.slots-section');
-            //iDiv.appendChild(data.html);
-            iDiv.insertAdjacentHTML('afterbegin', data.html);
-            //console.log({'parent' : element});
-         });
-      } else{
-           if(! d)
-           {
-               let slotSection =e.target.closest('.slot-item').querySelectorAll('.slots-section');
-               slotSection.forEach(el => {
-                  el.remove();
+               })
+               .then(response => response.json())
+               .catch(error => {
+                   console.error('Error fetching items:', error);
                });
-               //console.log({'is_it_available' : Object.keys(nestedElements).length});
-               if(Object.keys(nestedElements).length === 0)
-               {
-                  //create element
-                  const iDivUnavailable = document.createElement('div');
-                  let classes= "ant-typography slots-unavailable".split(' ');
-                  iDivUnavailable.classList.add(...classes);
-                  iDivUnavailable.innerText= 'Unavailable';
-                  console.log({'unavailableDiv': iDivUnavailable});
-                  el.insertAdjacentElement('afterbegin', iDivUnavailable);
+
+   }
 
 
-
-               }else{
-                  nestedElements.forEach(ele => {
-               ele.innerText="Unavailable";
-            });
-               }
-               
-           }
+   const handleAddSlot = (e) =>{
+      //add-slot-btn
+      debugger;
+         event.preventDefault();
+         //event.stopPropagation();
+         
+   if (e.target.classList.contains('add__slot__parent')) {
+      const postData= {
+         'day': e.target.getAttribute("data-container"),
+         'action': 'stumentoAjx__new__slot__can__be__removed'
       }
-      //return false;
+      //alert('clicked ' + postData.day);
+      addSelectInput(postData).then((data) => {
+         
+         //const el= document.getElementById('item-list-container-' + data.containerIdentity);
+         const el = document.querySelector('#item-list-container-' + data.containerIdentity);
+         el.insertAdjacentHTML('beforeend', data.html);
 
-   
-}
-
-const handleDeleteSlot = (e) =>{
-   //alert("You clicked me!");                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          
-   // if user clicks on delete item, find and remove the parent article
-   if (e.target.classList.contains('deleteItem')) {
+      });
       
-       //const list= e.currentTarget.parentElement;
-       const parent = e.target.parentNode;
-        //const list= e.currentTarget.querySelector('.slots_section_parent');
+   }
+      return;
 
-        //list.removeChild(list.lastChild);
-        parent.remove();
-        //updateLocalCartLocalStorage(<id>);
-    } else {
-        return;
-    }
-    
-
-};
-function collectionContains(collection, searchText) {
-    for (var i = 0; i < collection.length; i++) {
-        if( collection[i].innerText.toLowerCase().indexOf(searchText) > -1 ) {
-            return true;
-        }
-    }
-    return false;
-}
-
-//function to initialize select2
-  function initializeSelect2(selectElementObj) {
-    selectElementObj.select2({
-      width: "80%",
-      tags: true
-    });
-  }
-
-//this will check for a click event and create new list item
-addItmBtn.forEach(item => {
-   item.addEventListener("click", handleAddSlot);
       
-});
+
+   }
+   const handleAddSlotFrmChkBtn= (e) => {
+            const parent= e.target.closest('div > .row');
+
+            let divs= parent.children;
+
+            const d= collectionContains(divs, 'unavailable');
+
+            let nestedElements = e.target.closest('.slot-item').querySelectorAll('.slots-unavailable');
+
+            let el= e.target.closest('.slot-item').querySelector('.slots__parent');
+            const iDiv = document.createElement('div');
+               
+               iDiv.className = 'slots-section';
+               el.insertAdjacentElement('afterbegin', iDiv);
+               //el.appendChild(iDiv);
+      if(e.target.checked)
+         {
+            
+
+            //console.log({'divs': divs, 'is_txt': d, 'target': event.currentTarget});
+
+            if(d){
+               // Get all nested elements with the class "target-class"
+               
+               //console.log({'parentElem': nestedElements});
+               nestedElements.forEach(ele => {
+                  ele.innerText="";
+               });
+            }
+            
+         
+            const postData= {
+               'day': e.target.getAttribute("data-chkcontainer"),
+               'action': 'stumentoAjx_new_slot_add'
+            }
+            
+            
+            
+            //.classList.add('invisible');
+            
+            addSelectInput(postData).then((data)=>{
+               //const el= e.currentTarget.querySelector('.slots-section');
+               //iDiv.appendChild(data.html);
+               iDiv.insertAdjacentHTML('afterbegin', data.html);
+               //console.log({'parent' : element});
+            });
+         } else{
+              if(! d)
+              {
+                  let slotSection =e.target.closest('.slot-item').querySelectorAll('.slots-section');
+                  slotSection.forEach(el => {
+                     el.remove();
+                  });
+                  //console.log({'is_it_available' : Object.keys(nestedElements).length});
+                  if(Object.keys(nestedElements).length === 0)
+                  {
+                     //create element
+                     const iDivUnavailable = document.createElement('div');
+                     let classes= "ant-typography slots-unavailable".split(' ');
+                     iDivUnavailable.classList.add(...classes);
+                     iDivUnavailable.innerText= 'Unavailable';
+                     console.log({'unavailableDiv': iDivUnavailable});
+                     el.insertAdjacentElement('afterbegin', iDivUnavailable);
 
 
-//add slot event on check button
-addFromChkBtn.forEach(item => {
-   item.addEventListener("click", handleAddSlotFrmChkBtn);
-});
 
-//check/uncheck item event
-// parentaddItmBtn.forEach((item) => {
+                  }else{
+                     nestedElements.forEach(ele => {
+                  ele.innerText="Unavailable";
+               });
+                  }
+                  
+              }
+         }
+         //return false;
 
-//    item.addEventListener('click', handleChkBtnAddSlot);
-// });
+      
+   }
 
-//delete item event
-slotList.forEach((slot) => {
-   slot.addEventListener('click', handleDeleteSlot);
-});
+   const handleDeleteSlot = (e) =>{
+      //alert("You clicked me!");                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          
+      // if user clicks on delete item, find and remove the parent article
+      if (e.target.classList.contains('deleteItem')) {
+         
+          //const list= e.currentTarget.parentElement;
+          const parent = e.target.parentNode;
+           //const list= e.currentTarget.querySelector('.slots_section_parent');
+
+           //list.removeChild(list.lastChild);
+           parent.remove();
+           //updateLocalCartLocalStorage(<id>);
+       } else {
+           return;
+       }
+       
+
+   };
+   function collectionContains(collection, searchText) {
+       for (var i = 0; i < collection.length; i++) {
+           if( collection[i].innerText.toLowerCase().indexOf(searchText) > -1 ) {
+               return true;
+           }
+       }
+       return false;
+   }
+
+   //function to initialize select2
+     function initializeSelect2(selectElementObj) {
+       selectElementObj.select2({
+         width: "80%",
+         tags: true
+       });
+     }
+
+   //this will check for a click event and create new list item
+   addItmBtn.forEach(item => {
+      item.addEventListener("click", handleAddSlot);
+         
+   });
+
+
+   //add slot event on check button
+   addFromChkBtn.forEach(item => {
+      item.addEventListener("click", handleAddSlotFrmChkBtn);
+   });
+
+   //check/uncheck item event
+   // parentaddItmBtn.forEach((item) => {
+
+   //    item.addEventListener('click', handleChkBtnAddSlot);
+   // });
+
+   //delete item event
+   slotList.forEach((slot) => {
+      slot.addEventListener('click', handleDeleteSlot);
+   });
 </script>
 @endpush

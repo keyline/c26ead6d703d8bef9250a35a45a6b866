@@ -17,6 +17,8 @@ class MentorAvailability extends Model
     protected $fillable = [
         'mentor_user_id',
         'day_of_week_id',
+        'duration',
+        'no_of_slot',
         'avail_from',
         'avail_to',
     ];
