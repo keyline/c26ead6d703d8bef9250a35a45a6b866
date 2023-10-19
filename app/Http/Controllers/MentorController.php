@@ -298,7 +298,7 @@ class MentorController extends Controller
 
     public function createStep4()
     {
-        $sortOrderWeekDay = [6,7,1,2,3,4,5]; // Your choices
+        $sortOrderWeekDay = [0,1,2,3,4,5,6]; // Your choices
 
 
         //$daysOfWeek = \App\Models\DayOfWeek::orderBy('day_index', 'desc')->get();

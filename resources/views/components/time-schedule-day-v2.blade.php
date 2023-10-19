@@ -23,13 +23,13 @@
                                        </div>
                                        <div style="display: inline; margin: 0px 0.5em;">-</div>
                                        <div class="slot__duration">
-                                        <select class="select__slot__duration" name="duration[{{ $day->id }}]" style="width: 50%">
+                                        <select class="select__slot__duration" name="duration[{{ $day->id }}][]" style="width: 50%">
                                         </select>
                                        </div>
                                        <div style="display: inline; margin: 0px 0.5em;">-</div>
 
                                        <div class="no__of__slots">
-                                        <select class="select__no__ofslot" name="no_of_slot[{{ $day->id }}]" style="width: 50%">
+                                        <select class="select__no__ofslot" name="no_of_slot[{{ $day->id }}][]" style="width: 50%">
                                         </select>
                                        </div>
                                        <div style="display: inline; margin: 0px 0.5em;">-</div>
