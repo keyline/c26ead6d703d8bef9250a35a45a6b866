@@ -589,19 +589,23 @@ ul.banner_btn {
     padding: 20px 20px 20px;
     text-align: center;
     border-radius: 24px;
+    min-height: 360px;
 }
 .careercounselling .projec_homecare  {
     background: #c588d0;
     padding: 20px 20px 20px;
     text-align: center;
     border-radius: 24px;
+    min-height: 360px;
 }
 .homecare_info {
     padding-top: 30px;
 }
 
 .projec_homecare .homecare_img img {
-    max-width: 165px;
+    max-width: 125px;
+    border-radius: 50%;
+    height: 125px;
 }
 .projec_homecare .homecare_img {
     text-align: center;

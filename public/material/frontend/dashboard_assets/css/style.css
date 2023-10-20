@@ -14948,3 +14948,10 @@ button.student_feedback {
   margin: auto;
   display: table;
 }
+.mentor_amout_balance {
+  float: right;
+  padding: 6px 20px 9px;
+  font-size: 16px;
+  color: #fff;
+  line-height: 1.25;
+}
