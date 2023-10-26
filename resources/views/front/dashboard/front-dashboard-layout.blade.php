@@ -35,6 +35,7 @@
 		<script src="<?=env('FRONT_DASHBOARD_ASSETS_URL')?>vendors/@coreui/coreui/js/coreui.bundle.min.js"></script>
 		<script src="<?=env('FRONT_DASHBOARD_ASSETS_URL')?>vendors/simplebar/js/simplebar.min.js"></script>
 		<script src="<?=env('FRONT_DASHBOARD_ASSETS_URL')?>vendors/@coreui/utils/js/coreui-utils.js"></script>
+    	<script src="<?=env('FRONT_DASHBOARD_ASSETS_URL')?>js/main.js"></script>
 	 	
 	 	<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/js/toastr.js"></script>
       <script src="<?=env('FRONT_ASSETS_URL')?>assets/js/jquery.loading.js"></script>
@@ -44,28 +45,27 @@
 	</body>
 </html>
 <script type="text/javascript">
-		$(document).ready( function () {
-			var table =	$('#example')
-				.addClass( 'nowrap' )
-				.DataTable( {
-					responsive: true,
-					search: {"search": ""},
-			});
-			var table2 = $('#example2')
-				.addClass( 'nowrap' )
-				.DataTable( {
- 				  	responsive: true,
-					search: {"search": ""},
-			});
-			var table3 = $('#example3')
-				.addClass( 'nowrap' )
-				.DataTable( {
-					responsive: true,
-					search: {"search": ""},
-			});
-			
+	$(document).ready( function () {
+		var table =	$('#example')
+			.addClass( 'nowrap' )
+			.DataTable( {
+				responsive: true,
+				search: {"search": ""},
 		});
-     (function() {
+		var table2 = $('#example2')
+			.addClass( 'nowrap' )
+			.DataTable( {
+				  	responsive: true,
+				search: {"search": ""},
+		});
+		var table3 = $('#example3')
+			.addClass( 'nowrap' )
+			.DataTable( {
+				responsive: true,
+				search: {"search": ""},
+		});
+	});
+  	(function() {
 		'use strict'
 		document.querySelector('#myNavbarToggler4').addEventListener('click', function() {
 			document.querySelector('.offcanvas-collapse').classList.toggle('open')
@@ -75,7 +75,10 @@
 			document.querySelector('.offcanvas-collapse').classList.remove('open')
 		})
 	})()
- </script>
+	function toggleAnalytics(id){
+		$("#author_bio_wrap" + id).slideToggle( "slow");
+	}
+</script>
 <script>
 	$(document).on('click', '.js-add2-row', function() { 
 		//debugger;
@@ -128,7 +131,6 @@
 		});
 	});
 </script>
-
 <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 <script>

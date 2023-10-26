@@ -25,6 +25,11 @@ use App\Models\MentorPayment;
 use App\Models\Withdrawl;
 use App\Models\MentorAvailability;
 use App\Models\MentorSlot;
+use App\Models\ServiceType;
+use App\Models\Service;
+use App\Models\ServiceAttribute;
+use App\Models\ServiceDetail;
+use App\Models\ServiceTypeAttribute;
 
 use Hash;
 use Auth;
@@ -702,9 +707,10 @@ class DashboardController extends Controller
         /* print mentor invoice */
         /*mentor-services */
             public function mentorServices(){
-                $data[]         = [];
-                $title          = 'Mentor Services';
-                $page_name      = 'mentor-services';
+                $userId                             = Session::get('user_id');
+                $data['mentor_services']            = ServiceDetail::where('status', '=', 1)->where('mentor_user_id', '=', $userId)->orderBy('id', 'DESC')->get();
+                $title                              = 'Mentor Services';
+                $page_name                          = 'mentor-services';
                 echo $this->front_dashboard_layout($title,$page_name,$data);
             }
         /*mentor-services */
