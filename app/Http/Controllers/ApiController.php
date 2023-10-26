@@ -887,4 +887,39 @@ class ApiController extends Controller
         }
         $this->response_to_json($apiStatus, $apiMessage, $apiResponse, $apiExtraField, $apiExtraData);
     }
+    public function getDefaultServiceDetails(Request $request){
+        $apiStatus          = TRUE;
+        $apiMessage         = '';
+        $apiResponse        = [];
+        $apiExtraField      = '';
+        $apiExtraData       = '';
+        $requestData        = $request->all();
+        if($requestData['key'] == env('PROJECT_KEY')){
+            $default_service_data           = [];
+            $service_attribute_id           = $requestData['service_attribute_id'];
+            $getDefaultServiceData          = ServiceAttribute::where('status', '=', 1)->where('id', '=', $service_attribute_id)->first();
+            if($getDefaultServiceData){
+                $default_service_data   = [
+                    'title'             => $getDefaultServiceData->title,
+                    'description'       => $getDefaultServiceData->description,
+                    'duration'          => (int)$getDefaultServiceData->duration,
+                    'actual_amount'     => $getDefaultServiceData->actual_amount,
+                    'slashed_amount'    => $getDefaultServiceData->slashed_amount,
+                ];
+            }
+            $apiResponse                        = $default_service_data;
+            $apiStatus                          = TRUE;
+            http_response_code(200);
+            $apiMessage                         = 'Data Available !!!';
+            $apiExtraField                      = 'response_code';
+            $apiExtraData                       = http_response_code();
+        } else {
+            http_response_code(400);
+            $apiStatus          = FALSE;
+            $apiMessage         = $this->getResponseCode(http_response_code());
+            $apiExtraField      = 'response_code';
+            $apiExtraData       = http_response_code();
+        }
+        $this->response_to_json($apiStatus, $apiMessage, $apiResponse, $apiExtraField, $apiExtraData);
+    }
 }

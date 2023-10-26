@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use App\Helpers\Helper;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\GeneralSetting;
 use App\Models\SocialPlatform;
 use App\Models\Language;
 use App\Models\Subject;
@@ -25,6 +26,11 @@ use App\Models\MentorPayment;
 use App\Models\Withdrawl;
 use App\Models\MentorAvailability;
 use App\Models\MentorSlot;
+use App\Models\ServiceType;
+use App\Models\Service;
+use App\Models\ServiceAttribute;
+use App\Models\ServiceDetail;
+use App\Models\ServiceTypeAttribute;
 
 use Hash;
 use Auth;
@@ -700,14 +706,98 @@ class DashboardController extends Controller
                 return view('front.dashboard.pages.'.$page_name, $data);
             }
         /* print mentor invoice */
-        /*mentor-services */
-            public function mentorServices(){
-                $data[]         = [];
-                $title          = 'Mentor Services';
-                $page_name      = 'mentor-services';
+        /* mentor-services */
+            public function mentorServices(Request $request){
+                $userId                             = Session::get('user_id');
+                $data['userId']                     = $userId;
+                $data['mentor_services']            = ServiceDetail::where('status', '!=', 3)->where('mentor_user_id', '=', $userId)->orderBy('id', 'DESC')->get();
+                $data['service_attrs']              = ServiceAttribute::select('id', 'title', 'duration', 'actual_amount', 'slashed_amount')->where('status', '=', 1)->get();
+
+                if($request->isMethod('post')){
+                    $postData                   = $request->all();
+                    $generalSetting             = GeneralSetting::find('1');
+                    $stumento_commision_percent = $generalSetting->stumento_commision_percent;
+
+                    $total_amount_payable       = $postData['total_amount_payable'];
+                    $cgst_amount                = (($total_amount_payable * $generalSetting->cgst_percent)/100);
+                    $sgst_amount                = (($total_amount_payable * $generalSetting->sgst_percent)/100);
+                    $igst_amount                = (($total_amount_payable * $generalSetting->igst_percent)/100);
+                    $admin_commision            = (($total_amount_payable * $stumento_commision_percent)/100);
+                    $mentor_commision           = ($total_amount_payable - $admin_commision);
+
+                    $fields                 = [
+                        'service_attribute_id'      => $postData['service_attribute_id'],
+                        'mentor_user_id'            => $postData['mentor_user_id'],
+                        'title'                     => $postData['title'],
+                        'description'               => $postData['description'],
+                        'duration'                  => $postData['duration'],
+                        'slashed_amount'            => $postData['slashed_amount'],
+                        'sgst_amount'               => $sgst_amount,
+                        'cgst_amount'               => $cgst_amount,
+                        'igst_amount'               => $igst_amount,
+                        'total_amount_payable'      => $total_amount_payable,
+                        'platform_charges'          => $admin_commision,
+                        'mentor_payout_amount'      => $mentor_commision,
+                        'promised_response_time'    => 30,
+                        'sort_order'                => 1,
+                        'countryid'                 => 101,
+                        'status'                    => $postData['status'],
+                    ];
+                    // Helper::pr($fields);
+                    ServiceDetail::insert($fields);
+                    return redirect()->back()->with('success_message', 'Service Added Successfully !!!');
+                }
+                $title                              = 'Mentor Services';
+                $page_name                          = 'mentor-services';
                 echo $this->front_dashboard_layout($title,$page_name,$data);
             }
-        /*mentor-services */
+            public function mentorServiceEdit(Request $request, $id){
+                $id                                 = Helper::decoded($id);
+                $userId                             = Session::get('user_id');
+                $data['userId']                     = $userId;
+                $data['id']                         = $id;
+                $data['mentor_services']            = ServiceDetail::where('status', '!=', 3)->where('mentor_user_id', '=', $userId)->orderBy('id', 'DESC')->get();
+                $data['service_attrs']              = ServiceAttribute::select('id', 'title', 'duration', 'actual_amount', 'slashed_amount')->where('status', '=', 1)->get();
+                $data['row']                        = ServiceDetail::where('status', '!=', 3)->where('mentor_user_id', '=', $userId)->where('id', '=', $id)->first();
+                if($request->isMethod('post')){
+                    $postData                   = $request->all();
+                    $generalSetting             = GeneralSetting::find('1');
+                    $stumento_commision_percent = $generalSetting->stumento_commision_percent;
+
+                    $total_amount_payable       = $postData['total_amount_payable'];
+                    $cgst_amount                = (($total_amount_payable * $generalSetting->cgst_percent)/100);
+                    $sgst_amount                = (($total_amount_payable * $generalSetting->sgst_percent)/100);
+                    $igst_amount                = (($total_amount_payable * $generalSetting->igst_percent)/100);
+                    $admin_commision            = (($total_amount_payable * $stumento_commision_percent)/100);
+                    $mentor_commision           = ($total_amount_payable - $admin_commision);
+
+                    $fields                 = [
+                        'service_attribute_id'      => $postData['service_attribute_id'],
+                        'mentor_user_id'            => $postData['mentor_user_id'],
+                        'title'                     => $postData['title'],
+                        'description'               => $postData['description'],
+                        'duration'                  => $postData['duration'],
+                        'slashed_amount'            => $postData['slashed_amount'],
+                        'sgst_amount'               => $sgst_amount,
+                        'cgst_amount'               => $cgst_amount,
+                        'igst_amount'               => $igst_amount,
+                        'total_amount_payable'      => $total_amount_payable,
+                        'platform_charges'          => $admin_commision,
+                        'mentor_payout_amount'      => $mentor_commision,
+                        'promised_response_time'    => 30,
+                        'sort_order'                => 1,
+                        'countryid'                 => 101,
+                        'status'                    => $postData['status'],
+                    ];
+                    // Helper::pr($fields);
+                    ServiceDetail::where('id', '=', $id)->update($fields);
+                    return redirect('user/mentor-services/')->with('success_message', 'Service Updated Successfully !!!');
+                }
+                $title                              = 'Mentor Services';
+                $page_name                          = 'mentor-services-edit';
+                echo $this->front_dashboard_layout($title,$page_name,$data);
+            }
+        /* mentor-services */
         /* mentor feedback */
             public function mentorFeedbackList(){
                 $userId                         = Session::get('user_id');
