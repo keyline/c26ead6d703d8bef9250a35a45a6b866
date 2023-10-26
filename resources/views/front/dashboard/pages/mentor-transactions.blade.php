@@ -10,14 +10,14 @@ use App\Helpers\Helper;
 	<div class="wrapper account_inner_section d-flex flex-column min-vh-100 bg-light">
 		<header class="header header-sticky mentor_transtion_top mb-4">
 			<div class="container-fluid">
-				<div class="row">
+				<div class="row w-100">
 					<div class="col-md-6">
 						<button class="header-toggler px-md-0 me-md-3 d-md-none" type="button" onclick="coreui.Sidebar.getInstance(document.querySelector('#sidebar')).toggle()"><i class="fa-solid fa-bars"></i></button>
 						<h4 class="pagestitle-item mb-0"><?=$page_header?></h4>
 						<ul class="header-nav ms-auto"></ul>
 					</div>
 					<div class="col-md-6">
-						<h4 class="pagestitle-item mb-0 badge bg-primary">Balance : <?=$mentor_balance?></h4>
+						<h4 class="pagestitle-item mentor_amout_balance mb-0 badge bg-primary">Balance : <?=$mentor_balance?></h4>
 					</div>
 				</div>
 				

@@ -46,7 +46,7 @@ use App\Helpers\Helper;
                   @endif
                   <form action="" method="POST" accept-charset="utf-8" enctype="multipart/form-data">
                     @csrf
-                    <div class="ant-col ant-col-24 add-slots">
+                    <div class="ant-col ant-col-24 add-slots mentoe_admin_section">
                      	@foreach($days AS $day)
 	                     	<div class="row slot-item">
 	                        <div class="col-md-3">

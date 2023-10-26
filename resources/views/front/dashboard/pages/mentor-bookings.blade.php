@@ -87,7 +87,7 @@ use App\Helpers\Helper;
 														</td>
 														<td><?=$booking->duration?> mins</td>
 														<td><?=number_format($booking->payable_amt,2)?></td>
-														<td>
+														<td class="text-center">
 															<?php if($booking->status <= 1){?>
 																<?php
 																$currentDate = date('Y-m-d');
