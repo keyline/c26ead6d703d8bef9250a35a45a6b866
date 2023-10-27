@@ -56,7 +56,7 @@ use App\Models\GeneralSetting;
                   <div class="card mb-4 text-white bg-whitebg">
                      <div class="card-body">
                         <div class="row">
-                           <div class="col-md-12">
+                           <div class="col-md-12"> 
                               <?php
                               if($mentor_services){ foreach($mentor_services as $mentor_service){
                               ?>

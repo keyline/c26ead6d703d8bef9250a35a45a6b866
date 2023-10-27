@@ -41,7 +41,7 @@ use App\Helpers\Helper;
 		<div class="body flex-grow-1 px-3">
 			<div class="container-fluid-lg">
 				<div class="row">
-					<div class="col-sm-12 col-lg-12">
+					<div class="col-sm-12 col-lg-12 mb-5">
 						<form name="withdrawlForm" method="POST" action="<?=url('user/mentor-transactions')?>">
 							@csrf
 		                    <input type="hidden" name="mentor_id" class="requiredCheck" value="<?=$user_id?>">

@@ -14639,6 +14639,7 @@ text-decoration: none;
     align-items: center;
     width: 100%;
     justify-content: center;
+    margin-bottom: 10px;
 }
 .slot_starttime, .slot_endtime {
     width: 40%;
@@ -14968,12 +14969,18 @@ select.select2-frm {
   color: #444;
 }
 .slot_starttime{
-  width: 150px;
+  width: 139px;
+}
+.slot__duration {
+  width: 139px;
+}
+.slot__duration .select2-container {
+  width: 139px !important;
 }
 button.add-slot-btn.add__slot__parent {
   /* margin-left: 5px; */
 }
-.select2-container{width: 100% !important;}
+/* .select2-container{width: 100% !important;} */
 .select2-container--default .select2-selection--single{border: 2px solid #e1e1e1 !important;}
 .select2-container .select2-selection--single{height: 40px !important; padding: 10px;}
 .select2-container--default .select2-selection--single .select2-selection__rendered{line-height: 19px !important;}
@@ -14999,8 +15006,87 @@ button.add-slot-btn {
 }
 .mentoe_admin_section .slot-item {
   background: #fff;
-  max-width: 800px;
+  max-width: 850px;
   width: 100%;
   border-radius: 10px;
   margin-bottom: 5px;
+}
+.services .service-card .service-card-main {
+  padding: 16px;
+}
+
+.services .service-card .service-card-main .title-section {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.services .service-card .service-card-main .title-section .service-title {
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 35px;
+  max-width: 80%;
+}
+.metor_seriveall.services {
+  margin-bottom: 20px;
+  border: 1px solid #e7eaef;
+  border-radius: 12px;
+}
+.services .service-card a.metor_service_alllink {
+  width: 100%;
+  display: table;
+text-decoration: none;
+  color: #444;
+}
+.ant-service-public {
+  display: flex;
+}
+.metor_seriveall .ant-space-item i {
+  font-size: 16px;
+  margin-right: 10px;
+}
+.ant-servceie_times {
+  display: flex;
+  align-items: center;
+}
+.ant-servceie_times .ant-times-item {
+  margin-right: 15px;
+}
+.services .service-card .service-card-footer {
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  align-self: flex-end;
+}
+.ant-service_allbtn button.ant-edit {
+  padding: 8px 35px;
+  width: auto;
+  height: auto;
+  border-radius: 25px;
+  border: none;
+}
+.service-card-footer button.ant-graph {
+  width: 40px;
+  height: 40px;
+  border-radius: 50px;
+  border: none;
+}
+.service_metor_clickview {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+border-top: 0.5px solid #ddd;
+}
+.service_metor_clickview .sca-section {
+  width: 50%;
+  border: 0.5px solid #ddd;
+  text-align: center;
+    border-right: 0.5px solid #ddd;
+}
+.service_metor_clickview .sca-section .sca-value {
+  font-weight: 700;
+  font-size: 20px;
+}
+.service_metor_clickview .sca-section:first-child, .service_metor_clickview .sca-section:nth-child(2) {
+  border-bottom: 1px solid #ddd;
 }

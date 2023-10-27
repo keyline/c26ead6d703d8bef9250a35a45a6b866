@@ -150,8 +150,8 @@ use App\Helpers\Helper;
 	                     	</div>
                      	@endforeach
                     </div>                  
-                    <div class="input-group mb-3">
-                     	<button class="btn btn-primary btn-sm"><i class="fa fa-paper-plane"></i> Save</button>
+                    <div class="input-group ml-0 mb-3 mt-4">
+                     	<button class="btn btn-primary"><i class="fa fa-paper-plane"></i> Save</button>
                     </div>
                  </form>
                </div>
