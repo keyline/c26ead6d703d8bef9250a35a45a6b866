@@ -13,6 +13,11 @@ use App\Models\UserActivity;
 use App\Models\SubscriptionPackage;
 use App\Models\User;
 use App\Models\UserSubscription;
+use App\Models\Survey;
+use App\Models\Booking;
+use App\Models\AdminPayment;
+use App\Models\Withdrawl;
+
 use Auth;
 use Mail;
 use App\Mail\ForgotPwdMail;
@@ -194,7 +199,20 @@ class UserController extends Controller
     /* authentication */
     /* dashboard */
         public function dashboard(){
-            $data                           = [];
+            $data['student']                = User::where('role', '=', 1)->count();
+            $data['mentor']                 = User::where('role', '=', 2)->count();
+            $data['survey']                 = Survey::where('status', '!=', 3)->count();
+            $data['paid_booking']           = Booking::where('payment_status', '=', 1)->count();
+            $data['unpaid_booking']         = Booking::where('payment_status', '=', 0)->count();
+            $data['transaction']            = AdminPayment::where('status', '=', 1)->count();
+            $data['withdrawl_request']      = Withdrawl::count();
+            $data['withdrawl_accept']       = Withdrawl::where('status', '=', 1)->count();
+            $data['withdrawl_reject']       = Withdrawl::where('status', '=', 3)->count();
+            $data['booking_amount']         = Booking::where('payment_status', '=', 1)->sum('payment_amount');
+            $data['admin_commission']       = AdminPayment::where('type', '=', 'CREDIT')->sum('admin_commision');
+            $data['mentor_commission']      = AdminPayment::where('type', '=', 'CREDIT')->sum('mentor_commision');
+            $data['withdrawl_amount']       = Withdrawl::where('status', '=', 1)->sum('request_amount');
+
             $title                          = 'Dashboard';
             $page_name                      = 'dashboard';
             echo $this->admin_after_login_layout($title,$page_name,$data);
