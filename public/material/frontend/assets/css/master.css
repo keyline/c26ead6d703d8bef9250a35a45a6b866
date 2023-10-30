@@ -70,7 +70,7 @@
 .form_password{
     position: relative;
 }
-.login-box .form_password i.fa-eye {
+.login-box .form_password i.fa-eye,.login-box .form_password i.fa-eye-slash {
     cursor: pointer;
     position: absolute;
     top: 15px;

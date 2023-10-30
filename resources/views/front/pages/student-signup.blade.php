@@ -12,30 +12,30 @@
                   <input type="hidden" class="form-control" name="key" id="key" value="facb6e0a6fcbe200dca2fb60dec75be7">
                   <input type="hidden" class="form-control" name="source" id="source" value="WEB">
                   <div class="form-group">
-                     <span class="text-danger">* Required</span>
-                     <input type="text" class="form-control requiredCheck" name="fname" id="fname" placeholder="First name" data-check="First name">
+                     <!-- <span class="text-danger">* Required</span> -->
+                     <input type="text" class="form-control requiredCheck" name="fname" id="fname" placeholder="First name" data-check="First name" required>
                   </div>
                   <div class="form-group">
-                     <span class="text-danger">* Required</span>
-                     <input type="text" class="form-control requiredCheck" name="lname" id="lname" placeholder="Last name" data-check="Last name">
+                     <!-- <span class="text-danger">* Required</span> -->
+                     <input type="text" class="form-control requiredCheck" name="lname" id="lname" placeholder="Last name" data-check="Last name" required>
                   </div>
                   <div class="form-group">
-                     <span class="text-danger">* Required</span>
-                     <input type="email" class="form-control requiredCheck" name="email" id="email" placeholder="Email address" data-check="Email address">
+                     <!-- <span class="text-danger">* Required</span> -->
+                     <input type="email" class="form-control requiredCheck" name="email" id="email" placeholder="Email address" data-check="Email address" required>
                   </div>
                   <div class="form-group">
-                     <span class="text-danger">* Required</span>
-                     <input type="tel" class="form-control requiredCheck" name="phone" id="phone" placeholder="Phone number" data-check="Phone number">
+                     <!-- <span class="text-danger">* Required</span> -->
+                     <input type="tel" class="form-control requiredCheck" name="phone" id="phone" placeholder="Phone number" data-check="Phone number" required>
                   </div>
-                  <div class="form-group">
-                     <span class="text-danger">* Required</span>
-                     <input type="password" class="form-control requiredCheck" name="password" id="password" placeholder="Set password" data-check="Set password">
+                  <div class="form-group form_password ">
+                     <!-- <span class="text-danger">* Required</span> -->
+                     <input type="password" class="form-control requiredCheck" name="password" id="password" placeholder="Set password" data-check="Set password" required>
                      <i class="fa-regular fa-eye" id="togglePassword" onclick="getEyeOpen2();"></i>
                      <i class="fa-regular fa-eye-slash" id="togglePassword2" onclick="getEyeClose2();" style="display:none;"></i>
                   </div>
-                  <div class="form-group">
-                     <span class="text-danger">* Required</span>
-                     <input type="password" class="form-control requiredCheck" name="confirm_password" id="confirm_password" placeholder="Confirm password" data-check="Confirm password">
+                  <div class="form-group form_password">
+                     <!-- <span class="text-danger">* Required</span> -->
+                     <input type="password" class="form-control requiredCheck" name="confirm_password" id="confirm_password" placeholder="Confirm password" data-check="Confirm password" required>
                      <i class="fa-regular fa-eye" id="togglePassword11" onclick="getEyeOpen2();"></i>
                      <i class="fa-regular fa-eye-slash" id="togglePassword22" onclick="getEyeClose2();" style="display:none;"></i>
                   </div>
