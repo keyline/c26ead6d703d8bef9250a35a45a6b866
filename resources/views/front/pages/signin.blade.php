@@ -24,7 +24,8 @@
                   </div>
                   <div class="form-group form_password">
                      <input type="password" name="password" id="password" class="form-control" placeholder="Password" required>
-                     <i class="fa-regular fa-eye" id="togglePassword"></i>
+                     <i class="fa-regular fa-eye" id="togglePassword" onclick="getEyeOpen();"></i>
+                     <i class="fa-regular fa-eye-slash" id="togglePassword2" onclick="getEyeClose();" style="display:none;"></i>
                   </div>
                   <div class="form-group d-flex align-items-center">
                      <input type="checkbox" name="" id="remember_me" class="me-2"> <span class="text-muted"><label for="remember_me">Remember me</label></span>
