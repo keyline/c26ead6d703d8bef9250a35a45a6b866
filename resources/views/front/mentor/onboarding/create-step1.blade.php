@@ -33,12 +33,14 @@
                      <input type="tel" class="form-control" id="phone" placeholder="Phone number" name="phone_number">
                   </div>
                   <div class="form-group form_password">
-                     <input type="password" class="form-control" placeholder="Set password" name="password">
-                     <i class="fa-regular fa-eye" id="togglePassword"></i>
+                     <input type="password" class="form-control" placeholder="Set password" name="password" id="password">
+                     <i class="fa-regular fa-eye" id="togglePassword" onclick="getEyeOpen();"></i>
+                     <i class="fa-regular fa-eye-slash" id="togglePassword2" onclick="getEyeClose();" style="display:none;"></i>
                   </div>
                   <div class="form-group form_password">
-                     <input type="password" class="form-control" placeholder="Confirm password" name="password_confirmation">
-                     <i class="fa-regular fa-eye" id="togglePassword"></i>
+                     <input type="password" class="form-control" placeholder="Confirm password" name="password_confirmation" id="confirm_password">
+                     <i class="fa-regular fa-eye" id="togglePassword11" onclick="getEyeOpen();"></i>
+                     <i class="fa-regular fa-eye-slash" id="togglePassword22" onclick="getEyeClose();" style="display:none;"></i>
                   </div>
                   <div class="form-group">
                      <button class="login-btn">Sign Up</button>
@@ -63,3 +65,23 @@
    </div>
 </section>
 @endsection
+<script type="text/javascript">
+   function getEyeOpen(){
+      $('#password').attr('type', 'text');
+      $('#confirm_password').attr('type', 'text');
+
+      $('#togglePassword').hide();
+      $('#togglePassword11').hide();
+      $('#togglePassword2').show();
+      $('#togglePassword22').show();
+   }
+   function getEyeClose(){
+      $('#password').attr('type', 'password');
+      $('#confirm_password').attr('type', 'password');
+
+      $('#togglePassword2').hide();
+      $('#togglePassword22').hide();
+      $('#togglePassword').show();
+      $('#togglePassword11').show();
+   }
+</script>

@@ -255,11 +255,40 @@ $pageName = $routeName->uri();
             $('#bookingTTime').text(toTime);
             $('.next-btn').attr('disabled', false);
         }
-
         $('#bookingModal').modal({
             backdrop: 'static',
             keyboard: false
         })
-      </script>
+        function getEyeOpen(){
+            $('#password').attr('type', 'text');
+            $('#togglePassword').hide();
+            $('#togglePassword2').show();
+        }
+        function getEyeClose(){
+            $('#password').attr('type', 'password');
+            $('#togglePassword2').hide();
+            $('#togglePassword').show();
+        }
+        </script>
+        <script type="text/javascript">
+            function getEyeOpen2(){
+              $('#password').attr('type', 'text');
+              $('#confirm_password').attr('type', 'text');
+
+              $('#togglePassword').hide();
+              $('#togglePassword11').hide();
+              $('#togglePassword2').show();
+              $('#togglePassword22').show();
+            }
+            function getEyeClose2(){
+              $('#password').attr('type', 'password');
+              $('#confirm_password').attr('type', 'password');
+
+              $('#togglePassword2').hide();
+              $('#togglePassword22').hide();
+              $('#togglePassword').show();
+              $('#togglePassword11').show();
+            }
+        </script>
    </body>
 </html>

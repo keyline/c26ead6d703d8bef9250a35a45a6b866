@@ -31,10 +31,14 @@
                      <input type="tel" class="form-control" id="phone" placeholder="Phone number" name="phone_number">
                   </div>
                   <div class="form-group">
-                     <input type="password" class="form-control" placeholder="Set password" name="password">
+                     <input type="password" class="form-control" placeholder="Set password" name="password" id="password">
+                     <i class="fa-regular fa-eye" id="togglePassword" onclick="getEyeOpen();"></i>
+                     <i class="fa-regular fa-eye-slash" id="togglePassword2" onclick="getEyeClose();" style="display:none;"></i>
                   </div>
                   <div class="form-group">
-                     <input type="password" class="form-control" placeholder="Confirm password" name="password_confirmation">
+                     <input type="password" class="form-control" placeholder="Confirm password" name="password_confirmation" id="cnfPassword">
+                     <i class="fa-regular fa-eye" id="togglePassword" onclick="getEyeOpen();"></i>
+                     <i class="fa-regular fa-eye-slash" id="togglePassword2" onclick="getEyeClose();" style="display:none;"></i>
                   </div>
                   <div class="form-group">
                      <button class="login-btn">Sign Up</button>
