@@ -42,6 +42,7 @@ use Session;
 use Helper;
 use Hash;
 use DateTime;
+use DateTimeZone;
 
 class FrontController extends Controller
 {
@@ -1158,8 +1159,21 @@ class FrontController extends Controller
                         $success = false;
                         $error = 'Curl error: '.curl_error($ch);
                     } else {
-                        $response_array = json_decode($result, true);
-                        $payment_id     = $response_array['description'];
+                        $response_array     = json_decode($result, true);
+                        $payment_id         = $response_array['description'];
+
+                        $booking            = Booking::where('id', '=', $payment_id)->first();
+                        $generalSetting     = GeneralSetting::find('1');
+                        $service            = Service::select('name')->where('id', '=', $booking->service_id)->first();
+                        $meeting_topic      = $generalSetting->site_name.' '.(($service)?$service->name:'');
+                        /* meeting link generate */
+                            $token = $this->generateToken();
+                            $start_time = $booking->booking_date.' '.$booking->booking_slot_from;
+                            $response = $this->getZoomMeetingLink($meeting_topic, $start_time, $booking->duration, $token);
+                            // Helper::pr($response);die;
+                        /* meeting link generate */
+                        
+                        
                         /* booking table update */
                             $fields     = array(
                                             'payment_status'        => 1,
@@ -1170,6 +1184,8 @@ class FrontController extends Controller
                                             'payment_mode'          => $response_array['method'],
                                             'card_id'               => $response_array['card_id'],
                                             'status'                => 1,
+                                            'meeting_link'          => $response['join_url'],
+                                            'meeting_passcode'      => $response['password'],
                                         );
                             Booking::where('id', '=', $payment_id)->update($fields);
                         /* booking table update */
@@ -1210,6 +1226,39 @@ class FrontController extends Controller
                                         );
                             MentorPayment::insert($fields3);
                         /* mentor payments */
+
+                        /* email sent */
+                            $mentor             = User::select('name', 'email')->where('id', '=', $booking->mentor_id)->first(); 
+                            $student            = User::select('name', 'email')->where('id', '=', $booking->student_id)->first(); 
+                            $postData                   = [
+                                'mentor'            => (($mentor)?$mentor->name:''),
+                                'student'           => (($student)?$student->name:''),
+                                'booking_no'        => $booking->booking_no,
+                                'booking_date'      => date_format(date_create($booking->booking_date), "M d, Y"),
+                                'booking_time'      => date_format(date_create($booking->booking_slot_from), "h:i A"),
+                                'payment_date_time' => date_format(date_create($booking->payment_date_time), "M d, Y h:i A"),
+                                'payment_amount'    => $booking->payment_amount,
+                                'payment_status'    => (($booking->payment_status)?'Success':'Failed'),
+                                'meeting_link'      => $response['join_url'],
+                                'meeting_passcode'  => $response['password'],
+                                'meeting_duration'  => $response['duration'],
+                            ];
+                            $subject                    = $generalSetting->site_name.' :: Meeting';
+                            $message                    = view('front.email-templates.meeting',$postData);
+                            // echo $message;die;
+                            $this->sendMail((($mentor)?$mentor->email:''), $subject, $message);
+                            $this->sendMail((($student)?$student->email:''), $subject, $message);
+                        /* email sent */
+                        /* email log save */
+                            $postData2 = [
+                                'name'                  => (($mentor)?$mentor->name:''),
+                                'email'                 => (($mentor)?$mentor->email:''),
+                                'subject'               => $subject,
+                                'message'               => $message
+                            ];
+                            EmailLog::insertGetId($postData2);
+                        /* email log save */
+
                         //Check success response
                         if ($http_status === 200 and isset($response_array['error']) === false) {
                             $success = true;
@@ -1243,4 +1292,89 @@ class FrontController extends Controller
             }
         }
     ############################### Razor Pay Code ##########################################
+        public function generateToken(){
+            $curl = curl_init();
+            curl_setopt_array($curl, array(
+              CURLOPT_URL => 'https://zoom.us/oauth/token?grant_type=account_credentials&account_id=Y1Ox9BecRJyCpTM55y-HXg',
+              CURLOPT_RETURNTRANSFER => true,
+              CURLOPT_ENCODING => '',
+              CURLOPT_MAXREDIRS => 10,
+              CURLOPT_TIMEOUT => 0,
+              CURLOPT_FOLLOWLOCATION => true,
+              CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+              CURLOPT_CUSTOMREQUEST => 'POST',
+              CURLOPT_HTTPHEADER => array(
+                'Authorization: Basic SDlnYTBFcVJUeDJhMU83WF9GYU9pZzpUMjhaN0tnOGRZb1NNQmMzN3VvdHFBdzV3bWVxNWU0TA==',
+                'Cookie: __cf_bm=EtmOL0DFzDLmCxNhI1kIi8Q25RDmEFKf7xbwsqhKfJk-1698748615-0-AcfC8FGfmofOg/k185JQ0aaoNv02Usbzu3xRnP+/DqsNxdN7uULEK56klkl75mO+8MJQbsUTJw68hgMiMnUvE+k=; _zm_chtaid=875; _zm_cms_guid=0ENXPwrnAC1fFxXOUsIkNUJXA0QVAS2w_1kvuvYVnSmBE6RYaLuBjYLJf2K5FNC0CVk0wxkJsMnMy4Q32645K8x8UvibiCM.9m3qAMF2sHXjROt3; _zm_ctaid=L_79c-soThqbFDBUvHpO8Q.1698748615732.9c9cf47f9faf0e491d8db5e87a078bbb; _zm_mtk_guid=de4bd927a83a417d9263c7964763717e; _zm_page_auth=us05_c_BSt5ByaxQKuVDpgdJPEXYw; _zm_ssid=us05_c_yiniqDVjQnax75L272vovw; cred=D829E1F05F3A1EAA116E6B553580B6B9'
+              ),
+            ));
+
+            $response = curl_exec($curl);
+
+            curl_close($curl);
+            $response = json_decode($response);
+            $access_token = $response->access_token;
+            return $access_token;
+        }
+        public function getZoomMeetingLink($topic, $start_time, $duration, $token) {
+            $passcode = rand(100000,999999);
+
+            $dateTime = $start_time; 
+            $timezone_from = 'Asia/Kolkata'; 
+            $newDateTime = new DateTime($dateTime, new DateTimeZone($timezone_from)); 
+            $newDateTime->setTimezone(new DateTimeZone("UTC")); 
+            $dateTimeUTC = $newDateTime->format("Y-m-dTh:i:sZ");
+            // echo $dateTimeUTC;die;
+
+            //2024-03-25T07:32:55Z
+
+            $curl = curl_init();
+            curl_setopt_array($curl, array(
+              CURLOPT_URL => 'https://api.zoom.us/v2/users/me/meetings',
+              CURLOPT_RETURNTRANSFER => true,
+              CURLOPT_ENCODING => '',
+              CURLOPT_MAXREDIRS => 10,
+              CURLOPT_TIMEOUT => 0,
+              CURLOPT_FOLLOWLOCATION => true,
+              CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+              CURLOPT_CUSTOMREQUEST => 'POST',
+              CURLOPT_POSTFIELDS =>'{
+              "topic": "'.$topic.'",
+              "type": 2,
+              "start_time": "'.$dateTimeUTC.'",
+              "duration": '.$duration.',
+              "timezone": "Asia/Kolkata",
+              "password": "'.$passcode.'",
+              "agenda": "'.$topic.'",
+              "settings": {
+                "host_video": true,
+                "participant_video": true,
+                "join_before_host": true,
+                "mute_upon_entry": true,
+                "breakout_room": {
+                  "enable": true
+                }
+              }
+            }',
+              CURLOPT_HTTPHEADER => array(
+                'Content-Type: application/json',
+                'Authorization: Bearer '.$token,
+                'Cookie: __cf_bm=JzUxVQnZYpU3LuppxQXkSOs7I5PVYpa6.Xm1ch4H7Iw-1698744249-0-AVCBsCsgc0866iTn1Eqmqys8DkWZOIi6cMhTP0niJVPvRD/cwj2wBjqzSQZu51kEeTksl8z/vbgIdWhIud9T8Ho=; _zm_cms_guid=0ENXPwrnAC1fFxXOUsIkNUJXA0QVAS2w_1kvuvYVnSmBE6RYaLuBjYLJf2K5FNC0CVk0wxkJsMnMy4Q32645K8x8UvibiCM.9m3qAMF2sHXjROt3; _zm_mtk_guid=de4bd927a83a417d9263c7964763717e; _zm_page_auth=us05_c_BSt5ByaxQKuVDpgdJPEXYw; _zm_ssid=us05_c_yiniqDVjQnax75L272vovw; cred=B0F5EACCD11B42EF8EE0056AE067A5B2'
+              ),
+            ));
+
+            $response = curl_exec($curl);
+
+            curl_close($curl);
+            $response = json_decode($response);
+            $meeting_response = [
+                'start_time'    => $response->start_time,
+                'duration'      => $response->duration,
+                'timezone'      => $response->timezone,
+                'agenda'        => $response->agenda,
+                'join_url'      => $response->join_url,
+                'password'      => $response->password,
+            ];
+            return $meeting_response;
+        }
 }
