@@ -1015,10 +1015,18 @@ color: #fff;
     font-size: 40px;
     padding: 20px 0 40px;
 }
+.about_title{
+    font-size: 26px;
+    font-family: 'Myriadpro-semibold';
+    border-bottom: 1px solid #ddd;
+    display: block;
+    width: 100%;
+    margin: 20px 0;
+}
 .about_section_two p {
     font-family: 'MyriadPro-Regular';
     padding-bottom: 14px;
-    font-size: 22px;
+    font-size: 18px;
 }
 .rightvideop {
     position: relative;
@@ -2047,3 +2055,10 @@ button.add-slot-btn {
     padding: 0;
 }
 /*11-10-2023*/
+ul.listbullet {
+    list-style: disc;
+    padding-left: 35px;
+}
+ul.listbullet li {
+    padding-bottom: 15px;
+}
