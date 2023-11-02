@@ -260,7 +260,7 @@
                   <div class="homefaq_box mb-3">
                      <div class="bigquestion">?</div>
                      <h4><?=$faqs[2]->question?></h4>
-                     <p class="text-center"><?=$faqs[2]->answer?></p>
+                     <p><?=$faqs[2]->answer?></p>
                   </div>
                </div>
             <?php //}?>
