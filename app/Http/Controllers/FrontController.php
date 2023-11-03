@@ -927,7 +927,8 @@ class FrontController extends Controller
                     'password'  => 'required|max:30',
                 ];
                 if($this->validate($request, $rules)){
-                    if(Auth::guard('web')->attempt(['email' => $postData['email'], 'password' => $postData['password'], 'valid' => 1])){
+                    
+                    if(Auth::guard('web')->attempt(['email' => $request->input('email'), 'password' => $request->input('password'), 'valid' => 1])){
                         // Helper::pr(Auth::guard('web')->user());
                         $sessionData    = Auth::guard('web')->user();
                         $user_id        = $sessionData['id'];

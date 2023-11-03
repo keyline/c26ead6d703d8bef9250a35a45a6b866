@@ -61,17 +61,16 @@ class MentorController extends Controller
 
         // Retrieve the validated input data...
         $validated = $validator->valid();
-
         $user = \App\Models\User::create([
                 'name' => implode(" ", [$validated['first_name'], $validated['last_name']]),
                 'email' => $validated['email'],
                 'phone' => $validated['phone_number'],
                 'role' => 2,
                 'valid' => 0,
-                'password' => \bcrypt($validated['password'])
+                'password' => Hash::make($validated['password'])
         ]);
-
-        //$mentor = \App\Models\MentorProfile::create();
+        // echo $user->id;die;
+        // $mentor = \App\Models\MentorProfile::create();
         $mentorData = [
             'user_id'       => $user->id,
             'first_name'    => trim($validated['first_name']),
@@ -144,11 +143,11 @@ class MentorController extends Controller
         }
 
         $mentor = $request->session()->get('mentor');
+        // Helper::pr($mentor);
 
         $validator = Validator::make($request->all(), [
             'social_url'    => 'required',
-            'profile_slug'  => ['required',
-                                    new UniqueProfileSlug()],
+            'profile_slug'  => ['required', new UniqueProfileSlug()],
             'registration_intent' => 'required',
             'intended_service_type' => 'required',
 
@@ -180,7 +179,7 @@ class MentorController extends Controller
             $request->session()->put('mentor', $mentor);
 
         }
-
+        // Helper::pr($mentor);
         $mentor->save();
 
         //data collect done proceed to next step
@@ -346,33 +345,23 @@ class MentorController extends Controller
         if(empty($request->session()->get('mentor'))) {
             return \redirect('mentor/signup');
         }
-
         $mentor = $request->session()->get('mentor');
-
-
-
         $input = $request->all();
-
         $days = $request->input('day_of_week');
-
         $file = $request->input('docs_attachment');
         $file_insert_schedule = [];
-
+        $document_head = $request->input('document_head');
         $request->validate(
             [
                        'docs_attachment.*' => 'nullable|mimes:jpeg,jpg,pdf,pdfs|max:1024',
         ],
             $messages = [
-        "docs_attachment.*.mimes" => "Only PDF, JPEG are allowed.",
-        "docs_attachment.*.max" => "Max file size must be 1Mb",
-    ]
+                "docs_attachment.*.mimes" => "Only PDF, JPEG are allowed.",
+                "docs_attachment.*.max" => "Max file size must be 1Mb",
+            ]
         );
-
         if($request->hasfile('docs_attachment')) {
-
             $saveDocument = new \App\Models\UserDocument();
-
-
             foreach($request->file('docs_attachment') as $key => $file) {
 
                 $name = "mentor_attachment_" . time() . '.' . $file->getClientOriginalExtension();
@@ -383,35 +372,26 @@ class MentorController extends Controller
 
                 $file_insert_schedule['document'] = $name;
                 $file_insert_schedule['document_slug'] = $path;
-                $file_insert_schedule['document_id'] = $document->id;
+                $file_insert_schedule['doucument_id'] = $document_head;
                 $file_insert_schedule['user_id'] = $mentor->user_id;
                 $file_insert_schedule['type'] = 'MENTOR';
-
                 //$file_insert_schedule[] = $data;
-
             }
-
             // Log::channel('custom')->info('Mentor Onboarding: file attachment'. var_export($file_insert_schedule, true));
-
-
             $saveDocument->fill($file_insert_schedule);
-
         }
 
-
-        $availabilities = $request->input('availability');
-
+        $availabilities     = $request->input('availability');
         //Duration
-        $durations = $request->input('duration');
-
+        $durations          = $request->input('duration');
         //No of Slots
-        $no_of_slots = $request->input('no_of_slot');
-
-        $insert_schedule = [];
-
+        $no_of_slots        = $request->input('no_of_slot');
+        // Helper::pr($durations,0);
+        // Helper::pr($no_of_slots,0);
+        $insert_schedule    = [];
         foreach ($days as $key => $value) {
-            $day_id = $key;
-            $data = [];
+            $day_id     = $key;
+            $data       = [];
             if(is_array($availabilities['from'][$day_id])) {
                 $data['day_of_week_id'] = $day_id;
                 $duration = $durations[$day_id];
@@ -419,77 +399,36 @@ class MentorController extends Controller
                 foreach($availabilities['from'][$day_id] as $key => $value) {
 
                     $data['avail_from'] = date('H:i:s', strtotime($value));
-                    $data['duration'] = $duration;
-                    $data['no_of_slot'] = $no_of_slot;
+                    $data['duration'] = $duration[$key];
+                    $data['no_of_slot'] = $no_of_slot[$key];
                     $data['avail_to'] = date('H:i:s', strtotime($availabilities['to'][$day_id][$key]));
                     $data['mentor_user_id'] = $mentor->user_id;
                     $data['is_active'] = 1;
                     $data['created_at'] = \Carbon\Carbon::now()->toDateTimeString();
                     $data['updated_at'] = \Carbon\Carbon::now()->toDateTimeString();
-
-
-
                     $insert_schedule[] = $data;
-
                 }
-
-
             }
         }
-
         //dd($insert_schedule);
-
         if(empty($request->session()->get('mentor_availabilities'))) {
-
             $availability = new \App\Models\MentorAvailability();
             //$availabilityModel->fill($insert_schedule);
             $request->session()->put('mentor_availabilities', $availability);
-
         } else {
             $availability = $request->session()->get('mentor_availabilities');
             //$availabilityModel->fill($insert_schedule);
             $request->session()->put('mentor_availabilities', $availability);
-
         }
-        //dd($insert_schedule);
+        // Helper::pr($insert_schedule);die;
         $availability::insert($insert_schedule);
         if(!empty($file_insert_schedule)) {
             //Saving files
             $saveDocument->save();
         }
-
-        //get user
-        // $user = \App\Models\User::where('id', '=', $mentor->user_id)->first();
-        // $request->session()->put('user_id', $mentor->user_id);
-        // $request->session()->put('name', $user->name);
-        // $request->session()->put('fname', ($user) ?? $user->first_name);
-        // $request->session()->put('lname', ($user) ?? $user->last_name);
-        // $request->session()->put('email', $user->email);
-        // $request->session()->put('role', $user->role);
-        // $request->session()->put('is_user_login', 1);
-
-
-        /* user activity */
-        // $activityData = [
-        //     'user_email'        => $user->email,
-        //     'user_name'         => $user->name,
-        //     'user_type'         => 'USER',
-        //     'ip_address'        => $request->ip(),
-        //     'activity_type'     => 10,
-        //     'activity_details'  => 'Signup Success !!!',
-        //     'platform_type'     => 'WEB',
-        // ];
-
-
-        // \App\Models\UserActivity::insert($activityData);
-
         $request->session()->flush();
-
-
         return redirect('signin');
-
         // dd('unauthenticated');
-
     }
 
     public function getTimeSlotItem(Request $request)
@@ -551,16 +490,16 @@ class MentorController extends Controller
         }
 
         $durationDataSource = array([
-            'id' => 30,
-            'text' => '30 minutes'
+                'id' => 30,
+                'text' => '30 minutes'
 
-        ],
-        [
-            'id' => 60,
-            'text' => '60 minutes'
+            ],
+            [
+                'id' => 60,
+                'text' => '60 minutes'
 
-        ],
-    );
+            ],
+        );
 
         $timeSlotsDataSource = array(
                 [
