@@ -32,9 +32,15 @@ $pageName = $routeName->uri();
                      <li class="nav-item <?=(($pageName == 'how-it-works')?'active':'')?>">
                         <a class="nav-link" href="<?=url('how-it-works')?>">How it works</a>
                      </li>
-                     <li class="nav-item <?=(($pageName == 'survey')?'active':'')?>">
-                        <a class="nav-link" href="#">Take a free test</a>
-                     </li>
+                     <?php if(empty(session('is_user_login'))){?>
+                        <li class="nav-item <?=(($pageName == 'survey-list')?'active':'')?>">
+                           <a class="nav-link" href="<?=url('signin')?>">Take a free test</a>
+                        </li>
+                     <?php } else {?>
+                        <li class="nav-item <?=(($pageName == 'survey-list')?'active':'')?>">
+                           <a class="nav-link" href="<?=url('user/survey-list')?>">Take a free test</a>
+                        </li>
+                     <?php }?>
                   </ul>
                </div>
             </nav>

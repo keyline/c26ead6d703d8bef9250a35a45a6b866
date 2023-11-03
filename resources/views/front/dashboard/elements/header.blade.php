@@ -2,11 +2,16 @@
 use App\Models\User;
 use App\Models\StudentProfile;
 use App\Models\MentorProfile;
+
+use Illuminate\Support\Facades\Route;;
+$routeName = Route::current();
+$pageName = $routeName->uri();
+// dd($routeName);
 ?>
 <div class="container">
     <div class="row">
         <div class="col-lg-3 col-md-4 col-sm-12 col-6">
-            <div class="headlogo"><a class="navbar-brand" href="<?=url('/dashboard')?>"><img class="img-fluid" src="<?=env('FRONT_DASHBOARD_ASSETS_URL')?>assets/img/logo.png" alt="logo"></a></div>
+            <div class="headlogo"><a class="navbar-brand" href="<?=url('/')?>"><img class="img-fluid" src="<?=env('FRONT_DASHBOARD_ASSETS_URL')?>assets/img/logo.png" alt="logo"></a></div>
         </div>
         <div class="col-lg-9 col-md-8 col-sm-12">
             <div class="head_menusection">
@@ -19,21 +24,26 @@ use App\Models\MentorProfile;
                             <i class="zmdi zmdi-close"></i>
                         </button>
                         <ul class="navbar-nav">
-                            <li class="nav-item active">
-                                <a class="nav-link" href="<?=url('/dashboard')?>">Home</a>
+                            <li class="nav-item <?=(($pageName == '/')?'active':'')?>">
+                                <a class="nav-link" href="<?=url('/')?>">Home</a>
                             </li>
-                            <li class="nav-item">
+                            <li class="nav-item <?=(($pageName == 'mentors')?'active':'')?>">
                                 <a class="nav-link" href="<?=url('mentors')?>">Mentors</a>
                             </li>
-                            <li class="nav-item">
+                            <li class="nav-item <?=(($pageName == 'blogs')?'active':'')?>">
                                 <a class="nav-link" href="<?=url('blogs')?>">Resources</a>
                             </li>
-                            <li class="nav-item">
+                            <li class="nav-item <?=(($pageName == 'how-it-works')?'active':'')?>">
                                 <a class="nav-link" href="<?=url('how-it-works')?>">How it works</a>
                             </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">Take a free test</a>
-                            </li>
+                            <?php
+                            $role       = session('role');
+                            if($role == 1){
+                            ?>
+                                <li class="nav-item <?=(($pageName == 'user/survey-list')?'active':'')?>">
+                                    <a class="nav-link" href="<?=url('user/survey-list')?>">Take a free test</a>
+                                </li>
+                            <?php }?>
                         </ul>
                     </div>
                 </nav>
@@ -68,9 +78,9 @@ use App\Models\MentorProfile;
                                     <div class="fw-semibold">Welcome <strong>{{session('name')}}</strong></div>
                                 </div>
                                 <a class="dropdown-item" href="<?=url('user/profile')?>"><i class="fa fa-user"></i> Profile</a>
-                                <a class="dropdown-item" href="<?=url('user/survey-list')?>"><i class="fa fa-poll"></i> Survey List</a>
-                                <!-- <a class="dropdown-item" href="#"><i class="fa-solid fa-gear"></i> Settings</a>
-                                <a class="dropdown-item" href="#"><i class="fa-regular fa-credit-card"></i> Payments</a> -->
+                                <?php if($role == 1){?>
+                                    <a class="dropdown-item" href="<?=url('user/survey-list')?>"><i class="fa fa-poll"></i> Survey List</a>
+                                <?php }?>
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" href="<?=url('user/logout')?>"><i class="fa fa-sign-out"></i> Sign Out</a>
                             </div>
