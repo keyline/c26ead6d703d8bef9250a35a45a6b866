@@ -57,7 +57,7 @@ use App\Helpers\Helper;
             <div class="mentor-right-box  my-4 my-lg-0">
                <div class="total-mentor-box">
                   <h5>Total <span id="mentor-count"><?=count($mentors)?></span> Mentors found</h5>
-                  <a href="javascript:void(0);" class="help-me-btn">Help me to find a mentors</a>
+                  <!-- <a href="javascript:void(0);" class="help-me-btn">Help me to find a mentors</a> -->
                </div>
                <div class="row" id="mentor-list">
                   <?php
