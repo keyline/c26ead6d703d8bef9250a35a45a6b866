@@ -101,7 +101,7 @@
                                        </div>
                                        <button class="add-slot-btn add__slot__parent" data-container="{{ strtolower($day->day_text) }}"><span style="pointer-events: none;"><i class="fa-solid fa-plus"></i></span></button>
                                     </div>
-                                    <div class="btn-apply-all"><a href="#">Apply To All</a></div>
+                                    <!-- <div class="btn-apply-all"><a href="#">Apply To All</a></div> -->
                                     
                                  </div>
                                     @else

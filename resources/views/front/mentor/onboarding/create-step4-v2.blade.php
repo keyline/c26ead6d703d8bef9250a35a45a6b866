@@ -91,13 +91,13 @@
                                        </div>
                                        <div style="display: inline; margin: 0px 0.5em;">-</div>
                                        <div class="slot__duration">
-                                        <select class="select__slot__duration" name="duration[{{ $day->id }}]" style="width: 50%">
+                                        <select class="select__slot__duration" name="duration[{{ $day->id }}][]" style="width: 50%">
                                         </select>
                                        </div>
                                        <div style="display: inline; margin: 0px 0.5em;">-</div>
 
                                        <div class="no__of__slots">
-                                        <select class="select__no__ofslot" name="no_of_slot[{{ $day->id }}]" style="width: 50%">
+                                        <select class="select__no__ofslot" name="no_of_slot[{{ $day->id }}][]" style="width: 50%">
                                         </select>
                                        </div>
                                        <div style="display: inline; margin: 0px 0.5em;">-</div>
@@ -129,17 +129,13 @@
                         <div class="form-group mt-1 pt5">
                            <select class="docoument_selet" name="document_head" id="document_head">
                               <option value="">Select Any one of the document</option>
-                                               
-                        @foreach($documents AS $document)
-                        
-                              <option value="{{ strtolower(str_replace(' ', '_', $document->document)) }}">{{ $document->document }}</option>
-                         
-               
-                        @endforeach
-                        </select>
+                              @foreach($documents AS $document)
+                                 <option value="{{ $document->id }}">{{ $document->document }}</option>
+                              @endforeach
+                           </select>
                         </div>
                         @foreach($documents AS $document)
-                        <div class="form-group pt-1 hide" id="{{ strtolower(str_replace(' ', '_', $document->document)) }}">
+                        <div class="form-group pt-1 hide" id="{{ strtolower(str_replace(' ', '_', $document->id)) }}">
                            <label>{{ $document->document }}</label>
                            <label><small>Max 1 mb in size and supported format (Jpg/Jpeg/pdf)</small></label>
                            <input type="file" class="form-control" name="docs_attachment[{{ $document->document }}]">
@@ -407,7 +403,7 @@ const handleAddSlotFrmChkBtn= (e) => {
                //adding class
                iDivApply.classList.add('btn-apply-all');
                iAnchor.href= '#';
-               iAnchor.appendChild(document.createTextNode('Apply To All'));
+               // iAnchor.appendChild(document.createTextNode('Apply To All'));
                iDivApply.appendChild(iAnchor);
       
                iDiv.appendChild(iDivApply);
