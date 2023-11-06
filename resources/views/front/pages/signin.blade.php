@@ -37,7 +37,7 @@
                </form>
                <div class="form-group">
                   <p>
-                     <span>Don't have an account? <a href="<?=url('mentor-signup')?>"> Mentor Sign Up</a></span>
+                     <span>Don't have an account? <a href="<?=url('mentor/signup')?>"> Mentor Sign Up</a></span>
                      <span style="float: right;"><a href="<?=url('student-signup')?>"> Student Sign Up</a></span>
                   </p>
                </div>
