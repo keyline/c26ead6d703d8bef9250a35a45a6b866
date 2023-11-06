@@ -99,25 +99,27 @@
                 <ul class="d-flex flex-wrap time-picker-list">
                 </ul>
               </div>
-              <div class="input-group mb-3"><?php if((session('is_user_login') == 1) && (session('role') == 1)){?>
-                <form method="POST" action="" enctype="multipart/form-data">
-                  @csrf
-                  <input type="hidden" name="mode" value="DIRECT">
-                  <input type="hidden" name="key" value="facb6e0a6fcbe200dca2fb60dec75be7">
-                  <input type="hidden" name="source" value="WEB">
-                  <input type="hidden" name="mentor_user_id" value="<?=$mentorService['mentor_id']?>">
-                  <input type="hidden" name="mentor_service_id" value="<?=$mentorService['id']?>">
-                  <input type="hidden" name="service_type_id" value="<?=$mentorService['service_type_id']?>">
-                  <input type="hidden" name="service_attribute_id" value="<?=$mentorService['service_attribute_id']?>">
-                  <input type="hidden" name="service_id" value="<?=$mentorService['service_id']?>">
-                  <input type="hidden" name="duration" value="<?=$mentorService['duration']?>">
-                  <input type="hidden" name="payable_amt" value="<?=$mentorService['total_amount_payable']?>">
+              <div class="input-group mb-3"><?php if((session('is_user_login') == 1)){?>
+                <?php if(session('role') == 1){?>
+                  <form method="POST" action="" enctype="multipart/form-data">
+                    @csrf
+                    <input type="hidden" name="mode" value="DIRECT">
+                    <input type="hidden" name="key" value="facb6e0a6fcbe200dca2fb60dec75be7">
+                    <input type="hidden" name="source" value="WEB">
+                    <input type="hidden" name="mentor_user_id" value="<?=$mentorService['mentor_id']?>">
+                    <input type="hidden" name="mentor_service_id" value="<?=$mentorService['id']?>">
+                    <input type="hidden" name="service_type_id" value="<?=$mentorService['service_type_id']?>">
+                    <input type="hidden" name="service_attribute_id" value="<?=$mentorService['service_attribute_id']?>">
+                    <input type="hidden" name="service_id" value="<?=$mentorService['service_id']?>">
+                    <input type="hidden" name="duration" value="<?=$mentorService['duration']?>">
+                    <input type="hidden" name="payable_amt" value="<?=$mentorService['total_amount_payable']?>">
 
-                  <input type="hidden" name="booking_date" id="booking_date3">
-                  <input type="hidden" name="booking_slot_from" id="booking_slot_from3">
-                  <input type="hidden" name="booking_slot_to" id="booking_slot_to3">
-                  <button type="submit" class="next-btn" disabled>Book Appointment</button>
-                </form>
+                    <input type="hidden" name="booking_date" id="booking_date3">
+                    <input type="hidden" name="booking_slot_from" id="booking_slot_from3">
+                    <input type="hidden" name="booking_slot_to" id="booking_slot_to3">
+                    <button type="submit" class="next-btn" disabled>Book Appointment</button>
+                  </form>
+                <?php }?>
               <?php } else {?>
                 <button type="button" class="next-btn" disabled data-bs-toggle="modal" data-bs-target="#bookingModal" data-backdrop="static" data-keyboard="false">Book Appointment</button>
               <?php }?>

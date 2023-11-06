@@ -271,23 +271,27 @@ $pageName = $routeName->uri();
         }
         </script>
         <script type="text/javascript">
-            function getEyeOpen2(){
-              $('#password').attr('type', 'text');
-              $('#confirm_password').attr('type', 'text');
-
-              $('#togglePassword').hide();
-              $('#togglePassword11').hide();
-              $('#togglePassword2').show();
-              $('#togglePassword22').show();
+            function eyeOpen(){
+                $('#password').attr('type', 'text');
+                $('#togglePassword').hide();
+                $('#togglePassword2').show();
             }
-            function getEyeClose2(){
-              $('#password').attr('type', 'password');
-              $('#confirm_password').attr('type', 'password');
+            function eyeClose(){
+                $('#password').attr('type', 'password');
+                $('#togglePassword').show();
+                $('#togglePassword2').hide();
+            }
 
-              $('#togglePassword2').hide();
-              $('#togglePassword22').hide();
-              $('#togglePassword').show();
-              $('#togglePassword11').show();
+
+            function eyeConfirmOpen(){
+                $('#confirm_password').attr('type', 'text');
+                $('#togglePassword11').hide();
+                $('#togglePassword22').show();
+            }
+            function eyeConfirmClose(){
+                $('#confirm_password').attr('type', 'password');
+                $('#togglePassword11').show();
+                $('#togglePassword22').hide();
             }
         </script>
    </body>
