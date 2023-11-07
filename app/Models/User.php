@@ -11,6 +11,7 @@ use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Facades\Hash;
 
 class User extends Authenticatable
 {
@@ -67,9 +68,17 @@ class User extends Authenticatable
      * @param $value
     * @return string
     */
-    public function setPasswordAttribute($value)
+    public function setPasswordAttribute($input)
     {
-        $this->attributes['password'] = bcrypt($value);
+        //$this->attributes['password'] = bcrypt($value);
+
+        //$this->attributes['password'] = Hash::make($value);
+
+        if ($input) {
+            $this->attributes['password'] = app('hash')->needsRehash($input) ? Hash::make($input) : $input;
+        }
+
+
     }
 
     /**
@@ -85,7 +94,7 @@ class User extends Authenticatable
      */
     public function mentorProfile(): HasOne
     {
-        return $this->hasOne(MentorProfile::class);
+        return $this->hasOne(MentorProfile::class, 'user_id', 'id');
     }
 
     /**
