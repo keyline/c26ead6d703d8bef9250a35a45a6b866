@@ -15,7 +15,8 @@ use App\Models\Testimonial;
 use Auth;
 use Session;
 use Helper;
-use Hash;
+use Illuminate\Support\Facades\Hash;
+
 use App\Rules\UniqueProfileSlug;
 
 use Illuminate\Http\RedirectResponse;
@@ -67,7 +68,7 @@ class MentorController extends Controller
                 'phone' => $validated['phone_number'],
                 'role' => 2,
                 'valid' => 0,
-                'password' => Hash::make($validated['password'])
+                'password' => $validated['password'],
         ]);
         // echo $user->id;die;
         // $mentor = \App\Models\MentorProfile::create();
@@ -372,9 +373,9 @@ class MentorController extends Controller
 
                 $file_insert_schedule['document'] = $name;
                 $file_insert_schedule['document_slug'] = $path;
-                $file_insert_schedule['doucument_id'] = $document_head;
+                $file_insert_schedule['doucument_id'] = $document->id;
                 $file_insert_schedule['user_id'] = $mentor->user_id;
-                $file_insert_schedule['type'] = 'MENTOR';
+                $file_insert_schedule['type'] = strtoupper($document->user_type);
                 //$file_insert_schedule[] = $data;
             }
             // Log::channel('custom')->info('Mentor Onboarding: file attachment'. var_export($file_insert_schedule, true));
@@ -426,7 +427,7 @@ class MentorController extends Controller
             //Saving files
             $saveDocument->save();
         }
-        $request->session()->flush();
+        //$request->session()->flush();
         return redirect('signin');
         // dd('unauthenticated');
     }

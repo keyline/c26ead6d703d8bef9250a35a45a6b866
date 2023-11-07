@@ -16,7 +16,7 @@ class UserDocument extends Authenticatable
     protected $fillable = [
         'type',
         'user_id',
-        'document_id',
+        'doucument_id',
         'document_slug',
         'document',
         'status'
