@@ -137,53 +137,51 @@
 <script>
 	//Initialize select2 
 	const noofslot= [
-	            {
-	                "id": 1,
-	                "text": 'One',
-	               "selected": true,
-	                
-	            },
-	            {
-	                "id": 2,
-	                "text": 'Two'
-	            },
-	            {
-	                "id": 3,
-	                "text": 'Three'
-	            },
-	            {
-	                "id": 4,
-	                "text": 'Four'
-	            },
-	            {
-	                "id": 5,
-	                "text": 'Five'
-	            },
-	            {
-	                "id": 6,
-	                "text": 'Six'
-	            },
-	            {
-	                "id": 7,
-	                "text": 'Seven'
-	            },
-	            {
-	                "id": 8,
-	                "text": 'Eight'
-	            },
-	            {
-	                "id": 9,
-	                "text": 'Nine'
-	            },
-	            {
-	                "id": 10,
-	                "text": 'Ten',
-	                
-	            },
-	            {
-	               "id": 11,
-	               "text": 'Eleven',
-	            }
+            {
+             	"id": 1,
+             	"text": 'x 1 slot',
+            },
+            {
+                "id": 2,
+                "text": 'x 2 slots'
+            },
+            {
+                "id": 3,
+                "text": 'x 3 slots'
+            },
+            {
+                "id": 4,
+                "text": 'x 4 slots'
+            },
+            {
+                "id": 5,
+                "text": 'x 5 slots'
+            },
+            {
+                "id": 6,
+                "text": 'x 6 slots'
+            },
+            {
+                "id": 7,
+                "text": 'x 7 slots'
+            },
+            {
+                "id": 8,
+                "text": 'x 8 slots'
+            },
+            {
+                "id": 9,
+                "text": 'x 9 slots'
+            },
+            {
+                "id": 10,
+                "text": 'x 10 slots',                
+            },
+            {
+               "id": 11,
+               "text": 'x 11 slots',
+               // "selected": true,
+            }
 	        ];
 	        const duration= [
 	            {

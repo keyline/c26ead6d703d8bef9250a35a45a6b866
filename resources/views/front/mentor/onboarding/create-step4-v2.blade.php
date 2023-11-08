@@ -58,7 +58,7 @@
                                  <div class="slot_weeksday">
                                     <div class="form-check">
                                        <input class="form-check-input chk__slots__show__hide" type="checkbox" name="day_of_week[{{ $day->id }}]" value="{{ $day->day }}" data-chkcontainer="{{ strtolower($day->day_text) }}" id="flexCheckChecked_{{ $loop->index }}"
-                                        {{ (in_array($day->day_index, [6,7])) ? 'checked' : '' }}>
+                                        {{ (in_array($day->day_index, [])) ? 'checked' : '' }}>
                                        
                                        <label class="form-check-label" for="flexCheckChecked">
                                        
@@ -68,7 +68,7 @@
                                  </div>
                               </div>
                               <div class="col-md-9 slots__parent">
-                                 @if(in_array($day->day_index, [6,7]))
+                                 @if(in_array($day->day_index, []))
                                  <div class="slots-section">
                                     <div class="slots-select-box">
                                        <div class="slot_starttime">
@@ -78,15 +78,6 @@
                                              {{ ($option['selected_from'] == $option['value']) ? 'selected' : '' }}>
                                               {{ $option['name'] }}</option>
                                              @endforeach
-                                             <!-- <option value="1">12.00 AM</option>
-                                             <option value="2">12.15 AM</option>
-                                             <option value="3">12.30 AM</option>
-                                             <option value="4">12.45 AM</option>
-                                             <option value="5">1.00 AM</option>
-                                             <option value="6">1.15 AM</option>
-                                             <option value="7">1.30 AM</option>
-                                             <option value="8">1.45 AM</option>
-                                             <option value="9">2.00 AM</option> -->
                                           </select>
                                        </div>
                                        <div style="display: inline; margin: 0px 0.5em;">-</div>
@@ -169,50 +160,50 @@
 const noofslot= [
             {
                 "id": 1,
-                "text": 'One',
+                "text": 'x 1 slot',
                 
             },
             {
                 "id": 2,
-                "text": 'Two'
+                "text": 'x 2 slots'
             },
             {
                 "id": 3,
-                "text": 'Three'
+                "text": 'x 3 slots'
             },
             {
                 "id": 4,
-                "text": 'Four'
+                "text": 'x 4 slots'
             },
             {
                 "id": 5,
-                "text": 'Five'
+                "text": 'x 5 slots'
             },
             {
                 "id": 6,
-                "text": 'Six'
+                "text": 'x 6 slots'
             },
             {
                 "id": 7,
-                "text": 'Seven'
+                "text": 'x 7 slots'
             },
             {
                 "id": 8,
-                "text": 'Eight'
+                "text": 'x 8 slots'
             },
             {
                 "id": 9,
-                "text": 'Nine'
+                "text": 'x 9 slots'
             },
             {
                 "id": 10,
-                "text": 'Ten',
+                "text": 'x 10 slots',
                 
             },
             {
                "id": 11,
-               "text": 'Eleven',
-               "selected": true,
+               "text": 'x 11 slots',
+               // "selected": true,
 
             }
         ];
@@ -300,7 +291,7 @@ const updateOnChangeInput= (postData) => {
 
 const handleAddSlot = (e) =>{
    //add-slot-btn
-   debugger;
+   // debugger;
       event.preventDefault();
       //event.stopPropagation();
       //Delete apply to all button
@@ -340,7 +331,7 @@ if (e.target.classList.contains('add__slot__parent')) {
 
 }
 const handleAddSlotFrmChkBtn= (e) => {
-   debugger;
+   // debugger;
          const parent= e.target.closest('div > .row');
 
          let checkboxId= e.target.id;
@@ -475,7 +466,7 @@ function collectionContains(collection, searchText) {
 
 //function to initialize select2
 const initializeDurationSelect2 = (duration) => {
-   debugger;
+   // debugger;
         
         $('.select__slot__duration').select2({
             data: duration,
@@ -505,7 +496,7 @@ const initializeDurationSelect2 = (duration) => {
   }
 
   const handleDurationChange= (e) =>{
-   debugger;
+   // debugger;
         //console.log("changed automatically", e.params.data);
         if(e.target.classList.contains('select__slot__duration')) {
             var targetEl= e.params.data;
@@ -592,7 +583,7 @@ const initializeDurationSelect2 = (duration) => {
   }
 
   function handleChangeTimeFrom (e) {
-      debugger;
+      // debugger;
     
         if(e.target.classList.contains('select2-frm')){
             //collect data from origin
@@ -634,7 +625,7 @@ const initializeDurationSelect2 = (duration) => {
   }
 
   const handleApplyToAllBtn = (e) =>{
-   debugger;
+   // debugger;
       let elList = e.target.closest('.slot-item').querySelectorAll('.slots-section');
       const lastItem= elList[elList.length -1];
       //elList.forEach(el => el.style.display = "none");
