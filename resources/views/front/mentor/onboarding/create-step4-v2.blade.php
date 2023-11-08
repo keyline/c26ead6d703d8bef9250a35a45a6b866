@@ -80,18 +80,18 @@
                                              @endforeach
                                           </select>
                                        </div>
-                                       <div style="display: inline; margin: 0px 0.5em;">-</div>
+                                       <div style="display: inline; margin: 0px 0.2em;">-</div>
                                        <div class="slot__duration">
                                         <select class="select__slot__duration" name="duration[{{ $day->id }}][]" style="width: 50%">
                                         </select>
                                        </div>
-                                       <div style="display: inline; margin: 0px 0.5em;">-</div>
+                                       <div style="display: inline; margin: 0px 0.2em;">-</div>
 
                                        <div class="no__of__slots">
                                         <select class="select__no__ofslot" name="no_of_slot[{{ $day->id }}][]" style="width: 50%">
                                         </select>
                                        </div>
-                                       <div style="display: inline; margin: 0px 0.5em;">-</div>
+                                       <div style="display: inline; margin: 0px 0.2em;">-</div>
                                        <div class="slot_endtime">
                                         <input type="text" class="slot__endtime__txt" name="availability[to][{{ $day->id }}][]" value="{{ date('g:i A', strtotime($option['selected_to'])) }}" readonly="readonly">
                                         </div>
@@ -118,7 +118,7 @@
                         <!-- <label><small>Document Preference</small></label> -->
                         <p class="text-muted mb-2">Document Preference</p>
                         <div class="form-group mt-1 pt5">
-                           <select class="docoument_selet" name="document_head" id="document_head">
+                           <select class="docoument_selet form-select" name="document_head" id="document_head">
                               <option value="">Select Any one of the document</option>
                               @foreach($documents AS $document)
                                  <option value="{{ $document->id }}">{{ $document->document }}</option>

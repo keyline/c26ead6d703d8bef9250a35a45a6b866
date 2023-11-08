@@ -79,14 +79,14 @@ use App\Helpers\Helper;
 		                                       @endforeach
 		                                    </select>
 		                                 </div>
-		                                 <div style="display: inline; margin: 0px 0.5em;">-</div>
+		                                 <div style="display: inline; margin: 0px 0.2em;">-</div>
 		                                 <div class="slot__duration">
 		                                  <select class="select__slot__duration" name="duration[{{ $day->id }}][]" style="width: 50%">
 		                                  	<option value="30" <?=(($mentorAvlDaywise->duration == 30)?'selected':'')?>>30 minutes</option>
 		                                  	<option value="60" <?=(($mentorAvlDaywise->duration == 60)?'selected':'')?>>60 minutes</option>
 		                                  </select>
 		                                 </div>
-		                                 <div style="display: inline; margin: 0px 0.5em;">-</div>
+		                                 <div style="display: inline; margin: 0px 0.2em;">-</div>
 
 		                                 <div class="no__of__slots">
 		                                  <select class="select__no__ofslot" name="no_of_slot[{{ $day->id }}][]" style="width: 50%">
@@ -103,7 +103,7 @@ use App\Helpers\Helper;
 		                                  	<option value="11" <?=(($mentorAvlDaywise->no_of_slot == 11)?'selected':'')?>>x 11 slots</option>
 		                                  </select>
 		                                 </div>
-		                                 <div style="display: inline; margin: 0px 0.5em;">-</div>
+		                                 <div style="display: inline; margin: 0px 0.2em;">-</div>
 		                                 <div class="slot_endtime">
 		                                  <input type="text" class="slot__endtime__txt" name="availability[to][{{ $day->id }}][]" value="<?=$avail_to?>" readonly="readonly">
 		                                  </div>

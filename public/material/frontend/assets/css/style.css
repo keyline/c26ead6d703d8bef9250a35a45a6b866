@@ -1673,8 +1673,8 @@ select.select2-frm {
 .slot_starttime{
     width: 150px;
 }
- button.add-slot-btn.add__slot__parent {
-    /* margin-left: 5px; */
+ button.add-slot-btn.add__slot__parent, button.add-slot-btn.deleteItem {
+    margin-left: 5px;
 }
 .select2-container{width: 100% !important;}
 .select2-container--default .select2-selection--single{border: 2px solid #e1e1e1 !important;}
@@ -1709,7 +1709,7 @@ button.add-slot-btn {
     padding: 16px 15px 4px;
 }
 .no__of__slots .select2-container {
-    width: 100px !important;
+    width: 120px !important;
 }
 .rightside_testslider .testmoric_item{
 	padding: 20px;

@@ -14478,7 +14478,7 @@ text-decoration: none;
     color: #000;
 }
 .myprof_btn {
-    background: #000;
+    background: #f9233f;
     color: #fff;
     text-decoration: none;
     display: inline-block;
@@ -14487,7 +14487,7 @@ text-decoration: none;
     font-weight: 600;
 }
 .myprof_btn:hover {
-  background: #f9233f;
+  background: #444;
   color: #fff;
   border-color: transparent;
 }
@@ -14996,13 +14996,13 @@ button.add-slot-btn.add__slot__parent {
 button.add-slot-btn {
   background: none;
   border-radius: 20px;
-  width: 35px;
+  width: 32px;
   height: 20px;
   font-size: 12px;
   line-height: 19px;
 }
 .no__of__slots .select2-container {
-  width: 100px !important;
+  width: 120px !important;
 }
 .mentoe_admin_section .slot-item {
   background: #fff;
