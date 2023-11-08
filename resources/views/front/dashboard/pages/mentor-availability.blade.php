@@ -90,17 +90,17 @@ use App\Helpers\Helper;
 
 		                                 <div class="no__of__slots">
 		                                  <select class="select__no__ofslot" name="no_of_slot[{{ $day->id }}][]" style="width: 50%">
-		                                  	<option value="1" <?=(($mentorAvlDaywise->no_of_slot == 1)?'selected':'')?>>One</option>
-		                                  	<option value="2" <?=(($mentorAvlDaywise->no_of_slot == 2)?'selected':'')?>>Two</option>
-		                                  	<option value="3" <?=(($mentorAvlDaywise->no_of_slot == 3)?'selected':'')?>>Three</option>
-		                                  	<option value="4" <?=(($mentorAvlDaywise->no_of_slot == 4)?'selected':'')?>>Four</option>
-		                                  	<option value="5" <?=(($mentorAvlDaywise->no_of_slot == 5)?'selected':'')?>>Five</option>
-		                                  	<option value="6" <?=(($mentorAvlDaywise->no_of_slot == 6)?'selected':'')?>>Six</option>
-		                                  	<option value="7" <?=(($mentorAvlDaywise->no_of_slot == 7)?'selected':'')?>>Seven</option>
-		                                  	<option value="8" <?=(($mentorAvlDaywise->no_of_slot == 8)?'selected':'')?>>Eight</option>
-		                                  	<option value="9" <?=(($mentorAvlDaywise->no_of_slot == 9)?'selected':'')?>>Nine</option>
-		                                  	<option value="10" <?=(($mentorAvlDaywise->no_of_slot == 10)?'selected':'')?>>Ten</option>
-		                                  	<option value="11" <?=(($mentorAvlDaywise->no_of_slot == 11)?'selected':'')?>>Eleven</option>
+		                                  	<option value="1" <?=(($mentorAvlDaywise->no_of_slot == 1)?'selected':'')?>>x 1 slot</option>
+		                                  	<option value="2" <?=(($mentorAvlDaywise->no_of_slot == 2)?'selected':'')?>>x 2 slots</option>
+		                                  	<option value="3" <?=(($mentorAvlDaywise->no_of_slot == 3)?'selected':'')?>>x 3 slots</option>
+		                                  	<option value="4" <?=(($mentorAvlDaywise->no_of_slot == 4)?'selected':'')?>>x 4 slots</option>
+		                                  	<option value="5" <?=(($mentorAvlDaywise->no_of_slot == 5)?'selected':'')?>>x 5 slots</option>
+		                                  	<option value="6" <?=(($mentorAvlDaywise->no_of_slot == 6)?'selected':'')?>>x 6 slots</option>
+		                                  	<option value="7" <?=(($mentorAvlDaywise->no_of_slot == 7)?'selected':'')?>>x 7 slots</option>
+		                                  	<option value="8" <?=(($mentorAvlDaywise->no_of_slot == 8)?'selected':'')?>>x 8 slots</option>
+		                                  	<option value="9" <?=(($mentorAvlDaywise->no_of_slot == 9)?'selected':'')?>>x 9 slots</option>
+		                                  	<option value="10" <?=(($mentorAvlDaywise->no_of_slot == 10)?'selected':'')?>>x 10 slots</option>
+		                                  	<option value="11" <?=(($mentorAvlDaywise->no_of_slot == 11)?'selected':'')?>>x 11 slots</option>
 		                                  </select>
 		                                 </div>
 		                                 <div style="display: inline; margin: 0px 0.5em;">-</div>

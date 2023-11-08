@@ -51,15 +51,9 @@ class MentorController extends Controller
             'password'      => 'required|confirmed|min:6',
 
         ]);
-
         if($validator->fails()) {
-
-            return redirect('mentor/signup')
-                                    ->withErrors($validator)
-                                    ->withInput();
-
+            return redirect('mentor/signup')->withErrors($validator)->withInput();
         }
-
         // Retrieve the validated input data...
         $validated = $validator->valid();
         $user = \App\Models\User::create([
@@ -82,56 +76,36 @@ class MentorController extends Controller
             'timezone'      => 'Asia/Kolkata',
 
         ];
-
         //Storing in session
         if(empty($request->session()->get('user'))) {
             //instantiate model and fill model instance save later
             //$user = new \App\Models\User();
-
             $mentor = new \App\Models\MentorProfile();
-
             //$user->fill($userData);
-
             $mentor->fill($mentorData);
-
             $request->session()->put('user', $user);
-
             $request->session()->put('mentor', $mentor);
-
         } else {
             $mentor = $request->session()->get('mentor');
-
-
             $user = $request->session()->get('user');
-
             //$user->fill($userData);
             //$mentor->fill($mentorData);
-
-
             $request->session()->put('user', $user);
-
             $request->session()->put('mentor', $mentor);
-
         }
-
         return redirect('mentor/step2');
-
     }
     public function createStep2(Request $request)
     {
         if(empty($request->session()->get('mentor'))) {
             return redirect('mentor/signup');
-
         }
         $onboarding = $request->session()->get('mentor');
-
         //dd($onboarding);
         //Data needed for rendering the page
         //service type choices
         $service_types = \App\Models\ServiceType::all();
-
         return view('front.mentor.onboarding.create-step2', ['serviceTypes' => $service_types, 'current_mentor' => $onboarding]);
-
         //$data                           = [];
         //$title                          = 'Mentor Signup';
         //$page_name                      = 'mentor-signup-2';
@@ -142,53 +116,33 @@ class MentorController extends Controller
         if(empty($request->session()->get('mentor'))) {
             return \redirect('mentor/signup');
         }
-
         $mentor = $request->session()->get('mentor');
         // Helper::pr($mentor);
-
         $validator = Validator::make($request->all(), [
-            'social_url'    => 'required',
+            // 'social_url'    => 'required',
             'profile_slug'  => ['required', new UniqueProfileSlug()],
             'registration_intent' => 'required',
             'intended_service_type' => 'required',
-
         ]);
-
         if($validator->fails()) {
-
             $username = $this->generateUniqueProfileSlug($mentor->display_name);
-
-
-            return redirect('mentor/step2')
-                        ->withErrors($validator)
-                        ->withInput(['profile_slug' => $username]);
-
-
-
+            return redirect('mentor/step2')->withErrors($validator)->withInput(['profile_slug' => $username]);
         }
-
         // Retrieve the validated input...
         $validated = $validator->validated();
         //process the form
-        $mentor->social_url = $validated['social_url'];
+        $mentor->social_url = $request->social_url;
         $mentor->display_name =  $validated['profile_slug'];
         $mentor->registration_intent = $validated['registration_intent'];
         //$request->session()->put('mentor', $mentor);
-
         //attaching service types to mentor
         if(empty($request->session()->get('mentor'))) {
             $request->session()->put('mentor', $mentor);
-
         }
         // Helper::pr($mentor);
         $mentor->save();
-
         //data collect done proceed to next step
         return redirect('mentor/step3');
-
-
-
-
         //$data                           = [];
         //$title                          = 'Mentor Signup';
         //$page_name                      = 'mentor-signup-3';
@@ -503,53 +457,49 @@ class MentorController extends Controller
         );
 
         $timeSlotsDataSource = array(
-                [
+            [
                 "id" => 1,
-                "text" => 'One',
-
+                "text" => 'x 1 slot',
             ],
             [
                 "id" => 2,
-                "text" => 'Two'
+                "text" => 'x 2 slots'
             ],
             [
                 "id" => 3,
-                "text" => 'Three'
+                "text" => 'x 3 slots'
             ],
             [
                 "id" => 4,
-                "text" => 'Four'
+                "text" => 'x 4 slots'
             ],
             [
                 "id" => 5,
-                "text" => 'Five'
+                "text" => 'x 5 slots'
             ],
             [
                 "id" => 6,
-                "text" => 'Six'
+                "text" => 'x 6 slots'
             ],
             [
                 "id" => 7,
-                "text" => 'Seven'
+                "text" => 'x 7 slots'
             ],
             [
                 "id" => 8,
-                "text" => 'Eight'
+                "text" => 'x 8 slots'
             ],
             [
                 "id" => 9,
-                "text" => 'Nine'
+                "text" => 'x 9 slots'
             ],
             [
                 "id" => 10,
-                "text" => 'Ten',
-
+                "text" => 'x 10 slots',
             ],
             [
                "id" => 11,
-               "text" => 'Eleven',
-
-
+               "text" => 'x 11 slots',
             ]
         );
 

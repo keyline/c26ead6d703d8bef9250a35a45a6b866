@@ -21,16 +21,16 @@
                <form action="{{route('mentor.create.step1')}}" method="POST">
                 @csrf
                   <div class="form-group">
-                     <input type="text" class="form-control" placeholder="First name" name="first_name">
+                     <input type="text" class="form-control" placeholder="First name" name="first_name" value="{{ old('first_name') }}">
                   </div>
                   <div class="form-group">
-                     <input type="text" class="form-control" placeholder="Last name" name="last_name">
+                     <input type="text" class="form-control" placeholder="Last name" name="last_name" value="{{ old('last_name') }}">
                   </div>
                   <div class="form-group">
-                     <input type="text" class="form-control" placeholder="Email address" name="email">
+                     <input type="text" class="form-control" placeholder="Email address" name="email" value="{{ old('email') }}">
                   </div>
                   <div class="form-group">
-                     <input type="tel" class="form-control" id="phone" placeholder="Phone number" name="phone_number">
+                     <input type="tel" class="form-control" id="phone" placeholder="Phone number" name="phone_number" value="{{ old('phone_number') }}">
                   </div>
                   <div class="form-group form_password">
                      <input type="password" class="form-control" placeholder="Set password" name="password" id="password">
