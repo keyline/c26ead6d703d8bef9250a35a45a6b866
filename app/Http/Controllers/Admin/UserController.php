@@ -579,9 +579,10 @@ class UserController extends Controller
             $page_name                      = 'email-logs';
             echo $this->admin_after_login_layout($title,$page_name,$data);
         }
-        public function emailLogsDetails(Request $request,$email ){
-            $Email = Helper::decoded($email);
-            $data['logData']                   = Enquiry::where('email', '=', $Email)->orderBy('id', 'DESC')->first();
+        public function emailLogsDetails(Request $request,$id ){
+            $id                             = Helper::decoded($id);
+            $data['logData']                = EmailLog::where('id', '=', $id)->orderBy('id', 'DESC')->first();
+            // Helper::pr($data['logData']);
             $title                          = 'Email Logs Details';
             $page_name                      = 'email-logs-info';
             echo $this->admin_after_login_layout($title,$page_name,$data);
