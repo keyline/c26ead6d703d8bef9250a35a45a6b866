@@ -1,6 +1,6 @@
 <section class="login-section singup-section">
    <div class="container">
-      <div class="row justify-content-center">
+      <div class="row justify-content-around">
          <div class="col-lg-5 col-md-8 col-sm-8">
             <div class="login-box signup-box">
                <div class="icon-box-1">
@@ -57,9 +57,14 @@
                      <button type="submit" class="login-btn">Sign Up</button>
                   </div>
                </form>
-               <div class="form-group">
+               <div class="form-group mb-1">
                   <p>
                      <span>Already have an account? <a href="<?=url('signin')?>"> Sign In</a></span>
+                  </p>
+               </div>
+               <div class="form-group mb-0">
+                  <p>
+                     <span>Don't have a mentor account? <a href="<?=url('mentor/signup')?>"> Mentor Sign Up</a></span>
                   </p>
                </div>
             </div>

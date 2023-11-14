@@ -1240,3 +1240,20 @@ h6 {
   font-size: 13px;
   color: #012970;
 }
+.tableaction_border td {
+  border-bottom: none;
+}
+.tableaction_allbtn .badge {
+  padding: 0.65rem 0.65rem;
+}
+.tableaction_allbtn {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+tr.tableaction_dark td, tr.tableaction_dark {
+  border-bottom: 2px solid #fb2d0d;
+}
+.tableaction_border th {
+  border-bottom: 2px solid #fb2d0d;
+}

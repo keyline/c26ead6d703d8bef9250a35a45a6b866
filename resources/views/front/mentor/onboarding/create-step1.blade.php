@@ -46,6 +46,16 @@
                      <button class="login-btn">Sign Up</button>
                   </div>
                </form>
+               <div class="form-group mb-1">
+                  <p>
+                     <span>Already have an account? <a href="<?=url('signin')?>"> Sign In</a></span>
+                  </p>
+               </div>
+               <div class="form-group mb-0">
+                  <p>
+                     <span>Don't have a student account? <a href="<?=url('student-signup')?>"> Student Sign Up</a></span>
+                  </p>
+               </div>
                <!-- <div class="icon-box-2">
                   <img src="{{ env('FRONT_ASSETS_URL') }}assets/images/signup-logo.webp" alt="">
                   </div> -->
