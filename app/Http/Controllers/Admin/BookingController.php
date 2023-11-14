@@ -37,9 +37,10 @@ class BookingController extends Controller
     /* list */
         public function list(){
             $data['module']                         = $this->data;
-            $data['all_bookings']                   = Booking::where('status', '>=', 1)->orderBy('id', 'DESC')->get();
-            $data['upcoming_bookings']              = Booking::where('status', '=', 1)->orderBy('id', 'DESC')->get();
-            $data['past_bookings']                  = Booking::where('status', '=', 2)->orderBy('id', 'DESC')->get();
+            $data['all_bookings']                   = Booking::where('status', '>=', 1)->where('payment_status', '=', 1)->orderBy('id', 'DESC')->get();
+            $data['upcoming_bookings']              = Booking::where('status', '=', 1)->where('payment_status', '=', 1)->orderBy('id', 'DESC')->get();
+            $data['past_bookings']                  = Booking::where('status', '=', 2)->where('payment_status', '=', 1)->orderBy('id', 'DESC')->get();
+            $data['unpaid_bookings']                = Booking::where('status', '=', 0)->where('payment_status', '=', 0)->orderBy('id', 'DESC')->get();
 
             $title                                  = $this->data['title'].' List';
             $page_name                              = 'bookings.list';

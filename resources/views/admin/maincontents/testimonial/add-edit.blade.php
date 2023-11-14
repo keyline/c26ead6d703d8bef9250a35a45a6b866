@@ -61,7 +61,7 @@ $controllerRoute = $module['controller_route'];
             <div class="row mb-3">
               <label for="review" class="col-md-2 col-lg-2 col-form-label">Review</label>
               <div class="col-md-10 col-lg-10">
-                <textarea name="review" class="form-control" id="review" rows="5" required><?=$review?></textarea>
+                <textarea name="review" class="form-control ckeditor" id="review" rows="5" required><?=$review?></textarea>
               </div>
             </div>
             <div class="row mb-3">
@@ -99,9 +99,9 @@ $controllerRoute = $module['controller_route'];
                 <?php } else {?>
                   <img src="<?=env('NO_IMAGE')?>" alt="<?=$name?>" class="img-thumbnail" style="width: 150px; height: 150px; margin-top: 10px;">
                 <?php }?>
-                <div class="pt-2">
+                <!-- <div class="pt-2">
                   <a href="javascript:void(0);" class="btn btn-danger btn-sm" title="Remove image"><i class="bi bi-trash"></i></a>
-                </div>
+                </div> -->
               </div>
             </div>
             <div class="row mb-3">
@@ -114,9 +114,9 @@ $controllerRoute = $module['controller_route'];
                 <?php } else {?>
                   <img src="<?=env('NO_IMAGE')?>" alt="<?=$company_name?>" class="img-thumbnail" style="width: 150px; height: 150px; margin-top: 10px;">
                 <?php }?>
-                <div class="pt-2">
+                <!-- <div class="pt-2">
                   <a href="javascript:void(0);" class="btn btn-danger btn-sm" title="Remove image"><i class="bi bi-trash"></i></a>
-                </div>
+                </div> -->
               </div>
             </div>
             <div class="text-center">

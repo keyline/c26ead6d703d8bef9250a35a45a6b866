@@ -59,7 +59,7 @@ use App\Helpers\Helper;
 													<th>Mentor Details</th>
 													<th>Service Type<br> Service</th>
 													<th>Duration</th>
-													<th>Total Amount</th>
+													<th>Meeting Link</th>
 													<th>Action</th>
 												</tr>
 											</thead>
@@ -91,7 +91,10 @@ use App\Helpers\Helper;
 							                             	?>
 														</td>
 														<td><?=$booking->duration?> mins</td>
-														<td><?=number_format($booking->payable_amt,2)?></td>
+														<td>
+															<!-- <?=number_format($booking->payable_amt,2)?> -->
+															<a href="<?=$booking->meeting_link?>" target="_blank" class="btn btn-primary btn-sm">Meeting Link</a>
+														</td>
 														<td class="text-center">
 
 															<?php if($booking->status <= 1){?>
@@ -145,7 +148,7 @@ use App\Helpers\Helper;
 													<th>Mentor Details</th>
 													<th>Service Type<br> Service</th>
 													<th>Duration</th>
-													<th>Total Amount</th>
+													<th>Meeting Link</th>
 													<th>Action</th>
 												</tr>
 											</thead>
@@ -177,7 +180,10 @@ use App\Helpers\Helper;
 								                         	?>
 														</td>
 														<td><?=$booking->duration?> mins</td>
-														<td><?=number_format($booking->payable_amt,2)?></td>
+														<td>
+															<!-- <?=number_format($booking->payable_amt,2)?> -->
+															<a href="<?=$booking->meeting_link?>" target="_blank" class="btn btn-primary btn-sm">Meeting Link</a>
+														</td>
 														<td class="text-center">
 
 															<?php if($booking->status <= 1){?>
@@ -220,7 +226,7 @@ use App\Helpers\Helper;
 													<th>Mentor Details</th>
 													<th>Service Type<br> Service</th>
 													<th>Duration</th>
-													<th>Total Amount</th>
+													<th>Meeting Link</th>
 													<th>Action</th>
 												</tr>
 											</thead>
@@ -252,7 +258,10 @@ use App\Helpers\Helper;
 							                             	?>
 														</td>
 														<td><?=$booking->duration?> mins</td>
-														<td><?=number_format($booking->payable_amt,2)?></td>
+														<td>
+															<!-- <?=number_format($booking->payable_amt,2)?> -->
+															<a href="<?=$booking->meeting_link?>" target="_blank" class="btn btn-primary btn-sm">Meeting Link</a>
+														</td>
 														<td class="text-center">
 															<?php if($booking->status == 1){?>
 																<h5 class="badge bg-info">Payment Done</h5>
