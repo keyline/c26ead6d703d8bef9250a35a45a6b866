@@ -38,7 +38,6 @@ class MentorController extends Controller
         //$page_name                      = 'mentor-signup';
         //echo $this->front_before_login_layout($title, $page_name, $data);
         return \view('front.mentor.onboarding.create-step1');
-
     }
 
     public function postCreateStep1(Request $request)
@@ -51,18 +50,18 @@ class MentorController extends Controller
             'password'      => 'required|confirmed|min:6',
 
         ]);
-        if($validator->fails()) {
+        if ($validator->fails()) {
             return redirect('mentor/signup')->withErrors($validator)->withInput();
         }
         // Retrieve the validated input data...
         $validated = $validator->valid();
         $user = \App\Models\User::create([
-                'name' => implode(" ", [$validated['first_name'], $validated['last_name']]),
-                'email' => $validated['email'],
-                'phone' => $validated['phone_number'],
-                'role' => 2,
-                'valid' => 0,
-                'password' => $validated['password'],
+            'name' => implode(" ", [$validated['first_name'], $validated['last_name']]),
+            'email' => $validated['email'],
+            'phone' => $validated['phone_number'],
+            'role' => 2,
+            'valid' => 0,
+            'password' => $validated['password'],
         ]);
         // echo $user->id;die;
         // $mentor = \App\Models\MentorProfile::create();
@@ -77,7 +76,7 @@ class MentorController extends Controller
 
         ];
         //Storing in session
-        if(empty($request->session()->get('user'))) {
+        if (empty($request->session()->get('user'))) {
             //instantiate model and fill model instance save later
             //$user = new \App\Models\User();
             $mentor = new \App\Models\MentorProfile();
@@ -97,7 +96,7 @@ class MentorController extends Controller
     }
     public function createStep2(Request $request)
     {
-        if(empty($request->session()->get('mentor'))) {
+        if (empty($request->session()->get('mentor'))) {
             return redirect('mentor/signup');
         }
         $onboarding = $request->session()->get('mentor');
@@ -113,7 +112,7 @@ class MentorController extends Controller
     }
     public function postCreateStep2(Request $request)
     {
-        if(empty($request->session()->get('mentor'))) {
+        if (empty($request->session()->get('mentor'))) {
             return \redirect('mentor/signup');
         }
         $mentor = $request->session()->get('mentor');
@@ -124,7 +123,7 @@ class MentorController extends Controller
             'registration_intent' => 'required',
             'intended_service_type' => 'required',
         ]);
-        if($validator->fails()) {
+        if ($validator->fails()) {
             $username = $this->generateUniqueProfileSlug($mentor->display_name);
             return redirect('mentor/step2')->withErrors($validator)->withInput(['profile_slug' => $username]);
         }
@@ -136,7 +135,7 @@ class MentorController extends Controller
         $mentor->registration_intent = $validated['registration_intent'];
         //$request->session()->put('mentor', $mentor);
         //attaching service types to mentor
-        if(empty($request->session()->get('mentor'))) {
+        if (empty($request->session()->get('mentor'))) {
             $request->session()->put('mentor', $mentor);
         }
         // Helper::pr($mentor);
@@ -177,18 +176,17 @@ class MentorController extends Controller
 
 
         $validator = Validator::make($request->all(), [
-                    'service'     => 'required',
-                    'services'    => 'required',
+            'service'     => 'required',
+            'services'    => 'required',
 
 
-                ]);
+        ]);
 
-        if($validator->fails()) {
+        if ($validator->fails()) {
 
             return redirect('mentor/create/step3')
-                        ->withErrors($validator)
-                        ->withInput();
-
+                ->withErrors($validator)
+                ->withInput();
         }
 
 
@@ -197,7 +195,7 @@ class MentorController extends Controller
 
         $user = $request->session()->get('user');
 
-        if(empty($user)) {
+        if (empty($user)) {
             //redirect back to step1
             return \redirect('mentor/signup');
         }
@@ -247,12 +245,11 @@ class MentorController extends Controller
         //data collect done proceed to next step
 
         return \redirect('mentor/step4');
-
     }
 
     public function createStep4()
     {
-        $sortOrderWeekDay = [0,1,2,3,4,5,6]; // Your choices
+        $sortOrderWeekDay = [0, 1, 2, 3, 4, 5, 6]; // Your choices
 
 
         //$daysOfWeek = \App\Models\DayOfWeek::orderBy('day_index', 'desc')->get();
@@ -279,25 +276,24 @@ class MentorController extends Controller
 
         foreach ($period as $date) {
             # code...
-            $hours[] = array('name' => $date->format('h:i A'),
-                             'value' => $date->format('Hi'),
-                             'selected_from' => '0900',
-                             'selected_to'   => '2000'
-        );
-
+            $hours[] = array(
+                'name' => $date->format('h:i A'),
+                'value' => $date->format('Hi'),
+                'selected_from' => '0900',
+                'selected_to'   => '2000'
+            );
         }
 
         //dd($hours);
         //return \view('front.mentor.onboarding.create-step4', ['slot_dropdown' => $hours, 'days' => $daysOfWeek, 'documents' => $documents]);
 
         return \view('front.mentor.onboarding.create-step4-v2', ['slot_dropdown' => $hours, 'days' => $sortedDaysOfWeek, 'documents' => $documents]);
-
     }
 
     public function postCreateStep4(Request $request)
     {
         //dd($request->all());
-        if(empty($request->session()->get('mentor'))) {
+        if (empty($request->session()->get('mentor'))) {
             return \redirect('mentor/signup');
         }
         $mentor = $request->session()->get('mentor');
@@ -308,16 +304,16 @@ class MentorController extends Controller
         $document_head = $request->input('document_head');
         $request->validate(
             [
-                       'docs_attachment.*' => 'nullable|mimes:jpeg,jpg,pdf,pdfs|max:1024',
-        ],
+                'docs_attachment.*' => 'nullable|mimes:jpeg,jpg,pdf,pdfs|max:1024',
+            ],
             $messages = [
                 "docs_attachment.*.mimes" => "Only PDF, JPEG are allowed.",
                 "docs_attachment.*.max" => "Max file size must be 1Mb",
             ]
         );
-        if($request->hasfile('docs_attachment')) {
+        if ($request->hasfile('docs_attachment')) {
             $saveDocument = new \App\Models\UserDocument();
-            foreach($request->file('docs_attachment') as $key => $file) {
+            foreach ($request->file('docs_attachment') as $key => $file) {
 
                 $name = "mentor_attachment_" . time() . '.' . $file->getClientOriginalExtension();
                 $path = $file->storeAs('public/mentor_attachment', $name);
@@ -347,11 +343,11 @@ class MentorController extends Controller
         foreach ($days as $key => $value) {
             $day_id     = $key;
             $data       = [];
-            if(is_array($availabilities['from'][$day_id])) {
+            if (is_array($availabilities['from'][$day_id])) {
                 $data['day_of_week_id'] = $day_id;
                 $duration = $durations[$day_id];
                 $no_of_slot = $no_of_slots[$day_id];
-                foreach($availabilities['from'][$day_id] as $key => $value) {
+                foreach ($availabilities['from'][$day_id] as $key => $value) {
 
                     $data['avail_from'] = date('H:i:s', strtotime($value));
                     $data['duration'] = $duration[$key];
@@ -366,7 +362,7 @@ class MentorController extends Controller
             }
         }
         //dd($insert_schedule);
-        if(empty($request->session()->get('mentor_availabilities'))) {
+        if (empty($request->session()->get('mentor_availabilities'))) {
             $availability = new \App\Models\MentorAvailability();
             //$availabilityModel->fill($insert_schedule);
             $request->session()->put('mentor_availabilities', $availability);
@@ -377,7 +373,7 @@ class MentorController extends Controller
         }
         // Helper::pr($insert_schedule);die;
         $availability::insert($insert_schedule);
-        if(!empty($file_insert_schedule)) {
+        if (!empty($file_insert_schedule)) {
             //Saving files
             $saveDocument->save();
         }
@@ -410,12 +406,12 @@ class MentorController extends Controller
 
         foreach ($period as $date) {
             # code...
-            $hours[] = array('name' => $date->format('h:i A'),
-                             'value' => $date->format('Hi'),
-                             'selected_from' => '0900',
-                             'selected_to'   => '2000'
-                );
-
+            $hours[] = array(
+                'name' => $date->format('h:i A'),
+                'value' => $date->format('Hi'),
+                'selected_from' => '0900',
+                'selected_to'   => '2000'
+            );
         }
 
         $actionClass = $data['action'] !== 'stumentoAjx_new_slot_add' ? 'deleteItem' : 'add__slot__parent';
@@ -424,17 +420,18 @@ class MentorController extends Controller
 
         if ($request->ajax()) {
             $html = \View::make('components.nested-time-schedule')
-            ->with(['daysOfWeek' => $daysOfWeek,
-                     'slot_dropdown' => $hours,
-                     'actionclass' =>  $actionClass,
+                ->with([
+                    'daysOfWeek' => $daysOfWeek,
+                    'slot_dropdown' => $hours,
+                    'actionclass' =>  $actionClass,
                     'iconclass' =>  $iconClass,
-                    ])
-            ->render();
-            return response()->json(['html' => $html,
-                                    'containerIdentity' => strtolower($daysOfWeek[0]->day_text),
-                                    ]);
+                ])
+                ->render();
+            return response()->json([
+                'html' => $html,
+                'containerIdentity' => strtolower($daysOfWeek[0]->day_text),
+            ]);
         }
-
     }
 
     public function renderComponentAfterChange(Request $request)
@@ -444,7 +441,8 @@ class MentorController extends Controller
             abort('500');
         }
 
-        $durationDataSource = array([
+        $durationDataSource = array(
+            [
                 'id' => 30,
                 'text' => '30 minutes'
 
@@ -498,20 +496,20 @@ class MentorController extends Controller
                 "text" => 'x 10 slots',
             ],
             [
-               "id" => 11,
-               "text" => 'x 11 slots',
+                "id" => 11,
+                "text" => 'x 11 slots',
             ]
         );
 
 
         $data = $request->validate([
-                    'day' => 'required',
-                    'fromTime' => 'required',
-                    'duration' => 'required',
-                    'slots'    => 'required',
-                    'endTime'   => 'required',
-                    'action' => 'required'
-                ]);
+            'day' => 'required',
+            'fromTime' => 'required',
+            'duration' => 'required',
+            'slots'    => 'required',
+            'endTime'   => 'required',
+            'action' => 'required'
+        ]);
 
         $daysOfWeek[] = \App\Models\DayOfWeek::where('day', $data['day'])->first();
 
@@ -521,7 +519,7 @@ class MentorController extends Controller
 
 
         $period = \Carbon\CarbonPeriod::create($startPeriod, '15 minutes', $endPeriod)
-                    ->excludeEndDate();
+            ->excludeEndDate();
 
         $fromTime = \Carbon\Carbon::parse($data['fromTime']);
 
@@ -531,12 +529,12 @@ class MentorController extends Controller
 
         foreach ($period as $date) {
             # code...
-            $hours[] = array('name' => $date->format('h:i A'),
-                             'value' => $date->format('Hi'),
-                             'selected_from' => $data['fromTime'],
-                             'selected_to'   => $endTime->format('Hi'),
-                );
-
+            $hours[] = array(
+                'name' => $date->format('h:i A'),
+                'value' => $date->format('Hi'),
+                'selected_from' => $data['fromTime'],
+                'selected_to'   => $endTime->format('Hi'),
+            );
         }
 
 
@@ -546,7 +544,7 @@ class MentorController extends Controller
         //return options data duration
         foreach ($durationDataSource as &$value) {
             # code...
-            if(in_array($value['id'], [$data['duration']])) {
+            if (in_array($value['id'], [$data['duration']])) {
                 $value['selected'] = true;
             }
         }
@@ -555,7 +553,7 @@ class MentorController extends Controller
 
         foreach ($timeSlotsDataSource as &$value) {
             # code...
-            if(in_array($value['id'], [$data['slots']])) {
+            if (in_array($value['id'], [$data['slots']])) {
                 $value['selected'] = true;
             }
         }
@@ -564,28 +562,21 @@ class MentorController extends Controller
 
         if ($request->ajax()) {
             $html = \View::make('components.nested-time-schedule')
-            ->with(['daysOfWeek' => $daysOfWeek,
-                     'slot_dropdown' => $hours,
-                     'actionclass' =>  $actionClass,
+                ->with([
+                    'daysOfWeek' => $daysOfWeek,
+                    'slot_dropdown' => $hours,
+                    'actionclass' =>  $actionClass,
                     'iconclass' =>  $iconClass,
-                    ])
-            ->render();
-            return response()->json(['html' => $html,
-                                    'containerIdentity' => strtolower($daysOfWeek[0]->day_text),
-                                    'selectedTimeFrom'  => $data['fromTime'],
-                                    'durations'  => $durationDataSource,
-                                    'slots'      => $timeSlotsDataSource,
-                                    ]);
+                ])
+                ->render();
+            return response()->json([
+                'html' => $html,
+                'containerIdentity' => strtolower($daysOfWeek[0]->day_text),
+                'selectedTimeFrom'  => $data['fromTime'],
+                'durations'  => $durationDataSource,
+                'slots'      => $timeSlotsDataSource,
+            ]);
         }
-
-
-
-
-
-
-
-
-
     }
 
     public function generateUniqueProfileSlug($fullName, $length = 5)
@@ -593,14 +584,12 @@ class MentorController extends Controller
 
         $username = strtolower(str_replace(' ', '_', $fullName));
 
-        while(\App\Models\MentorProfile::where('display_name', $username)->exists()) {
+        while (\App\Models\MentorProfile::where('display_name', $username)->exists()) {
             $randomString = Str::random($length);
             $username = $username . $randomString;
         }
 
         return $username;
-
-
     }
     /* authentication */
 }

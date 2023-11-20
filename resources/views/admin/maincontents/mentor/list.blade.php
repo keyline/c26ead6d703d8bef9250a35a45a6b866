@@ -30,6 +30,7 @@ $controllerRoute = $module['controller_route'];
     <div class="col-lg-12">
       <div class="card">
         <div class="card-body">
+            <a href="<?=url('admin/mentors-export')?>" target="_blank" class="btn btn-success btn-sm"><i class="fas fa-file-excel"></i> Export</a>
           <!-- Table with stripped rows -->
             <div class="table-responsive">
               <table class="table datatable">
@@ -66,7 +67,7 @@ $controllerRoute = $module['controller_route'];
                         <h6>10000.00</h6>
                         <a target="_blank" href="<?=url('admin/' . $controllerRoute . '/payouts/'.Helper::encoded($row->user_id))?>" class="badge bg-info" title="Edit <?=$module['title']?>"><i class="fa fa-inr"></i> View Payouts</a>
                       </td>
-                      
+
                     </tr>
                     <tr class="tableaction_dark">
                       <td colspan="7">
@@ -85,7 +86,7 @@ $controllerRoute = $module['controller_route'];
                           <a target="_blank" href="<?=url('admin/' . $controllerRoute . '/bookings/'.Helper::encoded($row->user_id))?>" class="btn badge bg-info" title="Edit <?=$module['title']?>"><i class="fa fa-list"></i> Bookings</a>
                           <a target="_blank" href="<?=url('admin/' . $controllerRoute . '/transactions/'.Helper::encoded($row->user_id))?>" class="btn badge bg-warning" title="Edit <?=$module['title']?>"><i class="fa fa-inr"></i> Transactions</a>
                         </div>
-                         
+
                       </td>
                     </tr>
                   <?php } }?>
