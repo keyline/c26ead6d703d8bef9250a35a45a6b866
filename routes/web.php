@@ -119,8 +119,12 @@ use Illuminate\Support\Facades\Route;
             Route::get('dashboard', 'UserController@dashboard');
             Route::get('logout', 'UserController@logout');
             Route::get('email-logs', 'UserController@emailLogs');
+            Route::get('email-logs-export', 'UserController@emailLogsExport');
             Route::match(['get','post'],'/email-logs/details/{email}', 'UserController@emailLogsDetails');
             Route::get('login-logs', 'UserController@loginLogs');
+            Route::get('login-logs-success-export', 'UserController@loginLogsSuccess');
+            Route::get('login-logs-failed-export', 'UserController@loginLogsFailed');
+            Route::get('login-logs-logout-export', 'UserController@loginLogsLogout');
            
             /* setting */
                 Route::get('settings', 'UserController@settings');

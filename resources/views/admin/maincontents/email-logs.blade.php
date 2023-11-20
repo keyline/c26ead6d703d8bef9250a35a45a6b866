@@ -29,6 +29,7 @@ use App\Helpers\Helper;
     <div class="col-lg-12">
       <div class="card">
         <div class="card-body">
+          <a href="<?=url('admin/email-logs-export')?>" target="_blank" class="btn btn-success btn-sm"><i class="fas fa-file-excel"></i> Export</a>
           <!-- Table with stripped rows -->
           <table class="table datatable">
             <thead>
