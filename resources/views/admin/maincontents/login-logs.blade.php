@@ -42,6 +42,7 @@ use App\Helpers\Helper;
           </ul>
           <div class="tab-content pt-2">
             <div class="tab-pane fade show active profile-overview" id="tab2">
+              <a href="<?=url('admin/login-logs-success-export')?>" target="_blank" class="btn btn-success btn-sm"><i class="fas fa-file-excel"></i> Export</a>
               <!-- Table with stripped rows -->
               <table class="table datatable">
                 <thead>
@@ -84,6 +85,7 @@ use App\Helpers\Helper;
               <!-- End Table with stripped rows -->
             </div>
             <div class="tab-pane fade show profile-overview" id="tab1">
+              <a href="<?=url('admin/login-logs-failed-export')?>" target="_blank" class="btn btn-success btn-sm"><i class="fas fa-file-excel"></i> Export</a>
               <!-- Table with stripped rows -->
               <table class="table datatable">
                 <thead>
@@ -126,6 +128,7 @@ use App\Helpers\Helper;
               <!-- End Table with stripped rows -->
             </div>
             <div class="tab-pane fade show profile-overview" id="tab3">
+              <a href="<?=url('admin/login-logs-logout-export')?>" target="_blank" class="btn btn-success btn-sm"><i class="fas fa-file-excel"></i> Export</a>
               <!-- Table with stripped rows -->
               <table class="table datatable">
                 <thead>

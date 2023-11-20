@@ -579,6 +579,12 @@ class UserController extends Controller
             $page_name                      = 'email-logs';
             echo $this->admin_after_login_layout($title,$page_name,$data);
         }
+        public function emailLogsExport(){
+            $data['rows']                   = EmailLog::where('status', '=', 1)->orderBy('id', 'DESC')->get();
+            $data['title']                  = 'Email Logs Data Export';
+            $page_name                      = 'email-logs-export';
+            return view('admin.maincontents.'.$page_name, $data);
+        }
         public function emailLogsDetails(Request $request,$id ){
             $id                             = Helper::decoded($id);
             $data['logData']                = EmailLog::where('id', '=', $id)->orderBy('id', 'DESC')->first();
@@ -596,6 +602,24 @@ class UserController extends Controller
             $title                          = 'Login Logs';
             $page_name                      = 'login-logs';
             echo $this->admin_after_login_layout($title,$page_name,$data);
+        }
+        public function loginLogsSuccess(){
+            $data['rows']                   = UserActivity::where('activity_type', '=', 1)->orderBy('activity_id', 'DESC')->get();
+            $data['title']                  = 'Login Logs Success';
+            $page_name                      = 'login-logs-success';
+            return view('admin.maincontents.'.$page_name, $data);
+        }
+        public function loginLogsFailed(){
+            $data['rows']                   = UserActivity::where('activity_type', '=', 0)->orderBy('activity_id', 'DESC')->get();
+            $data['title']                  = 'Login Logs Failed';
+            $page_name                      = 'login-logs-failed';
+            return view('admin.maincontents.'.$page_name, $data);
+        }
+        public function loginLogsLogout(){
+            $data['rows']                   = UserActivity::where('activity_type', '=', 2)->orderBy('activity_id', 'DESC')->get();
+            $data['title']                  = 'Login Logs Logout';
+            $page_name                      = 'login-logs-logout';
+            return view('admin.maincontents.'.$page_name, $data);
         }
     /* login logs */
 }
