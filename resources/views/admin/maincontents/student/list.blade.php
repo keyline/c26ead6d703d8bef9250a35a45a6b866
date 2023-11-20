@@ -30,6 +30,7 @@ $controllerRoute = $module['controller_route'];
     <div class="col-lg-12">
       <div class="card">
         <div class="card-body">
+            <a href="<?=url('admin/students-export')?>" target="_blank" class="btn btn-success btn-sm"><i class="fas fa-file-excel"></i> Export</a>
           <!-- Table with stripped rows -->
           <table class="table datatable">
             <thead>
@@ -62,9 +63,9 @@ $controllerRoute = $module['controller_route'];
                     <a target="_blank" href="<?=url('admin/' . $controllerRoute . '/profile/'.Helper::encoded($row->user_id))?>" class="badge bg-dark" title="Edit <?=$module['title']?>"><i class="fa fa-user"></i> Student Profile</a>
                     <br><br>
                     <a target="_blank" href="<?=url('admin/' . $controllerRoute . '/bookings/'.Helper::encoded($row->user_id))?>" class="badge bg-info" title="Edit <?=$module['title']?>"><i class="fa fa-list"></i> Bookings</a>
-                    <br><br>                    
+                    <br><br>
                     <a target="_blank" href="<?=url('admin/' . $controllerRoute . '/transactions/'.Helper::encoded($row->user_id))?>" class="badge bg-warning" title="Edit <?=$module['title']?>"><i class="fa fa-inr"></i> Transactions</a>
-                    <br><br>                    
+                    <br><br>
                     <a target="_blank" href="<?=url('admin/' . $controllerRoute . '/survey/'.Helper::encoded($row->user_id))?>" class="badge bg-primary" title="View Survey"><i class="fa fa-poll"></i> Surveys</a>
                   </td>
                 </tr>

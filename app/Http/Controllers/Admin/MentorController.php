@@ -34,7 +34,7 @@ use DB;
 class MentorController extends Controller
 {
     public function __construct()
-    {        
+    {
         $this->data = array(
             'title'             => 'Mentor',
             'controller'        => 'MentorController',
@@ -135,13 +135,13 @@ class MentorController extends Controller
                                     MentorSlot::insert($fields);
                                 }
                             }
-                            
+
                         }
                     }
                 /* mentor slots add on approval of mentor */
                 $model->valid  = 1;
                 $msg            = 'Activated';
-            }            
+            }
             $model->save();
             return redirect("admin/" . $this->data['controller_route'] . "/list")->with('success_message', $this->data['title'].' '.$msg.' Successfully !!!');
         }
@@ -329,4 +329,16 @@ class MentorController extends Controller
             echo $this->admin_after_login_layout($title,$page_name,$data);
         }
     /*profile*/
+
+
+        /* mentor data export */
+        public function mentorExport()
+        {
+            $data['title']                  = 'Mentors Data Export';
+            $page_name                      = 'mentors-export';
+            $data['rows']                   = User::select('mentor_profiles.*', 'users.email', 'users.phone', 'users.created_at')->join('mentor_profiles', 'mentor_profiles.user_id', '=', 'users.id')->where('users.valid', '!=', 3)->where('users.role', '=', 2)->orderBy('users.id', 'DESC')->get();
+
+
+            return view('admin.maincontents.' . $page_name, $data);
+        }
 }
