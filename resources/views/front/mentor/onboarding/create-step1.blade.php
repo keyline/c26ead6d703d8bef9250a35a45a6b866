@@ -8,7 +8,7 @@
                <div class="icon-box-1">
                   <img src="{{ env('FRONT_ASSETS_URL') }}assets/images/lamp.webp" alt="">
                </div>
-               <h3>Welcome!</h3>
+               <h3>Mentor Signup !</h3>
                @if ($errors->any())
                <div class="alert alert-danger">
                   <ul>
