@@ -6,7 +6,7 @@
                <div class="icon-box-1">
                   <img src="<?=env('FRONT_ASSETS_URL')?>assets/images/lamp.webp" alt="">
                </div>
-               <h3>Welcome!</h3>
+               <h3>Student Signup !</h3>
                <form action="" id="signup_form" enctype="multipart/form-data">
                   @csrf
                   <input type="hidden" class="form-control" name="key" id="key" value="facb6e0a6fcbe200dca2fb60dec75be7">

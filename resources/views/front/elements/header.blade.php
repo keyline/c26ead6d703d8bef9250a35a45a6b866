@@ -51,8 +51,8 @@ $pageName = $routeName->uri();
                         <div class="wrapper-demo">
                            <div id="signdropdown" class="wrapper-dropdown-2" tabindex="1">Sign in with
                               <ul class="dropdown">
-                                 <li><a href="#">Mentor Login</a></li>
-                                 <li><a href="#">Student Login</a></li>
+                                 <li><a href="<?=url('signin')?>">Mentor Login</a></li>
+                                 <li><a href="<?=url('signin')?>">Student Login</a></li>
                               </ul>
                            </div>
                         </div>
@@ -62,8 +62,8 @@ $pageName = $routeName->uri();
                         <div class="wrapper-demo">
                            <div id="signdropdown1" class="wrapper-dropdown-2" tabindex="1">Sign up with
                               <ul class="dropdown">
-                                 <li><a href="#">Mentor Sign up</a></li>
-                                 <li><a href="#">Student Sign up</a></li>
+                                 <li><a href="<?=url('mentor/signup')?>">Mentor Sign up</a></li>
+                                 <li><a href="<?=url('student-signup')?>">Student Sign up</a></li>
                               </ul>
                            </div>
                         </div>

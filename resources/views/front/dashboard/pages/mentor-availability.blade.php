@@ -61,6 +61,14 @@ use App\Helpers\Helper;
 	                           </div>
 	                      	</div>
 	                        <div class="col-md-9 slots__parent">
+	                        	<?php if($day->day_index == 0){?>
+		                        	<div class="row">
+		                        		<div class="col-md-3"><span class="fw-bold" style="color: #f9233f;">Start</span></div>
+		                        		<div class="col-md-3"><span class="fw-bold" style="color: #f9233f;">Duration</span></div>
+		                        		<div class="col-md-3"><span class="fw-bold" style="color: #f9233f;">No. Of Slots</span></div>
+		                        		<div class="col-md-3"><span class="fw-bold" style="color: #f9233f;">End</span></div>
+		                        	</div>
+		                        <?php }?>
 	                         	@if(in_array($day->day_index, $mentor_days))
 	                           	<div class="slots-section">
 	                           		<?php

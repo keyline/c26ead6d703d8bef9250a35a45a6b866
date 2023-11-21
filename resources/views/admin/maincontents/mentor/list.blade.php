@@ -77,9 +77,10 @@ $controllerRoute = $module['controller_route'];
                             <a href="<?=url('admin/' . $controllerRoute . '/change-status/'.Helper::encoded($row->user_id))?>" class="btn btn-success " title="Activate <?=$module['title']?>"><i class="fa fa-check"></i> Click To Disapprove</a>
                           <?php } else {?>
                             <a href="<?=url('admin/' . $controllerRoute . '/change-status/'.Helper::encoded($row->user_id))?>" class="btn btn-danger " title="Deactivate <?=$module['title']?>"><i class="fa fa-times"></i> Click To Approve</a>
+                            <a href="<?=url('admin/' . $controllerRoute . '/delete/'.Helper::encoded($row->user_id))?>" class="btn btn-outline-danger btn-sm" title="Delete <?=$module['title']?>" onclick="return confirm('Do You Want To Delete This <?=$module['title']?>');"><i class="fa fa-trash"></i> Delete</a>
                           <?php }?>
                           <!-- <br><br>
-                          <a href="<?=url('admin/' . $controllerRoute . '/delete/'.Helper::encoded($row->user_id))?>" class="btn btn-outline-danger btn-sm" title="Delete <?=$module['title']?>" onclick="return confirm('Do You Want To Delete This <?=$module['title']?>');"><i class="fa fa-trash"></i> Delete</a> -->
+                           -->
                           <a target="_blank" href="<?=url('admin/' . $controllerRoute . '/profile/'.Helper::encoded($row->user_id))?>" class="btn badge btn-secondary" title="Profile of <?=$module['title']?>"><i class="fa fa-user"></i> Mentor Profile</a>
                           <a target="_blank" href="<?=url('admin/' . $controllerRoute . '/availability/'.Helper::encoded($row->user_id))?>" class="btn badge bg-success" title="Edit <?=$module['title']?>"><i class="fa fa-clock"></i> Availability</a>
                           <a target="_blank" href="<?=url('admin/' . $controllerRoute . '/assigned-services/'.Helper::encoded($row->user_id))?>" class="btn badge bg-primary" title="Edit <?=$module['title']?>"><i class="fa fa-wrench"></i> Assigned Services</a>
