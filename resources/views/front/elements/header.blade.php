@@ -48,10 +48,26 @@ $pageName = $routeName->uri();
                <?php if(empty(session('is_user_login'))){?>
                   <ul>
                      <li>
-                        <a class="btn_border" href="<?=url('signin')?>">Sign In</a>
+                        <div class="wrapper-demo">
+                           <div id="signdropdown" class="wrapper-dropdown-2" tabindex="1">Sign in with
+                              <ul class="dropdown">
+                                 <li><a href="#">Mentor Login</a></li>
+                                 <li><a href="#">Student Login</a></li>
+                              </ul>
+                           </div>
+                        </div>
+                        <!-- <a class="btn_border" href="<?=url('signin')?>">Sign In</a> -->
                      </li>
                      <li>
-                        <a class="btn_orgfill" href="<?=route('mentor.signup')?>">Sign up free</a>
+                        <div class="wrapper-demo">
+                           <div id="signdropdown1" class="wrapper-dropdown-2" tabindex="1">Sign up with
+                              <ul class="dropdown">
+                                 <li><a href="#">Mentor Sign up</a></li>
+                                 <li><a href="#">Student Sign up</a></li>
+                              </ul>
+                           </div>
+                        </div>
+                        <!-- <a class="btn_orgfill" href="<?=route('mentor.signup')?>">Sign up free</a> -->
                      </li>
                   </ul>
                <?php } else {?>

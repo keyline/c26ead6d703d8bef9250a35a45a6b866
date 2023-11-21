@@ -63,7 +63,51 @@ $pageName = $routeName->uri();
             $('.autohide').delay(5000).fadeOut('slow');
         })
       </script>
+        <script type="text/javascript">
+			function DropDown(el) {
+				this.signdropdown = el;
+				this.initEvents();
+			}
+			DropDown.prototype = {
+				initEvents : function() {
+					var obj = this;
+					obj.signdropdown.on('click', function(event){
+						$(this).toggleClass('active');
+						event.stopPropagation();
+					});	
+				}
+			}
+			$(function() {
+				var signdropdown = new DropDown( $('#signdropdown') );
+				$(document).click(function() {
+					// all dropdowns
+					$('.wrapper-dropdown-2').removeClass('active');
+				});
+			});
 
+            //=========================
+
+            function DropDown(el) {
+				this.signdropdown1 = el;
+				this.initEvents();
+			}
+			DropDown.prototype = {
+				initEvents : function() {
+					var obj = this;
+					obj.signdropdown1.on('click', function(event){
+						$(this).toggleClass('active');
+						event.stopPropagation();
+					});	
+				}
+			}
+			$(function() {
+				var signdropdown1 = new DropDown( $('#signdropdown1') );
+				$(document).click(function() {
+					// all dropdowns
+					$('.wrapper-dropdown-2').removeClass('active');
+				});
+			});
+		</script>
       <script type="text/javascript">
          (function() {
          'use strict'

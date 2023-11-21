@@ -23,6 +23,7 @@
       <script src="<?=env('FRONT_ASSETS_URL')?>assets/js/sweetalert2.all.min.js"></script>
       <script src="<?=env('FRONT_ASSETS_URL')?>assets/js/common-function.js"></script>
       <script src="<?=env('FRONT_ASSETS_URL')?>assets/js/stumento.js"></script>
+      
       <script type="text/javascript">
         $(function(){
             $('.autohide').delay(5000).fadeOut('slow');
