@@ -362,13 +362,16 @@ Route::prefix('/admin')->namespace('App\Http\Controllers\Admin')->group(function
         /* survey */
         /* bookings */
         Route::get('bookings/list', 'BookingController@list');
+        Route::get('booking-export', 'BookingController@bookingExport');
         /* bookings */
         /* withdrawls */
         Route::get('withdrawls/list', 'WithdrawlController@list');
         Route::get('withdrawls/change-status/{id}/{id2}', 'WithdrawlController@change_status');
+        Route::get('withdrawal-export', 'WithdrawlController@withdrawalExport');
         /* withdrawls */
         /* transactions */
         Route::get('transactions/list', 'TransactionController@list');
+        Route::get('transactions-export', 'TransactionController@transactionsExport');
         /* transactions */
         /* feedbacks */
         Route::get('feedbacks/list', 'FeedbackController@list');

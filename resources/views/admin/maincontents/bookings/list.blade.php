@@ -57,6 +57,7 @@ $controllerRoute = $module['controller_route'];
           <div class="tab-content pt-2">
             <div class="tab-pane fade show active all-booking-overview" id="tab1">
               <h5 style="font-weight: bold;">All Booking List</h5>
+              <a href="<?=url('admin/booking-export')?>" target="_blank" class="btn btn-success btn-sm"><i class="fas fa-file-excel"></i> Export</a>
               <div class="table-responsive">
                 <table class="table datatable">
                   <thead>

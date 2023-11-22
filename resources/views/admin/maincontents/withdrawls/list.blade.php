@@ -40,6 +40,7 @@ $controllerRoute = $module['controller_route'];
     <div class="col-lg-12">
       <div class="card">
         <div class="card-body pt-3">
+            <a href="<?=url('admin/withdrawal-export')?>" target="_blank" class="btn btn-success btn-sm"><i class="fas fa-file-excel"></i> Export</a>
           <div class="table-responsive">
             <table class="table datatable">
               <thead>
