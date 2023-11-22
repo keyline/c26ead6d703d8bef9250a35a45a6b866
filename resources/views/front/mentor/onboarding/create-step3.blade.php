@@ -47,7 +47,7 @@
                         <div class="title">
                            <p>Select your expertise</p>
                         </div>
-                        <div class="input-group mb-3">     
+                        <div class="input-group mb-3">
                            <div class="button-group button-group-2 check_roundbtn" id="buttons">
                             @foreach($services AS $service)
                             <label class="button-group__btn"><input type="radio" name="service" value="{{ $service->slug }}" wt-checkbox/> <span class="button-group__label">{{ $service->name }}</span></label>
@@ -55,22 +55,22 @@
                             <!-- <label class="button-group__btn"><input type="checkbox" name="check" /> <span class="button-group__label">Career Counselling</span></label> -->
                               <!-- <label class="button-group__btn"><input type="checkbox" name="check" /> <span class="button-group__label">Cybersecurity</span></label>
                               <label class="button-group__btn"><input type="checkbox" name="check" /> <span class="button-group__label">Law</span></label>
-                              <label class="button-group__btn"><input type="checkbox" name="check" /> <span class="button-group__label">Content & Branding</span></label> 
-                              <label class="button-group__btn"><input type="checkbox" name="check" /> <span class="button-group__label">Others</span></label> 
-                              <label class="button-group__btn"><input type="checkbox" name="check" /> <span class="button-group__label">HR</span></label> 
-                              <label class="button-group__btn"><input type="checkbox" name="check" /> <span class="button-group__label">Software</span></label> 
-                              <label class="button-group__btn"><input type="checkbox" name="check" /> <span class="button-group__label">Product</span></label> 
-                              <label class="button-group__btn"><input type="checkbox" name="check" /> <span class="button-group__label">Study Abroad</span></label> 
-                              <label class="button-group__btn"><input type="checkbox" name="check" /> <span class="button-group__label">Finance</span></label> 
-                              <label class="button-group__btn"><input type="checkbox" name="check" /> <span class="button-group__label">Design</span></label> 
+                              <label class="button-group__btn"><input type="checkbox" name="check" /> <span class="button-group__label">Content & Branding</span></label>
+                              <label class="button-group__btn"><input type="checkbox" name="check" /> <span class="button-group__label">Others</span></label>
+                              <label class="button-group__btn"><input type="checkbox" name="check" /> <span class="button-group__label">HR</span></label>
+                              <label class="button-group__btn"><input type="checkbox" name="check" /> <span class="button-group__label">Software</span></label>
+                              <label class="button-group__btn"><input type="checkbox" name="check" /> <span class="button-group__label">Product</span></label>
+                              <label class="button-group__btn"><input type="checkbox" name="check" /> <span class="button-group__label">Study Abroad</span></label>
+                              <label class="button-group__btn"><input type="checkbox" name="check" /> <span class="button-group__label">Finance</span></label>
+                              <label class="button-group__btn"><input type="checkbox" name="check" /> <span class="button-group__label">Design</span></label>
                               <label class="button-group__btn"><input type="checkbox" name="check" /> <span class="button-group__label">Data</span></label>  -->
                            </div>
                         </div>
                         <!-- perfect example of a blade component -->
                         <!-- mental health section -->
                         <!-- start -->
-                        
-                        
+
+
                         @foreach($services AS $service)
                         @if($service->id === 1)
                            @foreach($types AS $type)
@@ -79,7 +79,7 @@
                         <div class="title">
                            <!-- <p>Popular <strong>1:1 services</strong>  in your expertise</p> -->
                            <p>Popular <strong>{{ $type->name }}</strong>  in your expertise</p>
-                           
+
                         </div>
                         <div class="input-group mb-3">
                            <div class="button-group button-group-2 check_halfbtn">
@@ -87,13 +87,13 @@
                               <label class="button-group__btn"><input class="services__to__select" type="checkbox" name="services[]" value="{{ $attribute->id }}"/> <span class="button-group__label">{{ $attribute->title }}</span></label>
                                 @endforeach
                               <!-- <label class="button-group__btn"><input type="checkbox" name="check" /> <span class="button-group__label">Emergency</span></label>
-                              <label class="button-group__btn"><input type="checkbox" name="check" /> <span class="button-group__label">Discovery call</span></label> 
-                              <label class="button-group__btn"><input type="checkbox" name="check" /> <span class="button-group__label">Discovery Call</span></label> 
-                              <label class="button-group__btn"><input type="checkbox" name="check" /> <span class="button-group__label">1st Session</span></label> 
+                              <label class="button-group__btn"><input type="checkbox" name="check" /> <span class="button-group__label">Discovery call</span></label>
+                              <label class="button-group__btn"><input type="checkbox" name="check" /> <span class="button-group__label">Discovery Call</span></label>
+                              <label class="button-group__btn"><input type="checkbox" name="check" /> <span class="button-group__label">1st Session</span></label>
                               <label class="button-group__btn"><input type="checkbox" name="check" /> <span class="button-group__label">Regular Session</span></label>  -->
                            </div>
                         </div>
-                        
+
                         </div>
                         @endif
                         @endforeach
@@ -106,7 +106,7 @@
                         <div class="title">
                            <!-- <p>Popular <strong>1:1 services</strong>  in your expertise</p> -->
                            <p>Popular <strong>{{ $type->name }}</strong>  in your expertise</p>
-                           
+
                         </div>
                         <div class="input-group mb-3">
                            <div class="button-group button-group-2 check_halfbtn">
@@ -114,22 +114,22 @@
                               <label class="button-group__btn"><input class="services__to__select" type="checkbox" name="services[]" value="{{ $attribute->id }}"/> <span class="button-group__label">{{ $attribute->title }}</span></label>
                                 @endforeach
                               <!-- <label class="button-group__btn"><input type="checkbox" name="check" /> <span class="button-group__label">Emergency</span></label>
-                              <label class="button-group__btn"><input type="checkbox" name="check" /> <span class="button-group__label">Discovery call</span></label> 
-                              <label class="button-group__btn"><input type="checkbox" name="check" /> <span class="button-group__label">Discovery Call</span></label> 
-                              <label class="button-group__btn"><input type="checkbox" name="check" /> <span class="button-group__label">1st Session</span></label> 
+                              <label class="button-group__btn"><input type="checkbox" name="check" /> <span class="button-group__label">Discovery call</span></label>
+                              <label class="button-group__btn"><input type="checkbox" name="check" /> <span class="button-group__label">Discovery Call</span></label>
+                              <label class="button-group__btn"><input type="checkbox" name="check" /> <span class="button-group__label">1st Session</span></label>
                               <label class="button-group__btn"><input type="checkbox" name="check" /> <span class="button-group__label">Regular Session</span></label>  -->
                            </div>
                         </div>
-                        
+
                         </div>
                         @endif
                         @endforeach
                         @endif
 
                         @endforeach
-                        
+
                         <!-- end -->
-                        
+
                         <!-- <div class="title">
                            <p>Popular <strong>Priority DM</strong>  services in your expertise</p>
                         </div>
@@ -137,7 +137,7 @@
                            <div class="button-group button-group-2 check_halfbtn">
                               <label class="button-group__btn"><input type="checkbox" name="check" /> <span class="button-group__label">Follow-up Session</span></label>
                               <label class="button-group__btn"><input type="checkbox" name="check" /> <span class="button-group__label">Emergency</span></label>
-                              <label class="button-group__btn"><input type="checkbox" name="check" /> <span class="button-group__label">Discovery call</span></label> 
+                              <label class="button-group__btn"><input type="checkbox" name="check" /> <span class="button-group__label">Discovery call</span></label>
                            </div>
                         </div> -->
                         <div class="input-group mb-3">
@@ -163,12 +163,12 @@
 @endsection
 @push('scripts')
 <script>
-   
+
 
    $.fn.WT_CHECKBOX = function($this) {
   var name = $this.attr('name'), checked = $this.val();
   console.log({'name': name, 'checked' : checked, 'is_checked': $this.prop("checked")});
-  
+
    $('div.wrapper-service').hide();
    if($this.prop("checked")){
       var checkboxes = $('[wt-toggle='+name+'-'+checked+']').find('.services__to__select');
@@ -177,8 +177,8 @@
 				});
 
    }
-   
-  
+
+
   $('[wt-toggle='+name+'-'+checked+']').slideToggle();
 };
 $('[wt-checkbox]').on('change', function() {
