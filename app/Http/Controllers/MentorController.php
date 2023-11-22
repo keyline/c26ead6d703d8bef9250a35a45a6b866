@@ -172,19 +172,15 @@ class MentorController extends Controller
 
     public function postCreateStep3(Request $request)
     {
-        //dd($request->all());
-
-
         $validator = Validator::make($request->all(), [
             'service'     => 'required',
             'services'    => 'required',
-
 
         ]);
 
         if ($validator->fails()) {
 
-            return redirect('mentor/create/step3')
+            return redirect('mentor/step3')
                 ->withErrors($validator)
                 ->withInput();
         }
