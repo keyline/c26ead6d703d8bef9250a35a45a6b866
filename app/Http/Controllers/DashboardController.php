@@ -31,6 +31,8 @@ use App\Models\Service;
 use App\Models\ServiceAttribute;
 use App\Models\ServiceDetail;
 use App\Models\ServiceTypeAttribute;
+use App\Models\RequireDocument;
+use App\Models\UserDocument;
 
 use Hash;
 use Auth;
@@ -86,7 +88,7 @@ class DashboardController extends Controller
                 echo $this->front_dashboard_layout($title,$page_name,$data);
             }
         /* index */
-        /*profile*/
+        /* profile*/
             public function profile(Request $request){
                 $userId         = $request->session()->get('user_id');
                 $role           = $request->session()->get('role');
@@ -276,6 +278,39 @@ class DashboardController extends Controller
                                         ];
                                 // Helper::pr($fields);
                                 StudentProfile::where('id', '=', $postData['user_id'])->update($fields);
+
+                                $doc_type   = $postData['doc_type'];
+                                if($doc_type != ''){
+                                    /* student documents */
+                                        $user_doc       = '';
+                                        $imageFile      = $request->file('user_doc');
+                                        if($imageFile != ''){
+                                            $imageName      = $imageFile->getClientOriginalName();
+                                            $uploadedFile   = $this->upload_single_file('user_doc', $imageName, 'user', 'image');
+                                            if($uploadedFile['status']){
+                                                $user_doc       = $uploadedFile['newFilename'];
+                                                $getRequiredDoc = RequireDocument::where('id', '=', $doc_type)->first();
+                                                $postData3 = [
+                                                    'type'                  => 'STUDENT',
+                                                    'user_id'               => $userId,
+                                                    'doucument_id'          => $doc_type,
+                                                    'document_slug'         => Helper::clean((($getRequiredDoc)?$getRequiredDoc->document:'')),
+                                                    'document'              => $user_doc
+                                                ];
+                                                // Helper::pr($postData3);
+                                                $checkStudentDocument = UserDocument::where('user_id', '=', $userId)->where('type', '=', 'STUDENT')->first();
+                                                if($checkStudentDocument){
+                                                    UserDocument::where('user_id', '=', $userId)->update($postData3);
+                                                } else {
+                                                    UserDocument::insert($postData3);
+                                                }
+                                            }
+                                        } else {
+                                            $user_doc = '';
+                                        }
+                                    /* student documents */
+                                }
+
                             }
                             User::where('id', '=', $postData['user_id'])->update(['name' => $postData['fname'].' '.$postData['lname']]);
                             return redirect()->back()->with('success_message', 'Profile Updated Successfully !!!');
@@ -287,24 +322,27 @@ class DashboardController extends Controller
                 $data['socialPlatforms']    = SocialPlatform::where('status', '=', 1)->get();
                 $data['languages']          = Language::where('status', '=', 1)->get();
                 $data['subjects']           = Subject::where('status', '=', 1)->get();
+                $data['documents']          = RequireDocument::where('status', '=', 1)->where('user_type', '=', 'student')->orderBy('id', 'ASC')->get();
                 if($role == 2){
+                    $data['user_id']            = $userId;
                     $data['profileDetail']      = MentorProfile::where('user_id', '=', $userId)->first();
                     $page_name                  = 'profile';
                 } else {
+                    $data['user_id']            = $userId;
                     $data['profileDetail']      = StudentProfile::where('user_id', '=', $userId)->first();
                     $page_name                  = 'student-profile';
                 }
                 $title                      = 'Profile';
                 echo $this->front_dashboard_layout($title,$page_name,$data);
             }
-        /*profile*/
-        /*logout*/
+        /* profile*/
+        /* logout*/
             public function logout(Request $request){
                 $request->session()->forget(['user_id', 'name', 'email', 'fname', 'lname', 'role', 'is_user_login']);
                 Auth::guard('web')->logout();
                 return redirect('/signin');
             }
-        /*logout*/
+        /* logout*/
         /* survey */
             public function surveyList(){
                 $data['surveys']    = Survey::where('status', '=', 1)->get();

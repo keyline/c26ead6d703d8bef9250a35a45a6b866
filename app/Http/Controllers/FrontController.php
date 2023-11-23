@@ -762,6 +762,101 @@ class FrontController extends Controller
             $page_name                      = 'student-signup';
             echo $this->front_before_login_layout($title,$page_name,$data);
         }
+        public function signup(Request $request)
+        {
+            $requestData        = $request->all();
+            // Helper::pr($requestData);
+            $fname      = $requestData['fname'];
+            $lname      = $requestData['lname'];
+            $phone      = $requestData['phone'];
+
+            $checkEmail = User::where('email', '=', $requestData['email'])->first();
+            if(empty($checkEmail)){
+                $checkPhone = User::where('phone', '=', $phone)->count();
+                if($checkPhone <= 0){
+                    if($requestData['password'] == $requestData['confirm_password']){
+                        $remember_token = rand(1000,9999);
+                        $postData = [
+                            'name'                  => $fname.' '.$lname,
+                            'email'                 => $requestData['email'],
+                            'email_verified_at'     => date('Y-m-d H:i:s'),
+                            'phone'                 => $phone,
+                            'password'              => Hash::make($requestData['password']),
+                            'remember_token'        => $remember_token,
+                            'role'                  => 1,
+                            'valid'                 => 1,
+                        ];
+                        // Helper::pr($postData);
+                        $id = User::insertGetId($postData);                        
+                        
+                        /* student profile table */
+                            $postData2 = [
+                                'user_id'               => $id,
+                                'first_name'            => $fname,
+                                'last_name'             => $lname,
+                                'full_name'             => $fname.' '.$lname,
+                                'profile_pic'           => ''
+                            ];
+                            // Helper::pr($postData2);
+                            StudentProfile::insert($postData2);
+                            
+                        /* student profile table */
+                        /* email sent */
+                            $generalSetting             = GeneralSetting::find('1');
+                            $subject                    = $generalSetting->site_name.' :: Signup Complete';
+                            $message                    = view('front.email-templates.student-signup',$requestData);
+                            // echo $message;die;
+                            // $this->sendMail($requestData['email'], $subject, $message);
+                        /* email sent */
+                        /* email log save */
+                            $postData2 = [
+                                'name'                  => $fname.' '.$lname,
+                                'email'                 => $requestData['email'],
+                                'subject'               => $subject,
+                                'message'               => $message
+                            ];
+                            EmailLog::insertGetId($postData2);
+                        /* email log save */
+                        /* run-time signin */
+                            if(Auth::guard('web')->attempt(['email' => $requestData['email'], 'password' => $requestData['password'], 'valid' => 1, 'role' => 1])){
+                                // Helper::pr(Auth::guard('web')->user());
+                                $sessionData    = Auth::guard('web')->user();
+                                $user_id        = $sessionData['id'];
+                                $role           = $sessionData['role'];
+                                $getUserProfile = StudentProfile::where('user_id', '=', $user_id)->first();
+
+                                $request->session()->put('user_id', $sessionData['id']);
+                                $request->session()->put('name', $sessionData['name']);
+                                $request->session()->put('fname', (($getUserProfile)?$getUserProfile->first_name:''));
+                                $request->session()->put('lname', (($getUserProfile)?$getUserProfile->last_name:''));
+                                $request->session()->put('email', $sessionData['email']);
+                                $request->session()->put('role', $sessionData['role']);
+                                $request->session()->put('is_user_login', 1);
+                                // Helper::pr($request->session()->all());die;
+
+                                /* user activity */
+                                    $activityData = [
+                                        'user_email'        => $sessionData['email'],
+                                        'user_name'         => $sessionData['name'],
+                                        'user_type'         => 'USER',
+                                        'ip_address'        => $request->ip(),
+                                        'activity_type'     => 1,
+                                        'activity_details'  => 'Signin Success !!!',
+                                        'platform_type'     => 'WEB',
+                                    ];
+                                    UserActivity::insert($activityData);
+                                /* user activity */
+                                return redirect('user/dashboard');
+                            }
+                        /* run-time signin */                        
+                    } else {
+                        return redirect('student-signup')->with('error_message', 'Password & Confirm Password Does Not Matched !!!');
+                    }
+                } else {
+                    return redirect('student-signup')->with('error_message', 'Phone Already Registered !!!');
+                }
+            }
+        }
         public function signupOtp($id){
             $id                             = Helper::decoded($id);
             $data['id']                     = $id;

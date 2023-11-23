@@ -60,6 +60,7 @@ Route::prefix('/')->namespace('App\Http\Controllers')->group(function () {
         Route::post('/user/store', [\App\Http\Controllers\MentorController::class, 'store'])->name('user.save');
     });
     Route::match(['get', 'post'], '/student-signup', 'FrontController@studentSignup');
+    Route::match(['get', 'post'], '/signup', 'FrontController@signup');
     Route::match(['get', 'post'], 'signin', 'FrontController@signin');
     Route::match(['get', 'post'], '/forgot-password', 'FrontController@forgotPassword');
     Route::match(['get', 'post'], '/validate-otp', 'FrontController@validateOtp');

@@ -1,5 +1,7 @@
 <?php
 use App\Models\User;
+use App\Models\UserDocument;
+use App\Models\RequireDocument;
 ?>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/bbbootstrap/libraries@main/choices.min.css">
 <script src="https://cdn.jsdelivr.net/gh/bbbootstrap/libraries@main/choices.min.js"></script>
@@ -150,6 +152,44 @@ use App\Models\User;
 												<input type="text" class="form-control" placeholder="City" name="city" aria-label="City" value="<?=(($profileDetail->city)?$profileDetail->city:'')?>" required>
 											</div>
 										</div>
+
+										<div class="row mb-3">
+											<div class="col-md-12">
+												<div class="form-group">
+													<label for="city" class="form-label">Document Type</label>
+													<?php
+													$studentDocument = UserDocument::where('user_id', '=', $user_id)->where('type', '=', 'STUDENT')->first();
+													
+													if($studentDocument){
+														$doucument_id 		= $studentDocument->doucument_id;
+														$documentFile 		= $studentDocument->document;
+													} else {
+														$doucument_id 		= '';
+														$documentFile 		= '';
+													}
+													?>
+							                     	<select class="form-control" name="doc_type" id="doc_type">
+								                        <option value="" selected>Select Document</option>
+								                        <?php if($documents){ foreach($documents as $document){?>
+								                        <option value="<?=$document->id?>" <?=(($document->id == $doucument_id)?'selected':'')?>><?=$document->document?></option>
+								                        <?php } }?>
+							                     	</select>
+							                  	</div>
+						                  	</div>
+					                  	</div>
+					                  	<div class="row mb-3">
+											<div class="col-md-12">
+							                  	<div class="form-group">
+							                  		<label for="city" class="form-label">Document File</label>
+							                     	<input type="file" class="form-control" name="user_doc" id="fileName" placeholder="Confirm password" data-check="Upload Document" accept="image/png, image/gif, image/jpeg, application/pdf" onchange="validateFileType(this)">
+							                     	<span class="text-primary">Only jpg, jpeg, png & pdf files & less than 2 MB files are allowed</span>
+							                     	<?php if($documentFile != ''){?>
+							                     		<a href="<?=env('UPLOADS_URL').'user/'.$documentFile?>" target="_blank" class="badge bg-info" style="text-decoration: none;">View Document</a>
+							                     	<?php }?>
+							                  	</div>
+						                  	</div>
+					                  	</div>
+
 										<div class="col-md-12 mb-3">
 											<button type="submit" class="myprof_btn">Save Changes</button>
 										</div>
