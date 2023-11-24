@@ -120,7 +120,8 @@ if($row){
 	                                                      </button>
 	                                                   </div> -->
 	                                                   <div class="ant-space-item">
-	                                                      <a href="<?=url('user/mentor-service-edit/'.Helper::encoded($mentor_service->id))?>"><button type="button" class="ant-edit ant-btn-text"><span>Edit</span></button></a>
+	                                                      <a href="<?=url('user/mentor-service-edit/'.Helper::encoded($mentor_service->id))?>"><button type="button" class="ant-edit ant-btn-text"><span><i class="fa fa-edit"></i> Edit</span></button></a>
+	                                                      <a href="<?=url('user/mentor-service-edit/'.Helper::encoded($mentor_service->id))?>"><button type="button" class="ant-edit ant-btn-text"><span><i class="fa fa-trash"></i> Delete</span></button></a>
 	                                                   </div>
 	                                                </div>
 	                                                <button type="button" id="author_bio_wrap_toggle" class="ant-graph ant-btn-text" style="background-color: rgb(243, 243, 241); padding: 0px;" onclick="toggleAnalytics(<?=$mentor_service->id?>);"><i class="fa-solid fa-chart-line"></i></button>
@@ -175,9 +176,9 @@ if($row){
 										<input type="hidden" name="mentor_user_id" value="<?=$userId?>">
 										<input type="hidden" name="id" value="<?=$id?>">
                   				<div class="mb-3">
-	                  				<label for="service_attribute_id" class="form-label">Title</label>
+	                  				<label for="service_attribute_id" class="form-label">Service Type</label>
 	                  				<select class="form-control" id="service_attribute_id" name="service_attribute_id" onchange="getServiceDetails(this.value);">
-	                  					<option value="" selected>Select Service Attribute</option>
+	                  					<option value="" selected>Select Service Type</option>
 	                  					<?php if($service_attrs){ foreach($service_attrs as $service_attr){?>
 	                  						<?php
 	                  						$checkMentorService = ServiceDetail::where('mentor_user_id', '=', $userId)->where('service_attribute_id', '=', $service_attr->id)->count();
