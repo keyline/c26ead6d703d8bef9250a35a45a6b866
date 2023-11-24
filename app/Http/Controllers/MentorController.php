@@ -125,7 +125,7 @@ class MentorController extends Controller
 
         $validator = Validator::make($request->all(), [
             // 'social_url'    => 'required',
-            'profile_slug'  => ['required', new UniqueProfileSlug($mentor->user_id)],
+            'profile_slug'  => ['required', new UniqueProfileSlug($mentor->user_id)], // check other user's name slug.
             'registration_intent' => 'required',
             'intended_service_type' => 'required',
         ]);

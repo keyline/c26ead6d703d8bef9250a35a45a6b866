@@ -11,7 +11,7 @@ class UniqueProfileSlug implements ValidationRule
 
     public function __construct($user_id)
     {
-        $this->user_id = $user_id;
+        $this->user_id = $user_id; // Register on going user.
     }
     /**
      * Run the validation rule.
