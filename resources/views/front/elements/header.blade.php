@@ -50,7 +50,7 @@ use App\Helpers\Helper;
                   <ul>
                      <li>
                         <div class="wrapper-demo">
-                           <div id="signdropdown" class="wrapper-dropdown-2" tabindex="1">Sign in with
+                           <div id="signdropdown" class="wrapper-dropdown-2" tabindex="1">Sign in
                               <ul class="dropdown">
                                  <li><a href="<?=url('signin')?>">Mentor Login</a></li>
                                  <li><a href="<?=url('signin')?>">Student Login</a></li>
@@ -61,7 +61,7 @@ use App\Helpers\Helper;
                      </li>
                      <li>
                         <div class="wrapper-demo">
-                           <div id="signdropdown1" class="wrapper-dropdown-2" tabindex="1">Sign up with
+                           <div id="signdropdown1" class="wrapper-dropdown-2" tabindex="1">Sign up
                               <ul class="dropdown">
                                  <li><a href="<?=url('mentor/signup')?>">Mentor Sign up</a></li>
                                  <li><a href="<?=url('student-signup')?>">Student Sign up</a></li>

@@ -14,7 +14,7 @@ $student          = StudentProfile::where('user_id', '=', $booking->student_id)-
 $mentor           = MentorProfile::where('user_id', '=', $booking->mentor_id)->first();
 ?>
 <!-- ********|| BANNER STARTS ||******** -->
-<div class="inner_slider_final_section">
+<!-- <div class="inner_slider_final_section">
    <div class="container-fluid px-0">
       <div class="innerpage_banner">
          <div class="innerbanner_img"><img src="<?=env('FRONT_ASSETS_URL')?>assets/images/success_banner.jpg" alt="banner"></div>
@@ -23,7 +23,7 @@ $mentor           = MentorProfile::where('user_id', '=', $booking->mentor_id)->f
          </div>
       </div>
    </div>
-</div>
+</div> -->
 <!-- ********|| BANNER ENDS ||******** -->
 <section class="about_section_one">
    <div class="container">
@@ -110,15 +110,15 @@ $mentor           = MentorProfile::where('user_id', '=', $booking->mentor_id)->f
                            <td><?=$booking->duration?> Mins</td>
                         </tr>
                         <tr>
-                           <th>Actual amount</th>
+                           <th>Sub Total</th>
                            <td><?=number_format($booking->actual_amount,2)?></td>
                         </tr>
                         <tr>
-                           <th>Actual amount</th>
+                           <th>Tax (GST)</th>
                            <td><?=number_format($booking->gst_amount,2)?> (<?=number_format($booking->gst_percent,0)?> %)</td>
                         </tr>
                         <tr>
-                           <th>Actual amount</th>
+                           <th>Total amount</th>
                            <td><?=number_format($booking->payable_amt,2)?></td>
                         </tr>
                      </tbody>

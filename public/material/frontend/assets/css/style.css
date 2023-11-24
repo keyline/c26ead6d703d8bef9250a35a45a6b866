@@ -173,8 +173,11 @@ header.header {
   transition: all 0.5s ease;
 /*border-bottom: 1px solid #b0b0b0;*/
 }
+.headlogo {
+    margin-top: 12px;
+}
 .headlogo img {
-  max-width: 250px;
+  max-width: 300px;
 }
 .toppanel_menu {
   display: flex;
@@ -447,7 +450,13 @@ ul.banner_btn {
 }
 
 .homestudent_section {
-    background: #f8f6fe;
+    /* background: #f8f6fe; */
+ 
+
+    background: rgb(255,255,255);
+	background: -webkit-linear-gradient(rgba(245,241,255,1) 0%, rgba(255,255,255,1) 100%);
+	background: -o-linear-gradient(rgba(245,241,255,1) 0%, rgba(255,255,255,1) 100%);
+	background: linear-gradient(rgba(245,241,255,1) 0%, rgba(255,255,255,1) 100%);
 	padding: 20px 0 50px;
 }
 .homestudent_section .col-lg-2, .homestudent_section .col-lg-10 {
@@ -603,9 +612,10 @@ ul.banner_btn {
 }
 
 .projec_homecare .homecare_img img {
-    max-width: 125px;
+    width: 125px;
     border-radius: 50%;
     height: 125px;
+    object-fit: cover;
 }
 .projec_homecare .homecare_img {
     text-align: center;
@@ -1922,14 +1932,14 @@ button.add-slot-btn {
     box-shadow: -1px -1px 5px 3px #ccc;
     padding: 40px;
     border-radius: 10px;
-    max-width: 650px;
+    /* max-width: 650px; */
     margin: 0 auto;
 }
 .sucess_icon {
     text-align: center;
     width: 100px;
     height: 100px;
-    background: #82ce34;
+    background: #f9233f;
     color: #fff;
     margin: 0 auto;
     border-radius: 50%;
@@ -1940,7 +1950,7 @@ button.add-slot-btn {
 }
 .sucees_usertable h3 {
     text-align: center;
-    color: #82ce34;
+    color: #f9233f;
     padding: 12px 0;
     text-transform: uppercase;
 	    font-size: 24px;
@@ -1949,12 +1959,13 @@ button.add-slot-btn {
     display: table;
     margin: 0 auto;
 	width: 100%;
+    text-align: center;
 }
 .paynow_btn a {
     width: 100%;
     padding: 10px 15px;
-    border: 2px solid #32a92c;
-    background: #35d22d;
+    border: 2px solid #f9233f;
+    background: #f9233f;
     transition: all .3s ease-in-out;
     color: #fff;
     border-radius: 5px;
@@ -1965,9 +1976,17 @@ button.add-slot-btn {
 	text-transform: uppercase;
 }
 .paynow_btn a:hover {
-    border: 2px solid #32a92c;
+    border: 2px solid #f9233f;
     background: #fff;
-	color: #35d22d;
+	color: #f9233f;
+}
+.paynow_btn #submit-pay{
+    background: #f9233f;
+    border-color:#f9233f;
+}
+.paynow_btn #submit-pay{
+    background: #f9233f;
+    border-color:#f9233f;
 }
 .booking_usertable{
 	background: #fff;
@@ -2169,4 +2188,10 @@ ul.listbullet li {
 }
 #signdropdown1.wrapper-dropdown-2::after {
     border-color: #fff transparent;
+}
+.greencheck {
+    accent-color: #48974e;
+    margin-left: -25px;
+    width: 19px;
+    height: 19px;
 }

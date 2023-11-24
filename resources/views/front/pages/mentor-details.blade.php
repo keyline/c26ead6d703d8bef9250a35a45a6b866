@@ -140,11 +140,12 @@ use App\Helpers\Helper;
                                 <div class="sc-description"><?=$mentor_service['service_description']?></div>
                               </div>
                               <div class="sc-footer service-price">
-                              <div class="booking-page-footer public-profile-pricing" style="color: rgb(20, 20, 20); display: flex; align-items: center; width: fit-content;">
+                              <!-- <div class="booking-page-footer public-profile-pricing" style="color: rgb(20, 20, 20); display: flex; align-items: center; width: fit-content;">
                                 <div style="text-align: left;">
                                   <span style="font-weight: 700; color: rgb(102, 102, 102); font-size: 14px; display: inline-block; margin-right: 8px;text-decoration: line-through;"><i class="fa fa-inr"></i> <?=$mentor_service['service_slashed_amount']?></span>
-                                  <span style="display: inline-block;"><i class="fa fa-inr"></i> <?=$mentor_service['service_amount']?></span></div>
-                              </div>
+                                  <span style="display: inline-block;"><i class="fa fa-inr"></i> <?=$mentor_service['service_amount']?></span>
+                                </div>
+                              </div> -->
                               <div class="booking-page-footer public-profile-pricing" style="color: rgb(20, 20, 20); display: flex; align-items: center; width: fit-content;">
                                 <div style="text-align: right;">
                                   <span style="display: inline-block;"><i class="fa fa-clock"></i> <?=$mentor_service['service_duration']?> Mins</span>
