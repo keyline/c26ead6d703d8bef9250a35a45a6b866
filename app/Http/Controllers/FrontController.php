@@ -190,8 +190,8 @@ class FrontController extends Controller
                         ];
                         EmailLog::insertGetId($postData2);
                     /* email log save */
-                    
-                    
+
+
                     return redirect()->back()->with('success_message', 'You Enquiry Submitted Successfully. We Will Contact You Soon !!!');
                 } else {
                     return redirect()->back()->with('error_message', 'All Fields Required !!!');
@@ -346,7 +346,7 @@ class FrontController extends Controller
                 }
             }
             $data['mentor_services']        = $mentor_services;
-            
+
             $title                          = 'Mentor Details';
             $page_name                      = 'mentor-details';
             echo $this->front_before_login_layout($title,$page_name,$data);
@@ -748,7 +748,7 @@ class FrontController extends Controller
         }
         public function paymentFailed() {
             $data                           = [];
-            $title                          = 'Payment Failed | '.$generalSetting->site_name;            
+            $title                          = 'Payment Failed | '.$generalSetting->site_name;
             $page_name                      = 'payment-failed';
             echo $this->front_before_login_layout($title,$page_name,$data);
         }
@@ -787,8 +787,8 @@ class FrontController extends Controller
                             'valid'                 => 1,
                         ];
                         // Helper::pr($postData);
-                        $id = User::insertGetId($postData);                        
-                        
+                        $id = User::insertGetId($postData);
+
                         /* student profile table */
                             $postData2 = [
                                 'user_id'               => $id,
@@ -799,7 +799,7 @@ class FrontController extends Controller
                             ];
                             // Helper::pr($postData2);
                             StudentProfile::insert($postData2);
-                            
+
                         /* student profile table */
                         /* email sent */
                             $generalSetting             = GeneralSetting::find('1');
@@ -848,7 +848,7 @@ class FrontController extends Controller
                                 /* user activity */
                                 return redirect('user/dashboard');
                             }
-                        /* run-time signin */                        
+                        /* run-time signin */
                     } else {
                         return redirect('student-signup')->with('error_message', 'Password & Confirm Password Does Not Matched !!!');
                     }
@@ -1022,7 +1022,7 @@ class FrontController extends Controller
                     'password'  => 'required|max:30',
                 ];
                 if($this->validate($request, $rules)){
-                    
+
                     if(Auth::guard('web')->attempt(['email' => $request->input('email'), 'password' => $request->input('password'), 'valid' => 1])){
                         // Helper::pr(Auth::guard('web')->user());
                         $sessionData    = Auth::guard('web')->user();
@@ -1246,7 +1246,7 @@ class FrontController extends Controller
                 $success                = false;
                 $error                  = '';
                 // Helper::pr($request->all());die;
-                try {                
+                try {
                     $ch = $this->get_curl_handle($razorpay_payment_id, $amount);
                     //execute post
                     $result = curl_exec($ch);
@@ -1268,8 +1268,8 @@ class FrontController extends Controller
                             $response = $this->getZoomMeetingLink($meeting_topic, $start_time, $booking->duration, $token);
                             // Helper::pr($response);die;
                         /* meeting link generate */
-                        
-                        
+
+
                         /* booking table update */
                             $fields     = array(
                                             'payment_status'        => 1,
@@ -1324,8 +1324,8 @@ class FrontController extends Controller
                         /* mentor payments */
 
                         /* email sent */
-                            $mentor             = User::select('name', 'email')->where('id', '=', $booking->mentor_id)->first(); 
-                            $student            = User::select('name', 'email')->where('id', '=', $booking->student_id)->first(); 
+                            $mentor             = User::select('name', 'email')->where('id', '=', $booking->mentor_id)->first();
+                            $student            = User::select('name', 'email')->where('id', '=', $booking->student_id)->first();
                             $postData                   = [
                                 'mentor'            => (($mentor)?$mentor->name:''),
                                 'student'           => (($student)?$student->name:''),
@@ -1415,10 +1415,10 @@ class FrontController extends Controller
         public function getZoomMeetingLink($topic, $start_time, $duration, $token) {
             $passcode = rand(100000,999999);
 
-            $dateTime = $start_time; 
-            $timezone_from = 'Asia/Kolkata'; 
-            $newDateTime = new DateTime($dateTime, new DateTimeZone($timezone_from)); 
-            $newDateTime->setTimezone(new DateTimeZone("UTC")); 
+            $dateTime = $start_time;
+            $timezone_from = 'Asia/Kolkata';
+            $newDateTime = new DateTime($dateTime, new DateTimeZone($timezone_from));
+            $newDateTime->setTimezone(new DateTimeZone("UTC"));
             $dateTimeUTC = $newDateTime->format("Y-m-dTh:i:sZ");
             // echo $dateTimeUTC;die;
 

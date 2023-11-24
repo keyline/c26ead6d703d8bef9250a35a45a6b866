@@ -29,7 +29,10 @@ class MentorController extends Controller
     public function createStep1(Request $request)
     {
         //get the in progress data from session storage
-        $mentor = $request->session()->get('mentor');
+        $data['mentor'] = $request->session()->get('mentor');
+
+        $data['user_id'] = isset($data['mentor']->user_id) ? $data['mentor']->user_id : 0;
+
         //$testimonial = \App\Models\Testimonial::where('status', '=', 1)->orderBy('id', 'DESC')->get();
         //['testimonials' => $testimonial]
         //populating data if any present in session
@@ -37,7 +40,7 @@ class MentorController extends Controller
         //$title                          = 'Mentor Signup';
         //$page_name                      = 'mentor-signup';
         //echo $this->front_before_login_layout($title, $page_name, $data);
-        return \view('front.mentor.onboarding.create-step1');
+        return \view('front.mentor.onboarding.create-step1', compact('data'));
     }
 
     public function postCreateStep1(Request $request)
@@ -70,10 +73,10 @@ class MentorController extends Controller
             'first_name'    => trim($validated['first_name']),
             'last_name'     => trim($validated['last_name']),
             'display_name'  => implode("_", [$validated['first_name'], $validated['last_name']]),
+            'email'         => $validated['email'],
             'mobile'        => $validated['phone_number'],
             'full_name'     => implode(" ", [$validated['first_name'], $validated['last_name']]),
             'timezone'      => 'Asia/Kolkata',
-
         ];
         //Storing in session
         if (empty($request->session()->get('user'))) {
@@ -100,10 +103,11 @@ class MentorController extends Controller
             return redirect('mentor/signup');
         }
         $onboarding = $request->session()->get('mentor');
-        //dd($onboarding);
+
         //Data needed for rendering the page
         //service type choices
         $service_types = \App\Models\ServiceType::all();
+        // dd($onboarding);
         return view('front.mentor.onboarding.create-step2', ['serviceTypes' => $service_types, 'current_mentor' => $onboarding]);
         //$data                           = [];
         //$title                          = 'Mentor Signup';
@@ -112,27 +116,33 @@ class MentorController extends Controller
     }
     public function postCreateStep2(Request $request)
     {
+
+
         if (empty($request->session()->get('mentor'))) {
             return \redirect('mentor/signup');
         }
         $mentor = $request->session()->get('mentor');
-        // Helper::pr($mentor);
+
         $validator = Validator::make($request->all(), [
             // 'social_url'    => 'required',
-            'profile_slug'  => ['required', new UniqueProfileSlug()],
+            'profile_slug'  => ['required', new UniqueProfileSlug($mentor->user_id)],
             'registration_intent' => 'required',
             'intended_service_type' => 'required',
         ]);
+
         if ($validator->fails()) {
             $username = $this->generateUniqueProfileSlug($mentor->display_name);
-            return redirect('mentor/step2')->withErrors($validator)->withInput(['profile_slug' => $username]);
+            return redirect('mentor/step2')->withErrors($validator)->withInput(['profile_slug' => $username, 'social_url' => $request->social_url, 'registration_intent' => $request->registration_intent, 'intended_service_type' => $request->intended_service_type]);
         }
         // Retrieve the validated input...
         $validated = $validator->validated();
+
         //process the form
         $mentor->social_url = $request->social_url;
         $mentor->display_name =  $validated['profile_slug'];
         $mentor->registration_intent = $validated['registration_intent'];
+        $mentor->intended_service_type = json_encode($validated['intended_service_type']);
+
         //$request->session()->put('mentor', $mentor);
         //attaching service types to mentor
         if (empty($request->session()->get('mentor'))) {
@@ -373,7 +383,9 @@ class MentorController extends Controller
             //Saving files
             $saveDocument->save();
         }
-        //$request->session()->flush();
+        /* remove mentor signup data */
+        session()->forget('mentor');
+        // $request->session()->flush();
         return redirect('signin');
         // dd('unauthenticated');
     }
