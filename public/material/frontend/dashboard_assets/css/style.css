@@ -15090,3 +15090,9 @@ border-top: 0.5px solid #ddd;
 .service_metor_clickview .sca-section:first-child, .service_metor_clickview .sca-section:nth-child(2) {
   border-bottom: 1px solid #ddd;
 }
+.greencheck {
+  accent-color: #48974e;
+  margin-left: -25px;
+  width: 19px;
+  height: 19px;
+}

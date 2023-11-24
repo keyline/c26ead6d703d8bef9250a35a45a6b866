@@ -16,6 +16,17 @@
     .headlogo img {
         
     }
+    .hide_tabmobile{display: none;}
+    .slots-select-box {
+        justify-content: flex-start;
+        flex-wrap: wrap;
+    }
+    button.add-slot-btn {
+        width: 28px;
+        height: 28px;
+        font-size: 14px;
+        line-height: 19px;
+    }
     
 }
 @media (min-width: 992px) and (max-width: 1199px) {
@@ -48,6 +59,7 @@ p.homeban_sub {
 /*TAB VERSION*/
 @media screen and (max-width: 991px) {
     html, body { overflow-x: hidden; }
+
 .offcanvas-collapse {
 	position: fixed;
 	top:0 ;
