@@ -835,6 +835,14 @@ class DashboardController extends Controller
                 $page_name                          = 'mentor-services-edit';
                 echo $this->front_dashboard_layout($title,$page_name,$data);
             }
+            public function mentorServiceDelete(Request $request, $id){
+                $id     = Helper::decoded($id);
+                $fields = [
+                    'status' => 3
+                ];
+                ServiceDetail::where('id', '=', $id)->update($fields);
+                return redirect('user/mentor-services/')->with('success_message', 'Service Deleted Successfully !!!');
+            }
         /* mentor-services */
         /* mentor feedback */
             public function mentorFeedbackList(){
@@ -845,7 +853,7 @@ class DashboardController extends Controller
                 echo $this->front_dashboard_layout($title,$page_name,$data);
             }
         /* mentor feedback */
-        /* mentor feedback */
+        /* mentor withdrawl */
             public function mentorWithdrawls(){
                 $userId                         = Session::get('user_id');
                 $data['withdrawls']             = Withdrawl::where('mentor_id', '=', $userId)->orderBy('id', 'DESC')->get();
@@ -853,7 +861,7 @@ class DashboardController extends Controller
                 $page_name                      = 'mentor-withdrawl';
                 echo $this->front_dashboard_layout($title,$page_name,$data);
             }
-        /* mentor feedback */
+        /* mentor withdrawl */
         /* mentor booking cancel */
             public function mentorBookingCancel(Request $request, $id){
                 $userId                         = Session::get('user_id');
