@@ -9,9 +9,11 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use App\Models\Country;
 use App\Models\GeneralSetting;
+use App\Models\MentorProfile;
 use App\Models\Page;
 use App\Models\User;
 use App\Models\Testimonial;
+use App\Models\UserActivity;
 use Auth;
 use Session;
 use Helper;
@@ -66,7 +68,7 @@ class MentorController extends Controller
             'valid' => 0,
             'password' => $validated['password'],
         ]);
-        // echo $user->id;die;
+
         // $mentor = \App\Models\MentorProfile::create();
         $mentorData = [
             'user_id'       => $user->id,
@@ -78,6 +80,7 @@ class MentorController extends Controller
             'full_name'     => implode(" ", [$validated['first_name'], $validated['last_name']]),
             'timezone'      => 'Asia/Kolkata',
         ];
+
         //Storing in session
         if (empty($request->session()->get('user'))) {
             //instantiate model and fill model instance save later
@@ -95,6 +98,7 @@ class MentorController extends Controller
             $request->session()->put('user', $user);
             $request->session()->put('mentor', $mentor);
         }
+
         return redirect('mentor/step2');
     }
     public function createStep2(Request $request)
@@ -367,7 +371,7 @@ class MentorController extends Controller
                 }
             }
         }
-        //dd($insert_schedule);
+
         if (empty($request->session()->get('mentor_availabilities'))) {
             $availability = new \App\Models\MentorAvailability();
             //$availabilityModel->fill($insert_schedule);
@@ -383,11 +387,56 @@ class MentorController extends Controller
             //Saving files
             $saveDocument->save();
         }
-        /* remove mentor signup data */
-        session()->forget('mentor');
+
+
         // $request->session()->flush();
-        return redirect('signin');
-        // dd('unauthenticated');
+
+        /*  Direct login after signup complete start */
+        // DB::table('users as U');
+        $user = User::select('name', 'email', 'id', 'role')->where('id', $mentor->user_id)->where('role', 2)->first();
+
+
+
+        if ($user != null) {
+            /* remove mentor signup data */
+            session()->forget('mentor');
+
+            $user_id        = $user->id;
+            $role           = $user->role;
+
+            $getUserProfile = MentorProfile::select('user_id', 'first_name', 'last_name')->where('user_id', '=', $user_id)->first();
+
+            $request->session()->put('user_id', $user_id);
+            $request->session()->put('name', $user->name);
+            $request->session()->put('fname', (($getUserProfile) ? $getUserProfile->first_name : ''));
+            $request->session()->put('lname', (($getUserProfile) ? $getUserProfile->last_name : ''));
+            $request->session()->put('email', $user->email);
+            $request->session()->put('role', $user->role);
+            $request->session()->put('is_user_login', 1);
+
+
+            /* user activity */
+            $activityData = [
+                'user_email'        => $user->email,
+                'user_name'         => $user->name,
+                'user_type'         => 'USER',
+                'ip_address'        => $request->ip(),
+                'activity_type'     => 1,
+                'activity_details'  => 'Signin Success !!!',
+                'platform_type'     => 'WEB',
+            ];
+            UserActivity::insert($activityData);
+            /* user activity */
+
+            return redirect('user/dashboard');
+        } else {
+            return redirect('signin');
+        }
+
+
+
+
+        /*  Direct login after signup complete end */
     }
 
     public function getTimeSlotItem(Request $request)
