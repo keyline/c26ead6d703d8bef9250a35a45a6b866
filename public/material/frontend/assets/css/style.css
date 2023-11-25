@@ -610,7 +610,9 @@ ul.banner_btn {
 .homecare_info {
     padding-top: 30px;
 }
-
+.homecare_info.homecare_height {
+    min-height: 125px;
+}
 .projec_homecare .homecare_img img {
     width: 125px;
     border-radius: 50%;

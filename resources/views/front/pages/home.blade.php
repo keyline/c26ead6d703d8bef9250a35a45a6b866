@@ -96,10 +96,12 @@
                      <div class="project <?=$mentor['service_class_name']?>">
                         <div class="projec_homecare">
                            <div class="homecare_img"><img src="<?=$mentor['profile_image']?>" alt="<?=$mentor['name']?>"></div>
-                           <div class="homecare_info">
+                           <div class="homecare_info homecare_height">
                               <h3><?=$mentor['name']?></h3>
                               <h5><?=$mentor['service_name']?></h5>
                               <h3><?=$mentor['qualification']?></h3>
+                           </div>
+                           <div class="homecare_info">
                               <a href="<?=url('mentor-details/'.$mentorDisplayName.'/'.Helper::encoded($mentorId))?>">View Profile</a>
                            </div>
                         </div>
