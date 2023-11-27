@@ -19,7 +19,7 @@ $bookingReviews        = BookingRating::where('status', '=', 1)->inRandomOrder()
             <?php if($user->profile_pic == ''){?>
                <img src="<?=env('NO_IMAGE')?>" alt="<?=$row->name?>">
             <?php } else {?>
-               <img src="<?=env('NO_IMAGE')?>user/<?=$user->profile_pic?>" alt="<?=$row->name?>">
+               <img src="<?=env('UPLOADS_URL')?>user/<?=$user->profile_pic?>" alt="<?=$row->name?>">
             <?php }?>
          </div>
          <div class="testmori_name">
