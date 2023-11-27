@@ -531,7 +531,7 @@ class DashboardController extends Controller
         /* student feedback */
             public function studentFeedbackList(Request $request){
                 $userId                         = Session::get('user_id');
-                $data['feedbacks']              = BookingRating::where('student_id', '=', $userId)->orderBy('id', 'DESC')->get();
+                $data['feedbacks']              = BookingRating::where('student_id', '=', $userId)->where('status', '=', 1)->orderBy('id', 'DESC')->get();
                 if($request->isMethod('post')){
                     $postData = $request->all();
                     $fields = [
@@ -567,7 +567,7 @@ class DashboardController extends Controller
         /* student platform feedback */
             public function studentPlatformFeedbackList(Request $request){
                 $userId                         = Session::get('user_id');
-                $data['feedbacks']              = PlatformRating::where('user_id', '=', $userId)->orderBy('id', 'DESC')->get();
+                $data['feedbacks']              = PlatformRating::where('user_id', '=', $userId)->where('status', '=', 1)->orderBy('id', 'DESC')->get();
                 if($request->isMethod('post')){
                     $postData = $request->all();
                     $fields = [
@@ -869,7 +869,7 @@ class DashboardController extends Controller
         /* mentor feedback */
             public function mentorFeedbackList(){
                 $userId                         = Session::get('user_id');
-                $data['feedbacks']              = BookingRating::where('mentor_id', '=', $userId)->orderBy('id', 'DESC')->get();
+                $data['feedbacks']              = BookingRating::where('mentor_id', '=', $userId)->where('status', '=', 1)->orderBy('id', 'DESC')->get();
                 $title                          = 'Feedbacks';
                 $page_name                      = 'mentor-feedback';
                 echo $this->front_dashboard_layout($title,$page_name,$data);
@@ -900,7 +900,7 @@ class DashboardController extends Controller
         /* mentor platform feedback */
             public function mentorPlatformFeedbackList(Request $request){
                 $userId                         = Session::get('user_id');
-                $data['feedbacks']              = PlatformRating::where('user_id', '=', $userId)->orderBy('id', 'DESC')->get();
+                $data['feedbacks']              = PlatformRating::where('user_id', '=', $userId)->where('status', '=', 1)->orderBy('id', 'DESC')->get();
                 if($request->isMethod('post')){
                     $postData = $request->all();
                     $fields = [
