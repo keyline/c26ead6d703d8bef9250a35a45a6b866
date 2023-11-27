@@ -42,10 +42,8 @@ $controllerRoute = $module['controller_route'];
               <thead>
                 <tr>
                   <th>#</th>
-                  <th>Booking No</th>
-                  <th>Mentor</th>
-                  <th>Student</th>
-                  <th>Service</th>
+                  <th>User Type</th>
+                  <th>User</th>
                   <th>Rating</th>
                   <th>Review</th>
                   <th>Action</th>
@@ -54,38 +52,19 @@ $controllerRoute = $module['controller_route'];
               <tbody>
                 <?php
                 if($feedbacks) { $sl=1; foreach($feedbacks as $row){
-                  $booking = Booking::where('id', '=', $row->booking_id)->first();
-                  if($booking){
-                    $mentor = User::where('id', '=', $booking->mentor_id)->first();
-                    $student = User::where('id', '=', $booking->student_id)->first();
+                  if($row->user_type == 'STUDENT'){
+                    $user = User::where('id', '=', $row->user_id)->first();
                   } else {
-                    $mentor = [];
-                    $student = [];
+                    $user = User::where('id', '=', $row->user_id)->first();
                   }
                 ?>
                   <tr>
                     <td><?=$sl++?></td>
-                    <td><?=(($booking)?$booking->booking_no:'')?></td>
+                    <td><?=$row->user_type?></td>
                     <td>
-                        <h6><i class="fa fa-user"></i> <?=(($mentor)?$mentor->name:'')?></h6>
-                        <h6><i class="fa fa-envelope"></i> <?=(($mentor)?$mentor->email:'')?></h6>
-                        <h6><i class="fa fa-mobile"></i> <?=(($mentor)?$mentor->phone:'')?></h6>
-                    </td>
-                    <td>
-                        <h6><i class="fa fa-user"></i> <?=(($student)?$student->name:'')?></h6>
-                        <h6><i class="fa fa-envelope"></i> <?=(($student)?$student->email:'')?></h6>
-                        <h6><i class="fa fa-mobile"></i> <?=(($student)?$student->phone:'')?></h6>
-                    </td>
-                    <td>
-                      <?php
-                        $service_type = ServiceType::select('name')->where('id', '=', $booking->service_type_id)->first();
-                        echo (($service_type)?$service_type->name:'');
-                        ?>
-                        <br>
-                        <?php
-                        $service = Service::select('name')->where('id', '=', $booking->service_id)->first();
-                        echo (($service)?$service->name:'');
-                      ?>
+                        <h6><i class="fa fa-user"></i> <?=(($user)?$user->name:'')?></h6>
+                        <h6><i class="fa fa-envelope"></i> <?=(($user)?$user->email:'')?></h6>
+                        <h6><i class="fa fa-mobile"></i> <?=(($user)?$user->phone:'')?></h6>
                     </td>
                     <td><?=$row->rating?></td>
                     <td><?=wordwrap($row->review,25,"<br>\n")?></td>

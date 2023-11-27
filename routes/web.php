@@ -16,373 +16,379 @@ use Illuminate\Support\Facades\Route;
 //     return view('welcome');
 // });
 /* Front Panel */
-
-Route::prefix('/')->namespace('App\Http\Controllers')->group(function () {
-    /* before login */
-    /* common */
-    Route::match(['get'], '/', 'FrontController@home');
-    Route::match(['get'], '/about-us', 'FrontController@aboutUs');
-    Route::match(['get'], '/team-member-profile/{id}', 'FrontController@teamMemberProfile');
-    Route::match(['get', 'post'], '/contact-us', 'FrontController@contactUs');
-    Route::match(['get'], '/how-it-works', 'FrontController@howItWorks');
-    Route::match(['get'], '/blogs', 'FrontController@blogs');
-    Route::match(['get'], '/blog-details/{id}', 'FrontController@blogDetails');
-    Route::match(['get'], 'page/{id}', 'FrontController@page');
-
-    Route::match(['get'], '/mentors', 'FrontController@mentors');
-    Route::match(['get'], '/mentor-details/{displayname}/{id}', 'FrontController@mentorDetails');
-    Route::match(['get'], '/service-details/{displayname}/{id}', 'FrontController@serviceDetails');
-    Route::match(['post'], '/service-details/{displayname}/{id}', 'FrontController@serviceDetails');
-    Route::match(['get'], '/booking-success/{id}', 'FrontController@bookingSuccess');
-    Route::match(['get', 'post'], '/payment/callback', 'FrontController@callback');
-    Route::match(['get', 'post'], '/payment/success/{id}', 'FrontController@paymentSuccess');
-    Route::match(['get', 'post'], '/payment/failed/{id}', 'FrontController@paymentFailed');
-    /* common */
-    /* authentication */
-    Route::match(['get', 'post'], '/mentor-signup-2', 'MentorController@mentorSignup2');
-    Route::match(['get', 'post'], '/mentor-signup-3', 'MentorController@mentorSignup3');
-    Route::match(['get', 'post'], '/mentor-signup-4', 'MentorController@mentorSignup4');
-    //After development
-    Route::group(['prefix' => 'mentor', 'as' => 'mentor.'], function () {
-        Route::get('/signup', [\App\Http\Controllers\MentorController::class, 'createStep1'])->name('signup');
-        Route::post('/create/step1', [\App\Http\Controllers\MentorController::class, 'postCreateStep1'])->name('create.step1');
-        Route::get('/step2', [\App\Http\Controllers\MentorController::class, 'createStep2'])->name('step2');
-        Route::post('/create/step2', [\App\Http\Controllers\MentorController::class, 'postCreateStep2'])->name('create.step2');
-        Route::get('/step3', [\App\Http\Controllers\MentorController::class, 'createStep3'])->name('step3');
-        Route::post('/create/step3', [\App\Http\Controllers\MentorController::class, 'postCreateStep3'])->name('create.step3');
-        Route::get('/step4', [\App\Http\Controllers\MentorController::class, 'createStep4'])->name('step4');
-        Route::post('/create/step4', [\App\Http\Controllers\MentorController::class, 'postCreateStep4'])->name('create.step4');
-        //ajax method
-        Route::post('/timeslot/item', [\App\Http\Controllers\MentorController::class, 'getTimeSlotItem'])->name('timeslot.item');
-
-        Route::post('/timeslot/change', [\App\Http\Controllers\MentorController::class, 'renderComponentAfterChange'])->name('timeslot.change');
-
-        Route::post('/user/store', [\App\Http\Controllers\MentorController::class, 'store'])->name('user.save');
-    });
-    Route::match(['get', 'post'], '/student-signup', 'FrontController@studentSignup');
-    Route::match(['get', 'post'], '/signup', 'FrontController@signup');
-    Route::match(['get', 'post'], 'signin', 'FrontController@signin');
-    Route::match(['get', 'post'], '/forgot-password', 'FrontController@forgotPassword');
-    Route::match(['get', 'post'], '/validate-otp', 'FrontController@validateOtp');
-    Route::match(['get', 'post'], '/reset-password', 'FrontController@resetPassword');
-    /* authentication */
-    /* before login */
-    /* after login */
-    Route::group(['prefix' => 'user', 'middleware' => ['user']], function () {
+    Route::prefix('/')->namespace('App\Http\Controllers')->group(function () {
+        /* before login */
         /* common */
-        Route::match(['get', 'post'], '/dashboard', 'DashboardController@index');
-        Route::match(['get', 'post'], '/profile', 'DashboardController@profile');
-        Route::get('/logout', 'DashboardController@logout');
+        Route::match(['get'], '/', 'FrontController@home');
+        Route::match(['get'], '/about-us', 'FrontController@aboutUs');
+        Route::match(['get'], '/team-member-profile/{id}', 'FrontController@teamMemberProfile');
+        Route::match(['get', 'post'], '/contact-us', 'FrontController@contactUs');
+        Route::match(['get'], '/how-it-works', 'FrontController@howItWorks');
+        Route::match(['get'], '/blogs', 'FrontController@blogs');
+        Route::match(['get'], '/blog-details/{id}', 'FrontController@blogDetails');
+        Route::match(['get'], 'page/{id}', 'FrontController@page');
+
+        Route::match(['get'], '/mentors', 'FrontController@mentors');
+        Route::match(['get'], '/mentor-details/{displayname}/{id}', 'FrontController@mentorDetails');
+        Route::match(['get'], '/service-details/{displayname}/{id}', 'FrontController@serviceDetails');
+        Route::match(['post'], '/service-details/{displayname}/{id}', 'FrontController@serviceDetails');
+        Route::match(['get'], '/booking-success/{id}', 'FrontController@bookingSuccess');
+        Route::match(['get', 'post'], '/payment/callback', 'FrontController@callback');
+        Route::match(['get', 'post'], '/payment/success/{id}', 'FrontController@paymentSuccess');
+        Route::match(['get', 'post'], '/payment/failed/{id}', 'FrontController@paymentFailed');
         /* common */
-        /* mentor */
-        Route::get('/mentor-availability', 'DashboardController@mentorAvailability');
-        Route::post('/mentor-availability', 'DashboardController@mentorAvailability');
-        Route::get('/mentor-services', 'DashboardController@mentorServices');
-        Route::post('/mentor-services', 'DashboardController@mentorServices');
-        Route::match(['get', 'post'], '/mentor-bookings', 'DashboardController@mentorBookings');
-        Route::match(['get', 'post'], '/mentor-transactions', 'DashboardController@mentorTransactions');
-        Route::match(['get', 'post'], '/mentor-withdrawls', 'DashboardController@mentorWithdrawls');
-        Route::match(['get', 'post'], '/print-mentor-invoice/{id}', 'DashboardController@printMentorInvoice');
-        Route::match(['get', 'post'], '/mentor-feedback-list', 'DashboardController@mentorFeedbackList');
-        Route::match(['get', 'post'], '/mentor-booking-cancel/{id}', 'DashboardController@mentorBookingCancel');
-        Route::match(['get', 'post'], '/mentor-service-edit/{id}', 'DashboardController@mentorServiceEdit');
-        Route::match(['get', 'post'], '/mentor-service-delete/{id}', 'DashboardController@mentorServiceDelete');
-        /* mentor */
-        /* student */
-        Route::match(['get', 'post'], '/student-bookings', 'DashboardController@studentBookings');
-        Route::match(['get', 'post'], '/student-transactions', 'DashboardController@studentTransactions');
-        Route::match(['get', 'post'], '/print-student-invoice/{id}', 'DashboardController@printStudentInvoice');
-        Route::get('/survey-list', 'DashboardController@surveyList');
-        Route::match(['get', 'post'], '/survey-details/{id}', 'DashboardController@surveyDetails');
-        Route::get('/survey-result/{id}', 'DashboardController@surveyResult');
-        Route::match(['get', 'post'], '/student-feedback-list', 'DashboardController@studentFeedbackList');
-        Route::match(['get', 'post'], '/student-booking-cancel/{id}', 'DashboardController@studentBookingCancel');
-        /* student */
+        /* authentication */
+        Route::match(['get', 'post'], '/mentor-signup-2', 'MentorController@mentorSignup2');
+        Route::match(['get', 'post'], '/mentor-signup-3', 'MentorController@mentorSignup3');
+        Route::match(['get', 'post'], '/mentor-signup-4', 'MentorController@mentorSignup4');
+        //After development
+        Route::group(['prefix' => 'mentor', 'as' => 'mentor.'], function () {
+            Route::get('/signup', [\App\Http\Controllers\MentorController::class, 'createStep1'])->name('signup');
+            Route::post('/create/step1', [\App\Http\Controllers\MentorController::class, 'postCreateStep1'])->name('create.step1');
+            Route::get('/step2', [\App\Http\Controllers\MentorController::class, 'createStep2'])->name('step2');
+            Route::post('/create/step2', [\App\Http\Controllers\MentorController::class, 'postCreateStep2'])->name('create.step2');
+            Route::get('/step3', [\App\Http\Controllers\MentorController::class, 'createStep3'])->name('step3');
+            Route::post('/create/step3', [\App\Http\Controllers\MentorController::class, 'postCreateStep3'])->name('create.step3');
+            Route::get('/step4', [\App\Http\Controllers\MentorController::class, 'createStep4'])->name('step4');
+            Route::post('/create/step4', [\App\Http\Controllers\MentorController::class, 'postCreateStep4'])->name('create.step4');
+            //ajax method
+            Route::post('/timeslot/item', [\App\Http\Controllers\MentorController::class, 'getTimeSlotItem'])->name('timeslot.item');
+
+            Route::post('/timeslot/change', [\App\Http\Controllers\MentorController::class, 'renderComponentAfterChange'])->name('timeslot.change');
+
+            Route::post('/user/store', [\App\Http\Controllers\MentorController::class, 'store'])->name('user.save');
+        });
+        Route::match(['get', 'post'], '/student-signup', 'FrontController@studentSignup');
+        Route::match(['get', 'post'], '/signup', 'FrontController@signup');
+        Route::match(['get', 'post'], 'signin', 'FrontController@signin');
+        Route::match(['get', 'post'], '/forgot-password', 'FrontController@forgotPassword');
+        Route::match(['get', 'post'], '/validate-otp', 'FrontController@validateOtp');
+        Route::match(['get', 'post'], '/reset-password', 'FrontController@resetPassword');
+        /* authentication */
+        /* before login */
+        /* after login */
+        Route::group(['prefix' => 'user', 'middleware' => ['user']], function () {
+            /* common */
+                Route::match(['get', 'post'], '/dashboard', 'DashboardController@index');
+                Route::match(['get', 'post'], '/profile', 'DashboardController@profile');
+                Route::get('/logout', 'DashboardController@logout');
+            /* common */
+            /* mentor */
+                Route::get('/mentor-availability', 'DashboardController@mentorAvailability');
+                Route::post('/mentor-availability', 'DashboardController@mentorAvailability');
+                Route::get('/mentor-services', 'DashboardController@mentorServices');
+                Route::post('/mentor-services', 'DashboardController@mentorServices');
+                Route::match(['get', 'post'], '/mentor-bookings', 'DashboardController@mentorBookings');
+                Route::match(['get', 'post'], '/mentor-transactions', 'DashboardController@mentorTransactions');
+                Route::match(['get', 'post'], '/mentor-withdrawls', 'DashboardController@mentorWithdrawls');
+                Route::match(['get', 'post'], '/print-mentor-invoice/{id}', 'DashboardController@printMentorInvoice');
+                Route::match(['get', 'post'], '/mentor-feedback-list', 'DashboardController@mentorFeedbackList');
+                Route::match(['get', 'post'], '/mentor-booking-cancel/{id}', 'DashboardController@mentorBookingCancel');
+                Route::match(['get', 'post'], '/mentor-service-edit/{id}', 'DashboardController@mentorServiceEdit');
+                Route::match(['get', 'post'], '/mentor-service-delete/{id}', 'DashboardController@mentorServiceDelete');
+                Route::match(['get', 'post'], '/mentor-platform-feedback-list', 'DashboardController@mentorPlatformFeedbackList');
+            /* mentor */
+            /* student */
+                Route::match(['get', 'post'], '/student-bookings', 'DashboardController@studentBookings');
+                Route::match(['get', 'post'], '/student-transactions', 'DashboardController@studentTransactions');
+                Route::match(['get', 'post'], '/print-student-invoice/{id}', 'DashboardController@printStudentInvoice');
+                Route::get('/survey-list', 'DashboardController@surveyList');
+                Route::match(['get', 'post'], '/survey-details/{id}', 'DashboardController@surveyDetails');
+                Route::get('/survey-result/{id}', 'DashboardController@surveyResult');
+                Route::match(['get', 'post'], '/student-feedback-list', 'DashboardController@studentFeedbackList');
+                Route::match(['get', 'post'], '/student-booking-cancel/{id}', 'DashboardController@studentBookingCancel');
+                Route::match(['get', 'post'], '/student-platform-feedback-list', 'DashboardController@studentPlatformFeedbackList');
+            /* student */
+        });
+        /* after login */
     });
-    /* after login */
-});
 /* Front Panel */
 /* API */
-Route::prefix('/api')->namespace('App\Http\Controllers')->group(function () {
-    Route::match(['post'], 'signup', 'ApiController@signup');
-    Route::match(['post'], 'validate-signup-otp', 'ApiController@validateSignupOtp');
-    Route::match(['get'], 'resend-otp', 'ApiController@resendOtp');
-    Route::match(['get'], 'mentor-filter', 'ApiController@mentorFilter');
-    Route::match(['post'], 'get-mentor-time-slots', 'ApiController@getMentorTimeSlots');
-    Route::match(['get'], 'get-default-service-details', 'ApiController@getDefaultServiceDetails');
-});
+    Route::prefix('/api')->namespace('App\Http\Controllers')->group(function () {
+        Route::match(['post'], 'signup', 'ApiController@signup');
+        Route::match(['post'], 'validate-signup-otp', 'ApiController@validateSignupOtp');
+        Route::match(['get'], 'resend-otp', 'ApiController@resendOtp');
+        Route::match(['get'], 'mentor-filter', 'ApiController@mentorFilter');
+        Route::match(['post'], 'get-mentor-time-slots', 'ApiController@getMentorTimeSlots');
+        Route::match(['get'], 'get-default-service-details', 'ApiController@getDefaultServiceDetails');
+    });
 /* API */
 /* Admin Panel */
-Route::prefix('/admin')->namespace('App\Http\Controllers\Admin')->group(function () {
-    Route::match(['get', 'post'], '/', 'UserController@login');
-    Route::match(['get', 'post'], '/forgot-password', 'UserController@forgotPassword');
-    Route::match(['get', 'post'], '/validateOtp/{id}', 'UserController@validateOtp');
-    Route::match(['get', 'post'], '/changePassword/{id}', 'UserController@changePassword');
-    Route::group(['middleware' => ['admin']], function () {
-        Route::get('dashboard', 'UserController@dashboard');
-        Route::get('logout', 'UserController@logout');
-        Route::get('email-logs', 'UserController@emailLogs');
-        Route::get('email-logs-export', 'UserController@emailLogsExport');
-        Route::match(['get', 'post'], '/email-logs/details/{email}', 'UserController@emailLogsDetails');
-        Route::get('login-logs', 'UserController@loginLogs');
-        Route::get('login-logs-success-export', 'UserController@loginLogsSuccess');
-        Route::get('login-logs-failed-export', 'UserController@loginLogsFailed');
-        Route::get('login-logs-logout-export', 'UserController@loginLogsLogout');
+    Route::prefix('/admin')->namespace('App\Http\Controllers\Admin')->group(function () {
+        Route::match(['get', 'post'], '/', 'UserController@login');
+        Route::match(['get', 'post'], '/forgot-password', 'UserController@forgotPassword');
+        Route::match(['get', 'post'], '/validateOtp/{id}', 'UserController@validateOtp');
+        Route::match(['get', 'post'], '/changePassword/{id}', 'UserController@changePassword');
+        Route::group(['middleware' => ['admin']], function () {
+            Route::get('dashboard', 'UserController@dashboard');
+            Route::get('logout', 'UserController@logout');
+            Route::get('email-logs', 'UserController@emailLogs');
+            Route::get('email-logs-export', 'UserController@emailLogsExport');
+            Route::match(['get', 'post'], '/email-logs/details/{email}', 'UserController@emailLogsDetails');
+            Route::get('login-logs', 'UserController@loginLogs');
+            Route::get('login-logs-success-export', 'UserController@loginLogsSuccess');
+            Route::get('login-logs-failed-export', 'UserController@loginLogsFailed');
+            Route::get('login-logs-logout-export', 'UserController@loginLogsLogout');
 
-        /* setting */
-        Route::get('settings', 'UserController@settings');
-        Route::post('profile-settings', 'UserController@profile_settings');
-        Route::post('general-settings', 'UserController@general_settings');
-        Route::post('change-password', 'UserController@change_password');
-        Route::post('email-settings', 'UserController@email_settings');
-        Route::post('email-template', 'UserController@email_template');
-        Route::post('sms-settings', 'UserController@sms_settings');
-        Route::post('footer-settings', 'UserController@footer_settings');
-        Route::post('seo-settings', 'UserController@seo_settings');
-        Route::post('payment-settings', 'UserController@payment_settings');
-        /* setting */
-        /* access & permission */
-        /* module */
-        Route::get('module/list', 'ModuleController@list');
-        Route::match(['get', 'post'], 'module/add', 'ModuleController@add');
-        Route::match(['get', 'post'], 'module/edit/{id}', 'ModuleController@edit');
-        Route::get('module/delete/{id}', 'ModuleController@delete');
-        Route::get('module/change-status/{id}', 'ModuleController@change_status');
-        /* module */
-        /* sub users */
-        Route::get('sub-user/list', 'SubUserController@list');
-        Route::match(['get', 'post'], 'sub-user/add', 'SubUserController@add');
-        Route::match(['get', 'post'], 'sub-user/edit/{id}', 'SubUserController@edit');
-        Route::get('sub-user/delete/{id}', 'SubUserController@delete');
-        Route::get('sub-user/change-status/{id}', 'SubUserController@change_status');
-        /* sub users */
-        /* give access */
-        Route::get('access/list', 'AccessController@list');
-        Route::match(['get', 'post'], 'access/add', 'AccessController@add');
-        Route::match(['get', 'post'], 'access/edit/{id}', 'AccessController@edit');
-        Route::get('access/delete/{id}', 'AccessController@delete');
-        Route::get('access/change-status/{id}', 'AccessController@change_status');
-        /* give access */
-        /* access & permission */
-        /* master */
-        /* banner */
-        Route::get('banner/list', 'BannerController@list');
-        Route::match(['get', 'post'], 'banner/add', 'BannerController@add');
-        Route::match(['get', 'post'], 'banner/edit/{id}', 'BannerController@edit');
-        Route::get('banner/delete/{id}', 'BannerController@delete');
-        Route::get('banner/change-status/{id}', 'BannerController@change_status');
-        /* banner */
-        /* testimonial */
-        Route::get('testimonial/list', 'TestimonialController@list');
-        Route::match(['get', 'post'], 'testimonial/add', 'TestimonialController@add');
-        Route::match(['get', 'post'], 'testimonial/edit/{id}', 'TestimonialController@edit');
-        Route::get('testimonial/delete/{id}', 'TestimonialController@delete');
-        Route::get('testimonial/change-status/{id}', 'TestimonialController@change_status');
-        /* testimonial */
-        /* service types */
-        Route::get('service-type/list', 'ServiceTypeController@list');
-        Route::match(['get', 'post'], 'service-type/add', 'ServiceTypeController@add');
-        Route::match(['get', 'post'], 'service-type/edit/{id}', 'ServiceTypeController@edit');
-        Route::get('service-type/delete/{id}', 'ServiceTypeController@delete');
-        Route::get('service-type/change-status/{id}', 'ServiceTypeController@change_status');
-        /* service types */
-        /* service */
-        Route::get('service/list', 'ServiceController@list');
-        Route::match(['get', 'post'], 'service/add', 'ServiceController@add');
-        Route::match(['get', 'post'], 'service/edit/{id}', 'ServiceController@edit');
-        Route::get('service/delete/{id}', 'ServiceController@delete');
-        Route::get('service/change-status/{id}', 'ServiceController@change_status');
-        /* service */
-        /* service attributes */
-        Route::get('service-attribute/list', 'ServiceAttributeController@list');
-        Route::match(['get', 'post'], 'service-attribute/add', 'ServiceAttributeController@add');
-        Route::match(['get', 'post'], 'service-attribute/edit/{id}', 'ServiceAttributeController@edit');
-        Route::get('service-attribute/delete/{id}', 'ServiceAttributeController@delete');
-        Route::get('service-attribute/change-status/{id}', 'ServiceAttributeController@change_status');
-        /* service attributes */
-        /* service association */
-        Route::get('service-association', 'ServiceAssociationController@index');
-        Route::match(['get', 'post'], 'service-association/postData', 'ServiceAssociationController@postData');
-        /* service association */
-        /* source */
-        Route::get('source/list', 'SourceController@list');
-        Route::match(['get', 'post'], 'source/add', 'SourceController@add');
-        Route::match(['get', 'post'], 'source/edit/{id}', 'SourceController@edit');
-        Route::get('source/delete/{id}', 'SourceController@delete');
-        Route::get('source/change-status/{id}', 'SourceController@change_status');
-        /* source */
-        /* expertise */
-        Route::get('expertise/list', 'ExpertiseController@list');
-        Route::match(['get', 'post'], 'expertise/add', 'ExpertiseController@add');
-        Route::match(['get', 'post'], 'expertise/edit/{id}', 'ExpertiseController@edit');
-        Route::get('expertise/delete/{id}', 'ExpertiseController@delete');
-        Route::get('expertise/change-status/{id}', 'ExpertiseController@change_status');
-        /* expertise */
-        /* currency */
-        Route::get('currency/list', 'CurrencyController@list');
-        Route::match(['get', 'post'], 'currency/add', 'CurrencyController@add');
-        Route::match(['get', 'post'], 'currency/edit/{id}', 'CurrencyController@edit');
-        Route::get('currency/delete/{id}', 'CurrencyController@delete');
-        Route::get('currency/change-status/{id}', 'CurrencyController@change_status');
-        /* currency */
-        /* language */
-        Route::get('language/list', 'LanguageController@list');
-        Route::match(['get', 'post'], 'language/add', 'LanguageController@add');
-        Route::match(['get', 'post'], 'language/edit/{id}', 'LanguageController@edit');
-        Route::get('language/delete/{id}', 'LanguageController@delete');
-        Route::get('language/change-status/{id}', 'LanguageController@change_status');
-        /* language */
-        /* subject */
-        Route::get('subject/list', 'SubjectController@list');
-        Route::match(['get', 'post'], 'subject/add', 'SubjectController@add');
-        Route::match(['get', 'post'], 'subject/edit/{id}', 'SubjectController@edit');
-        Route::get('subject/delete/{id}', 'SubjectController@delete');
-        Route::get('subject/change-status/{id}', 'SubjectController@change_status');
-        /* subject */
-        /* social platforms */
-        Route::get('social-platform/list', 'SocialPlatformController@list');
-        Route::match(['get', 'post'], 'social-platform/add', 'SocialPlatformController@add');
-        Route::match(['get', 'post'], 'social-platform/edit/{id}', 'SocialPlatformController@edit');
-        Route::get('social-platform/delete/{id}', 'SocialPlatformController@delete');
-        Route::get('social-platform/change-status/{id}', 'SocialPlatformController@change_status');
-        /* social platforms */
-        /* Require Document */
-        Route::get('require-documents/list', 'RequireDocumentsController@list');
-        Route::match(['get', 'post'], 'require-documents/add', 'RequireDocumentsController@add');
-        Route::match(['get', 'post'], 'require-documents/edit/{id}', 'RequireDocumentsController@edit');
-        Route::get('require-documents/delete/{id}', 'RequireDocumentsController@delete');
-        Route::get('require-documents/change-status/{id}', 'RequireDocumentsController@change_status');
-        /* Require Document */
-        /* master */
-        /* page */
-        Route::get('page/list', 'PageController@list');
-        Route::match(['get', 'post'], 'page/add', 'PageController@add');
-        Route::match(['get', 'post'], 'page/edit/{id}', 'PageController@edit');
-        Route::get('page/delete/{id}', 'PageController@delete');
-        Route::get('page/change-status/{id}', 'PageController@change_status');
-        /* page */
-        /* FAQs */
-        /* faq */
-        Route::get('faq/list', 'FaqController@list');
-        Route::match(['get', 'post'], 'faq/add', 'FaqController@add');
-        Route::match(['get', 'post'], 'faq/edit/{id}', 'FaqController@edit');
-        Route::get('faq/delete/{id}', 'FaqController@delete');
-        Route::get('faq/change-status/{id}', 'FaqController@change_status');
-        Route::get('faq/change-home-page-status/{id}', 'FaqController@change_home_page_status');
-        /* faq */
-        /* how it works */
-        Route::get('how-it-works/list', 'HowItWorkController@list');
-        Route::match(['get', 'post'], 'how-it-works/add', 'HowItWorkController@add');
-        Route::match(['get', 'post'], 'how-it-works/edit/{id}', 'HowItWorkController@edit');
-        Route::get('how-it-works/delete/{id}', 'HowItWorkController@delete');
-        Route::get('how-it-works/change-status/{id}', 'HowItWorkController@change_status');
-        Route::get('how-it-works/change-home-page-status/{id}', 'HowItWorkController@change_home_page_status');
-        /* how it works */
-        /* FAQs */
-        /* team */
-        Route::get('team/list', 'TeamController@list');
-        Route::match(['get', 'post'], 'team/add', 'TeamController@add');
-        Route::match(['get', 'post'], 'team/edit/{id}', 'TeamController@edit');
-        Route::get('team/delete/{id}', 'TeamController@delete');
-        Route::get('team/change-status/{id}', 'TeamController@change_status');
-        Route::get('team/change-home-page-status/{id}', 'TeamController@change_home_page_status');
-        /* team */
-        /* blog */
-        /* blog category */
-        Route::get('blog-category/list', 'BlogCategoryController@list');
-        Route::match(['get', 'post'], 'blog-category/add', 'BlogCategoryController@add');
-        Route::match(['get', 'post'], 'blog-category/edit/{id}', 'BlogCategoryController@edit');
-        Route::get('blog-category/delete/{id}', 'BlogCategoryController@delete');
-        Route::get('blog-category/change-status/{id}', 'BlogCategoryController@change_status');
-        /* blog category */
-        /* blogs */
-        Route::get('blog/list', 'BlogController@list');
-        Route::match(['get', 'post'], 'blog/add', 'BlogController@add');
-        Route::match(['get', 'post'], 'blog/edit/{id}', 'BlogController@edit');
-        Route::get('blog/delete/{id}', 'BlogController@delete');
-        Route::get('blog/change-status/{id}', 'BlogController@change_status');
-        /* blogs */
-        /* blog */
-        /* mentor */
-        Route::get('mentor/list', 'MentorController@list');
-        Route::get('mentor/availability/{id}', 'MentorController@availability');
-        Route::get('mentor/assigned-services/{id}', 'MentorController@assignedServices');
-        Route::get('mentor/bookings/{id}', 'MentorController@bookings');
-        Route::get('mentor/transactions/{id}', 'MentorController@transactions');
-        Route::get('mentor/payouts/{id}', 'MentorController@payouts');
-        Route::get('mentor/delete/{id}', 'MentorController@delete');
-        Route::get('mentor/change-status/{id}', 'MentorController@change_status');
-        Route::get('mentor/profile/{id}', 'MentorController@profile');
-        Route::post('mentor/profile/{id}', 'MentorController@profile');
-        Route::match(['get', 'post'], 'mentor/print-mentor-invoice/{id}', 'MentorController@printMentorInvoice');
-        Route::get('mentors-export', 'MentorController@mentorExport');
-        /* mentor */
-
-        /* student */
-        Route::get('student/list', 'StudentController@list');
-        Route::get('student/bookings/{id}', 'StudentController@bookings');
-        Route::get('student/profile/{id}', 'StudentController@profile');
-        Route::post('student/profile/{id}', 'StudentController@profile');
-        Route::get('student/transactions/{id}', 'StudentController@transactions');
-        Route::get('student/delete/{id}', 'StudentController@delete');
-        Route::get('student/change-status/{id}', 'StudentController@change_status');
-        Route::get('student/survey/{id}', 'StudentController@survey');
-        Route::get('student/view-survey-details/{userid}/{surveyid}', 'StudentController@viewSurveyDetails');
-        Route::match(['get', 'post'], 'student/print-student-invoice/{id}', 'StudentController@printStudentInvoice');
-        Route::get('students-export', 'StudentController@studentExport');
-        /* student */
-        /* survey */
-        /* question type */
-        Route::get('question-type/list', 'QuestionTypeController@list');
-        Route::match(['get', 'post'], 'question-type/add', 'QuestionTypeController@add');
-        Route::match(['get', 'post'], 'question-type/edit/{id}', 'QuestionTypeController@edit');
-        Route::get('question-type/delete/{id}', 'QuestionTypeController@delete');
-        Route::get('question-type/change-status/{id}', 'QuestionTypeController@change_status');
-        /* question type */
-        /* grade */
-        Route::get('grade/list', 'GradeController@list');
-        Route::match(['get', 'post'], 'grade/add', 'GradeController@add');
-        Route::match(['get', 'post'], 'grade/edit/{id}', 'GradeController@edit');
-        Route::get('grade/delete/{id}', 'GradeController@delete');
-        Route::get('grade/change-status/{id}', 'GradeController@change_status');
-        /* grade */
-        /* survey */
-        Route::get('survey/list', 'SurveyController@list');
-        Route::match(['get', 'post'], 'survey/add', 'SurveyController@add');
-        Route::match(['get', 'post'], 'survey/edit/{id}', 'SurveyController@edit');
-        Route::get('survey/delete/{id}', 'SurveyController@delete');
-        Route::get('survey/change-status/{id}', 'SurveyController@change_status');
-        Route::match(['get', 'post'], 'survey/grade/{id}', 'SurveyController@grade');
-        Route::match(['get', 'post'], 'survey/edit-grade/{id}', 'SurveyController@edit_grade');
-        Route::match(['get', 'post'], 'survey/grade/{id}/{factor}', 'SurveyController@grade');
-        Route::match(['get', 'post'], 'survey/edit-grade/{id}/{factor}', 'SurveyController@edit_grade');
-        Route::match(['get', 'post'], 'survey/edit-factor/{id}/{factor}', 'SurveyController@factor');
-        Route::match(['get', 'post'], 'survey/edit-combination/{id}', 'SurveyController@combination');
-        Route::get('survey/survey-students', 'SurveyController@survey_students');
-        Route::get('survey/view-survey-details/{userid}/{surveyid}', 'SurveyController@viewSurveyDetails');
-        /* survey */
-        /* survey */
-        /* bookings */
-        Route::get('bookings/list', 'BookingController@list');
-        Route::get('booking-export', 'BookingController@bookingExport');
-        /* bookings */
-        /* withdrawls */
-        Route::get('withdrawls/list', 'WithdrawlController@list');
-        Route::get('withdrawls/change-status/{id}/{id2}', 'WithdrawlController@change_status');
-        Route::get('withdrawal-export', 'WithdrawlController@withdrawalExport');
-        /* withdrawls */
-        /* transactions */
-        Route::get('transactions/list', 'TransactionController@list');
-        Route::get('transactions-export', 'TransactionController@transactionsExport');
-        /* transactions */
-        /* feedbacks */
-        Route::get('feedbacks/list', 'FeedbackController@list');
-        Route::get('feedbacks/change-status/{id}', 'FeedbackController@change_status');
-        /* feedbacks */
-        /* enquiries */
-        Route::get('enquiry/list', 'EnquiryController@list');
-        Route::get('enquiry/view-details/{id}', 'EnquiryController@details');
-        /* enquiries */
+            /* setting */
+            Route::get('settings', 'UserController@settings');
+            Route::post('profile-settings', 'UserController@profile_settings');
+            Route::post('general-settings', 'UserController@general_settings');
+            Route::post('change-password', 'UserController@change_password');
+            Route::post('email-settings', 'UserController@email_settings');
+            Route::post('email-template', 'UserController@email_template');
+            Route::post('sms-settings', 'UserController@sms_settings');
+            Route::post('footer-settings', 'UserController@footer_settings');
+            Route::post('seo-settings', 'UserController@seo_settings');
+            Route::post('payment-settings', 'UserController@payment_settings');
+            /* setting */
+            /* access & permission */
+            /* module */
+            Route::get('module/list', 'ModuleController@list');
+            Route::match(['get', 'post'], 'module/add', 'ModuleController@add');
+            Route::match(['get', 'post'], 'module/edit/{id}', 'ModuleController@edit');
+            Route::get('module/delete/{id}', 'ModuleController@delete');
+            Route::get('module/change-status/{id}', 'ModuleController@change_status');
+            /* module */
+            /* sub users */
+            Route::get('sub-user/list', 'SubUserController@list');
+            Route::match(['get', 'post'], 'sub-user/add', 'SubUserController@add');
+            Route::match(['get', 'post'], 'sub-user/edit/{id}', 'SubUserController@edit');
+            Route::get('sub-user/delete/{id}', 'SubUserController@delete');
+            Route::get('sub-user/change-status/{id}', 'SubUserController@change_status');
+            /* sub users */
+            /* give access */
+            Route::get('access/list', 'AccessController@list');
+            Route::match(['get', 'post'], 'access/add', 'AccessController@add');
+            Route::match(['get', 'post'], 'access/edit/{id}', 'AccessController@edit');
+            Route::get('access/delete/{id}', 'AccessController@delete');
+            Route::get('access/change-status/{id}', 'AccessController@change_status');
+            /* give access */
+            /* access & permission */
+            /* master */
+            /* banner */
+            Route::get('banner/list', 'BannerController@list');
+            Route::match(['get', 'post'], 'banner/add', 'BannerController@add');
+            Route::match(['get', 'post'], 'banner/edit/{id}', 'BannerController@edit');
+            Route::get('banner/delete/{id}', 'BannerController@delete');
+            Route::get('banner/change-status/{id}', 'BannerController@change_status');
+            /* banner */
+            /* testimonial */
+            Route::get('testimonial/list', 'TestimonialController@list');
+            Route::match(['get', 'post'], 'testimonial/add', 'TestimonialController@add');
+            Route::match(['get', 'post'], 'testimonial/edit/{id}', 'TestimonialController@edit');
+            Route::get('testimonial/delete/{id}', 'TestimonialController@delete');
+            Route::get('testimonial/change-status/{id}', 'TestimonialController@change_status');
+            /* testimonial */
+            /* service types */
+            Route::get('service-type/list', 'ServiceTypeController@list');
+            Route::match(['get', 'post'], 'service-type/add', 'ServiceTypeController@add');
+            Route::match(['get', 'post'], 'service-type/edit/{id}', 'ServiceTypeController@edit');
+            Route::get('service-type/delete/{id}', 'ServiceTypeController@delete');
+            Route::get('service-type/change-status/{id}', 'ServiceTypeController@change_status');
+            /* service types */
+            /* service */
+            Route::get('service/list', 'ServiceController@list');
+            Route::match(['get', 'post'], 'service/add', 'ServiceController@add');
+            Route::match(['get', 'post'], 'service/edit/{id}', 'ServiceController@edit');
+            Route::get('service/delete/{id}', 'ServiceController@delete');
+            Route::get('service/change-status/{id}', 'ServiceController@change_status');
+            /* service */
+            /* service attributes */
+            Route::get('service-attribute/list', 'ServiceAttributeController@list');
+            Route::match(['get', 'post'], 'service-attribute/add', 'ServiceAttributeController@add');
+            Route::match(['get', 'post'], 'service-attribute/edit/{id}', 'ServiceAttributeController@edit');
+            Route::get('service-attribute/delete/{id}', 'ServiceAttributeController@delete');
+            Route::get('service-attribute/change-status/{id}', 'ServiceAttributeController@change_status');
+            /* service attributes */
+            /* service association */
+            Route::get('service-association', 'ServiceAssociationController@index');
+            Route::match(['get', 'post'], 'service-association/postData', 'ServiceAssociationController@postData');
+            /* service association */
+            /* source */
+            Route::get('source/list', 'SourceController@list');
+            Route::match(['get', 'post'], 'source/add', 'SourceController@add');
+            Route::match(['get', 'post'], 'source/edit/{id}', 'SourceController@edit');
+            Route::get('source/delete/{id}', 'SourceController@delete');
+            Route::get('source/change-status/{id}', 'SourceController@change_status');
+            /* source */
+            /* expertise */
+            Route::get('expertise/list', 'ExpertiseController@list');
+            Route::match(['get', 'post'], 'expertise/add', 'ExpertiseController@add');
+            Route::match(['get', 'post'], 'expertise/edit/{id}', 'ExpertiseController@edit');
+            Route::get('expertise/delete/{id}', 'ExpertiseController@delete');
+            Route::get('expertise/change-status/{id}', 'ExpertiseController@change_status');
+            /* expertise */
+            /* currency */
+            Route::get('currency/list', 'CurrencyController@list');
+            Route::match(['get', 'post'], 'currency/add', 'CurrencyController@add');
+            Route::match(['get', 'post'], 'currency/edit/{id}', 'CurrencyController@edit');
+            Route::get('currency/delete/{id}', 'CurrencyController@delete');
+            Route::get('currency/change-status/{id}', 'CurrencyController@change_status');
+            /* currency */
+            /* language */
+            Route::get('language/list', 'LanguageController@list');
+            Route::match(['get', 'post'], 'language/add', 'LanguageController@add');
+            Route::match(['get', 'post'], 'language/edit/{id}', 'LanguageController@edit');
+            Route::get('language/delete/{id}', 'LanguageController@delete');
+            Route::get('language/change-status/{id}', 'LanguageController@change_status');
+            /* language */
+            /* subject */
+            Route::get('subject/list', 'SubjectController@list');
+            Route::match(['get', 'post'], 'subject/add', 'SubjectController@add');
+            Route::match(['get', 'post'], 'subject/edit/{id}', 'SubjectController@edit');
+            Route::get('subject/delete/{id}', 'SubjectController@delete');
+            Route::get('subject/change-status/{id}', 'SubjectController@change_status');
+            /* subject */
+            /* social platforms */
+            Route::get('social-platform/list', 'SocialPlatformController@list');
+            Route::match(['get', 'post'], 'social-platform/add', 'SocialPlatformController@add');
+            Route::match(['get', 'post'], 'social-platform/edit/{id}', 'SocialPlatformController@edit');
+            Route::get('social-platform/delete/{id}', 'SocialPlatformController@delete');
+            Route::get('social-platform/change-status/{id}', 'SocialPlatformController@change_status');
+            /* social platforms */
+            /* Require Document */
+            Route::get('require-documents/list', 'RequireDocumentsController@list');
+            Route::match(['get', 'post'], 'require-documents/add', 'RequireDocumentsController@add');
+            Route::match(['get', 'post'], 'require-documents/edit/{id}', 'RequireDocumentsController@edit');
+            Route::get('require-documents/delete/{id}', 'RequireDocumentsController@delete');
+            Route::get('require-documents/change-status/{id}', 'RequireDocumentsController@change_status');
+            /* Require Document */
+            /* master */
+            /* page */
+            Route::get('page/list', 'PageController@list');
+            Route::match(['get', 'post'], 'page/add', 'PageController@add');
+            Route::match(['get', 'post'], 'page/edit/{id}', 'PageController@edit');
+            Route::get('page/delete/{id}', 'PageController@delete');
+            Route::get('page/change-status/{id}', 'PageController@change_status');
+            /* page */
+            /* FAQs */
+            /* faq */
+            Route::get('faq/list', 'FaqController@list');
+            Route::match(['get', 'post'], 'faq/add', 'FaqController@add');
+            Route::match(['get', 'post'], 'faq/edit/{id}', 'FaqController@edit');
+            Route::get('faq/delete/{id}', 'FaqController@delete');
+            Route::get('faq/change-status/{id}', 'FaqController@change_status');
+            Route::get('faq/change-home-page-status/{id}', 'FaqController@change_home_page_status');
+            /* faq */
+            /* how it works */
+            Route::get('how-it-works/list', 'HowItWorkController@list');
+            Route::match(['get', 'post'], 'how-it-works/add', 'HowItWorkController@add');
+            Route::match(['get', 'post'], 'how-it-works/edit/{id}', 'HowItWorkController@edit');
+            Route::get('how-it-works/delete/{id}', 'HowItWorkController@delete');
+            Route::get('how-it-works/change-status/{id}', 'HowItWorkController@change_status');
+            Route::get('how-it-works/change-home-page-status/{id}', 'HowItWorkController@change_home_page_status');
+            /* how it works */
+            /* FAQs */
+            /* team */
+            Route::get('team/list', 'TeamController@list');
+            Route::match(['get', 'post'], 'team/add', 'TeamController@add');
+            Route::match(['get', 'post'], 'team/edit/{id}', 'TeamController@edit');
+            Route::get('team/delete/{id}', 'TeamController@delete');
+            Route::get('team/change-status/{id}', 'TeamController@change_status');
+            Route::get('team/change-home-page-status/{id}', 'TeamController@change_home_page_status');
+            /* team */
+            /* blog */
+            /* blog category */
+            Route::get('blog-category/list', 'BlogCategoryController@list');
+            Route::match(['get', 'post'], 'blog-category/add', 'BlogCategoryController@add');
+            Route::match(['get', 'post'], 'blog-category/edit/{id}', 'BlogCategoryController@edit');
+            Route::get('blog-category/delete/{id}', 'BlogCategoryController@delete');
+            Route::get('blog-category/change-status/{id}', 'BlogCategoryController@change_status');
+            /* blog category */
+            /* blogs */
+            Route::get('blog/list', 'BlogController@list');
+            Route::match(['get', 'post'], 'blog/add', 'BlogController@add');
+            Route::match(['get', 'post'], 'blog/edit/{id}', 'BlogController@edit');
+            Route::get('blog/delete/{id}', 'BlogController@delete');
+            Route::get('blog/change-status/{id}', 'BlogController@change_status');
+            /* blogs */
+            /* blog */
+            /* mentor */
+            Route::get('mentor/list', 'MentorController@list');
+            Route::get('mentor/availability/{id}', 'MentorController@availability');
+            Route::get('mentor/assigned-services/{id}', 'MentorController@assignedServices');
+            Route::get('mentor/bookings/{id}', 'MentorController@bookings');
+            Route::get('mentor/transactions/{id}', 'MentorController@transactions');
+            Route::get('mentor/payouts/{id}', 'MentorController@payouts');
+            Route::get('mentor/delete/{id}', 'MentorController@delete');
+            Route::get('mentor/change-status/{id}', 'MentorController@change_status');
+            Route::get('mentor/profile/{id}', 'MentorController@profile');
+            Route::post('mentor/profile/{id}', 'MentorController@profile');
+            Route::match(['get', 'post'], 'mentor/print-mentor-invoice/{id}', 'MentorController@printMentorInvoice');
+            Route::get('mentors-export', 'MentorController@mentorExport');
+            /* mentor */
+            /* student */
+            Route::get('student/list', 'StudentController@list');
+            Route::get('student/bookings/{id}', 'StudentController@bookings');
+            Route::get('student/profile/{id}', 'StudentController@profile');
+            Route::post('student/profile/{id}', 'StudentController@profile');
+            Route::get('student/transactions/{id}', 'StudentController@transactions');
+            Route::get('student/delete/{id}', 'StudentController@delete');
+            Route::get('student/change-status/{id}', 'StudentController@change_status');
+            Route::get('student/survey/{id}', 'StudentController@survey');
+            Route::get('student/view-survey-details/{userid}/{surveyid}', 'StudentController@viewSurveyDetails');
+            Route::match(['get', 'post'], 'student/print-student-invoice/{id}', 'StudentController@printStudentInvoice');
+            Route::get('students-export', 'StudentController@studentExport');
+            /* student */
+            /* survey */
+            /* question type */
+            Route::get('question-type/list', 'QuestionTypeController@list');
+            Route::match(['get', 'post'], 'question-type/add', 'QuestionTypeController@add');
+            Route::match(['get', 'post'], 'question-type/edit/{id}', 'QuestionTypeController@edit');
+            Route::get('question-type/delete/{id}', 'QuestionTypeController@delete');
+            Route::get('question-type/change-status/{id}', 'QuestionTypeController@change_status');
+            /* question type */
+            /* grade */
+            Route::get('grade/list', 'GradeController@list');
+            Route::match(['get', 'post'], 'grade/add', 'GradeController@add');
+            Route::match(['get', 'post'], 'grade/edit/{id}', 'GradeController@edit');
+            Route::get('grade/delete/{id}', 'GradeController@delete');
+            Route::get('grade/change-status/{id}', 'GradeController@change_status');
+            /* grade */
+            /* survey */
+            Route::get('survey/list', 'SurveyController@list');
+            Route::match(['get', 'post'], 'survey/add', 'SurveyController@add');
+            Route::match(['get', 'post'], 'survey/edit/{id}', 'SurveyController@edit');
+            Route::get('survey/delete/{id}', 'SurveyController@delete');
+            Route::get('survey/change-status/{id}', 'SurveyController@change_status');
+            Route::match(['get', 'post'], 'survey/grade/{id}', 'SurveyController@grade');
+            Route::match(['get', 'post'], 'survey/edit-grade/{id}', 'SurveyController@edit_grade');
+            Route::match(['get', 'post'], 'survey/grade/{id}/{factor}', 'SurveyController@grade');
+            Route::match(['get', 'post'], 'survey/edit-grade/{id}/{factor}', 'SurveyController@edit_grade');
+            Route::match(['get', 'post'], 'survey/edit-factor/{id}/{factor}', 'SurveyController@factor');
+            Route::match(['get', 'post'], 'survey/edit-combination/{id}', 'SurveyController@combination');
+            Route::get('survey/survey-students', 'SurveyController@survey_students');
+            Route::get('survey/view-survey-details/{userid}/{surveyid}', 'SurveyController@viewSurveyDetails');
+            /* survey */
+            /* survey */
+            /* bookings */
+            Route::get('bookings/list', 'BookingController@list');
+            Route::get('booking-export', 'BookingController@bookingExport');
+            /* bookings */
+            /* withdrawls */
+            Route::get('withdrawls/list', 'WithdrawlController@list');
+            Route::get('withdrawls/change-status/{id}/{id2}', 'WithdrawlController@change_status');
+            Route::get('withdrawal-export', 'WithdrawlController@withdrawalExport');
+            /* withdrawls */
+            /* transactions */
+            Route::get('transactions/list', 'TransactionController@list');
+            Route::get('transactions-export', 'TransactionController@transactionsExport');
+            /* transactions */
+            /* booking reviews */
+            Route::get('feedbacks/list', 'FeedbackController@list');
+            Route::get('feedbacks/change-status/{id}', 'FeedbackController@change_status');
+            Route::get('feedbacks/delete/{id}', 'FeedbackController@delete');
+            /* booking reviews */
+            /* platform reviews */
+            Route::get('platform-reviews/list', 'PlatformReviewController@list');
+            Route::get('platform-reviews/change-status/{id}', 'PlatformReviewController@change_status');
+            Route::get('platform-reviews/delete/{id}', 'PlatformReviewController@delete');
+            /* platform reviews */
+            /* enquiries */
+            Route::get('enquiry/list', 'EnquiryController@list');
+            Route::get('enquiry/view-details/{id}', 'EnquiryController@details');
+            /* enquiries */
+        });
     });
-});
 /* Admin Panel */

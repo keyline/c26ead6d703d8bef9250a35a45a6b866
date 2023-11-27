@@ -14,40 +14,41 @@ use App\Models\UserDocument;
 use App\Models\MentorAvailability;
 use App\Models\MentorSlot;
 use App\Models\Booking;
-use App\Models\BookingRating;
 use App\Models\AdminPayment;
 use App\Models\MentorPayment;
+use App\Models\BookingRating;
+use App\Models\PlatformRating;
 
 use Auth;
 use Session;
 use Helper;
 use Hash;
 
-class FeedbackController extends Controller
+class PlatformReviewController extends Controller
 {
     public function __construct()
     {        
         $this->data = array(
-            'title'             => 'Booking Reviews',
-            'controller'        => 'FeedbackController',
-            'controller_route'  => 'feedbacks',
+            'title'             => 'Platform Reviews',
+            'controller'        => 'PlatformReviewController',
+            'controller_route'  => 'platform-reviews',
             'primary_key'       => 'id',
         );
     }
     /* list */
         public function list(){
             $data['module']                 = $this->data;
-            $data['feedbacks']              = BookingRating::where('status', '!=', 3)->orderBy('id', 'DESC')->get();
+            $data['feedbacks']              = PlatformRating::where('status', '!=', 3)->orderBy('id', 'DESC')->get();
 
             $title                          = $this->data['title'].' List';
-            $page_name                      = 'feedbacks.list';
+            $page_name                      = 'platform-reviews.list';
             echo $this->admin_after_login_layout($title,$page_name,$data);
         }
     /* list */
     /* change status */
         public function change_status(Request $request, $id){
             $id                             = Helper::decoded($id);
-            $model                          = BookingRating::find($id);
+            $model                          = PlatformRating::find($id);
             if ($model->status == 1)
             {
                 $model->status              = 0;
@@ -68,7 +69,7 @@ class FeedbackController extends Controller
             $fields = [
                 'status'             => 3
             ];
-            BookingRating::where($this->data['primary_key'], '=', $id)->update($fields);
+            PlatformRating::where($this->data['primary_key'], '=', $id)->update($fields);
             return redirect("admin/" . $this->data['controller_route'] . "/list")->with('success_message', $this->data['title'].' Deleted Successfully !!!');
         }
     /* delete */

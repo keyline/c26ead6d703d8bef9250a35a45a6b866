@@ -172,7 +172,7 @@
             <div class="col-lg-4 col-md-6 col-sm-6">
                 <div class="rightside_testslider">
                     <div class="login_sidebar_testimorial">
-                        @include('front.elements.side-testimonial')
+                        @include('front.elements.side-testimonial-platform')
                     </div>
                 </div>
             </div>

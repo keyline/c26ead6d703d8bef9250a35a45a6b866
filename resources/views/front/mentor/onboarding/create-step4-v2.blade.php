@@ -51,7 +51,18 @@
                   @endif
                      <form action="{{ route('mentor.create.step4') }}" method="POST" accept-charset="utf-8" enctype="multipart/form-data">
                         @csrf
-                        <div class="ant-col ant-col-24 add-slots">
+                        <div class="ant-col ant-col-24 add-slots mentoe_admin_section">
+                           <div class="row slot-item hide_tabmobile">
+                              <div class="col-md-3"></div>
+                              <div class="col-md-9">
+                                 <div class="row">
+                                    <div class="col-md-3 text-center"><span class="fw-bold" style="color: #f9233f;">Start</span></div>
+                                    <div class="col-md-3 text-center"><span class="fw-bold" style="color: #f9233f;">Duration</span></div>
+                                    <div class="col-md-3 text-center"><span class="fw-bold" style="color: #f9233f;">No. Of Slots</span></div>
+                                    <div class="col-md-3 text-left"><span class="fw-bold" style="color: #f9233f;">End</span></div>
+                                 </div>
+                              </div>
+                           </div>
                            @foreach($days AS $day)
                            <div class="row slot-item">
                               <div class="col-md-3">
@@ -68,14 +79,6 @@
                                  </div>
                               </div>
                               <div class="col-md-9 slots__parent">
-                                 <?php if($day->day_index == 0){?>
-                                    <div class="row">
-                                       <div class="col-md-3"><span class="fw-bold" style="color: #f9233f;">Start</span></div>
-                                       <div class="col-md-3"><span class="fw-bold" style="color: #f9233f;">Duration</span></div>
-                                       <div class="col-md-3"><span class="fw-bold" style="color: #f9233f;">No. Of Slots</span></div>
-                                       <div class="col-md-3"><span class="fw-bold" style="color: #f9233f;">End</span></div>
-                                    </div>
-                                 <?php }?>
                                  @if(in_array($day->day_index, []))
                                  <div class="slots-section">
                                     <div class="slots-select-box">
@@ -152,7 +155,7 @@
          <div class="col-lg-4 col-md-6 col-sm-6">
             <div class="rightside_testslider">
                <div class="login_sidebar_testimorial">
-                  @include('front.elements.side-testimonial')
+                  @include('front.elements.side-testimonial-platform')
                </div>
             </div>
          </div>

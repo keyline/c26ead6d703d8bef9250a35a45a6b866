@@ -46,7 +46,7 @@
          <div class="col-lg-4 col-md-6 col-sm-6">
             <div class="rightside_testslider">
                <div class="login_sidebar_testimorial">
-                  <?=$testimonialsData?>
+                  <?=$platformReviewData?>
                </div>
             </div>
          </div>

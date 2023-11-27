@@ -273,6 +273,12 @@ ul.navbar-nav .dropdown-menu {
     font-size: 16px;
     color: #f9233f;
 }
+.header_loginbtn .dropdown li:first-child a{
+    border-left: 5px solid #6dc7e8;
+}
+.header_loginbtn .dropdown li:first-child{
+    border-bottom: 3px solid #fff;
+}
 .btn_border {
     border: 2px solid #f9233f;
     padding: 5px 20px;
@@ -1619,6 +1625,9 @@ section.contact-section {
   table-layout: fixed;
   width: 100%;
 }
+.checked{
+    color: orange;
+}
 
 
 .metor_information .button-group + .button-group {
@@ -2089,7 +2098,7 @@ ul.listbullet li {
 
 .wrapper-dropdown-2 {
     position: relative;
-    width: 150px;
+    width: 105px;
     margin: 0 auto;
     padding: 5px 20px;
     background: #fff;
@@ -2128,17 +2137,22 @@ ul.listbullet li {
     opacity: 0;
     pointer-events: none;
 }
+/*.wrapper-dropdown-2:hover .dropdown,
+.dropdown:hover {
+    opacity: 1 !important;
+}*/
 .wrapper-dropdown-2 .dropdown li a {
     display: block;
     text-decoration: none;
     color: #333;
     border-left: 5px solid #f9233f;
-    padding: 10px;
+    padding: 10px 5px;
     -webkit-transition: all 0.3s ease-out;
     -moz-transition: all 0.3s ease-out;
     -ms-transition: all 0.3s ease-out;
     -o-transition: all 0.3s ease-out;
     transition: all 0.3s ease-out;
+    font-size: 14px;
 }
 
 
@@ -2154,6 +2168,7 @@ ul.listbullet li {
     opacity: 1;
     pointer-events: auto;
 }
+
 /* No CSS3 support */
 
 .no-opacity       .wrapper-dropdown-2 .dropdown,
@@ -2184,12 +2199,17 @@ ul.listbullet li {
 }
 
 
+
+
 #signdropdown1.wrapper-dropdown-2 {
     background: #f9233f;
     color: #fff;
 }
 #signdropdown1.wrapper-dropdown-2::after {
     border-color: #fff transparent;
+}
+#signdropdown1 .dropdown{
+    width: 115px;
 }
 .greencheck {
     accent-color: #48974e;
