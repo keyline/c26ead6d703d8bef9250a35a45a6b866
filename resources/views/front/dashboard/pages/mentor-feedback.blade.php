@@ -90,9 +90,9 @@ use App\Helpers\Helper;
 											</td>
 											<td><?=$feedback->review?></td>
 											<td>
-												<?php if($feedback->status){?>
+												<?php if($feedback->status == 1){?>
 													<span class="badge bg-success">Approved</span>
-												<?php } else {?>
+												<?php } elseif($feedback->status == 0) {?>
 													<span class="badge bg-warning">Pending</span>
 												<?php }?>
 											</td>
