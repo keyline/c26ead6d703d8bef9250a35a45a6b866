@@ -14,6 +14,9 @@ use App\Models\Page;
 use App\Models\User;
 use App\Models\Testimonial;
 use App\Models\UserActivity;
+use App\Models\BookingRating;
+use App\Models\PlatformRating;
+
 use Auth;
 use Session;
 use Helper;
@@ -35,6 +38,7 @@ class MentorController extends Controller
 
         $data['user_id'] = isset($data['mentor']->user_id) ? $data['mentor']->user_id : 0;
 
+        $data['platformReviews']        = PlatformRating::where('status', '=', 1)->inRandomOrder()->get();
         //$testimonial = \App\Models\Testimonial::where('status', '=', 1)->orderBy('id', 'DESC')->get();
         //['testimonials' => $testimonial]
         //populating data if any present in session
@@ -44,7 +48,6 @@ class MentorController extends Controller
         //echo $this->front_before_login_layout($title, $page_name, $data);
         return \view('front.mentor.onboarding.create-step1', compact('data'));
     }
-
     public function postCreateStep1(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -106,13 +109,13 @@ class MentorController extends Controller
         if (empty($request->session()->get('mentor'))) {
             return redirect('mentor/signup');
         }
-        $onboarding = $request->session()->get('mentor');
-
+        $onboarding             = $request->session()->get('mentor');
+        $platformReviews        = PlatformRating::where('status', '=', 1)->inRandomOrder()->get();
         //Data needed for rendering the page
         //service type choices
-        $service_types = \App\Models\ServiceType::all();
+        $service_types          = \App\Models\ServiceType::all();
         // dd($onboarding);
-        return view('front.mentor.onboarding.create-step2', ['serviceTypes' => $service_types, 'current_mentor' => $onboarding]);
+        return view('front.mentor.onboarding.create-step2', ['serviceTypes' => $service_types, 'current_mentor' => $onboarding, 'platformReviews' => $platformReviews]);
         //$data                           = [];
         //$title                          = 'Mentor Signup';
         //$page_name                      = 'mentor-signup-2';
@@ -120,7 +123,6 @@ class MentorController extends Controller
     }
     public function postCreateStep2(Request $request)
     {
-
 
         if (empty($request->session()->get('mentor'))) {
             return \redirect('mentor/signup');
@@ -173,15 +175,11 @@ class MentorController extends Controller
         $types =    \App\Models\ServiceType::with(['serviceAttributes' => function ($query) {
             $query->where('service_id', '=', 1);
         }])->get();
-
         $types2 =    \App\Models\ServiceType::with(['serviceAttributes' => function ($query) {
             $query->where('service_id', '=', 2);
         }])->get();
-
-
-
-
-        return \view('front.mentor.onboarding.create-step3', ['services' => $services, 'types' => $types, 'mental_health' => $types2]);
+        $platformReviews        = PlatformRating::where('status', '=', 1)->inRandomOrder()->get();
+        return \view('front.mentor.onboarding.create-step3', ['services' => $services, 'types' => $types, 'mental_health' => $types2, 'platformReviews' => $platformReviews]);
     }
 
     public function postCreateStep3(Request $request)
@@ -296,8 +294,8 @@ class MentorController extends Controller
 
         //dd($hours);
         //return \view('front.mentor.onboarding.create-step4', ['slot_dropdown' => $hours, 'days' => $daysOfWeek, 'documents' => $documents]);
-
-        return \view('front.mentor.onboarding.create-step4-v2', ['slot_dropdown' => $hours, 'days' => $sortedDaysOfWeek, 'documents' => $documents]);
+        $platformReviews        = PlatformRating::where('status', '=', 1)->inRandomOrder()->get();
+        return \view('front.mentor.onboarding.create-step4-v2', ['slot_dropdown' => $hours, 'days' => $sortedDaysOfWeek, 'documents' => $documents, 'platformReviews' => $platformReviews]);
     }
 
     public function postCreateStep4(Request $request)
@@ -467,7 +465,7 @@ class MentorController extends Controller
                 'name' => $date->format('h:i A'),
                 'value' => $date->format('Hi'),
                 'selected_from' => '0900',
-                'selected_to'   => '2000'
+                'selected_to'   => '1000'
             );
         }
 

@@ -30,11 +30,12 @@ use App\Models\MentorProfile;
 use App\Models\UserActivity;
 use App\Models\UserDocument;
 use App\Models\RequireDocument;
-use App\Models\BookingRating;
 use App\Models\MentorSlot;
 use App\Models\Booking;
 use App\Models\AdminPayment;
 use App\Models\MentorPayment;
+use App\Models\BookingRating;
+use App\Models\PlatformRating;
 
 use App\Rules\ReCaptcha;
 use Auth;
@@ -755,8 +756,8 @@ class FrontController extends Controller
     /* Service Details */
     /* authentication */
         public function studentSignup(Request $request){
-            $data['testimonials']           = Testimonial::where('status', '=', 1)->orderBy('id', 'DESC')->get();
-            $data['testimonialsData']       = view('front.elements.side-testimonial',$data);
+            $data['bookingReviews']         = BookingRating::where('status', '=', 1)->orderBy('id', 'DESC')->get();
+            $data['bookingReviewData']      = view('front.elements.side-testimonial-booking',$data);
             $data['documents']              = RequireDocument::where('status', '=', 1)->where('user_type', '=', 'student')->orderBy('id', 'ASC')->get();
             $title                          = 'Student Signup';
             $page_name                      = 'student-signup';
@@ -1091,8 +1092,8 @@ class FrontController extends Controller
                     return redirect()->back()->with('error_message', 'All Fields Required !!!');
                 }
             }
-            $data['testimonials']           = Testimonial::where('status', '=', 1)->orderBy('id', 'DESC')->get();
-            $data['testimonialsData']       = view('front.elements.side-testimonial',$data);
+            $data['platformReviews']        = PlatformRating::where('status', '=', 1)->inRandomOrder()->get();
+            $data['platformReviewData']     = view('front.elements.side-testimonial-platform',$data);
             $title                          = 'Sign In';
             $page_name                      = 'signin';
             echo $this->front_before_login_layout($title,$page_name,$data);

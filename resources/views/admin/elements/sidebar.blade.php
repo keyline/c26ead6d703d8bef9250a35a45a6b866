@@ -48,7 +48,7 @@ $pageFunction = ((count($pageName)>2)?$pageName[2]:'');
     <?php }?>
   <?php }?>
 
-  <?php if((in_array(1, $module_id)) || (in_array(2, $module_id)) || (in_array(3, $module_id)) || (in_array(4, $module_id)) || (in_array(5, $module_id)) || (in_array(6, $module_id)) || (in_array(7, $module_id))){?>
+  <?php if((in_array(1, $module_id)) || (in_array(2, $module_id)) || (in_array(3, $module_id)) || (in_array(4, $module_id)) || (in_array(5, $module_id)) || (in_array(6, $module_id)) || (in_array(7, $module_id)) || (in_array(28, $module_id)) || (in_array(31, $module_id)) || (in_array(33, $module_id)) || (in_array(34, $module_id)) || (in_array(35, $module_id))){?>
   <li class="nav-item">
     <a class="nav-link <?=(($pageSegment == 'banner' || $pageSegment == 'service-type' || $pageSegment == 'service' || $pageSegment == 'service-attribute' || $pageSegment == 'source' || $pageSegment == 'expertise' || $pageSegment == 'currency' || $pageSegment == 'language' || $pageSegment == 'subject' || $pageSegment == 'testimonial' || $pageSegment == 'social-platform')?'':'collapsed')?> <?=(($pageSegment == 'banner' || $pageSegment == 'service-type' || $pageSegment == 'service' || $pageSegment == 'service-attribute' || $pageSegment == 'service-association' || $pageSegment == 'source' || $pageSegment == 'expertise' || $pageSegment == 'currency' || $pageSegment == 'language' || $pageSegment == 'subject' || $pageSegment == 'testimonial' || $pageSegment == 'social-platform' || $pageSegment == 'require-documents'  )?'active':'')?>" data-bs-target="#master-nav" data-bs-toggle="collapse" href="#">
       <i class="fa fa-database"></i><span>Master Management</span><i class="bi bi-chevron-down ms-auto"></i>
@@ -82,7 +82,7 @@ $pageFunction = ((count($pageName)>2)?$pageName[2]:'');
         </a>
       </li>
       <?php }?>
-      <?php if(in_array(3, $module_id)){?>
+      <?php if(in_array(34, $module_id)){?>
       <li>
         <a class="<?=(($pageSegment == 'service-association')?'active':'')?>" href="{{ url('admin/service-association') }}">
           <i class="bi bi-arrow-right"></i><span>Services Association</span>
@@ -125,20 +125,20 @@ $pageFunction = ((count($pageName)>2)?$pageName[2]:'');
       </li>
       <?php }?>
       <?php if(in_array(28, $module_id)){?>
-      <li>
+      <!-- <li>
         <a class="<?=(($pageSegment == 'testimonial')?'active':'')?>" href="{{ url('admin/testimonial/list') }}">
           <i class="bi bi-arrow-right"></i><span>Testimonials</span>
         </a>
-      </li>
+      </li> -->
       <?php }?>
-      <?php if(in_array(28, $module_id)){?>
+      <?php if(in_array(31, $module_id)){?>
       <li>
         <a class="<?=(($pageSegment == 'social-platform')?'active':'')?>" href="{{ url('admin/social-platform/list') }}">
           <i class="bi bi-arrow-right"></i><span>Social Platforms</span>
         </a>
       </li>
       <?php }?>
-      <?php if(in_array(28, $module_id)){?>
+      <?php if(in_array(35, $module_id)){?>
       <li>
         <a class="<?=(($pageSegment == 'require-documents')?'active':'')?>" href="{{ url('admin/require-documents/list') }}">
           <i class="bi bi-arrow-right"></i><span>Require Documents</span>
@@ -158,7 +158,7 @@ $pageFunction = ((count($pageName)>2)?$pageName[2]:'');
   </li><!-- End Profile Page Nav -->
   <?php }?>
   
-  <?php if((in_array(12, $module_id)) || (in_array(229, $module_id))){?>
+  <?php if((in_array(12, $module_id)) || (in_array(29, $module_id))){?>
   <li class="nav-item">
       <a class="nav-link <?=(($pageSegment == 'faq' || $pageSegment == 'how-it-works')?'':'collapsed')?> <?=(($pageSegment == 'faq' || $pageSegment == 'how-it-works')?'active':'')?>" data-bs-target="#faq-nav" data-bs-toggle="collapse" href="#">
         <i class="fa fa-lock"></i><span>FAQ</span><i class="bi bi-chevron-down ms-auto"></i>
@@ -269,7 +269,7 @@ $pageFunction = ((count($pageName)>2)?$pageName[2]:'');
   </li><!-- End Masters Nav -->
   <?php }?>
 
-  <?php if((in_array(18, $module_id)) || (in_array(19, $module_id))) {?>
+  <?php if((in_array(18, $module_id)) || (in_array(19, $module_id)) || (in_array(32, $module_id))) {?>
   <li class="nav-item">
     <a class="nav-link <?=(($pageSegment == 'question-type' || $pageSegment == 'survey' || $pageSegment == 'survey-students')?'':'collapsed')?> <?=(($pageSegment == 'question-type' || $pageSegment == 'survey' || $pageSegment == 'survey-students')?'active':'')?>" data-bs-target="#survey-nav" data-bs-toggle="collapse" href="#">
       <i class="fa fa-poll"></i><span>Survey Management</span><i class="bi bi-chevron-down ms-auto"></i>
@@ -323,7 +323,7 @@ $pageFunction = ((count($pageName)>2)?$pageName[2]:'');
     </li><!-- End Profile Page Nav -->
   <?php }?>
 
-  <?php if(in_array(21, $module_id)){?>
+  <?php if(in_array(36, $module_id)){?>
     <li class="nav-item">
       <a class="nav-link <?=(($pageSegment == 'withdrawls')?'active':'')?>" href="{{ url('admin/withdrawls/list') }}">
         <i class="fa fa-inr"></i>
@@ -332,11 +332,19 @@ $pageFunction = ((count($pageName)>2)?$pageName[2]:'');
     </li><!-- End Profile Page Nav -->
   <?php }?>
 
-  <?php if(in_array(34, $module_id)){?>
+  <?php if(in_array(37, $module_id)){?>
     <li class="nav-item">
       <a class="nav-link <?=(($pageSegment == 'feedbacks')?'active':'')?>" href="{{ url('admin/feedbacks/list') }}">
         <i class="fa fa-comment"></i>
-        <span>Feedbacks</span>
+        <span>Booking Reviews</span>
+      </a>
+    </li><!-- End Profile Page Nav -->
+  <?php }?>
+  <?php if(in_array(38, $module_id)){?>
+    <li class="nav-item">
+      <a class="nav-link <?=(($pageSegment == 'platform-reviews')?'active':'')?>" href="{{ url('admin/platform-reviews/list') }}">
+        <i class="fa-solid fa-star"></i>
+        <span>Platform Reviews</span>
       </a>
     </li><!-- End Profile Page Nav -->
   <?php }?>

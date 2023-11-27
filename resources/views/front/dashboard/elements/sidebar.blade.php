@@ -10,6 +10,7 @@
             <li class="nav-item"><a class="nav-link" href="<?=url('/user/student-bookings')?>"><i class="fa fa-list" style="margin-right:10px;"></i> Bookings</a></li>
             <li class="nav-item"><a class="nav-link" href="<?=url('/user/student-transactions')?>"><i class="fa fa-inr" style="margin-right:10px;"></i> Transactions</a></li>
             <li class="nav-item"><a class="nav-link" href="<?=url('/user/student-feedback-list')?>"><i class="fa fa-comment" style="margin-right:10px;"></i> Feedbacks</a></li>
+            <li class="nav-item"><a class="nav-link" href="<?=url('/user/student-platform-feedback-list')?>"><i class="fa-solid fa-star" style="margin-right:10px;"></i> Platform Feedbacks</a></li>
             <li class="nav-item"><a class="nav-link" href="<?=url('/user/survey-list')?>"><i class="fa fa-user" style="margin-right:10px;"></i> Take a free test</a></li>
         <?php  } ?>
         <?php if(session()->get('role') == 2){?>
@@ -19,6 +20,7 @@
             <li class="nav-item"><a class="nav-link" href="<?=url('/user/mentor-transactions')?>"><i class="fa fa-inr" style="margin-right:10px;"></i> Transactions</a></li>
             <li class="nav-item"><a class="nav-link" href="<?=url('/user/mentor-withdrawls')?>"><i class="fa fa-inr" style="margin-right:10px;"></i> Withdrawls</a></li>
             <li class="nav-item"><a class="nav-link" href="<?=url('/user/mentor-feedback-list')?>"><i class="fa fa-comment" style="margin-right:10px;"></i> Feedbacks</a></li>
+            <li class="nav-item"><a class="nav-link" href="<?=url('/user/mentor-platform-feedback-list')?>"><i class="fa-solid fa-star" style="margin-right:10px;"></i> Platform Feedbacks</a></li>
         <?php  } ?>
     </ul>
 </div>

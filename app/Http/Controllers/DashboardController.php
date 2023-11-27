@@ -19,7 +19,6 @@ use App\Models\SurveyQuestionOptions;
 use App\Models\SurveyResult;
 use App\Models\SurveyRecords;
 use App\Models\SurveyCombinations;
-use App\Models\BookingRating;
 use App\Models\Booking;
 use App\Models\AdminPayment;
 use App\Models\MentorPayment;
@@ -33,6 +32,8 @@ use App\Models\ServiceDetail;
 use App\Models\ServiceTypeAttribute;
 use App\Models\RequireDocument;
 use App\Models\UserDocument;
+use App\Models\BookingRating;
+use App\Models\PlatformRating;
 
 use Hash;
 use Auth;
@@ -563,6 +564,27 @@ class DashboardController extends Controller
                 return redirect('user/student-bookings/')->with('success_message', 'Booking Cancelled Successfully !!!');
             }
         /* student booking cancel */
+        /* student platform feedback */
+            public function studentPlatformFeedbackList(Request $request){
+                $userId                         = Session::get('user_id');
+                $data['feedbacks']              = PlatformRating::where('user_id', '=', $userId)->orderBy('id', 'DESC')->get();
+                if($request->isMethod('post')){
+                    $postData = $request->all();
+                    $fields = [
+                        'user_id'           => $userId,
+                        'user_type'         => 'STUDENT',
+                        'rating'            => $postData['stars'],
+                        'review'            => $postData['review'],
+                    ];
+                    // Helper::pr($fields);
+                    PlatformRating::insert($fields);
+                    return redirect('user/student-platform-feedback-list/')->with('success_message', 'Platform Review Submitted Successfully. Wait For Admin Approval To Show !!!');
+                }
+                $title                          = 'Platform Feedbacks';
+                $page_name                      = 'student-platform-feedback-list';
+                echo $this->front_dashboard_layout($title,$page_name,$data);
+            }
+        /* student platform feedback */
     /* student */
     /* mentor */
         /* mentor availability */
@@ -875,5 +897,26 @@ class DashboardController extends Controller
                 return redirect('user/mentor-bookings/')->with('success_message', 'Booking Cancelled Successfully !!!');
             }
         /* mentor booking cancel */
+        /* mentor platform feedback */
+            public function mentorPlatformFeedbackList(Request $request){
+                $userId                         = Session::get('user_id');
+                $data['feedbacks']              = PlatformRating::where('user_id', '=', $userId)->orderBy('id', 'DESC')->get();
+                if($request->isMethod('post')){
+                    $postData = $request->all();
+                    $fields = [
+                        'user_id'           => $userId,
+                        'user_type'         => 'MENTOR',
+                        'rating'            => $postData['stars'],
+                        'review'            => $postData['review'],
+                    ];
+                    // Helper::pr($fields);
+                    PlatformRating::insert($fields);
+                    return redirect('user/mentor-platform-feedback-list/')->with('success_message', 'Platform Review Submitted Successfully. Wait For Admin Approval To Show !!!');
+                }
+                $title                          = 'Platform Feedbacks';
+                $page_name                      = 'mentor-platform-feedback-list';
+                echo $this->front_dashboard_layout($title,$page_name,$data);
+            }
+        /* mentor platform feedback */
     /* mentor */
 }

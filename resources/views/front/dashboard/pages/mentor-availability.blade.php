@@ -47,17 +47,17 @@ use App\Helpers\Helper;
                   <form action="" method="POST" accept-charset="utf-8" enctype="multipart/form-data">
                     @csrf
                     <div class="ant-col ant-col-24 add-slots mentoe_admin_section">
-						<div class="row slot-item hide_tabmobile">
-							<div class="col-md-3"></div>
-							<div class="col-md-9">
-								<div class="row">
-									<div class="col-md-3 text-center"><span class="fw-bold" style="color: #f9233f;">Start</span></div>
-									<div class="col-md-3 text-center"><span class="fw-bold" style="color: #f9233f;">Duration</span></div>
-									<div class="col-md-3 text-center"><span class="fw-bold" style="color: #f9233f;">No. Of Slots</span></div>
-									<div class="col-md-3 text-left"><span class="fw-bold" style="color: #f9233f;">End</span></div>
+								<div class="row slot-item hide_tabmobile">
+									<div class="col-md-3"></div>
+									<div class="col-md-9">
+										<div class="row">
+											<div class="col-md-3 text-center"><span class="fw-bold" style="color: #f9233f;">Start</span></div>
+											<div class="col-md-3 text-center"><span class="fw-bold" style="color: #f9233f;">Duration</span></div>
+											<div class="col-md-3 text-center"><span class="fw-bold" style="color: #f9233f;">No. Of Slots</span></div>
+											<div class="col-md-3 text-left"><span class="fw-bold" style="color: #f9233f;">End</span></div>
+										</div>
+									</div>
 								</div>
-							</div>
-						</div>
                      	@foreach($days AS $day)
 	                     	<div class="row slot-item">
 	                        <div class="col-md-3">
@@ -72,14 +72,6 @@ use App\Helpers\Helper;
 	                           </div>
 	                      	</div>
 	                        <div class="col-md-9 slots__parent">
-	                        	<?php if($day->day_index == 0){?>
-		                        	<!-- <div class="row">
-		                        		<div class="col-md-3"><span class="fw-bold" style="color: #f9233f;">Start</span></div>
-		                        		<div class="col-md-3"><span class="fw-bold" style="color: #f9233f;">Duration</span></div>
-		                        		<div class="col-md-3"><span class="fw-bold" style="color: #f9233f;">No. Of Slots</span></div>
-		                        		<div class="col-md-3"><span class="fw-bold" style="color: #f9233f;">End</span></div>
-		                        	</div> -->
-		                        <?php }?>
 	                         	@if(in_array($day->day_index, $mentor_days))
 	                           	<div class="slots-section">
 	                           		<?php
