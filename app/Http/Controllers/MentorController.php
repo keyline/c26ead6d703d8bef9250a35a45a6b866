@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\Helper as HelpersHelper;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
@@ -23,8 +24,9 @@ use Helper;
 use Illuminate\Support\Facades\Hash;
 
 use App\Rules\UniqueProfileSlug;
-
+use Illuminate\Auth\Events\Validated;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Log;
 
@@ -63,14 +65,44 @@ class MentorController extends Controller
         }
         // Retrieve the validated input data...
         $validated = $validator->valid();
-        $user = \App\Models\User::create([
+        $verificationToken = Str::random(30) . Carbon::now()->timestamp;
+
+        $user_id = DB::table('users')->insertGetId([
             'name' => implode(" ", [$validated['first_name'], $validated['last_name']]),
             'email' => $validated['email'],
             'phone' => $validated['phone_number'],
+            'remember_token' => $verificationToken,
             'role' => 2,
             'valid' => 0,
-            'password' => $validated['password'],
+            'password' => Hash::make($validated['password']),
         ]);
+
+        /* email sent */
+        $generalSetting       = GeneralSetting::find('1');
+        // Construct the verification link
+
+
+        $verificationToken = Helper::encoded($verificationToken);
+        $user_id = Helper::encoded($user_id);
+        $verificationLink = url("/mentor/verify-email/{$user_id}/{$verificationToken}");
+
+        $data['emailData'] = [
+            'site_name' => $generalSetting->site_name,
+            'site_logo' => $generalSetting->site_logo,
+            'fname' => $validated['first_name'],
+            'lname' => $validated['last_name'],
+            'link' => $verificationLink,
+        ];
+
+        $requestData['email'] = 'shubhasinha77@gmail.com';
+        $subject              = $generalSetting->site_name . ' :: Email Verify';
+        $message              = view('email-templates.emailValidate', $data);
+        echo $message;
+        die;
+        $this->sendMail($requestData['email'], $subject, $message);
+        /* email sent */
+
+
 
         // $mentor = \App\Models\MentorProfile::create();
         $mentorData = [
@@ -647,4 +679,38 @@ class MentorController extends Controller
         return $username;
     }
     /* authentication */
+
+    public function verify(Request $request, $id, $token)
+    {
+
+        $id  = Helper::decoded($id);
+
+        $token = Helper::decoded($token);
+
+        $user = User::where('id', $id)
+            ->where('remember_token', $token)
+            ->first();
+
+        if (!$user) {
+            // return redirect()->url('mentor/invalid-token');
+            dd('invalid token');
+        } else {
+            $user->remember_token = null;
+            $user->valid = 1;
+            $user->email_verified_at= Carbon::now()->timestamp;
+            $user->save();
+            dd('Account active success');
+            // return redirect()->url('mentor/active-success');
+        }
+    }
+
+    public function invalidToken()
+    {
+        dd("invalid Token");
+    }
+
+    public function activeToken()
+    {
+        dd("active Token");
+    }
 }

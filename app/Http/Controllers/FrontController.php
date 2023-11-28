@@ -776,6 +776,7 @@ class FrontController extends Controller
                 $checkPhone = User::where('phone', '=', $phone)->count();
                 if($checkPhone <= 0){
                     if($requestData['password'] == $requestData['confirm_password']){
+                        $verificationToken = Str::random(30) . Carbon::now()->timestamp;
                         $remember_token = rand(1000,9999);
                         $postData = [
                             'name'                  => $fname.' '.$lname,
@@ -783,7 +784,7 @@ class FrontController extends Controller
                             'email_verified_at'     => date('Y-m-d H:i:s'),
                             'phone'                 => $phone,
                             'password'              => Hash::make($requestData['password']),
-                            'remember_token'        => $remember_token,
+                            'remember_token'        => $verificationToken,
                             'role'                  => 1,
                             'valid'                 => 1,
                         ];
@@ -819,7 +820,7 @@ class FrontController extends Controller
                             EmailLog::insertGetId($postData2);
                         /* email log save */
                         /* run-time signin */
-                            if(Auth::guard('web')->attempt(['email' => $requestData['email'], 'password' => $requestData['password'], 'valid' => 0, 'role' => 1])){
+                            if(Auth::guard('web')->attempt(['email' => $requestData['email'], 'password' => $requestData['password'], 'valid' => 1, 'role' => 1])){
                                 // Helper::pr(Auth::guard('web')->user());
                                 $sessionData    = Auth::guard('web')->user();
                                 $user_id        = $sessionData['id'];
@@ -1475,3 +1476,4 @@ class FrontController extends Controller
             return $meeting_response;
         }
 }
+

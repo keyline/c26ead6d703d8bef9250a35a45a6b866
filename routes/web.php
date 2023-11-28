@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\MentorController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -45,10 +46,17 @@ use Illuminate\Support\Facades\Route;
         Route::group(['prefix' => 'mentor', 'as' => 'mentor.'], function () {
             Route::get('/signup', [\App\Http\Controllers\MentorController::class, 'createStep1'])->name('signup');
             Route::post('/create/step1', [\App\Http\Controllers\MentorController::class, 'postCreateStep1'])->name('create.step1');
+
+            Route::get('/verify-email/{id?}/{token?}', [MentorController::class,'verify'])->name('emailVerify');
+            Route::get('/invalid-token', [MentorController::class,'invalidToken'])->name('invalid-link');
+            Route::get('/active-success', [MentorController::class,'activeToken'])->name('invalid-link');
+
             Route::get('/step2', [\App\Http\Controllers\MentorController::class, 'createStep2'])->name('step2');
             Route::post('/create/step2', [\App\Http\Controllers\MentorController::class, 'postCreateStep2'])->name('create.step2');
+
             Route::get('/step3', [\App\Http\Controllers\MentorController::class, 'createStep3'])->name('step3');
             Route::post('/create/step3', [\App\Http\Controllers\MentorController::class, 'postCreateStep3'])->name('create.step3');
+
             Route::get('/step4', [\App\Http\Controllers\MentorController::class, 'createStep4'])->name('step4');
             Route::post('/create/step4', [\App\Http\Controllers\MentorController::class, 'postCreateStep4'])->name('create.step4');
             //ajax method
