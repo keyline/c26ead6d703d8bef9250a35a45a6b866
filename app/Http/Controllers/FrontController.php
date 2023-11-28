@@ -563,15 +563,13 @@ class FrontController extends Controller
                         $fname              = $requestData['fname'];
                         $lname              = $requestData['lname'];
                         $phone              = $requestData['phone'];
-                        $doc_type           = $requestData['doc_type'];
-                        $getRequiredDoc = RequireDocument::where('id', '=', $doc_type)->first();
                         $checkEmail = User::where('email', '=', $requestData['email'])->first();
                         if(empty($checkEmail)){
                             $checkPhone = User::where('phone', '=', $phone)->count();
                             if($checkPhone <= 0){
                                 if($requestData['password'] == $requestData['confirm_password']){
                                     $remember_token = rand(1000,9999);
-                                    $postData = [
+                                    $fields = [
                                         'name'                  => $fname.' '.$lname,
                                         'email'                 => $requestData['email'],
                                         'email_verified_at'     => date('Y-m-d H:i:s'),
@@ -581,33 +579,7 @@ class FrontController extends Controller
                                         'role'                  => 1,
                                         'valid'                 => 1,
                                     ];
-                                    $id = User::insertGetId($postData);
-                                    if($doc_type != ''){
-                                        /* student documents */
-                                            $user_doc       = '';
-                                            $imageFile      = $request->file('user_doc');
-                                            if($imageFile != ''){
-                                                $imageName      = $imageFile->getClientOriginalName();
-                                                $uploadedFile   = $this->upload_single_file('user_doc', $imageName, 'user', 'image');
-                                                if($uploadedFile['status']){
-                                                    $user_doc = $uploadedFile['newFilename'];
-
-                                                    $postData3 = [
-                                                        'type'                  => 'STUDENT',
-                                                        'user_id'               => $id,
-                                                        'doucument_id'          => $doc_type,
-                                                        'document_slug'         => Helper::clean((($getRequiredDoc)?$getRequiredDoc->document:'')),
-                                                        'document'              => $user_doc
-                                                    ];
-                                                    UserDocument::insert($postData3);
-                                                } else {
-                                                    $user_doc = '';
-                                                }
-                                            } else {
-                                                $user_doc = '';
-                                            }
-                                        /* student documents */
-                                    }
+                                    $id = User::insertGetId($fields);
                                     /* student profile table */
                                         $postData2 = [
                                             'user_id'               => $id,
@@ -622,7 +594,7 @@ class FrontController extends Controller
                                         $generalSetting             = GeneralSetting::find('1');
                                         $subject                    = $generalSetting->site_name.' :: Signup Complete';
                                         $message                    = view('front.email-templates.student-signup',$requestData);
-                                        // $this->sendMail($requestData['email'], $subject, $message);
+                                        $this->sendMail($requestData['email'], $subject, $message);
                                     /* email sent */
                                     /* email log save */
                                         $postData2 = [
@@ -675,7 +647,7 @@ class FrontController extends Controller
                                                 $booking_no = 'STUMENTO/'.str_pad($sl_no, 6, "0", STR_PAD_LEFT);
                                             }
                                             /* gst calculation */
-                                                $actual_amount  = $postData['payable_amt'];
+                                                $actual_amount  = $requestData['payable_amt'];
                                                 $gst_percent    = $generalSetting->igst_percent;
                                                 $gst_amount     = (($actual_amount * $gst_percent)/100);
                                                 $payable_amt    = $actual_amount + $gst_amount;
@@ -807,7 +779,7 @@ class FrontController extends Controller
                             $subject                    = $generalSetting->site_name.' :: Signup Complete';
                             $message                    = view('front.email-templates.student-signup',$requestData);
                             // echo $message;die;
-                            // $this->sendMail($requestData['email'], $subject, $message);
+                            $this->sendMail($requestData['email'], $subject, $message);
                         /* email sent */
                         /* email log save */
                             $postData2 = [
@@ -887,7 +859,7 @@ class FrontController extends Controller
                             $subject                    = $generalSetting->site_name.' :: One Time Password';
                             $message                    = view('front.email-templates.otp',$postData);
                             // echo $message;die;
-                            // $this->sendMail($requestData['email'], $subject, $message);
+                            $this->sendMail($requestData['email'], $subject, $message);
                         /* email sent */
                         /* email log save */
                             $postData2 = [
@@ -984,7 +956,7 @@ class FrontController extends Controller
                                 $subject                    = $generalSetting->site_name.' :: Reset Password';
                                 $message                    = view('front.email-templates.change-password',$checkUser);
                                 // echo $message;die;
-                                // $this->sendMail($requestData['email'], $subject, $message);
+                                $this->sendMail($requestData['email'], $subject, $message);
                             /* email sent */
                             /* email log save */
                                 $postData2 = [
@@ -1063,7 +1035,7 @@ class FrontController extends Controller
                             $subject                    = $generalSetting->site_name.' :: Failed Signin';
                             $message                    = view('front.email-templates.failed-login',$postData);
                             // echo $message;die;
-                            // $this->sendMail($postData['email'], $subject, $message);
+                            $this->sendMail($postData['email'], $subject, $message);
                         /* email sent */
                         /* email log save */
                             $postData2 = [
@@ -1341,10 +1313,11 @@ class FrontController extends Controller
                                 'meeting_duration'  => $response['duration'],
                             ];
                             $subject                    = $generalSetting->site_name.' :: Meeting';
-                            $message                    = view('front.email-templates.meeting',$postData);
+                            $message1                   = view('front.email-templates.mentor-meeting',$postData);
+                            $message2                   = view('front.email-templates.student-meeting',$postData);
                             // echo $message;die;
-                            $this->sendMail((($mentor)?$mentor->email:''), $subject, $message);
-                            $this->sendMail((($student)?$student->email:''), $subject, $message);
+                            $this->sendMail((($mentor)?$mentor->email:''), $subject, $message1);
+                            $this->sendMail((($student)?$student->email:''), $subject, $message2);
                         /* email sent */
                         /* email log save */
                             $postData2 = [
