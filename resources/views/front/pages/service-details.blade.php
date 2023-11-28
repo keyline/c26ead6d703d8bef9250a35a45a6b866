@@ -183,12 +183,42 @@
           <div class="col-md-6 col-lg-6 col-sm-6">
             <nav>
               <div class="nav nav-tabs" id="nav-tab" role="tablist">
-                <button class="nav-link active" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home" aria-selected="true">Sign Up</button>
-                <button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile" type="button" role="tab" aria-controls="nav-profile" aria-selected="false">Sign In</button>
+                <button class="nav-link active" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile" type="button" role="tab" aria-controls="nav-profile" aria-selected="true">Sign In</button>
+                <button class="nav-link" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home" aria-selected="false">Sign Up</button>
               </div>
             </nav>
             <div class="tab-content" id="nav-tabContent">
-              <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+              <div class="tab-pane fade show active" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+                <h5>Hi, you can signin from here</h5>
+                <form method="POST" enctype="multipart/form-data">
+                  @csrf
+                  <input type="hidden" class="form-control" name="mode" value="SIGNIN">
+                  <input type="hidden" class="form-control" name="key" value="facb6e0a6fcbe200dca2fb60dec75be7">
+                  <input type="hidden" class="form-control" name="source" value="WEB">
+                  <input type="hidden" name="mentor_user_id" value="<?=$mentorService['mentor_id']?>">
+                  <input type="hidden" name="mentor_service_id" value="<?=$mentorService['id']?>">
+                  <input type="hidden" name="service_type_id" value="<?=$mentorService['service_type_id']?>">
+                  <input type="hidden" name="service_attribute_id" value="<?=$mentorService['service_attribute_id']?>">
+                  <input type="hidden" name="service_id" value="<?=$mentorService['service_id']?>">
+                  <input type="hidden" name="duration" value="<?=$mentorService['duration']?>">
+                  <input type="hidden" name="payable_amt" value="<?=$mentorService['total_amount_payable']?>">
+
+                  <input type="hidden" name="booking_date" id="booking_date2">
+                  <input type="hidden" name="booking_slot_from" id="booking_slot_from2">
+                  <input type="hidden" name="booking_slot_to" id="booking_slot_to2">
+
+                  <div class="form-group">
+                     <input type="email" name="email" id="email" class="form-control" placeholder="Email address" required>
+                  </div>
+                  <div class="form-group">
+                     <input type="password" name="password" id="password" class="form-control" placeholder="Password" required>
+                  </div>
+                  <div class="form-group">
+                     <button class="login-btn" type="submit">Sign In</button>
+                  </div>
+                </form>
+              </div>
+              <div class="tab-pane fade" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
                 <h5>Hi, you can signup from here</h5>
                 <form method="POST" action="" enctype="multipart/form-data">
                   @csrf
@@ -238,55 +268,9 @@
                          <input type="password" class="form-control requiredCheck" name="confirm_password" id="confirm_password" placeholder="Confirm password" data-check="Confirm password" autocomplete="off">
                       </div>
                     </div>
-                    <div class="col-md-6 col-lg-6">
-                      <div class="form-group">
-                         <select class="form-control" name="doc_type" id="doc_type">
-                            <option value="" selected>Select Document</option>
-                            <?php if($documents){ foreach($documents as $document){?>
-                            <option value="<?=$document->id?>"><?=$document->document?></option>
-                            <?php } }?>
-                         </select>
-                      </div>
-                    </div>
-                    <div class="col-md-6 col-lg-6">
-                      <div class="form-group">
-                         <input type="file" class="form-control" name="user_doc" id="fileName" placeholder="Confirm password" data-check="Upload Document" accept="image/png, image/gif, image/jpeg, application/pdf" onchange="validateFileType(this)">
-                         <small class="text-primary">Only jpg, jpeg, png & pdf files & less than 2 MB files are allowed</small>
-                      </div>
-                    </div>
                   </div>
                   <div class="form-group">
                      <button type="submit" class="login-btn">Sign Up</button>
-                  </div>
-                </form>
-              </div>
-              <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
-                <h5>Hi, you can signin from here</h5>
-                <form method="POST" enctype="multipart/form-data">
-                  @csrf
-                  <input type="hidden" class="form-control" name="mode" value="SIGNIN">
-                  <input type="hidden" class="form-control" name="key" value="facb6e0a6fcbe200dca2fb60dec75be7">
-                  <input type="hidden" class="form-control" name="source" value="WEB">
-                  <input type="hidden" name="mentor_user_id" value="<?=$mentorService['mentor_id']?>">
-                  <input type="hidden" name="mentor_service_id" value="<?=$mentorService['id']?>">
-                  <input type="hidden" name="service_type_id" value="<?=$mentorService['service_type_id']?>">
-                  <input type="hidden" name="service_attribute_id" value="<?=$mentorService['service_attribute_id']?>">
-                  <input type="hidden" name="service_id" value="<?=$mentorService['service_id']?>">
-                  <input type="hidden" name="duration" value="<?=$mentorService['duration']?>">
-                  <input type="hidden" name="payable_amt" value="<?=$mentorService['total_amount_payable']?>">
-
-                  <input type="hidden" name="booking_date" id="booking_date2">
-                  <input type="hidden" name="booking_slot_from" id="booking_slot_from2">
-                  <input type="hidden" name="booking_slot_to" id="booking_slot_to2">
-
-                  <div class="form-group">
-                     <input type="email" name="email" id="email" class="form-control" placeholder="Email address" required>
-                  </div>
-                  <div class="form-group">
-                     <input type="password" name="password" id="password" class="form-control" placeholder="Password" required>
-                  </div>
-                  <div class="form-group">
-                     <button class="login-btn" type="submit">Sign In</button>
                   </div>
                 </form>
               </div>
