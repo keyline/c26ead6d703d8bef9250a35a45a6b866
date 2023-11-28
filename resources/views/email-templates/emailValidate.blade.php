@@ -47,6 +47,16 @@
             text-decoration: none;
             border-radius: 5px;
         }
+
+        h6 {
+            color: #a494fb;
+            font-size: 25px;
+            text-align: center;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            margin-bottom: 20px;
+        }
     </style>
 </head>
 
@@ -54,7 +64,8 @@
 
     <div class="container">
         <div class="logo">
-            <img src="{{ env('UPLOADS_URL') . $emailData['site_logo'] }}" alt="{{ $emailData['site_name'] }}">
+            {{-- <img src="{{ env('UPLOADS_URL') . $emailData['site_logo'] }}" alt="{{ $emailData['site_name'] }}"> --}}
+            <h6>stumento</h6>
         </div>
 
         <h2>Email Verification</h2>
@@ -63,7 +74,7 @@
 
         <p>
             Thank you for signing up with {{ $emailData['site_name'] }}. To complete your registration, please click the
-            link below to verify your email address:
+            link below to verify your email address: {{ $emailData['email'] }}
         </p>
 
         <p>
