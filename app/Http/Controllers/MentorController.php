@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\Helper as HelpersHelper;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
@@ -23,8 +24,9 @@ use Helper;
 use Illuminate\Support\Facades\Hash;
 
 use App\Rules\UniqueProfileSlug;
-
+use Illuminate\Auth\Events\Validated;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Log;
 
@@ -33,6 +35,9 @@ class MentorController extends Controller
     /* authentication */
     public function createStep1(Request $request)
     {
+        // remove mentor & user session values
+        session()->forget('mentor');
+        session()->forget('user');
         //get the in progress data from session storage
         $data['mentor'] = $request->session()->get('mentor');
 
@@ -63,18 +68,55 @@ class MentorController extends Controller
         }
         // Retrieve the validated input data...
         $validated = $validator->valid();
-        $user = \App\Models\User::create([
+        $verificationToken = Str::random(30) . Carbon::now()->timestamp;
+
+        $id = DB::table('users')->insertGetId([
             'name' => implode(" ", [$validated['first_name'], $validated['last_name']]),
             'email' => $validated['email'],
             'phone' => $validated['phone_number'],
+            'remember_token' => $verificationToken,
             'role' => 2,
             'valid' => 0,
-            'password' => $validated['password'],
+            'password' => Hash::make($validated['password']),
         ]);
+
+        /* email sent */
+        $generalSetting       = GeneralSetting::find('1');
+        // Construct the verification link
+
+
+        $verificationToken = Helper::encoded($verificationToken);
+        $user_id = Helper::encoded($id);
+        $verificationLink = url("/verify-email/{$user_id}/{$verificationToken}");
+
+        $data['emailData'] = [
+            'site_name' => $generalSetting->site_name,
+            'site_logo' => $generalSetting->site_logo,
+            'fname' => $validated['first_name'],
+            'lname' => $validated['last_name'],
+            'link' => $verificationLink,
+            'email' => $validated['email']
+        ];
+
+        $requestData['email'] = $validated['email'];
+        $subject              = $generalSetting->site_name . ' :: Email Verify';
+        $message              = view('email-templates.emailValidate', $data);
+       /* remove this die */
+        // echo $message;
+        // die;
+        /* remove this die */
+        try {
+           $this->sendMail($requestData['email'], $subject, $message);
+        } catch (\Throwable $th) {
+            throw $th;
+        }
+        /* email sent */
+
+
 
         // $mentor = \App\Models\MentorProfile::create();
         $mentorData = [
-            'user_id'       => $user->id,
+            'user_id'       => $id,
             'first_name'    => trim($validated['first_name']),
             'last_name'     => trim($validated['last_name']),
             'display_name'  => implode("_", [$validated['first_name'], $validated['last_name']]),
@@ -83,13 +125,13 @@ class MentorController extends Controller
             'full_name'     => implode(" ", [$validated['first_name'], $validated['last_name']]),
             'timezone'      => 'Asia/Kolkata',
         ];
-
+        // store user password for step 4 login
+        session()->put('pwd', $validated['password']);
         //Storing in session
         if (empty($request->session()->get('user'))) {
-            //instantiate model and fill model instance save later
-            //$user = new \App\Models\User();
+            $user = User::find($id);
             $mentor = new \App\Models\MentorProfile();
-            //$user->fill($userData);
+
             $mentor->fill($mentorData);
             $request->session()->put('user', $user);
             $request->session()->put('mentor', $mentor);
@@ -395,7 +437,7 @@ class MentorController extends Controller
 
 
 
-        if ($user != null) {
+        if ($user != null && Auth::guard('web')->attempt(['email' => $user->email, 'password' => session('pwd'), 'role' => 2])) {
             /* remove mentor signup data */
             session()->forget('mentor');
 

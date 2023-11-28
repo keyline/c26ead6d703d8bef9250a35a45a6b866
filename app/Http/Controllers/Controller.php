@@ -48,80 +48,81 @@ class Controller extends BaseController
         $mailLibrary->From          = $generalSetting->from_email;
         $mailLibrary->FromName      = $generalSetting->from_name;
         $mailLibrary->AddReplyTo($generalSetting->from_email, $generalSetting->from_name);
-        if(is_array($email)) :
-            foreach($email as $eml):
+        if (is_array($email)) :
+            foreach ($email as $eml) :
                 $mailLibrary->addAddress($eml);
             endforeach;
-        else:
+        else :
             $mailLibrary->addAddress($email);
         endif;
         $mailLibrary->WordWrap      = 5000;
         $mailLibrary->Subject       = $subject;
         $mailLibrary->Body          = $message;
         $mailLibrary->isHTML(true);
-        if (!empty($file)):
+        if (!empty($file)) :
             $mailLibrary->AddAttachment($file);
         endif;
+
         return (!$mailLibrary->send()) ? false : true;
     }
     // single file upload
     public function upload_single_file($fieldName, $fileName, $uploadedpath, $uploadType)
     {
         $imge = $fileName;
-        if($imge == '') {
+        if ($imge == '') {
             $slider_image = 'no-user-image.jpg';
         } else {
             $imageFileType1 = pathinfo($imge, PATHINFO_EXTENSION);
-            if($uploadType == 'image') {
-                if($imageFileType1 != "jpg" && $imageFileType1 != "png" && $imageFileType1 != "jpeg" && $imageFileType1 != "JPG" && $imageFileType1 != "PNG" && $imageFileType1 != "JPEG" && $imageFileType1 != "ico" && $imageFileType1 != "ICO" && $imageFileType1 != "SVG" && $imageFileType1 != "svg") {
+            if ($uploadType == 'image') {
+                if ($imageFileType1 != "jpg" && $imageFileType1 != "png" && $imageFileType1 != "jpeg" && $imageFileType1 != "JPG" && $imageFileType1 != "PNG" && $imageFileType1 != "JPEG" && $imageFileType1 != "ico" && $imageFileType1 != "ICO" && $imageFileType1 != "SVG" && $imageFileType1 != "svg") {
                     $message = 'Sorry, only JPG, JPEG, ICO, SVG, PNG files are allowed';
                     $status = 0;
                 } else {
                     $message = 'Upload ok';
                     $status = 1;
                 }
-            } elseif($uploadType == 'pdf') {
-                if($imageFileType1 != "pdf" && $imageFileType1 != "PDF") {
+            } elseif ($uploadType == 'pdf') {
+                if ($imageFileType1 != "pdf" && $imageFileType1 != "PDF") {
                     $message = 'Sorry, only PDF files are allowed';
                     $status = 0;
                 } else {
                     $message = 'Upload ok';
                     $status = 1;
                 }
-            } elseif($uploadType == 'word') {
-                if($imageFileType1 != "doc" && $imageFileType1 != "DOC" && $imageFileType1 != "docx" && $imageFileType1 != "DOCX") {
+            } elseif ($uploadType == 'word') {
+                if ($imageFileType1 != "doc" && $imageFileType1 != "DOC" && $imageFileType1 != "docx" && $imageFileType1 != "DOCX") {
                     $message = 'Sorry, only DOC files are allowed';
                     $status = 0;
                 } else {
                     $message = 'Upload ok';
                     $status = 1;
                 }
-            } elseif($uploadType == 'excel') {
-                if($imageFileType1 != "xls" && $imageFileType1 != "XLS" && $imageFileType1 != "xlsx" && $imageFileType1 != "XLSX") {
+            } elseif ($uploadType == 'excel') {
+                if ($imageFileType1 != "xls" && $imageFileType1 != "XLS" && $imageFileType1 != "xlsx" && $imageFileType1 != "XLSX") {
                     $message = 'Sorry, only EXCEl files are allowed';
                     $status = 0;
                 } else {
                     $message = 'Upload ok';
                     $status = 1;
                 }
-            } elseif($uploadType == 'powerpoint') {
-                if($imageFileType1 != "ppt" && $imageFileType1 != "PPT" && $imageFileType1 != "pptx" && $imageFileType1 != "PPTX") {
+            } elseif ($uploadType == 'powerpoint') {
+                if ($imageFileType1 != "ppt" && $imageFileType1 != "PPT" && $imageFileType1 != "pptx" && $imageFileType1 != "PPTX") {
                     $message = 'Sorry, only PPT files are allowed';
                     $status = 0;
                 } else {
                     $message = 'Upload ok';
                     $status = 1;
                 }
-            } elseif($uploadType == 'video') {
-                if($imageFileType1 != "mp4" && $imageFileType1 != "3gp" && $imageFileType1 != "webm" && $imageFileType1 != "MP4" && $imageFileType1 != "3GP" && $imageFileType1 != "WEBM") {
+            } elseif ($uploadType == 'video') {
+                if ($imageFileType1 != "mp4" && $imageFileType1 != "3gp" && $imageFileType1 != "webm" && $imageFileType1 != "MP4" && $imageFileType1 != "3GP" && $imageFileType1 != "WEBM") {
                     $message = 'Sorry, only Video files are allowed';
                     $status = 0;
                 } else {
                     $message = 'Upload ok';
                     $status = 1;
                 }
-            } elseif($uploadType == 'custom') {
-                if($imageFileType1 != "doc" && $imageFileType1 != "DOC" && $imageFileType1 != "docx" && $imageFileType1 != "DOCX" && $imageFileType1 != "pdf" && $imageFileType1 != "PDF" && $imageFileType1 != "ppt" && $imageFileType1 != "PPT" && $imageFileType1 != "pptx" && $imageFileType1 != "PPTX" && $imageFileType1 != "txt" && $imageFileType1 != "TXT" && $imageFileType1 != "xls" && $imageFileType1 != "XLS" && $imageFileType1 != "xlsx" && $imageFileType1 != "XLSX") {
+            } elseif ($uploadType == 'custom') {
+                if ($imageFileType1 != "doc" && $imageFileType1 != "DOC" && $imageFileType1 != "docx" && $imageFileType1 != "DOCX" && $imageFileType1 != "pdf" && $imageFileType1 != "PDF" && $imageFileType1 != "ppt" && $imageFileType1 != "PPT" && $imageFileType1 != "pptx" && $imageFileType1 != "PPTX" && $imageFileType1 != "txt" && $imageFileType1 != "TXT" && $imageFileType1 != "xls" && $imageFileType1 != "XLS" && $imageFileType1 != "xlsx" && $imageFileType1 != "XLSX") {
                     $message = 'Sorry, only .DOC,.DOCX,.PPT,.PPTX,.PDF,.XLS,.XLSX files are allowed';
                     $status = 0;
                 } else {
@@ -130,15 +131,15 @@ class Controller extends BaseController
                 }
             }
 
-            $newFilename = time().$imge;
+            $newFilename = time() . $imge;
             $temp = $_FILES[$fieldName]["tmp_name"];
-            if($uploadedpath == '') {
+            if ($uploadedpath == '') {
                 $upload_path = 'public/uploads/';
             } else {
-                $upload_path = 'public/uploads/'.$uploadedpath.'/';
+                $upload_path = 'public/uploads/' . $uploadedpath . '/';
             }
-            if($status) {
-                move_uploaded_file($temp, $upload_path.$newFilename);
+            if ($status) {
+                move_uploaded_file($temp, $upload_path . $newFilename);
                 $return_array = array('status' => 1, 'message' => $message, 'newFilename' => $newFilename);
             } else {
                 $return_array = array('status' => 0, 'message' => $message, 'newFilename' => '');
@@ -152,47 +153,47 @@ class Controller extends BaseController
         $apiStatus = false;
         $apiMessage = [];
         $apiResponse = [];
-        if(count($images) > 0) {
-            for($p = 0;$p < count($images);$p++) {
+        if (count($images) > 0) {
+            for ($p = 0; $p < count($images); $p++) {
                 $imge = $images[$p]->getClientOriginalName();
-                if($imge == '') {
+                if ($imge == '') {
                     $slider_image = 'no-user-image.jpg';
                 } else {
                     $imageFileType1 = pathinfo($imge, PATHINFO_EXTENSION);
-                    if($uploadType == 'image') {
-                        if($imageFileType1 != "jpg" && $imageFileType1 != "png" && $imageFileType1 != "jpeg" && $imageFileType1 != "gif" && $imageFileType1 != "JPG" && $imageFileType1 != "PNG" && $imageFileType1 != "JPEG" && $imageFileType1 != "GIF" && $imageFileType1 != "ico" && $imageFileType1 != "ICO") {
+                    if ($uploadType == 'image') {
+                        if ($imageFileType1 != "jpg" && $imageFileType1 != "png" && $imageFileType1 != "jpeg" && $imageFileType1 != "gif" && $imageFileType1 != "JPG" && $imageFileType1 != "PNG" && $imageFileType1 != "JPEG" && $imageFileType1 != "GIF" && $imageFileType1 != "ico" && $imageFileType1 != "ICO") {
                             $message = 'Sorry, only JPG, JPEG, ICO, PNG & GIF files are allowed';
                             $status = 0;
                         } else {
                             $message = 'Upload ok';
                             $status = 1;
                         }
-                    } elseif($uploadType == 'pdf') {
-                        if($imageFileType1 != "pdf" && $imageFileType1 != "PDF") {
+                    } elseif ($uploadType == 'pdf') {
+                        if ($imageFileType1 != "pdf" && $imageFileType1 != "PDF") {
                             $message = 'Sorry, only PDF files are allowed';
                             $status = 0;
                         } else {
                             $message = 'Upload ok';
                             $status = 1;
                         }
-                    } elseif($uploadType == 'word') {
-                        if($imageFileType1 != "doc" && $imageFileType1 != "DOC" && $imageFileType1 != "docx" && $imageFileType1 != "DOCX") {
+                    } elseif ($uploadType == 'word') {
+                        if ($imageFileType1 != "doc" && $imageFileType1 != "DOC" && $imageFileType1 != "docx" && $imageFileType1 != "DOCX") {
                             $message = 'Sorry, only DOC files are allowed';
                             $status = 0;
                         } else {
                             $message = 'Upload ok';
                             $status = 1;
                         }
-                    } elseif($uploadType == 'excel') {
-                        if($imageFileType1 != "xls" && $imageFileType1 != "XLS" && $imageFileType1 != "xlsx" && $imageFileType1 != "XLSX") {
+                    } elseif ($uploadType == 'excel') {
+                        if ($imageFileType1 != "xls" && $imageFileType1 != "XLS" && $imageFileType1 != "xlsx" && $imageFileType1 != "XLSX") {
                             $message = 'Sorry, only EXCEl files are allowed';
                             $status = 0;
                         } else {
                             $message = 'Upload ok';
                             $status = 1;
                         }
-                    } elseif($uploadType == 'powerpoint') {
-                        if($imageFileType1 != "ppt" && $imageFileType1 != "PPT" && $imageFileType1 != "pptx" && $imageFileType1 != "PPTX") {
+                    } elseif ($uploadType == 'powerpoint') {
+                        if ($imageFileType1 != "ppt" && $imageFileType1 != "PPT" && $imageFileType1 != "pptx" && $imageFileType1 != "PPTX") {
                             $message = 'Sorry, only PPT files are allowed';
                             $status = 0;
                         } else {
@@ -200,16 +201,16 @@ class Controller extends BaseController
                             $status = 1;
                         }
                     }
-                    $newFilename = uniqid().".".$imageFileType1;
+                    $newFilename = uniqid() . "." . $imageFileType1;
                     // $temp = $images[$p]->getTempName();
                     $temp = $images[$p]->getPathName();
-                    if($path == '') {
+                    if ($path == '') {
                         $upload_path = 'uploads/';
                     } else {
-                        $upload_path = $path.'/';
+                        $upload_path = $path . '/';
                     }
-                    if($status) {
-                        move_uploaded_file($temp, $upload_path.$newFilename);
+                    if ($status) {
+                        move_uploaded_file($temp, $upload_path . $newFilename);
                         //$apiStatus      = TRUE;
                         //$apiMessage     = $message;
                         $apiResponse[]  = $newFilename;
@@ -229,11 +230,11 @@ class Controller extends BaseController
         // Helper::pr(session()->all());die;
         $data['generalSetting']     = GeneralSetting::find('1');
         $data['user']               = [];
-        $data['title']              = $title.' :: '.$data['generalSetting']->site_name;
+        $data['title']              = $title . ' :: ' . $data['generalSetting']->site_name;
         $data['page_header']        = $title;
         $user_id                    = session('user_id');
         $role                       = session('role');
-        if($role == 2){
+        if ($role == 2) {
             $data['user']      = MentorProfile::where('user_id', '=', $user_id)->first();
         } else {
             $data['user']      = StudentProfile::where('user_id', '=', $user_id)->first();
@@ -244,14 +245,14 @@ class Controller extends BaseController
         $data['head']               = view('front.elements.head', $data);
         $data['header']             = view('front.elements.header', $data);
         $data['footer']             = view('front.elements.footer', $data);
-        $data['maincontent']        = view('front.pages.'.$page_name, $data);
+        $data['maincontent']        = view('front.pages.' . $page_name, $data);
         return view('front.layout-before-login', $data);
     }
     // front after login layout
     public function front_after_login_layout($title, $page_name, $data)
     {
         $data['generalSetting']     = GeneralSetting::find('1');
-        $data['title']              = $title.' :: '.$data['generalSetting']->site_name;
+        $data['title']              = $title . ' :: ' . $data['generalSetting']->site_name;
         $data['page_header']        = $title;
         $user_id                    = session('user_id');
         $data['user']               = User::find($user_id);
@@ -260,14 +261,14 @@ class Controller extends BaseController
         $data['header']             = view('front.elements.header', $data);
         $data['menu']               = view('front.elements.menu', $data);
         $data['footer']             = view('front.elements.footer', $data);
-        $data['maincontent']        = view('front.pages.'.$page_name, $data);
+        $data['maincontent']        = view('front.pages.' . $page_name, $data);
         return view('front.layout-after-login', $data);
     }
     // front dashboard layout
     public function front_dashboard_layout($title, $page_name, $data)
-    {  
+    {
         $data['generalSetting']     = GeneralSetting::find('1');
-        $data['title']              = $title.' :: '.$data['generalSetting']->site_name;
+        $data['title']              = $title . ' :: ' . $data['generalSetting']->site_name;
         $data['page_header']        = $title;
         $user_id                    = session('user_id');
         $data['user']               = User::find($user_id);
@@ -276,17 +277,17 @@ class Controller extends BaseController
         $data['header']             = view('front.dashboard.elements.header', $data);
         $data['sidebar']            = view('front.dashboard.elements.sidebar', $data);
         $data['footer']             = view('front.dashboard.elements.footer', $data);
-        $data['maincontent']        = view('front.dashboard.pages.'.$page_name, $data);
+        $data['maincontent']        = view('front.dashboard.pages.' . $page_name, $data);
         return view('front.dashboard.front-dashboard-layout', $data);
     }
     public function before_login_front_dashboard_layout($title, $page_name, $data)
     {
         $data['generalSetting']     = GeneralSetting::find('1');
-        $data['title']              = $title.' :: '.$data['generalSetting']->site_name;
+        $data['title']              = $title . ' :: ' . $data['generalSetting']->site_name;
         $data['page_header']        = $title;
         $data['user']               = [];
         $data['head']               = view('admin.elements.head', $data);
-        $data['maincontent']        = view('front.dashboard.pages.'.$page_name, $data);
+        $data['maincontent']        = view('front.dashboard.pages.' . $page_name, $data);
         return view('front.dashboard.before-login-front-dashboard-layout', $data);
     }
     // front dashboard layout
@@ -294,11 +295,11 @@ class Controller extends BaseController
     public function admin_before_login_layout($title, $page_name, $data)
     {
         $data['generalSetting']     = GeneralSetting::find('1');
-        $data['title']              = $title.' :: '.$data['generalSetting']->site_name;
+        $data['title']              = $title . ' :: ' . $data['generalSetting']->site_name;
         $data['page_header']        = $title;
 
         $data['head']               = view('admin.elements.head', $data);
-        $data['maincontent']        = view('admin.maincontents.'.$page_name, $data);
+        $data['maincontent']        = view('admin.maincontents.' . $page_name, $data);
         return view('admin.layout-before-login', $data);
     }
     // admin after login layout
@@ -306,12 +307,12 @@ class Controller extends BaseController
     {
         // Helper::pr(session()->all());
         $data['generalSetting']     = GeneralSetting::find('1');
-        $data['title']              = $title.' :: '.$data['generalSetting']->site_name;
+        $data['title']              = $title . ' :: ' . $data['generalSetting']->site_name;
         $data['page_header']        = $title;
         $user_id                    = session('user_id');
         $data['admin']              = Admin::find($user_id);
         $userAccess                 = UserAccess::where('user_id', '=', $user_id)->where('status', '=', 1)->first();
-        if($userAccess) {
+        if ($userAccess) {
             $data['module_id']      = json_decode($userAccess->module_id);
         } else {
             $data['module_id']      = [];
@@ -321,63 +322,66 @@ class Controller extends BaseController
         $data['header']             = view('admin.elements.header', $data);
         $data['footer']             = view('admin.elements.footer', $data);
         $data['sidebar']            = view('admin.elements.sidebar', $data);
-        $data['maincontent']        = view('admin.maincontents.'.$page_name, $data);
+        $data['maincontent']        = view('admin.maincontents.' . $page_name, $data);
         return view('admin.layout-after-login', $data);
     }
-    public function getAvgRating($mentor_id){
+    public function getAvgRating($mentor_id)
+    {
         $ratingStar = '';
         $getRatingCount = BookingRating::where('mentor_id', '=', $mentor_id)->where('status', '=', 1)->count();
         $getRatingTotal = BookingRating::where('mentor_id', '=', $mentor_id)->where('status', '=', 1)->sum('rating');
-        if($getRatingCount > 0){
+        if ($getRatingCount > 0) {
             $avgRating = ($getRatingTotal / $getRatingCount);
         } else {
             $avgRating = 0;
         }
-        if(($avgRating >= 4)){
+        if (($avgRating >= 4)) {
             $ratingStar .= '<i class="fa-solid fa-star"></i>';
             $ratingStar .= '<i class="fa-solid fa-star"></i>';
             $ratingStar .= '<i class="fa-solid fa-star"></i>';
             $ratingStar .= '<i class="fa-solid fa-star"></i>';
             $ratingStar .= '<i class="fa-solid fa-star"></i>';
-        } elseif(($avgRating >= 3) && ($avgRating < 4)){
+        } elseif (($avgRating >= 3) && ($avgRating < 4)) {
             $ratingStar .= '<i class="fa-solid fa-star"></i>';
             $ratingStar .= '<i class="fa-solid fa-star"></i>';
             $ratingStar .= '<i class="fa-solid fa-star"></i>';
             $ratingStar .= '<i class="fa-solid fa-star"></i>';
-        } elseif(($avgRating >= 2) && ($avgRating < 3)){
+        } elseif (($avgRating >= 2) && ($avgRating < 3)) {
             $ratingStar .= '<i class="fa-solid fa-star"></i>';
             $ratingStar .= '<i class="fa-solid fa-star"></i>';
             $ratingStar .= '<i class="fa-solid fa-star"></i>';
-        } elseif(($avgRating >= 1) && ($avgRating < 2)){
+        } elseif (($avgRating >= 1) && ($avgRating < 2)) {
             $ratingStar .= '<i class="fa-solid fa-star"></i>';
             $ratingStar .= '<i class="fa-solid fa-star"></i>';
-        } elseif(($avgRating > 0) && ($avgRating < 1)){
+        } elseif (($avgRating > 0) && ($avgRating < 1)) {
             $ratingStar .= '<i class="fa-solid fa-star"></i>';
-        } elseif(($avgRating <= 0)){
+        } elseif (($avgRating <= 0)) {
             $ratingStar .= '';
         }
         return $ratingStar;
     }
-    public function getAvgServiceRating($mentor_id, $mentor_service_id){
+    public function getAvgServiceRating($mentor_id, $mentor_service_id)
+    {
         $ratingStar = '';
         $getRatingCount = BookingRating::where('mentor_id', '=', $mentor_id)->where('mentor_service_id', '=', $mentor_service_id)->where('status', '=', 1)->count();
         $getRatingTotal = BookingRating::where('mentor_id', '=', $mentor_id)->where('mentor_service_id', '=', $mentor_service_id)->where('status', '=', 1)->sum('rating');
-        if($getRatingCount > 0){
+        if ($getRatingCount > 0) {
             $avgRating = ($getRatingTotal / $getRatingCount);
         } else {
             $avgRating = 0.0;
         }
         return $avgRating;
     }
-    public function getServiceDetails($mentor_service_id){
+    public function getServiceDetails($mentor_service_id)
+    {
         $service_array      = [];
         $getServiceDetail   = ServiceDetail::select('id', 'service_attribute_id', 'mentor_user_id', 'title', 'description', 'duration', 'total_amount_payable', 'slashed_amount')->where('id', '=', $mentor_service_id)->where('status', '=', 1)->first();
-        if($getServiceDetail){
+        if ($getServiceDetail) {
             $serviceAttribute       = ServiceAttribute::select('title')->where('id', '=', $getServiceDetail->service_attribute_id)->first();
             $serviceTypeAttribute   = ServiceTypeAttribute::select('service_type_id', 'service_id')->where('service_attribute_id', '=', $getServiceDetail->service_attribute_id)->where('is_active', '=', 1)->first();
             $serviceType            = [];
             $service                = [];
-            if($serviceTypeAttribute){
+            if ($serviceTypeAttribute) {
                 $serviceType            = ServiceType::select('name')->where('id', '=', $serviceTypeAttribute->service_type_id)->first();
                 $service                = Service::select('name')->where('id', '=', $serviceTypeAttribute->service_id)->first();
             }
@@ -389,20 +393,20 @@ class Controller extends BaseController
             $service_array          = [
                 'id'                        => $getServiceDetail->id,
                 'service_attribute_id'      => $getServiceDetail->service_attribute_id,
-                'service_attribute_name'    => (($serviceAttribute)?$serviceAttribute->title:''),
-                'service_type_id'           => (($serviceTypeAttribute)?$serviceTypeAttribute->service_type_id:0),
-                'service_type_name'         => (($serviceType)?$serviceType->name:''),
-                'service_id'                => (($serviceTypeAttribute)?$serviceTypeAttribute->service_id:0),
-                'service_name'              => (($service)?$service->name:''),
+                'service_attribute_name'    => (($serviceAttribute) ? $serviceAttribute->title : ''),
+                'service_type_id'           => (($serviceTypeAttribute) ? $serviceTypeAttribute->service_type_id : 0),
+                'service_type_name'         => (($serviceType) ? $serviceType->name : ''),
+                'service_id'                => (($serviceTypeAttribute) ? $serviceTypeAttribute->service_id : 0),
+                'service_name'              => (($service) ? $service->name : ''),
                 'title'                     => $getServiceDetail->title,
                 'description'               => $getServiceDetail->description,
                 'duration'                  => $getServiceDetail->duration,
                 'total_amount_payable'      => $getServiceDetail->total_amount_payable,
                 'slashed_amount'            => $getServiceDetail->slashed_amount,
-                'mentor_id'                 => (($profileDetail)?$profileDetail->user_id:''),
-                'display_name'              => (($profileDetail)?$profileDetail->display_name:''),
-                'name'                      => (($profileDetail)?$profileDetail->full_name:''),
-                'profile_image'             => (($profileDetail)?(($profileDetail->profile_pic != '')?env('UPLOADS_URL').'user/'.$profileDetail->profile_pic:env('NO_IMAGE_AVATAR')):env('NO_IMAGE_AVATAR')),
+                'mentor_id'                 => (($profileDetail) ? $profileDetail->user_id : ''),
+                'display_name'              => (($profileDetail) ? $profileDetail->display_name : ''),
+                'name'                      => (($profileDetail) ? $profileDetail->full_name : ''),
+                'profile_image'             => (($profileDetail) ? (($profileDetail->profile_pic != '') ? env('UPLOADS_URL') . 'user/' . $profileDetail->profile_pic : env('NO_IMAGE_AVATAR')) : env('NO_IMAGE_AVATAR')),
                 'rating_star'               => $rating_star
             ];
         }
@@ -413,10 +417,10 @@ class Controller extends BaseController
     public function convertCurrency($amount, $from, $to)
     {
         // Fetching JSON
-        $req_url = 'https://api.exchangerate-api.com/v4/latest/'.$from;
+        $req_url = 'https://api.exchangerate-api.com/v4/latest/' . $from;
         $response_json = file_get_contents($req_url);
         // Continuing if we got a result
-        if(false !== $response_json) {
+        if (false !== $response_json) {
             // Try/catch for json_decode operation
             try {
                 // Decoding
@@ -425,32 +429,34 @@ class Controller extends BaseController
                 $base_price = $amount; // Your price in USD
                 $EUR_price = round(($base_price * $response_object->rates->$to), 2);
                 return $EUR_price;
-            } catch(Exception $e) {
+            } catch (Exception $e) {
                 // Handle JSON parse error...
             }
         }
     }
     // get admin balance
-    public function getAdminBalance(){
+    public function getAdminBalance()
+    {
         $adminBal   = 0;
         $getBalance = AdminPayment::select('closing_amt')->orderBy('id', 'DESC')->first();
-        if($getBalance){
+        if ($getBalance) {
             $adminBal   = $getBalance->closing_amt;
         }
         return $adminBal;
     }
     // get mentor balance
-    public function getMentorBalance($mentor_id){
+    public function getMentorBalance($mentor_id)
+    {
         $mentorBal   = 0;
         $getBalance = MentorPayment::select('closing_amt')->where('mentor_id', '=', $mentor_id)->orderBy('id', 'DESC')->first();
-        if($getBalance){
+        if ($getBalance) {
             $mentorBal   = $getBalance->closing_amt;
         }
         return $mentorBal;
     }
     public function jobseekerNamingFormat($fname, $lname, $dob)
     {
-        $formattedName = strtoupper(substr($fname, 0, 1)).'. '.$lname.' '.date_format(date_create($dob), "m-y");
+        $formattedName = strtoupper(substr($fname, 0, 1)) . '. ' . $lname . ' ' . date_format(date_create($dob), "m-y");
         return $formattedName;
     }
     public function perform_http_request($method, $url, $data = array())
@@ -490,8 +496,8 @@ class Controller extends BaseController
         $data = array_merge($dataJson, $data);
         // Helper::pr($data);
 
-        $curl = curl_init($url.$functionName);
-        curl_setopt($curl, CURLOPT_URL, $url.$functionName);
+        $curl = curl_init($url . $functionName);
+        curl_setopt($curl, CURLOPT_URL, $url . $functionName);
         curl_setopt($curl, CURLOPT_POST, true);
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
 
