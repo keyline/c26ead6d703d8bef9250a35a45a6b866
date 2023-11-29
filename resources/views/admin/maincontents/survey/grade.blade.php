@@ -69,7 +69,7 @@ $controllerRoute = $module['controller_route'];
                             <input type="number" class="form-control"  min="<?=$range_from?>" max="<?=$range_to?>" name="maximum[]" id="maximum" placeholder="Maximum" required onkeypress="return isNumber(event)">
                         </div>
                         <div class="col-md-3">
-                            <input type="text" class="form-control" maxlength="3" name="grade[]" id="grade" placeholder="Grade" required>
+                            <input type="text" class="form-control" name="grade[]" id="grade" placeholder="Grade" required>
                         </div>
                         <div class="col-md-10" style="margin-top: 10px">
                             <textarea class="form-control" name="review[]" id="review" rows="5" placeholder="Review"></textarea>
