@@ -774,7 +774,6 @@ class FrontController extends Controller
                         'password'              => Hash::make($requestData['password']),
                         'remember_token'        => $verificationToken,
                         'role'                  => 1,
-                        'valid'                 => 1,
                     ];
                     // Helper::pr($postData);
                     $id = User::insertGetId($postData);
