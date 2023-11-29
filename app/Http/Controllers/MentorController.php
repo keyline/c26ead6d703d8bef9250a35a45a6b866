@@ -76,7 +76,6 @@ class MentorController extends Controller
             'phone' => $validated['phone_number'],
             'remember_token' => $verificationToken,
             'role' => 2,
-            'valid' => 0,
             'password' => Hash::make($validated['password']),
         ]);
 
