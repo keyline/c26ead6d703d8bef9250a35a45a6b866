@@ -102,12 +102,14 @@ $pageName = $routeName->uri();
 
 </div>
 
-
-@if (!$isValid)
+<?php
+$user = User::where('id', '=', $user_id)->first();
+if ($user->email_verified_at == ''){
+?>
     <div class="style_marquee">
         <marquee behavior="alternate" direction="left" onmouseover="this.stop();" onmouseout="this.start();">
             Welcome to our platform! Verify your email to active your account and unlock all features. Click the
             verification button in your email. Thanks for joining.
         </marquee>
     </div>
-@endif
+<?php }?>
