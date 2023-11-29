@@ -473,9 +473,6 @@ class MentorController extends Controller
             return redirect('signin');
         }
 
-
-
-
         /*  Direct login after signup complete end */
     }
 
