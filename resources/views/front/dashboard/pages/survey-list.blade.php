@@ -60,7 +60,7 @@
 													<td>
 														<?php $checkResult = SurveyResult::where('status','=',1)->where('survey_id','=',$survey->id)->first(); 
 														if($checkResult){	?>
-															<span class="badge bg-info">Already Participate</span>
+															<span class="badge bg-primary">Already Participated</span>
 														<?php }else{	?>
 															<a href="<?=url('user/survey-details/'.Helper::encoded($survey->id))?>" class="btn_orgfill uppercase"> View</a>
 														<?php } ?>
