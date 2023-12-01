@@ -108,8 +108,7 @@ if ($user->email_verified_at == ''){
 ?>
 <div class="style_marquee">
     <marquee behavior="alternate" direction="left" onmouseover="this.stop();" onmouseout="this.start();">
-        {{-- Welcome to our platform! Verify your email to active your account and unlock all features. Click the
-            verification button in your email. Thanks for joining. --}}
+
         Your account has not been verified yet, please verify your account first from the verification mail, which is
         sent to your registered mail.
     </marquee>

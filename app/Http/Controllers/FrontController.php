@@ -769,11 +769,9 @@ class FrontController extends Controller
                     $postData = [
                         'name'                  => $fname . ' ' . $lname,
                         'email'                 => $requestData['email'],
-                        'email_verified_at'     => date('Y-m-d H:i:s'),
                         'phone'                 => $phone,
                         'password'              => Hash::make($requestData['password']),
                         'remember_token'        => $verificationToken,
-                        'role'                  => 1,
                     ];
                     // Helper::pr($postData);
                     $id = User::insertGetId($postData);
