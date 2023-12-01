@@ -71,6 +71,7 @@
         .btn:hover {
             background-color: #0056b3;
         }
+
         h6 {
             color: #a494fb;
             font-size: 25px;
@@ -92,11 +93,12 @@
 
                 <div class="alert alert-success">
                     <strong>Email Validated Successfully!</strong>
-
                 </div>
 
+                <a href="{{ route('user_login') }}" class="btn btn-info">Back to Signin</a>
+
                 <h6>stumento</h6>
-                {{-- <a href="/" class="btn">Back to Home</a> --}}
+
             </div>
         </div>
     </div>

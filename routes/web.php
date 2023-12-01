@@ -69,11 +69,11 @@ Route::prefix('/')->namespace('App\Http\Controllers')->group(function () {
     Route::get('/verify-email/{id?}/{token?}', [EmailVerifyController::class, 'verify'])->name('emailVerify');
     Route::view('/invalid-token', 'email-templates.invalidToken')->name('invalid-token');
     Route::view('/active-success', 'email-templates.activeToken')->name('active-token');
- // Email id Verify
+    // Email id Verify
 
     Route::match(['get', 'post'], '/student-signup', 'FrontController@studentSignup');
     Route::match(['get', 'post'], '/signup', 'FrontController@signup');
-    Route::match(['get', 'post'], 'signin', 'FrontController@signin');
+    Route::match(['get', 'post'], 'signin', 'FrontController@signin')->name('user_login');
     Route::match(['get', 'post'], '/forgot-password', 'FrontController@forgotPassword');
     Route::match(['get', 'post'], '/validate-otp', 'FrontController@validateOtp');
     Route::match(['get', 'post'], '/reset-password', 'FrontController@resetPassword');

@@ -1,5 +1,7 @@
 <?php
+
 namespace App\Http\Controllers;
+
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
@@ -752,6 +754,7 @@ class FrontController extends Controller
         $page_name                      = 'student-signup';
         echo $this->front_before_login_layout($title, $page_name, $data);
     }
+
     public function signup(Request $request)
     {
         $requestData        = $request->all();
@@ -769,11 +772,9 @@ class FrontController extends Controller
                     $postData = [
                         'name'                  => $fname . ' ' . $lname,
                         'email'                 => $requestData['email'],
-                        'email_verified_at'     => date('Y-m-d H:i:s'),
                         'phone'                 => $phone,
                         'password'              => Hash::make($requestData['password']),
                         'remember_token'        => $verificationToken,
-                        'role'                  => 1,
                     ];
                     // Helper::pr($postData);
                     $id = User::insertGetId($postData);
@@ -812,7 +813,11 @@ class FrontController extends Controller
                     //   echo $message;
                     //   die;
                     /* remove this die */
-                    $this->sendMail($requestData['email'], $subject, $message);
+                    try {
+                        $this->sendMail($requestData['email'], $subject, $message);
+                    } catch (\Throwable $th) {
+                        throw $th;
+                    }
                     /* email sent */
                     /* email log save */
                     $postData2 = [
