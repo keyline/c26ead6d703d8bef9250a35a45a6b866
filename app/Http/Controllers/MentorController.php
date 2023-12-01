@@ -69,7 +69,6 @@ class MentorController extends Controller
         // Retrieve the validated input data...
         $validated = $validator->valid();
         $verificationToken = Str::random(30) . Carbon::now()->timestamp;
-
         $id = DB::table('users')->insertGetId([
             'name' => implode(" ", [$validated['first_name'], $validated['last_name']]),
             'email' => $validated['email'],
@@ -100,25 +99,25 @@ class MentorController extends Controller
         $requestData['email'] = $validated['email'];
         $subject              = $generalSetting->site_name . ' :: Email Verify';
         $message              = view('email-templates.emailValidate', $data);
-       /* remove this die */
+        /* remove this die */
         // echo $message;
         // die;
         /* remove this die */
         try {
-           $this->sendMail($requestData['email'], $subject, $message);
+            $this->sendMail($requestData['email'], $subject, $message);
         } catch (\Throwable $th) {
             throw $th;
         }
         /* email sent */
 
+        $display_name = implode("_", [$validated['first_name'], $validated['last_name']]);
+        $username = $this->generateUniqueProfileSlug($display_name);
 
-
-        // $mentor = \App\Models\MentorProfile::create();
         $mentorData = [
             'user_id'       => $id,
             'first_name'    => trim($validated['first_name']),
             'last_name'     => trim($validated['last_name']),
-            'display_name'  => implode("_", [$validated['first_name'], $validated['last_name']]),
+            'display_name'  => $username,
             'email'         => $validated['email'],
             'mobile'        => $validated['phone_number'],
             'full_name'     => implode(" ", [$validated['first_name'], $validated['last_name']]),
@@ -684,5 +683,4 @@ class MentorController extends Controller
 
         return $username;
     }
-    /* authentication */
 }
