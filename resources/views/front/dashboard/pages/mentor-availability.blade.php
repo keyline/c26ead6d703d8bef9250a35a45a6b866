@@ -51,10 +51,11 @@ use App\Helpers\Helper;
 									<div class="col-md-3"></div>
 									<div class="col-md-9">
 										<div class="row">
-											<div class="col-md-3 text-center"><span class="fw-bold" style="color: #f9233f;">Start</span></div>
-											<div class="col-md-3 text-center"><span class="fw-bold" style="color: #f9233f;">Duration</span></div>
-											<div class="col-md-3 text-center"><span class="fw-bold" style="color: #f9233f;">No. Of Slots</span></div>
+											<div class="col-md-3 text-left"><span class="fw-bold" style="color: #f9233f;">Start</span></div>
+											<div class="col-md-3 text-left"><span class="fw-bold" style="color: #f9233f;">Duration</span></div>
+											<div class="col-md-3 text-left"><span class="fw-bold" style="color: #f9233f;">No. Of Slots</span></div>
 											<div class="col-md-3 text-left"><span class="fw-bold" style="color: #f9233f;">End</span></div>
+											<div class="col-md-3 text-left"><span class="fw-bold" style="color: #f9233f;"></span></div>
 										</div>
 									</div>
 								</div>

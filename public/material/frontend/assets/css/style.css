@@ -2100,12 +2100,17 @@ ul.listbullet li {
     position: relative;
     width: 105px;
     margin: 0 auto;
-    padding: 5px 20px;
+    /* padding: 5px 20px; */
     background: #fff;
     border: 2px solid #f9233f;
     cursor: pointer;
     outline: none;
     border-radius: 20px;
+}
+.wrapper-dropdown-2 .btn-secondary {
+    background: none !important;
+    color: #000;
+    border: none;padding: 5px 20px;
 }
 .wrapper-dropdown-2:after {
     content: "";
@@ -2201,11 +2206,16 @@ ul.listbullet li {
 
 
 
-#signdropdown1.wrapper-dropdown-2 {
+.wrapper-dropdown-2.wrapper-dropdown-2red {
     background: #f9233f;
     color: #fff;
 }
-#signdropdown1.wrapper-dropdown-2::after {
+.wrapper-dropdown-2.wrapper-dropdown-2red .btn-secondary {
+    background: none !important;
+    color: #fff;
+    border: none;padding: 5px 20px;
+}
+.wrapper-dropdown-2.wrapper-dropdown-2red::after {
     border-color: #fff transparent;
 }
 #signdropdown1 .dropdown{

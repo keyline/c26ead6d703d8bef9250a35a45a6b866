@@ -50,7 +50,7 @@ use App\Models\GeneralSetting;
 		<?php }?>
 		</div>
       <div class="body flex-grow-1 px-3">
-         <div class="container-lg">
+         <div id="middle" class="container-lg">
             <div class="row">
                <div class="col-sm-12 col-lg-6">
                   <div class="card mb-4 text-white bg-whitebg">
@@ -148,11 +148,11 @@ use App\Models\GeneralSetting;
                      </div>
                   </div>
             	</div>
-               <div class="col-sm-12 col-lg-6">
-                 	<div class="card mb-4 text-white bg-whitebg">
-                  	<div class="card-body profile_cardbody">
-                  		<div class="metor_service">
-                  			<form action="" method="POST" accept-charset="utf-8" enctype="multipart/form-data">
+               <div  class="col-sm-12 col-lg-6 card_scrollbox" >
+                 	<div class="card mb-4  text-white bg-whitebg" id="sidebar-nav">
+                  	<div class="card-body profile_cardbody" >
+                  		<div class="metor_service" >
+                  			<form  action="" method="POST" accept-charset="utf-8" enctype="multipart/form-data">
                     				<input type="hidden" name="_token" value="<?=csrf_token()?>">
                   				<input type="hidden" name="mode" value="service">
 										<input type="hidden" name="mentor_user_id" value="<?=$userId?>">
@@ -223,6 +223,24 @@ use App\Models\GeneralSetting;
       </div>
    </div>
 </div>
+
+
+
+
+
+
+
+
+
+
+<style>
+
+
+
+
+
+
+</style>
 <script type="text/javascript">
 	function getServiceDetails(service_attribute_id){
 	    $.ajax({
@@ -251,3 +269,4 @@ use App\Models\GeneralSetting;
 	    });
 	}
 </script>
+

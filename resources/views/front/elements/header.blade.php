@@ -50,23 +50,43 @@ use App\Helpers\Helper;
                   <ul>
                      <li>
                         <div class="wrapper-demo">
-                           <div id="signdropdown" class="wrapper-dropdown-2" tabindex="1">Sign in
+                           <div class="dropdown wrapper-dropdown-2">
+                                 <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                 Sign in
+                                 <span class="caret"></span>
+                              </button>
+                              <div class="dropdown-menu">
+                                 <a class="dropdown-item" href="<?=url('signin')?>">Mentor Login</a>
+                                 <a class="dropdown-item" href="<?=url('signin')?>">Student Login</a>
+                              </div>
+                           </div>
+                           <!-- <div id="signdropdown" class="wrapper-dropdown-2" tabindex="1">Sign in
                               <ul class="dropdown">
                                  <li><a href="<?=url('signin')?>">Mentor Login</a></li>
                                  <li><a href="<?=url('signin')?>">Student Login</a></li>
                               </ul>
-                           </div>
+                           </div> -->
                         </div>
                         <!-- <a class="btn_border" href="<?=url('signin')?>">Sign In</a> -->
                      </li>
                      <li>
                         <div class="wrapper-demo">
-                           <div id="signdropdown1" class="wrapper-dropdown-2" tabindex="1">Sign up
+                           <div class="dropdown wrapper-dropdown-2 wrapper-dropdown-2red">
+                                 <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                 Sign up
+                                 <span class="caret"></span>
+                              </button>
+                              <div class="dropdown-menu">
+                                 <a class="dropdown-item" href="<?=url('mentor/signup')?>">Mentor Sign up</a>
+                                 <a class="dropdown-item" href="<?=url('student-signup')?>">Student Sign up</a>
+                              </div>
+                           </div>
+                           <!-- <div id="signdropdown1" class="wrapper-dropdown-2" tabindex="1">Sign up
                               <ul class="dropdown">
                                  <li><a href="<?=url('mentor/signup')?>">Mentor Sign up</a></li>
                                  <li><a href="<?=url('student-signup')?>">Student Sign up</a></li>
                               </ul>
-                           </div>
+                           </div> -->
                         </div>
                         <!-- <a class="btn_orgfill" href="<?=route('mentor.signup')?>">Sign up free</a> -->
                      </li>

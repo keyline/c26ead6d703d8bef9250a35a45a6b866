@@ -15931,18 +15931,18 @@ select.select2-frm {
     padding-left: 15px;
     padding-top: 8px;
     padding-bottom: 10px;
-    width: 139px;
+    width: 190px;
     font-family: "Myriadpro-semibold", sans-serif;
     color: #444;
 }
 .slot_starttime {
-    width: 139px;
+    width: 190px;
 }
 .slot__duration {
-    width: 139px;
+    width: 190px;
 }
 .slot__duration .select2-container {
-    width: 139px !important;
+    width: 190px !important;
 }
 button.add-slot-btn.add__slot__parent {
     /* margin-left: 5px; */
@@ -15970,23 +15970,23 @@ button.add-slot-btn.add__slot__parent {
     border-radius: 4px;
     height: 40px;
     padding: 10px;
-    width: 90px;
+    width: 135px;
     display: inline-block;
 }
 button.add-slot-btn {
     background: none;
     border-radius: 20px;
     width: 32px;
-    height: 20px;
+    height: 23px;
     font-size: 12px;
     line-height: 19px;
 }
 .no__of__slots .select2-container {
-    width: 120px !important;
+    width: 190px !important;
 }
 .mentoe_admin_section .slot-item {
     background: #fff;
-    max-width: 850px;
+    max-width: 100%;
     width: 100%;
     border-radius: 10px;
     margin-bottom: 5px;

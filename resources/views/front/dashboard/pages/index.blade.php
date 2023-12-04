@@ -1,6 +1,6 @@
 <div class="account_wrapper">
 	<?=$sidebar;?>
-	<div class="wrapper account_inner_section d-flex flex-column min-vh-100 bg-light">
+	<div class="wrapper account_inner_section d-flex flex-column bg-light">
 		<header class="header header-sticky mb-4">
 			<div class="container-fluid">
 				<button class="header-toggler px-md-0 me-md-3 d-md-none" type="button" onclick="coreui.Sidebar.getInstance(document.querySelector('#sidebar')).toggle()">
