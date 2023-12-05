@@ -7,7 +7,7 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
+            background-color: #fff;
             margin: 0;
             padding: 0;
             display: flex;
@@ -22,12 +22,12 @@
             border-radius: 8px;
             padding: 40px;
             text-align: center;
-            max-width: 400px;
+            max-width: 700px;
             width: 100%;
         }
 
         .card-header {
-            font-size: 24px;
+            font-size: 18px;
             font-weight: bold;
             margin-bottom: 20px;
             color: #333;
@@ -81,23 +81,37 @@
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
             margin-bottom: 20px;
         }
+        .headlgoo img {
+    max-width: 250px;
+    margin-bottom: 20px;
+}
+.middleemalimg img {
+    max-width: 150px;
+    margin: 25px 0;
+}
+.container {
+    width: 100%;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
     </style>
 </head>
 
 <body>
     <div class="container">
         <div class="card">
-            <div class="card-header">Account Active</div>
+            <div class="headlgoo"><img src="<?=env('FRONT_ASSETS_URL')?>assets/images/logo_final.png" alt=""></div>
+            <div class="card-header">Hi, Your account is verified now!!</div>
 
             <div class="card-body">
-
-                <div class="alert alert-success">
+                <div class="middleemalimg"><img src="<?=env('FRONT_ASSETS_URL')?>assets/images/email_recived.jpg" alt=""></div>
+                <!-- <div class="alert alert-success">
                     <strong>Email Validated Successfully!</strong>
-                </div>
+                </div> -->
 
                 <a href="{{ route('user_login') }}" class="btn btn-info">Back to Signin</a>
-
-                <h6>stumento</h6>
 
             </div>
         </div>
