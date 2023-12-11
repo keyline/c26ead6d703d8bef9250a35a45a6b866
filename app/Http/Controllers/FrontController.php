@@ -1373,7 +1373,7 @@ class FrontController extends Controller
                         'name'                  => (($mentor) ? $mentor->name : ''),
                         'email'                 => (($mentor) ? $mentor->email : ''),
                         'subject'               => $subject,
-                        'message'               => $message
+                        'message'               => $message2
                     ];
                     EmailLog::insertGetId($postData2);
                     /* email log save */
