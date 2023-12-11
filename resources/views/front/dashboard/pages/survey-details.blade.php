@@ -1,6 +1,6 @@
 <?php
 	use App\Models\User;
-	use App\Models\surveyQuestionOptions;
+	use App\Models\SurveyQuestionOptions;
 	use App\Models\SurveyResult;
 	use App\Models\Survey;
 	use App\Helpers\Helper;
@@ -52,7 +52,7 @@
 										<li class="question <?=$q;?> <?=(($q == 1)?'':'inactive')?>" id="question-container-<?=$q?>">
 											<h3><?=$q?>. <?= $surveyQuestion->question_name; ?></h3>
 											<ul>
-												<?php $surveyQuestionOptions = surveyQuestionOptions::where('survey_id','=', $surveyQuestion->survey_id)->where('question_id','=',$surveyQuestion->question_id)->where('status','=',1)->get();
+												<?php $surveyQuestionOptions = SurveyQuestionOptions::where('survey_id','=', $surveyQuestion->survey_id)->where('question_id','=',$surveyQuestion->question_id)->where('status','=',1)->get();
 												if($surveyQuestionOptions){
 													foreach ($surveyQuestionOptions as $surveyQuestionOption) { ?>
 														<li>
