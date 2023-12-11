@@ -68,7 +68,7 @@ $generalSetting             = GeneralSetting::find('1');
 
     <div class="container">
         <div class="logo">
-            <img src="<?=env('UPLOADS_URL').'uploads/'.$generalSetting->site_logo?>" alt="<?=$generalSetting->site_name?>">
+            <img src="<?=env('UPLOADS_URL').$generalSetting->site_logo?>" alt="<?=$generalSetting->site_name?>">
             <!-- <h6>MENTROVERT</h6> -->
         </div>
 
