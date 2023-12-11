@@ -1,3 +1,7 @@
+<?php
+use App\Models\GeneralSetting;
+$generalSetting             = GeneralSetting::find('1');
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -102,7 +106,7 @@
 <body>
     <div class="container">
         <div class="card">
-            <div class="headlgoo"><img src="<?=env('FRONT_ASSETS_URL')?>assets/images/logo_final.png" alt=""></div>
+            <div class="headlgoo"><img src="<?=env('UPLOADS_URL').'uploads/'.$generalSetting->site_logo?>" alt="<?=$generalSetting->site_name?>"></div>
             <div class="card-header">Hi, Your account is verified now!!</div>
 
             <div class="card-body">

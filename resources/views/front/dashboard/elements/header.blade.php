@@ -2,7 +2,9 @@
 use App\Models\User;
 use App\Models\StudentProfile;
 use App\Models\MentorProfile;
+use App\Models\GeneralSetting;
 
+$generalSetting             = GeneralSetting::find('1');
 use Illuminate\Support\Facades\Route;
 $routeName = Route::current();
 $pageName = $routeName->uri();
@@ -11,8 +13,11 @@ $pageName = $routeName->uri();
 <div class="container">
     <div class="row">
         <div class="col-lg-3 col-md-4 col-sm-12 col-6">
-            <div class="headlogo"><a class="navbar-brand" href="<?= url('/') ?>"><img class="img-fluid"
-                        src="<?= env('FRONT_DASHBOARD_ASSETS_URL') ?>assets/img/logo.png" alt="logo"></a></div>
+            <div class="headlogo">
+                <a class="navbar-brand" href="<?= url('/') ?>">
+                    <img class="img-fluid" src="<?=env('UPLOADS_URL').'uploads/'.$generalSetting->site_logo?>" alt="<?=$generalSetting->site_name?>">
+                </a>
+            </div>
         </div>
         <div class="col-lg-9 col-md-8 col-sm-12">
             <div class="head_menusection">

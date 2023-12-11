@@ -414,10 +414,10 @@ class FrontController extends Controller
                 $getLastBooking     = Booking::select('id', 'sl_no')->orderBy('id', 'DESC')->first();
                 if ($getLastBooking) {
                     $sl_no = $getLastBooking->sl_no + 1;
-                    $booking_no = 'STUMENTO/' . str_pad($sl_no, 6, "0", STR_PAD_LEFT);
+                    $booking_no = 'MENTROVERT/' . str_pad($sl_no, 6, "0", STR_PAD_LEFT);
                 } else {
                     $sl_no = 1;
-                    $booking_no = 'STUMENTO/' . str_pad($sl_no, 6, "0", STR_PAD_LEFT);
+                    $booking_no = 'MENTROVERT/' . str_pad($sl_no, 6, "0", STR_PAD_LEFT);
                 }
                 /* gst calculation */
                 $actual_amount  = $postData['payable_amt'];
@@ -497,10 +497,10 @@ class FrontController extends Controller
                         $getLastBooking     = Booking::select('id', 'sl_no')->orderBy('id', 'DESC')->first();
                         if ($getLastBooking) {
                             $sl_no = $getLastBooking->sl_no + 1;
-                            $booking_no = 'STUMENTO/' . str_pad($sl_no, 6, "0", STR_PAD_LEFT);
+                            $booking_no = 'MENTROVERT/' . str_pad($sl_no, 6, "0", STR_PAD_LEFT);
                         } else {
                             $sl_no = 1;
-                            $booking_no = 'STUMENTO/' . str_pad($sl_no, 6, "0", STR_PAD_LEFT);
+                            $booking_no = 'MENTROVERT/' . str_pad($sl_no, 6, "0", STR_PAD_LEFT);
                         }
                         /* gst calculation */
                         $actual_amount  = $postData['payable_amt'];
@@ -656,10 +656,10 @@ class FrontController extends Controller
                                 $getLastBooking     = Booking::select('id', 'sl_no')->orderBy('id', 'DESC')->first();
                                 if ($getLastBooking) {
                                     $sl_no = $getLastBooking->sl_no + 1;
-                                    $booking_no = 'STUMENTO/' . str_pad($sl_no, 6, "0", STR_PAD_LEFT);
+                                    $booking_no = 'MENTROVERT/' . str_pad($sl_no, 6, "0", STR_PAD_LEFT);
                                 } else {
                                     $sl_no = 1;
-                                    $booking_no = 'STUMENTO/' . str_pad($sl_no, 6, "0", STR_PAD_LEFT);
+                                    $booking_no = 'MENTROVERT/' . str_pad($sl_no, 6, "0", STR_PAD_LEFT);
                                 }
                                 /* gst calculation */
                                 $actual_amount  = $requestData['payable_amt'];
