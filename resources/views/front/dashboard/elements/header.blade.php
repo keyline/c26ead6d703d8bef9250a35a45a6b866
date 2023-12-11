@@ -15,7 +15,7 @@ $pageName = $routeName->uri();
         <div class="col-lg-3 col-md-4 col-sm-12 col-6">
             <div class="headlogo">
                 <a class="navbar-brand" href="<?= url('/') ?>">
-                    <img class="img-fluid" src="<?=env('UPLOADS_URL').'uploads/'.$generalSetting->site_logo?>" alt="<?=$generalSetting->site_name?>">
+                    <img class="img-fluid" src="<?=env('UPLOADS_URL').$generalSetting->site_logo?>" alt="<?=$generalSetting->site_name?>">
                 </a>
             </div>
         </div>

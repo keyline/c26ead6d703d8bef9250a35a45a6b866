@@ -106,7 +106,7 @@ $generalSetting             = GeneralSetting::find('1');
 <body>
     <div class="container">
         <div class="card">
-            <div class="headlgoo"><img src="<?=env('UPLOADS_URL').'uploads/'.$generalSetting->site_logo?>" alt="<?=$generalSetting->site_name?>"></div>
+            <div class="headlgoo"><img src="<?=env('UPLOADS_URL').$generalSetting->site_logo?>" alt="<?=$generalSetting->site_name?>"></div>
             <div class="card-header">Hi, Your account is verified now!!</div>
 
             <div class="card-body">
