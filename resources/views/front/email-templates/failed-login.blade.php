@@ -12,7 +12,7 @@ $generalSetting             = GeneralSetting::find('1');
     <section style="padding: 80px 0; height: 80vh; margin: 0 15px;">
         <div style="max-width: 600px; background: #ffffff; margin: 0 auto; border-radius: 15px; padding: 20px 15px; box-shadow: 0 0 30px -5px #ccc;">
           <div style="text-align: center;">
-              <img src="https://keylines.net.in/dev/stumento_html/assets/images/logo.png" alt="" style=" width: 100%; max-width: 250px;">
+              <img src="<?=env('UPLOADS_URL').'uploads/'.$generalSetting->site_logo?>" alt="<?=$generalSetting->site_name?>" style=" width: 100%; max-width: 250px;">
           </div>
           <div>
             <h3 style="text-align: center; font-size: 25px; color: #5c5b5b; font-family: sans-serif;">Sorry, your signin attempt was failed</h3>

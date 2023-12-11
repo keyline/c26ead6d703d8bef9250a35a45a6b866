@@ -1,3 +1,7 @@
+<?php
+use App\Models\GeneralSetting;
+$generalSetting             = GeneralSetting::find('1');
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -22,7 +26,7 @@
         }
 
         h2 {
-            color: #9b8afb;
+            color: #f9233f;
         }
 
         p {
@@ -42,7 +46,7 @@
         .btn {
             display: inline-block;
             padding: 10px 20px;
-            background-color: #9b8afb;
+            background-color: #f9233f;
             color: #fff;
             text-decoration: none;
             border-radius: 5px;
@@ -64,8 +68,8 @@
 
     <div class="container">
         <div class="logo">
-            {{-- <img src="{{ env('UPLOADS_URL') . $emailData['site_logo'] }}" alt="{{ $emailData['site_name'] }}"> --}}
-            <h6>stumento</h6>
+            <img src="<?=env('UPLOADS_URL').'uploads/'.$generalSetting->site_logo?>" alt="<?=$generalSetting->site_name?>">
+            <!-- <h6>MENTROVERT</h6> -->
         </div>
 
         <h2>Email Verification</h2>

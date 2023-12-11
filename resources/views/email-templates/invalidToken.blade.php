@@ -1,3 +1,7 @@
+<?php
+use App\Models\GeneralSetting;
+$generalSetting             = GeneralSetting::find('1');
+?>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -81,7 +85,7 @@
             <strong>Invalid Token!</strong> The token you provided is invalid.
           </div>
 
-            <h6>stumento</h6>
+            <h6>MENTROVERT</h6>
 
 
           <div class="text-center">
