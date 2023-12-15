@@ -82,6 +82,12 @@ $controllerRoute = $module['controller_route'];
                                 </div>
                             </div>
                             <div class="row mb-3">
+                                <label for="team_meeting_link" class="col-md-2 col-lg-2 col-form-label">Team Meeting Link</label>
+                                <div class="col-md-10 col-lg-10">
+                                    <input type="text" name="team_meeting_link" class="form-control" id="team_meeting_link" value="<?=$mentor->team_meeting_link?>" required>
+                                </div>
+                            </div>
+                            <div class="row mb-3">
                               <label for="image" class="col-md-2 col-lg-2 col-form-label">Profile Image</label>
                               <div class="col-md-10 col-lg-10">
                                 <input type="file" name="image" class="form-control" id="img_file" onChange="img_pathUrl(this);" >

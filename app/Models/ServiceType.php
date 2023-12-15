@@ -8,7 +8,7 @@ use App\Models\ServiceTypeAttribute;
 
 class ServiceType extends Model
 {
-    protected $fillable = ['name', 'slug', 'description', 'image'];
+    protected $fillable = ['name', 'homepage_service_title', 'slug', 'description', 'image'];
 
 
     public function services()

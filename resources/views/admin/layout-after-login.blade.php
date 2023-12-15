@@ -46,6 +46,7 @@
     $(function(){
       $('.autohide').delay(5000).fadeOut('slow');
     })
+    
   </script>
 </body>
 </html>

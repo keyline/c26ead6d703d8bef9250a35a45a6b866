@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Service extends Model
 {
-    protected $fillable = ['name', 'slug', 'description', 'image', 'mentor_bg_color'];
+    protected $fillable = ['name', 'homepage_service_title', 'slug', 'description', 'image', 'mentor_bg_color'];
 
 
     public function serviceTypes()

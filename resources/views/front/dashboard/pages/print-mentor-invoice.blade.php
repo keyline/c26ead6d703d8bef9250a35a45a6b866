@@ -119,12 +119,12 @@ $mentorPayment 		= MentorPayment::where('booking_id', '=', $row->id)->first();
                                                     </p>
                                                 </div>
                                             </td>
-                                            <td><?=number_format($row->actual_amount,2)?></td>
-                                            <td class="text-end"><?=number_format($row->actual_amount,2)?></td>
+                                            <td><i class="fa fa-inr"></i> <?=number_format($row->actual_amount,2)?></td>
+                                            <td class="text-end"><i class="fa fa-inr"></i> <?=number_format($row->actual_amount,2)?></td>
                                         </tr>
                                         <tr>
                                             <th scope="row" colspan="4" class="text-end">Sub Total</th>
-                                            <td class="text-end"><?=number_format($row->actual_amount,2)?></td>
+                                            <td class="text-end"><i class="fa fa-inr"></i> <?=number_format($row->actual_amount,2)?></td>
                                         </tr>
                                         <!-- end tr -->
                                         <!-- <tr>
@@ -142,17 +142,17 @@ $mentorPayment 		= MentorPayment::where('booking_id', '=', $row->id)->first();
                                         <tr>
                                             <th scope="row" colspan="4" class="border-0 text-end">
                                                 GST</th>
-                                            <td class="border-0 text-end">(<?=number_format($row->gst_percent,0)?> %) <?=number_format($row->gst_amount,2)?></td>
+                                            <td class="border-0 text-end">(<?=number_format($row->gst_percent,0)?> %) <i class="fa fa-inr"></i> <?=number_format($row->gst_amount,2)?></td>
                                         </tr>
                                         <!-- end tr -->
                                         <tr>
                                             <th scope="row" colspan="4" class="border-0 text-end">Total</th>
-                                            <td class="border-0 text-end"><h4 class="m-0 fw-semibold"><?=number_format($row->payment_amount,2)?></h4></td>
+                                            <td class="border-0 text-end"><h4 class="m-0 fw-semibold"><i class="fa fa-inr"></i> <?=number_format($row->payment_amount,2)?></h4></td>
                                         </tr>
                                         <!-- end tr -->
                                         <tr>
                                             <th scope="row" colspan="4" class="border-0 text-end">Your Commision</th>
-                                            <td class="border-0 text-end"><h4 class="m-0 fw-semibold"><?=number_format((($mentorPayment)?$mentorPayment->transaction_amt:0),2)?></h4></td>
+                                            <td class="border-0 text-end"><h4 class="m-0 fw-semibold"><i class="fa fa-inr"></i> <?=number_format((($mentorPayment)?$mentorPayment->transaction_amt:0),2)?></h4></td>
                                         </tr>
                                         <!-- end tr -->
                                     </tbody><!-- end tbody -->
