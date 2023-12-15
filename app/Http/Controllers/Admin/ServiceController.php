@@ -28,7 +28,7 @@ class ServiceController extends Controller
             $data['module']                 = $this->data;
             $title                          = $this->data['title'].' List';
             $page_name                      = 'service.list';
-            $data['rows']                   = Service::where('status', '!=', 3)->orderBy('id', 'DESC')->get();
+            $data['rows']                   = Service::where('status', '!=', 3)->orderBy('rank', 'ASC')->get();
             echo $this->admin_after_login_layout($title,$page_name,$data);
         }
     /* list */
@@ -39,6 +39,7 @@ class ServiceController extends Controller
                 $postData = $request->all();
                 $rules = [
                     'name'                      => 'required',
+                    'homepage_service_title'    => 'required',
                     'description'               => 'required',
                     'mentor_bg_color'           => 'required',
                 ];
@@ -59,10 +60,12 @@ class ServiceController extends Controller
                     /* image */
                     $fields = [
                         'name'                      => $postData['name'],
+                        'homepage_service_title'    => $postData['homepage_service_title'],
                         'slug'                      => Helper::clean($postData['name']),
                         'description'               => $postData['description'],
                         'mentor_bg_color'           => $postData['mentor_bg_color'],
                         'image'                     => $image,
+                        'rank'                      => (ServiceType::where('status', '!=', 3)->max('rank'))+1,
                     ];
                     Service::insert($fields);
                     return redirect("admin/" . $this->data['controller_route'] . "/list")->with('success_message', $this->data['title'].' Inserted Successfully !!!');
@@ -89,6 +92,7 @@ class ServiceController extends Controller
                 $postData = $request->all();
                 $rules = [
                     'name'                      => 'required',
+                    'homepage_service_title'    => 'required',
                     'description'               => 'required',
                     'mentor_bg_color'           => 'required',
                 ];
@@ -109,6 +113,7 @@ class ServiceController extends Controller
                     /* image */
                     $fields = [
                         'name'                      => $postData['name'],
+                        'homepage_service_title'    => $postData['homepage_service_title'],
                         'slug'                      => Helper::clean($postData['name']),
                         'description'               => $postData['description'],
                         'mentor_bg_color'           => $postData['mentor_bg_color'],
@@ -150,4 +155,15 @@ class ServiceController extends Controller
             return redirect("admin/" . $this->data['controller_route'] . "/list")->with('success_message', $this->data['title'].' '.$msg.' Successfully !!!');
         }
     /* change status */
+    /* sorting */
+        public function sorting(Request $request){
+            $id                             = $request->id;
+            $rank                           = $request->rank;
+            $fields = [
+                'rank'             => $rank
+            ];
+            Service::where($this->data['primary_key'], '=', $id)->update($fields);
+            return redirect("admin/" . $this->data['controller_route'] . "/list")->with('success_message', $this->data['title'].' Ranked Successfully !!!');
+        }
+    /* sorting */
 }

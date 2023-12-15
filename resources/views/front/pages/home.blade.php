@@ -130,11 +130,11 @@
             <div class="container-fluid ">
                <div class="row paera_sameline">
                   <div class="col-md-6">
-                     <img src="<?=env('UPLOADS_URL')?>service_type/<?=$row->image?>" alt="<?=$row->name?>">
+                     <img src="<?=env('UPLOADS_URL')?>service_type/<?=$row->image?>" alt="<?=$row->homepage_service_title?>">
                   </div>
                   <div class="col-md-6">
                      <div class="perpation_info">
-                        <h3><?=$row->name?></h3>
+                        <h3><?=$row->homepage_service_title?></h3>
                         <p><?=$row->description?></p>
                      </div>
                   </div>
@@ -147,12 +147,12 @@
                <div class="row paera_sameline">
                   <div class="col-md-6">
                      <div class="perpation_info">
-                        <h3><?=$row->name?></h3>
+                        <h3><?=$row->homepage_service_title?></h3>
                         <p><?=$row->description?></p>
                      </div>
                   </div>
                   <div class="col-md-6">
-                     <img src="<?=env('UPLOADS_URL')?>service_type/<?=$row->image?>" alt="<?=$row->name?>">
+                     <img src="<?=env('UPLOADS_URL')?>service_type/<?=$row->image?>" alt="<?=$row->homepage_service_title?>">
                   </div>
                </div>
             </div>
@@ -165,11 +165,11 @@
             <div class="container-fluid ">
                <div class="row paera_sameline">
                   <div class="col-md-6">
-                     <img src="<?=env('UPLOADS_URL')?>service/<?=$row->image?>" alt="<?=$row->name?>">
+                     <img src="<?=env('UPLOADS_URL')?>service/<?=$row->image?>" alt="<?=$row->homepage_service_title?>">
                   </div>
                   <div class="col-md-6">
                      <div class="perpation_info">
-                        <h3><?=$row->name?></h3>
+                        <h3><?=$row->homepage_service_title?></h3>
                         <p><?=$row->description?></p>
                      </div>
                   </div>
@@ -182,12 +182,12 @@
                <div class="row paera_sameline">
                   <div class="col-md-6">
                      <div class="perpation_info">
-                        <h3><?=$row->name?></h3>
+                        <h3><?=$row->homepage_service_title?></h3>
                         <p><?=$row->description?></p>
                      </div>
                   </div>
                   <div class="col-md-6">
-                     <img src="<?=env('UPLOADS_URL')?>service/<?=$row->image?>" alt="<?=$row->name?>">
+                     <img src="<?=env('UPLOADS_URL')?>service/<?=$row->image?>" alt="<?=$row->homepage_service_title?>">
                   </div>
                </div>
             </div>

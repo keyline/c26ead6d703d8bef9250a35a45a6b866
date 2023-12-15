@@ -54,8 +54,8 @@ class FrontController extends Controller
     {
         $data['banners']                = Banner::where('status', '=', 1)->orderBy('id', 'DESC')->get();
         $data['testimonials']           = Testimonial::where('status', '=', 1)->orderBy('id', 'DESC')->get();
-        $data['serviceTypes']           = ServiceType::where('status', '=', 1)->orderBy('id', 'DESC')->get();
-        $data['services']               = Service::where('status', '=', 1)->orderBy('id', 'DESC')->get();
+        $data['serviceTypes']           = ServiceType::where('status', '=', 1)->orderBy('rank', 'ASC')->get();
+        $data['services']               = Service::where('status', '=', 1)->orderBy('rank', 'ASC')->get();
         $data['faqs']                   = Faq::where('status', '=', 1)->where('is_home_page', '=', 1)->orderBy('id', 'DESC')->limit(5)->get();
 
         $mentors                        = [];
@@ -1281,6 +1281,9 @@ class FrontController extends Controller
                     $payment_id         = $response_array['description'];
 
                     $booking            = Booking::where('id', '=', $payment_id)->first();
+                    $mentor_id          = (($booking)?$booking->mentor_id:0);
+                    $getMentorProfile   = MentorProfile::where('user_id', '=', $mentor_id)->first();
+                    $meeting_link       = $getMentorProfile->team_meeting_link;
                     $generalSetting     = GeneralSetting::find('1');
                     $service            = Service::select('name')->where('id', '=', $booking->service_id)->first();
                     $meeting_topic      = $generalSetting->site_name . ' ' . (($service) ? $service->name : '');
@@ -1302,8 +1305,10 @@ class FrontController extends Controller
                         'payment_mode'          => $response_array['method'],
                         'card_id'               => $response_array['card_id'],
                         'status'                => 1,
-                        'meeting_link'          => $response['join_url'],
-                        'meeting_passcode'      => $response['password'],
+                        // 'meeting_link'          => $response['join_url'],
+                        // 'meeting_passcode'      => $response['password'],
+                        'meeting_link'          => $meeting_link,
+                        'meeting_passcode'      => 123456,
                     );
                     Booking::where('id', '=', $payment_id)->update($fields);
                     /* booking table update */

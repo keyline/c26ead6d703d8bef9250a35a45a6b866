@@ -1,4 +1,5 @@
 <?php
+use App\Models\MentorPayment;
 use App\Helpers\Helper;
 $controllerRoute = $module['controller_route'];
 ?>
@@ -37,7 +38,7 @@ $controllerRoute = $module['controller_route'];
                 <thead>
                   <tr>
                     <th scope="col">#</th>
-                    <th scope="col">Name</th>
+                    <th scope="col">Name<br>Team Meeting Link</th>
                     <th scope="col">Email</th>
                     <th scope="col">Phone</th>
                     <!-- <th scope="col">Profile Pic</th> -->
@@ -51,7 +52,12 @@ $controllerRoute = $module['controller_route'];
                   <?php if($rows){ $sl=1; foreach($rows as $row){?>
                     <tr class="tableaction_border">
                       <th rowspan="2" scope="row"><?=$sl++?></th>
-                      <td><?=$row->first_name.' '.$row->last_name?></td>
+                      <td>
+                        <?=$row->first_name.' '.$row->last_name?><br>
+                        <?php if($row->team_meeting_link){?>
+                          <a href="<?=$row->team_meeting_link?>" target="_blank" class="badge bg-info">Team Meeting Link</a>
+                        <?php }?>
+                      </td>
                       <td><?=$row->email?></td>
                       <td><?=$row->mobile?></td>
                       <!-- <td>
@@ -64,7 +70,16 @@ $controllerRoute = $module['controller_route'];
                       <td><a href="<?=$row->social_url?>" target="_blank" class="badge bg-primary">Social Link</a></td>
                       <td><?=date_format(date_create($row->created_at), "M d, Y h:i A")?></td>
                       <td>
-                        <h6>10000.00</h6>
+                        <h6>
+                          <?php
+                          $mentorBal   = 0;
+                          $getBalance = MentorPayment::select('closing_amt')->where('mentor_id', '=', $row->user_id)->orderBy('id', 'DESC')->first();
+                          if ($getBalance) {
+                              $mentorBal   = $getBalance->closing_amt;
+                          }
+                          echo number_format($mentorBal,2);
+                          ?>
+                        </h6>
                         <a target="_blank" href="<?=url('admin/' . $controllerRoute . '/payouts/'.Helper::encoded($row->user_id))?>" class="badge bg-info" title="Edit <?=$module['title']?>"><i class="fa fa-inr"></i> View Payouts</a>
                       </td>
 

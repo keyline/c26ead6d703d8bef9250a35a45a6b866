@@ -30,13 +30,15 @@ $controllerRoute = $module['controller_route'];
     </div>
     <?php
     if($row){
-      $name               = $row->name;
-      $description        = $row->description;
-      $image              = $row->image;
+      $name                           = $row->name;
+      $homepage_service_title         = $row->homepage_service_title;
+      $description                    = $row->description;
+      $image                          = $row->image;
     } else {
-      $name               = '';
-      $description        = '';
-      $image              = '';
+      $name                           = '';
+      $homepage_service_title         = '';
+      $description                    = '';
+      $image                          = '';
     }
     ?>
     <div class="col-xl-12">
@@ -48,6 +50,12 @@ $controllerRoute = $module['controller_route'];
               <label for="name" class="col-md-2 col-lg-2 col-form-label">Name</label>
               <div class="col-md-10 col-lg-10">
                 <input type="text" name="name" class="form-control" id="name" value="<?=$name?>" required>
+              </div>
+            </div>
+            <div class="row mb-3">
+              <label for="homepage_service_title" class="col-md-2 col-lg-2 col-form-label">Homepage Service Type Title</label>
+              <div class="col-md-10 col-lg-10">
+                <textarea name="homepage_service_title" class="form-control" id="homepage_service_title" rows="5" required><?=$homepage_service_title?></textarea>
               </div>
             </div>
             <div class="row mb-3">

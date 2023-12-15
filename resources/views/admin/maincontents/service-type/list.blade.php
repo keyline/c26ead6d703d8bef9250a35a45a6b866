@@ -39,8 +39,10 @@ $controllerRoute = $module['controller_route'];
               <tr>
                 <th scope="col">#</th>
                 <th scope="col">Name</th>
+                <th scope="col">Homepage Service Type Title</th>
                 <th scope="col">Description</th>
                 <th scope="col">Image</th>
+                <th scope="col">Rank</th>
                 <th scope="col">Action</th>
               </tr>
             </thead>
@@ -49,6 +51,7 @@ $controllerRoute = $module['controller_route'];
                 <tr>
                   <th scope="row"><?=$sl++?></th>
                   <td><?=$row->name?></td>
+                  <td><?=$row->homepage_service_title?></td>
                   <td><?=wordwrap($row->description,40,"<br>\n")?></td>
                   <td>
                     <?php if($row->image != ''){?>
@@ -56,6 +59,17 @@ $controllerRoute = $module['controller_route'];
                     <?php } else {?>
                       <img src="<?=env('NO_IMAGE')?>" alt="<?=$row->name?>" class="img-thumbnail" style="width: 150px; height: 150px; margin-top: 10px;">
                     <?php }?>
+                  </td>
+                  <td>
+                    <form action="<?=url('admin/service-type/sorting')?>" method="get">
+                      <input type="hidden" name="id" value="<?=$row->id?>">
+                      <select class="form-control" name="rank" onchange="this.form.submit()">
+                        <option value="">Rank</option>
+                        <?php for($i=1;$i<=count($rows);$i++){?>
+                        <option value="<?=$i?>" <?=(($row->rank == $i)?'selected':'')?>><?=$i?></option>
+                        <?php }?>
+                      </select>
+                    </form>
                   </td>
                   <td>
                     <a href="<?=url('admin/' . $controllerRoute . '/edit/'.Helper::encoded($row->id))?>" class="btn btn-outline-primary btn-sm" title="Edit <?=$module['title']?>"><i class="fa fa-edit"></i></a>

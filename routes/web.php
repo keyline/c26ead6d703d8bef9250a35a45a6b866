@@ -199,6 +199,7 @@ Route::prefix('/admin')->namespace('App\Http\Controllers\Admin')->group(function
         Route::match(['get', 'post'], 'service-type/edit/{id}', 'ServiceTypeController@edit');
         Route::get('service-type/delete/{id}', 'ServiceTypeController@delete');
         Route::get('service-type/change-status/{id}', 'ServiceTypeController@change_status');
+        Route::get('service-type/sorting', 'ServiceTypeController@sorting');
         /* service types */
         /* service */
         Route::get('service/list', 'ServiceController@list');
@@ -206,6 +207,7 @@ Route::prefix('/admin')->namespace('App\Http\Controllers\Admin')->group(function
         Route::match(['get', 'post'], 'service/edit/{id}', 'ServiceController@edit');
         Route::get('service/delete/{id}', 'ServiceController@delete');
         Route::get('service/change-status/{id}', 'ServiceController@change_status');
+        Route::get('service/sorting', 'ServiceController@sorting');
         /* service */
         /* service attributes */
         Route::get('service-attribute/list', 'ServiceAttributeController@list');
