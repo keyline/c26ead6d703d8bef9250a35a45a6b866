@@ -65,14 +65,13 @@ brandSlider.on('translated.owl.carousel', function(event) {
 }); 
 
     $('#homefade-slider').owlCarousel({
-        animateOut: 'fadeOut',
+        //animateOut: 'fadeOut',
         items:1,
         loop: true,
-        margin:30,
-        autoplay: false,
-        autoplayTimeout: 4000,
-        stagePadding:30,
-        smartSpeed:450,
+        //margin:30,
+        autoplay:true,
+        autoplayTimeout:5000,
+        autoplayHoverPause:true,
         nav: true,
         dots: false,
         navText: ["<i class='zmdi zmdi-arrow-left'></i>", "<i class='zmdi zmdi-arrow-right'></i>"],
