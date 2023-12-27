@@ -6,7 +6,7 @@
                <div class="icon-box-1">
                   <img src="<?=env('FRONT_ASSETS_URL')?>assets/images/lamp.webp" alt="">
                </div>
-               <h3>Hi, you can signin from here</h3>
+               <h3>Hi, you can sign in from here</h3>
                @if(session('success_message'))
                   <div class="alert alert-success bg-success text-light border-0 alert-dismissible fade show autohide" role="alert">
                     {{ session('success_message') }}
