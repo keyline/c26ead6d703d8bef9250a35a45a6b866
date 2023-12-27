@@ -123,26 +123,28 @@ use App\Helpers\Helper;
    </div>
 </section>
 
-<!-- ********|| Home About STARTS ||******** -->
-<section class="about_cleintinfo">
-   <div class="container">
-      <div class="row">
-         <div class="col-md-2">
-            <div class="cleintinfo_img"><img src="<?=env('UPLOADS_URL')?>team/<?=$owner->image?>" alt="<?=$owner->name?>"></div>
-         </div>
-         <div class="col-md-10">
-            <div class="cleintinfo_info">
-               <h3><?=$owner->name?></h3>
-               <h5><?=$owner->designation?></h5>
-               <h3><?=$owner->qualification?></h3>
-               <p><?=$owner->experience?></p>
-               <p class="mt-4"><?=$owner->thought?></p>
+<?php if($owner){?>
+   <!-- ********|| Home About STARTS ||******** -->
+   <section class="about_cleintinfo">
+      <div class="container">
+         <div class="row">
+            <div class="col-md-2">
+               <div class="cleintinfo_img"><img src="<?=env('UPLOADS_URL')?>team/<?=$owner->image?>" alt="<?=$owner->name?>"></div>
+            </div>
+            <div class="col-md-10">
+               <div class="cleintinfo_info">
+                  <h3><?=$owner->name?></h3>
+                  <h5><?=$owner->designation?></h5>
+                  <h3><?=$owner->qualification?></h3>
+                  <p><?=$owner->experience?></p>
+                  <p class="mt-4"><?=$owner->thought?></p>
+               </div>
             </div>
          </div>
       </div>
-   </div>
-</section>
-<!-- ********|| Home About ENDS ||******** -->
+   </section>
+   <!-- ********|| Home About ENDS ||******** -->
+<?php }?>
 <!-- ********|| Home career STARTS ||******** -->
 <section class="about_ourteam">
    <div class="container">
