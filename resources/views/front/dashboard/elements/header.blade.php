@@ -8,6 +8,16 @@ $generalSetting             = GeneralSetting::find('1');
 use Illuminate\Support\Facades\Route;
 $routeName = Route::current();
 $pageName = $routeName->uri();
+
+// function ProfilePicFromName($fullName) {
+//     $fullNameArr = explode(" ", $fullName);
+//     $firstWord = current($fullNameArr);
+//     $lastWord  = end($fullNameArr);
+//     $firstCharacter = substr($firstWord, 0, 1);
+//     $lastCharacter = substr($lastWord, 0, 1);
+//     $defaultProfile = strtoupper($firstCharacter.$lastCharacter);
+//     return $defaultProfile;
+// }
 ?>
 
 <div class="container">
@@ -62,8 +72,9 @@ $pageName = $routeName->uri();
                                 role="button" aria-haspopup="true" aria-expanded="false">
                                 <div class="avatar avatar-md">
                                     <?php
-                                    $user_id = session('user_id');
-                                    $role = session('role');
+                                    $content        = session('name');
+                                    $user_id        = session('user_id');
+                                    $role           = session('role');
                                     if ($role == 1) {
                                         $getUser = StudentProfile::where('user_id', '=', $user_id)->first();
                                     } else {
@@ -72,14 +83,37 @@ $pageName = $routeName->uri();
                                     if ($getUser) {
                                         if ($getUser->profile_pic != '') {
                                             $imageLink = env('UPLOADS_URL') . 'user/' . $getUser->profile_pic;
+                                            // $imageLink = '<img class="avatar-img" src="'.$image.'" alt="'.$content.'">';
                                         } else {
-                                            $imageLink = env('NO_IMAGE_AVATAR');
+                                            $fullName = $content;
+                                            $fullNameArr = explode(" ", $fullName);
+                                            $firstWord = current($fullNameArr);
+                                            $lastWord  = end($fullNameArr);
+                                            $firstCharacter = substr($firstWord, 0, 1);
+                                            $lastCharacter = substr($lastWord, 0, 1);
+                                            $defaultProfile = strtoupper($firstCharacter);
+                                            $imageLink = $defaultProfile;
                                         }
                                     } else {
-                                        $imageLink = env('NO_IMAGE_AVATAR');
+                                        $fullName = $content;
+                                        $fullNameArr = explode(" ", $fullName);
+                                        $firstWord = current($fullNameArr);
+                                        $lastWord  = end($fullNameArr);
+                                        $firstCharacter = substr($firstWord, 0, 1);
+                                        $lastCharacter = substr($lastWord, 0, 1);
+                                        $defaultProfile = strtoupper($firstCharacter);
+                                        $imageLink = $shortName;
                                     }
                                     ?>
-                                    <img class="avatar-img" src="<?= $imageLink ?>" alt="{{ session('name') }}">
+                                    <?php if($getUser) {?>
+                                        <?php if ($getUser->profile_pic != '') {?>
+                                            <img class="avatar-img" src="<?= $imageLink ?>" alt="{{ session('name') }}">
+                                        <?php } else {?>
+                                            <span style="border: 1px solid #f9233f;height: 43px;width: 80px;padding: 9px 15px;border-radius: 50%;"><?= $imageLink ?></span>
+                                        <?php }?>
+                                    <?php } else {?>
+                                        <span style="border: 1px solid #f9233f;height: 43px;width: 80px;padding: 9px 15px;border-radius: 50%;"><?= $imageLink ?></span>
+                                    <?php }?>
                                 </div>
                             </a>
                             <div class="dropdown-menu dropdown-menu-end pt-0">

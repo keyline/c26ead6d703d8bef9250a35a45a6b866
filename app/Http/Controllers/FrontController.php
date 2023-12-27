@@ -899,7 +899,7 @@ class FrontController extends Controller
                     $subject                    = $generalSetting->site_name . ' :: One Time Password';
                     $message                    = view('front.email-templates.otp', $postData);
                     // echo $message;die;
-                    $this->sendMail($requestData['email'], $subject, $message);
+                    $this->sendMail($checkUser->email, $subject, $message);
                     /* email sent */
                     /* email log save */
                     $postData2 = [
@@ -920,7 +920,7 @@ class FrontController extends Controller
             }
         }
         $data['testimonials']           = Testimonial::where('status', '=', 1)->orderBy('id', 'DESC')->get();
-        $data['testimonialsData']       = view('front.elements.side-testimonial', $data);
+        $data['platformReviewData']     = view('front.elements.side-testimonial-platform', $data);
         $title                          = 'Forgot Password';
         $page_name                      = 'forgot-password';
         echo $this->front_before_login_layout($title, $page_name, $data);
@@ -966,7 +966,7 @@ class FrontController extends Controller
             }
         }
         $data['testimonials']           = Testimonial::where('status', '=', 1)->orderBy('id', 'DESC')->get();
-        $data['testimonialsData']       = view('front.elements.side-testimonial', $data);
+        $data['platformReviewData']     = view('front.elements.side-testimonial-platform', $data);
         $id                             = Helper::decoded($id);
         $data['id']                     = $id;
         $title                          = 'Validate OTP';
@@ -998,7 +998,7 @@ class FrontController extends Controller
                         $subject                    = $generalSetting->site_name . ' :: Reset Password';
                         $message                    = view('front.email-templates.change-password', $checkUser);
                         // echo $message;die;
-                        $this->sendMail($requestData['email'], $subject, $message);
+                        $this->sendMail($checkUser->email, $subject, $message);
                         /* email sent */
                         /* email log save */
                         $postData2 = [
@@ -1021,7 +1021,7 @@ class FrontController extends Controller
             }
         }
         $data['testimonials']           = Testimonial::where('status', '=', 1)->orderBy('id', 'DESC')->get();
-        $data['testimonialsData']       = view('front.elements.side-testimonial', $data);
+        $data['platformReviewData']     = view('front.elements.side-testimonial-platform', $data);
         $id                             = Helper::decoded($id);
         $data['id']                     = $id;
         $title                          = 'Reset Password';
