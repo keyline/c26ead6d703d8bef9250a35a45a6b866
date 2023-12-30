@@ -30,6 +30,11 @@ Route::prefix('/')->namespace('App\Http\Controllers')->group(function () {
     Route::match(['get'], '/blogs', 'FrontController@blogs');
     Route::match(['get'], '/blog-details/{id}', 'FrontController@blogDetails');
     Route::match(['get'], 'page/{id}', 'FrontController@page');
+    Route::match(['get'], '/mentors-for-10th-board', 'FrontController@mentorsFor10thBoard');
+    Route::match(['get'], '/mentors-for-12th-board', 'FrontController@mentorsFor12thBoard');
+    Route::match(['get'], '/career-counseling-9-10th', 'FrontController@careerCounseling910th');
+    Route::match(['get'], '/career-counseling-11-12th', 'FrontController@careerCounseling1112th');
+    Route::match(['get'], '/mental-health-counselling', 'FrontController@mentalHealthCounselling');
 
     Route::match(['get'], '/mentors', 'FrontController@mentors');
     Route::match(['get'], '/mentor-details/{displayname}/{id}', 'FrontController@mentorDetails');

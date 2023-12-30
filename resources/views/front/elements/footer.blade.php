@@ -51,10 +51,10 @@
             <div class="footer_rightadd">
                <div class="footer_icon">
                   <ul>
-                     <li class="foot_location">
+                     <!-- <li class="foot_location">
                         <div class="footer_fa"><i class="zmdi zmdi-phone"></i></div>
                         <p><?=$generalSetting->site_phone?></p>
-                     </li>
+                     </li> -->
                      <li>
                         <div class="footer_fa"><a href="tel:<?=$generalSetting->site_phone?>"><i class="zmdi zmdi-smartphone-android"></i></a></div>
                         <p><a href="tel:<?=$generalSetting->site_phone?>"><?=$generalSetting->site_phone?> </a></p>

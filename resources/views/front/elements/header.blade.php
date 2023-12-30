@@ -21,19 +21,49 @@ use App\Helpers\Helper;
                   <i class="zmdi zmdi-close"></i>
                   </button>
                   <ul class="navbar-nav">
-                     <li class="nav-item <?=(($pageName == '/')?'active':'')?>">
+                     <!-- <li class="nav-item <?=(($pageName == '/')?'active':'')?>">
                         <a class="nav-link" href="<?=url('/')?>">Home</a>
+                     </li> -->
+                     <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">Mentorship for Exams</a>
+                           <ul class="dropdown-menu">
+                              <li><a class="dropdown-item" href="<?=url('mentors-for-10th-board')?>"> Mentors for 10th board</a></li>
+                              <li><a class="dropdown-item" href="<?=url('mentors-for-12th-board')?>"> Mentors for 12th board </a></li>
+                           </ul>
                      </li>
-                     <li class="nav-item <?=(($pageName == 'mentors')?'active':'')?>">
-                        <a class="nav-link" href="<?=url('mentors')?>">Mentors</a>
+                     <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">Counselling</a>
+                           <ul class="dropdown-menu">
+                              <li><a class="dropdown-item" href="<?=url('career-counseling-9-10th')?>"> Career Counselling 9-10th</a></li>
+                              <li><a class="dropdown-item" href="<?=url('career-counseling-11-12th')?>"> Career Counselling 11-12th </a></li>
+                              <!-- <li><a class="dropdown-item" href="#"> Career Counselling 12th and 11th </a></li> -->
+                              <li><a class="dropdown-item" href="<?=url('mental-health-counselling')?>"> Mental Health Counselling </a></li>
+                           </ul>
                      </li>
-                     <li class="nav-item <?=(($pageName == 'blogs')?'active':'')?>">
+                     <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">Free Resources</a>
+                           <ul class="dropdown-menu">
+                              <!-- <li><a class="dropdown-item" href="#"> For class 10th</a></li>
+                              <li><a class="dropdown-item" href="#"> For class 12th </a></li> -->
+                              <li><a class="dropdown-item" href="<?=url('blogs')?>"> Blogs </a></li>
+                           </ul>
+                     </li>
+                     <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">Free Career Tests</a>
+                           <ul class="dropdown-menu">
+                              <li><a class="dropdown-item" href="<?=url('user/survey-list')?>"> Stream Selector/MBTI</a></li>
+                              <li><a class="dropdown-item" href="<?=url('user/survey-list')?>"> Personality test/Selfesteem </a></li>
+                              <li><a class="dropdown-item" href="<?=url('user/survey-list')?>"> Social Intelligence </a></li>
+                              <li><a class="dropdown-item" href="<?=url('user/survey-list')?>"> Locus of Academics </a></li>
+                           </ul>
+                     </li>
+                     <!-- <li class="nav-item <?=(($pageName == 'blogs')?'active':'')?>">
                         <a class="nav-link" href="<?=url('blogs')?>">Resources</a>
-                     </li>
-                     <li class="nav-item <?=(($pageName == 'how-it-works')?'active':'')?>">
+                     </li> -->
+                     <!-- <li class="nav-item <?=(($pageName == 'how-it-works')?'active':'')?>">
                         <a class="nav-link" href="<?=url('how-it-works')?>">How it works</a>
-                     </li>
-                     <?php if(empty(session('is_user_login'))){?>
+                     </li> -->
+                     <!-- <?php if(empty(session('is_user_login'))){?>
                         <li class="nav-item <?=(($pageName == 'survey-list')?'active':'')?>">
                            <a class="nav-link" href="<?=url('signin')?>">Take a free test</a>
                         </li>
@@ -41,7 +71,7 @@ use App\Helpers\Helper;
                         <li class="nav-item <?=(($pageName == 'survey-list')?'active':'')?>">
                            <a class="nav-link" href="<?=url('user/survey-list')?>">Take a free test</a>
                         </li>
-                     <?php }?>
+                     <?php }?> -->
                   </ul>
                </div>
             </nav>

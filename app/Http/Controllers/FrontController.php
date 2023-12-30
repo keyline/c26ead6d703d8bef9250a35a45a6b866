@@ -217,6 +217,46 @@ class FrontController extends Controller
         echo $this->front_before_login_layout($title, $page_name, $data);
     }
     /* How It Works */
+    public function mentorsFor10thBoard()
+    {
+        $data['faqs']                   = Faq::where('status', '=', 1)->orderBy('id', 'DESC')->get();
+        $data['howitworks']             = HowItWork::where('status', '=', 1)->orderBy('rank', 'ASC')->get();
+        $title                          = 'How It Works';
+        $page_name                      = 'mentors-for-10th-board';
+        echo $this->front_before_login_layout($title, $page_name, $data);
+    }
+    public function mentorsFor12thBoard()
+    {
+        $data['faqs']                   = Faq::where('status', '=', 1)->orderBy('id', 'DESC')->get();
+        $data['howitworks']             = HowItWork::where('status', '=', 1)->orderBy('rank', 'ASC')->get();
+        $title                          = 'How It Works';
+        $page_name                      = 'mentors-for-12th-board';
+        echo $this->front_before_login_layout($title, $page_name, $data);
+    }
+    public function careerCounseling910th()
+    {
+        $data['faqs']                   = Faq::where('status', '=', 1)->orderBy('id', 'DESC')->get();
+        $data['howitworks']             = HowItWork::where('status', '=', 1)->orderBy('rank', 'ASC')->get();
+        $title                          = 'How It Works';
+        $page_name                      = 'career-counseling-9-10th';
+        echo $this->front_before_login_layout($title, $page_name, $data);
+    }
+    public function careerCounseling1112th()
+    {
+        $data['faqs']                   = Faq::where('status', '=', 1)->orderBy('id', 'DESC')->get();
+        $data['howitworks']             = HowItWork::where('status', '=', 1)->orderBy('rank', 'ASC')->get();
+        $title                          = 'How It Works';
+        $page_name                      = 'career-counseling-11-12th';
+        echo $this->front_before_login_layout($title, $page_name, $data);
+    }
+    public function mentalHealthCounselling()
+    {
+        $data['faqs']                   = Faq::where('status', '=', 1)->orderBy('id', 'DESC')->get();
+        $data['howitworks']             = HowItWork::where('status', '=', 1)->orderBy('rank', 'ASC')->get();
+        $title                          = 'How It Works';
+        $page_name                      = 'mental-health-counselling';
+        echo $this->front_before_login_layout($title, $page_name, $data);
+    }
     /* Blogs */
     public function blogs()
     {

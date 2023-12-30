@@ -34,7 +34,7 @@
          <div class="col-lg-12" data-aos="fade-up">
             <div class="homeabout_info wow fadeInLeft">
                <h2>Student Feedbacks</h2>
-               <h4>What they’re talking about Stumento</h4>
+               <h4>What they’re talking about MentroVert</h4>
             </div>
          </div>
       </div>
@@ -120,7 +120,7 @@
    <div class="container-fluid">
       <div class="row">
          <div class="col-md-12">
-            <div class="top_title text-center py-4">You will never be alone during <br>your preparation with Stumento</div>
+            <div class="top_title text-center py-4">You will never be alone during <br>your preparation with MentroVert</div>
          </div>
       </div>
    </div>
