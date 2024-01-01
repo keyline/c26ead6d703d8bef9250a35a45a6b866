@@ -257,6 +257,7 @@ class DashboardController extends Controller
                                 'social_url'        => json_encode($social_link_array),
                                 'profile_pic'       => $image,
                                 'city'              => $postData['city'],
+                                'team_meeting_link' => $postData['team_meeting_link'],
                                 'languages'         => json_encode($postData['languages']),
                                 'subjects'          => json_encode($postData['subjects']),
                                 'edu_institute'     => json_encode($edu_institute),

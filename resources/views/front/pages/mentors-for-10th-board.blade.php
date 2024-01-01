@@ -13,7 +13,51 @@
       </div>  
       <div class="row my-5">
          <div class="col-md-12">
-            here mentor
+            <section class="home_career_section">
+               <div class="container">
+                  <div class="row">
+                     <div class="col-md-12">
+                        <h2>Designed to help students with career choice</h2>
+                        <h5>Join amazing Counsellors willing to go the extra mile for you!</h5>
+                     </div>
+                  </div>
+                  <div class="row">
+                     <div class="col-md-12">
+                        <div class="homecare_tabpart">
+                           <div id="project-terms">
+                              <a id="all" class="btn btn-default active" href="#">All</a>
+                              <a id="mentalhealth" class="btn btn-metal" href="#">Mental Health</a>
+                              <a id="careercounselling" class="btn btn-conselling" href="#">Career Counselling</a>
+                           </div>
+                           <!--main carousel element-->
+                           <div id="projects-carousel" class="owl-carousel career-carousel">
+                              <?php
+                              if($mentors) { foreacH($mentors as $mentor){
+                                 $mentorDisplayName   = $mentor['display_name'];
+                                 $mentorId            = $mentor['mentor_id'];
+                              ?>
+                                 <div class="project <?=$mentor['service_class_name']?>">
+                                    <div class="projec_homecare">
+                                       <div class="homecare_img"><img src="<?=$mentor['profile_image']?>" alt="<?=$mentor['name']?>"></div>
+                                       <div class="homecare_info homecare_height">
+                                          <h3><?=$mentor['name']?></h3>
+                                          <h5><?=$mentor['service_name']?></h5>
+                                          <h3><?=$mentor['qualification']?></h3>
+                                       </div>
+                                       <div class="homecare_info">
+                                          <a href="<?=url('mentor-details/'.$mentorDisplayName.'/'.Helper::encoded($mentorId))?>">View Profile</a>
+                                       </div>
+                                    </div>
+                                 </div>
+                              <?php } }?>
+                           </div>
+                           <!--element to hold filtered out items-->
+                           <div id="projects-hidden" class="hide"></div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </section>
          </div>
       </div> 
       <div class="row mb-5">

@@ -37,6 +37,9 @@ Route::prefix('/')->namespace('App\Http\Controllers')->group(function () {
     Route::match(['get'], '/mental-health-counselling', 'FrontController@mentalHealthCounselling');
 
     Route::match(['get'], '/mentors', 'FrontController@mentors');
+    Route::match(['get'], '/mentor-profile/{displayname}', 'FrontController@mentorProfile');
+    Route::match(['get'], '/student-profile/{displayname}', 'FrontController@studentProfile');
+
     Route::match(['get'], '/mentor-details/{displayname}/{id}', 'FrontController@mentorDetails');
     Route::match(['get'], '/service-details/{displayname}/{id}', 'FrontController@serviceDetails');
     Route::match(['post'], '/service-details/{displayname}/{id}', 'FrontController@serviceDetails');
@@ -80,8 +83,8 @@ Route::prefix('/')->namespace('App\Http\Controllers')->group(function () {
     Route::match(['get', 'post'], '/signup', 'FrontController@signup');
     Route::match(['get', 'post'], 'signin', 'FrontController@signin')->name('user_login');
     Route::match(['get', 'post'], '/forgot-password', 'FrontController@forgotPassword');
-    Route::match(['get', 'post'], '/validate-otp', 'FrontController@validateOtp');
-    Route::match(['get', 'post'], '/reset-password', 'FrontController@resetPassword');
+    Route::match(['get', 'post'], '/validate-otp/{id}', 'FrontController@validateOtp');
+    Route::match(['get', 'post'], '/reset-password/{id}', 'FrontController@resetPassword');
     /* authentication */
     /* before login */
     /* after login */

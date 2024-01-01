@@ -42,7 +42,7 @@ $pageName = $routeName->uri();
                             <i class="zmdi zmdi-close"></i>
                         </button>
                         <ul class="navbar-nav">
-                            <li class="nav-item <?= $pageName == '/' ? 'active' : '' ?>">
+                            <!-- <li class="nav-item <?= $pageName == '/' ? 'active' : '' ?>">
                                 <a class="nav-link" href="<?= url('/') ?>">Home</a>
                             </li>
                             <li class="nav-item <?= $pageName == 'mentors' ? 'active' : '' ?>">
@@ -61,7 +61,39 @@ $pageName = $routeName->uri();
                             <li class="nav-item <?= $pageName == 'user/survey-list' ? 'active' : '' ?>">
                                 <a class="nav-link" href="<?= url('user/survey-list') ?>">Take a free test</a>
                             </li>
-                            <?php }?>
+                            <?php }?> -->
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">Mentorship for Exams</a>
+                                   <ul class="dropdown-menu">
+                                      <li><a class="dropdown-item" href="<?=url('mentors-for-10th-board')?>"> Mentors for 10th board</a></li>
+                                      <li><a class="dropdown-item" href="<?=url('mentors-for-12th-board')?>"> Mentors for 12th board </a></li>
+                                   </ul>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">Counselling</a>
+                                   <ul class="dropdown-menu">
+                                      <li><a class="dropdown-item" href="<?=url('career-counseling-9-10th')?>"> Career Counselling 9-10th</a></li>
+                                      <li><a class="dropdown-item" href="<?=url('career-counseling-11-12th')?>"> Career Counselling 11-12th </a></li>
+                                      <!-- <li><a class="dropdown-item" href="#"> Career Counselling 12th and 11th </a></li> -->
+                                      <li><a class="dropdown-item" href="<?=url('mental-health-counselling')?>"> Mental Health Counselling </a></li>
+                                   </ul>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">Free Resources</a>
+                                <ul class="dropdown-menu">
+                                      <!-- <li><a class="dropdown-item" href="#"> For class 10th</a></li>
+                                      <li><a class="dropdown-item" href="#"> For class 12th </a></li> -->
+                                      <li><a class="dropdown-item" href="<?=url('blogs')?>"> Blogs </a></li>
+                                </ul>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">Free Career Tests</a>
+                                <ul class="dropdown-menu">
+                                    <?php if($surveys){ foreach($surveys as $survey){?>
+                                    <li><a class="dropdown-item" href="<?=url('user/survey-details/'.Helper::encoded($survey->id))?>"> <?=$survey->title?></a></li>
+                                    <?php } }?>
+                                </ul>
+                            </li>
                         </ul>
                     </div>
                 </nav>

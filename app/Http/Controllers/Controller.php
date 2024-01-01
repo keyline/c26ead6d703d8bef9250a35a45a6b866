@@ -24,6 +24,7 @@ use App\Models\StudentProfile;
 use App\Models\MentorProfile;
 use App\Models\AdminPayment;
 use App\Models\MentorPayment;
+use App\Models\Survey;
 
 use Session;
 use Helper;
@@ -239,8 +240,7 @@ class Controller extends BaseController
         } else {
             $data['user']      = StudentProfile::where('user_id', '=', $user_id)->first();
         }
-        // $data['user']               = User::find($user_id);
-        // Helper::pr($data['user']);
+        $data['surveys']            = Survey::select('id', 'survey_sl_no', 'title')->where('status', '=', 1)->get();
 
         $data['head']               = view('front.elements.head', $data);
         $data['header']             = view('front.elements.header', $data);
@@ -256,6 +256,7 @@ class Controller extends BaseController
         $data['page_header']        = $title;
         $user_id                    = session('user_id');
         $data['user']               = User::find($user_id);
+        $data['surveys']            = Survey::select('id', 'survey_sl_no', 'title')->where('status', '=', 1)->get();
 
         $data['head']               = view('front.elements.head', $data);
         $data['header']             = view('front.elements.header', $data);
@@ -272,6 +273,7 @@ class Controller extends BaseController
         $data['page_header']        = $title;
         $user_id                    = session('user_id');
         $data['user']               = User::find($user_id);
+        $data['surveys']            = Survey::select('id', 'survey_sl_no', 'title')->where('status', '=', 1)->get();
 
         $data['head']               = view('front.dashboard.elements.head', $data);
         $data['header']             = view('front.dashboard.elements.header', $data);
@@ -286,6 +288,7 @@ class Controller extends BaseController
         $data['title']              = $title . ' :: ' . $data['generalSetting']->site_name;
         $data['page_header']        = $title;
         $data['user']               = [];
+        $data['surveys']            = Survey::select('id', 'survey_sl_no', 'title')->where('status', '=', 1)->get();
         $data['head']               = view('admin.elements.head', $data);
         $data['maincontent']        = view('front.dashboard.pages.' . $page_name, $data);
         return view('front.dashboard.before-login-front-dashboard-layout', $data);
@@ -297,6 +300,7 @@ class Controller extends BaseController
         $data['generalSetting']     = GeneralSetting::find('1');
         $data['title']              = $title . ' :: ' . $data['generalSetting']->site_name;
         $data['page_header']        = $title;
+        $data['surveys']            = Survey::select('id', 'survey_sl_no', 'title')->where('status', '=', 1)->get();
 
         $data['head']               = view('admin.elements.head', $data);
         $data['maincontent']        = view('admin.maincontents.' . $page_name, $data);
@@ -317,6 +321,7 @@ class Controller extends BaseController
         } else {
             $data['module_id']      = [];
         }
+        $data['surveys']            = Survey::select('id', 'survey_sl_no', 'title')->where('status', '=', 1)->get();
 
         $data['head']               = view('admin.elements.head', $data);
         $data['header']             = view('admin.elements.header', $data);
@@ -487,7 +492,7 @@ class Controller extends BaseController
     }
     public function curl_request_post($method, $functionName, $data = array())
     {
-        $url = "https://segen-enterprise.synergydevelopmentgroups.com/api/";
+        $url = "https://mentrovert.com/api/";
 
         $dataJson           = [
             'key' => 'facb6e0a6fcbe200dca2fb60dec75be7',

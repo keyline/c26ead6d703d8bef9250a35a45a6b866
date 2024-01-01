@@ -72,7 +72,7 @@ use App\Models\RequireDocument;
 												<div class="profi_copylink">
 													<label for="basic-url" class="form-label">Your Stumento page link</label>
 													<div class="input-group">
-														<span class="input-group-text" id="basic-addon3">stumento.com/</span>
+														<span class="input-group-text" id="basic-addon3">mentrovert.com/student-profile/</span>
 														<input type="text" class="form-control" name="display_name" value="<?=(($profileDetail->display_name)?$profileDetail->display_name:'')?>" id="myInput" aria-describedby="basic-addon3 basic-addon4">
 													</div>
 												</div>
@@ -262,7 +262,7 @@ use App\Models\RequireDocument;
 	function myFunction() {
 		var copyText = document.getElementById("myInput");
 		copyText.select();
-		let baseUrl = '<?=url('')?>';
+		let baseUrl = '<?=url('student-profile/')?>';
 		copyText.setSelectionRange(0, 99999);
 		let finalCopyValue = baseUrl + '/' + copyText.value;
 		navigator.clipboard.writeText(finalCopyValue);

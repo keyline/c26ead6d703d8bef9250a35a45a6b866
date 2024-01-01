@@ -149,9 +149,9 @@ use App\Helpers\Helper;
 	                                  </div>
 	                                 <button class="add-slot-btn add__slot__parent" data-container="{{ strtolower($day->day_text) }}"><span style="pointer-events: none;"><i class="fa-solid fa-plus"></i></span></button>
 	                              </div> -->
-	                              @if($loop->index === 0)
+	                              
 	                              <!-- <div class="btn-apply-all"><a href="#">Apply To All</a></div> -->
-	                              @endif
+	                              
 	                           	</div>
 	                          @else
 	                          	<div class="ant-typography slots-unavailable">Unavailable</div>
