@@ -1,9 +1,13 @@
 <?php
+use App\Models\User;
+use App\Models\StudentProfile;
+use App\Models\MentorProfile;
+use App\Models\GeneralSetting;
+use App\Helpers\Helper;
+
 use Illuminate\Support\Facades\Route;;
 $routeName = Route::current();
 $pageName = $routeName->uri();
-// dd($routeName);
-use App\Helpers\Helper;
 ?>
 <div class="container">
    <div class="row">
@@ -51,10 +55,9 @@ use App\Helpers\Helper;
                      <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">Free Career Tests</a>
                            <ul class="dropdown-menu">
-                              <li><a class="dropdown-item" href="<?=url('user/survey-list')?>"> Stream Selector/MBTI</a></li>
-                              <li><a class="dropdown-item" href="<?=url('user/survey-list')?>"> Personality test/Selfesteem </a></li>
-                              <li><a class="dropdown-item" href="<?=url('user/survey-list')?>"> Social Intelligence </a></li>
-                              <li><a class="dropdown-item" href="<?=url('user/survey-list')?>"> Locus of Academics </a></li>
+                              <?php if($surveys){ foreach($surveys as $survey){?>
+                              <li><a class="dropdown-item" href="<?=url('user/survey-details/'.Helper::encoded($survey->id))?>"> <?=$survey->title?></a></li>
+                              <?php } }?>
                            </ul>
                      </li>
                      <!-- <li class="nav-item <?=(($pageName == 'blogs')?'active':'')?>">
@@ -126,14 +129,48 @@ use App\Helpers\Helper;
                      <div class="dropdown">
                         <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
                            <div class="avatar avatar-md">
-                              <?php if($user){?>
-                                 <?php if($user->profile_pic != ''){?>
-                                    <img src="<?=env('UPLOADS_URL').'user/'.$user->profile_pic?>" alt="<?=$user->full_name?>" class="avatar-img">
-                                 <?php } else {?>
-                                    <img src="<?=env('NO_IMAGE')?>" alt="<?=$user->full_name?>" class="avatar-img">
-                                 <?php }?>
+                              <?php
+                              $content        = session('name');
+                              $user_id        = session('user_id');
+                              $role           = session('role');
+                              if ($role == 1) {
+                                  $getUser = StudentProfile::where('user_id', '=', $user_id)->first();
+                              } else {
+                                  $getUser = MentorProfile::where('user_id', '=', $user_id)->first();
+                              }
+                              if ($getUser) {
+                                  if ($getUser->profile_pic != '') {
+                                      $imageLink = env('UPLOADS_URL') . 'user/' . $getUser->profile_pic;
+                                      // $imageLink = '<img class="avatar-img" src="'.$image.'" alt="'.$content.'">';
+                                  } else {
+                                      $fullName = $content;
+                                      $fullNameArr = explode(" ", $fullName);
+                                      $firstWord = current($fullNameArr);
+                                      $lastWord  = end($fullNameArr);
+                                      $firstCharacter = substr($firstWord, 0, 1);
+                                      $lastCharacter = substr($lastWord, 0, 1);
+                                      $defaultProfile = strtoupper($firstCharacter);
+                                      $imageLink = $defaultProfile;
+                                  }
+                              } else {
+                                  $fullName = $content;
+                                  $fullNameArr = explode(" ", $fullName);
+                                  $firstWord = current($fullNameArr);
+                                  $lastWord  = end($fullNameArr);
+                                  $firstCharacter = substr($firstWord, 0, 1);
+                                  $lastCharacter = substr($lastWord, 0, 1);
+                                  $defaultProfile = strtoupper($firstCharacter);
+                                  $imageLink = $shortName;
+                              }
+                              ?>
+                              <?php if($getUser) {?>
+                                  <?php if ($getUser->profile_pic != '') {?>
+                                      <img class="avatar-img" src="<?= $imageLink ?>" alt="{{ session('name') }}">
+                                  <?php } else {?>
+                                      <span style="border: 1px solid #f9233f;height: 43px;width: 80px;padding: 9px 15px;border-radius: 50%;"><?= $imageLink ?></span>
+                                  <?php }?>
                               <?php } else {?>
-                                 <img src="<?=env('NO_IMAGE')?>" alt="" class="avatar-img">
+                                  <span style="border: 1px solid #f9233f;height: 43px;width: 80px;padding: 9px 15px;border-radius: 50%;"><?= $imageLink ?></span>
                               <?php }?>
                            </div>
                         </a>

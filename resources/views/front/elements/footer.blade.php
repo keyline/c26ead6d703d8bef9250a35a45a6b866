@@ -34,7 +34,7 @@
                   </ul>
                </div>
                <div class="foot_midle_left">
-                  <h5>SERVICES</h5>
+                  <h5>Counselling</h5>
                   <ul>
                      <?php
                      $footer_link_name3 = (($generalSetting->footer_link_name3 != '')?json_decode($generalSetting->footer_link_name3):[]);
