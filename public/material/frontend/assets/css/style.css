@@ -401,7 +401,7 @@ width: 50%;
 .homeslider_image .owl-nav {
   position: absolute;
   bottom: 36px;
-  left: 30px;
+  left: 0;
 }
 .homeslider_image .owl-nav button {
   border: 1px solid #999 !important;
@@ -416,15 +416,15 @@ width: 50%;
   border: 1px solid #f9233f !important;
 }
 .home_titlespeek {
-    font-size: 44px;
+    font-size: 30px;
     line-height: 1.25;
     font-weight: 800;
 	    padding-bottom: 20px;
 }
 p.homeban_sub {
     color: #767676;
-    font-size: 22px;
-    padding-bottom: 25px;
+    font-size: 20px;
+    padding-bottom: 22px;
 }
 ul.banner_btn {
     display: flex;
@@ -1094,6 +1094,9 @@ color: #fff;
 }
 .perpation_info h3 {
     font-size: 34px;
+}
+.perpation_info p {
+    text-align: justify;
 }
 .perpation_part2 {
     text-align: right;
