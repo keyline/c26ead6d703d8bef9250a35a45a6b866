@@ -15173,7 +15173,7 @@ header.header {
 ul.navbar-nav .dropdown-menu {
     border: none;
     border-radius: 0;
-    background: #ffaa23;
+    background: #ccc;
 }
 
 .sticky-header .header nav.navbar {
@@ -15821,7 +15821,7 @@ button.add-slot-btn {
 }
 .survay_listing li.question h3 {
     font-size: 20px;
-    color: #c718d3;
+    color: #f9233f;
 }
 .survay_listing li.question {
     margin-bottom: 15px;

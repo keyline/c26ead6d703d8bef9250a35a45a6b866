@@ -252,7 +252,7 @@ header.header {
 ul.navbar-nav .dropdown-menu {
   border: none;
   border-radius: 0;
-  background: #ffaa23;
+  background: #ccc;
 }
 
 .sticky-header .header nav.navbar {
@@ -980,7 +980,7 @@ color: #fff;
 }
 .innerbanner_bredcum ul {
     display: flex;
-    justify-content: space-evenly;
+    justify-content: center;
 	color: #fff;
 	align-items: center;
 }
@@ -2226,4 +2226,7 @@ ul.listbullet li {
     margin-left: -25px;
     width: 19px;
     height: 19px;
+}
+.static_section a.btn_orgfill {
+    margin: 0 auto;
 }
