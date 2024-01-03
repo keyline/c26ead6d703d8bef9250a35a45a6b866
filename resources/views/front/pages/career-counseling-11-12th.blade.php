@@ -34,7 +34,7 @@
                <div class="container">
                   <div class="row">
                      <div class="col-md-12">
-                        <h2>Designed to help students with career choice</h2>
+                        <h2>Designed to help students with career choices</h2>
                         <h5>Join amazing Counsellors willing to go the extra mile for you!</h5>
                      </div>
                   </div>
@@ -71,6 +71,7 @@
                            <!--element to hold filtered out items-->
                            <div id="projects-hidden" class="hide"></div>
                         </div>
+                        <a href="<?=url('mentors/')?>">View All Vendors</a>
                      </div>
                   </div>
                </div>

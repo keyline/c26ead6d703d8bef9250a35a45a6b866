@@ -42,11 +42,12 @@
                      <h2 id="<?=$blogContent->table_of_content_slug?>"><strong><?=$blogContent->table_of_content?></strong></h2>
 
                      <?=$blogContent->content?>
-
-                     <div class="medical-disclaimer disclaimer-copy">
-                        <h4>Summary</h4>
-                        <p><?=$blogContent->summary?></p>
-                     </div>
+                     <?php if($blogContent->summary != ''){?>
+                        <div class="medical-disclaimer disclaimer-copy">
+                           <h4>Summary</h4>
+                           <p><?=$blogContent->summary?></p>
+                        </div>
+                     <?php }?>
                   <?php } }?>
                </div>
                
@@ -62,7 +63,7 @@
          </div>
          <div class="col-lg-2 col-md-12">
             <div id="sticky-sidebar-cateogy" class="categroy_relate">
-               <h5 class="nav-title">Recent Category</h5>
+               <h5 class="nav-title">Blog Category</h5>
                <ul>
                   <?php if($recentBlogs){ foreach($recentBlogs as $recentBlog){?>
                   <li><a href="<?=url('/blog-details/'.$recentBlog->slug)?>"><?=$recentBlog->title?></a></li>

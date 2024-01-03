@@ -43,26 +43,29 @@
 												<th class="col-md-1">#</th>
 												<th class="col-md-2">Title</th>
 												<th class="col-md-6">Description</th>
+												<th class="col-md-6">Guidelines</th>
 												<th class="col-md-2">No Of Questions</th>
 												<th class="col-md-4">Action</th>
 											</tr>
 										</thead>
 										<tbody>
-											<?php if($surveys){ $sl=1; foreach($surveys as $survey){	?>
+											<?php if($surveyList){ $sl=1; foreach($surveyList as $row){ ?>
 												<tr>
 													<td><?=$sl++;?></td>
-													<td><?=$survey->title;?></td>
-													<td><?php echo mb_strimwidth($survey->short_description, 0, 300, "...");?></td>
+													<td><?=$row->title;?></td>
+													<td style="text-align: justify;"><?=$row->short_description?></td>
+													<td style="text-align: justify;"><?=$row->guideline?></td>
 													<td>
-														<?php $QuestionCount = SurveyQuestion::where('survey_id','=',$survey->id )->where('status','=','1')->count(); 
+														<?php $QuestionCount = SurveyQuestion::where('survey_id','=',$row->id )->where('status','=','1')->count(); 
 														echo $QuestionCount; ?>
 													</td>
 													<td>
-														<?php $checkResult = SurveyResult::where('status','=',1)->where('survey_id','=',$survey->id)->first(); 
+														<?php $checkResult = SurveyResult::where('status','=',1)->where('survey_id','=',$row->id)->first(); 
 														if($checkResult){	?>
-															<span class="badge bg-primary">Already Participated</span>
+															<!-- <span class="badge bg-primary">Already Participated</span> -->
+															<a href="<?=url('user/survey-result/'.Helper::encoded($row->id))?>" class="btn btn-primary uppercase"> View Result</a>
 														<?php }else{	?>
-															<a href="<?=url('user/survey-details/'.Helper::encoded($survey->id))?>" class="btn_orgfill uppercase"> View</a>
+															<a href="<?=url('user/survey-details/'.Helper::encoded($row->id))?>" class="btn_orgfill uppercase"> View</a>
 														<?php } ?>
 													</td>
 												</tr>

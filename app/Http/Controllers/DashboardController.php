@@ -356,22 +356,24 @@ class DashboardController extends Controller
     /* survey */
         public function surveyList()
         {
-            $data['surveys']    = Survey::where('status', '=', 1)->get();
-            $title              = 'Survey List';
-            $page_name          = 'survey-list';
+            $data['surveyList']     = Survey::where('status', '=', 1)->get();
+            $title                  = 'Survey List';
+            $page_name              = 'survey-list';
             echo $this->front_dashboard_layout($title, $page_name, $data);
         }
         public function surveyDetails(Request $request, $id)
         {
-            $id                 = Helper::decoded($id);
-            $userId             = $request->session()->get('user_id');
-            $data['user_id']    = $userId;
-            $data['id']         = $id;
+            $id                         = Helper::decoded($id);
+            $userId                     = $request->session()->get('user_id');
+            $data['user_id']            = $userId;
+            $data['id']                 = $id;
             if ($request->isMethod('post')) {
                 $postData = $request->all();
                 // Helper::pr($postData);
+                $getSurvey          = Survey::where('status', '=', 1)->where('id', '=', $id)->first();
                 if ($postData['question_type'] == 1) {
                     $noOfQuestions = SurveyQuestion::where('survey_id', '=', $id)->count();
+                    $factor_array = [];
                     for ($i = 1; $i <= $noOfQuestions; $i++) {
                         // $options            = $postData['option'.$i];
                         $answer             = explode("/", $postData['option' . $i][0]);
@@ -384,27 +386,75 @@ class DashboardController extends Controller
                             'option_id'     =>  $optionId
                         ];
                         SurveyRecords::insert($fields);
-                        $question_array[]     =  $optionId;
+                        $question_array[]       =  $optionId;
+
+                        
+                        if(!in_array($factor, $factor_array)){
+                            $factor_array[]         = $factor;
+                        }
+                    }
+                    
+                    $getFactorCount = SurveyGrades::where('status', '=', 1)->where('survey_id', '=', $id)->groupBy('factor')->count();
+                    $splitArrays = [];
+                    if($getFactorCount > 1){
+                        if(!empty($factor_array)) {
+                            for($f=0;$f<count($factor_array);$f++){
+                                $noOfQuestionsFactorWises = SurveyQuestion::where('survey_id', '=', $id)->where('factor', '=', $factor_array[$f])->count();
+                                $splitArrays[] = array_chunk($question_array, $noOfQuestionsFactorWises);
+                            }
+                        }
+                        
+                        $finalSplitArray = $splitArrays[0];
+                        
+                        if(!empty($finalSplitArray)){
+                            for($a=0;$a<count($finalSplitArray);$a++){
+                                $optionArray = $finalSplitArray[$a];
+                                $sum = 0;
+                                if(!empty($optionArray)){
+                                    for($op=0;$op<count($optionArray);$op++){
+                                        $getSurveyWeight     = SurveyQuestionOptions::where('option_id', '=', $optionArray[$op])->where('status', '=', 1)->first();
+                                        $weightCount         = (($getSurveyWeight)?$getSurveyWeight->option_weight:0);
+                                        $sum                += $weightCount;
+                                    }
+                                    $getSurveyGrade              = SurveyGrades::where('survey_id', '=', $id)->where('minimum', '<=', $sum)->where('maximum', '>=', $sum)->first();
+                                    if($getSurveyGrade){
+                                        $values = [
+                                            'user_id'       =>  $userId,
+                                            'survey_id'     =>  $id,
+                                            'score'         =>  $sum,
+                                            'grade'         =>  $getSurveyGrade->name,
+                                            'factor'        =>  $getSurveyGrade->factor,
+                                            'grade_review'  =>  $getSurveyGrade->review
+                                        ];
+                                        // Helper::pr($values);
+                                        SurveyResult::insert($values);
+                                    }
+                                }
+                            }
+                        }
+                        return redirect('user/survey-result/' . Helper::encoded($id));
+                    } else {
                         $sum = 0;
                         foreach ($question_array as $array) {
                             $getSurveyWeight     = SurveyQuestionOptions::where('option_id', '=', $array[0])->where('status', '=', 1)->first();
                             $weightCount         = (($getSurveyWeight)?$getSurveyWeight->option_weight:0);
                             $sum                += $weightCount;
                         }
-                    }
-                    $getSurveyGrade              = SurveyGrades::where('survey_id', '=', $id)->where('minimum', '<=', $sum)->where('maximum', '>=', $sum)->first();
-                    if($getSurveyGrade){
-                        $values = [
-                            'user_id'       =>  $userId,
-                            'survey_id'     =>  $id,
-                            'score'         =>  $sum,
-                            'grade'         =>  $getSurveyGrade->name,
-                            'grade_review'  =>  $getSurveyGrade->review
-                        ];
-                        SurveyResult::insert($values);
-                        return redirect('user/survey-result/' . Helper::encoded($id));
-                    } else {
-                        return redirect('user/survey-details/'.Helper::encoded($id));
+                        $getSurveyGrade              = SurveyGrades::where('survey_id', '=', $id)->where('minimum', '<=', $sum)->where('maximum', '>=', $sum)->first();
+                        if($getSurveyGrade){
+                            $values = [
+                                'user_id'       =>  $userId,
+                                'survey_id'     =>  $id,
+                                'score'         =>  $sum,
+                                'grade'         =>  $getSurveyGrade->name,
+                                'factor'        =>  (($getSurvey)?$getSurvey->title:''),
+                                'grade_review'  =>  $getSurveyGrade->review
+                            ];
+                            SurveyResult::insert($values);
+                            return redirect('user/survey-result/' . Helper::encoded($id));
+                        } else {
+                            return redirect('user/survey-details/'.Helper::encoded($id));
+                        }
                     }
                 }
                 if ($postData['question_type'] == 2) {
@@ -443,6 +493,7 @@ class DashboardController extends Controller
                             'survey_id'     =>  $id,
                             'score'         =>  $sum,
                             'grade'         =>  $getSurveyGrade->name,
+                            'factor'        =>  (($getSurvey)?$getSurvey->title:''),
                             'grade_review'  =>  $getSurveyGrade->review
                         ];
                         SurveyResult::insert($values);
@@ -472,9 +523,10 @@ class DashboardController extends Controller
                         $survey_result_weight[] = $weight;
                     }
                     $vals = array_count_values($survey_result_array);
-                    // Helper::pr($vals);die;
+                    
                     $combinationSegment = [];
                     $getFactors = SurveyFactor::select('factor_id', 'factor_name')->where('survey_id', '=', $id)->where('status', '=', 1)->get();
+                    // Helper::pr($vals);die;
                     if ($getFactors) {
                         foreach ($getFactors as $getFactor) {
                             $factor_id      = $getFactor->factor_id;
@@ -484,21 +536,28 @@ class DashboardController extends Controller
 
                             $firstCombination = $getFactor->factor_name . '|A';
                             $secondCombination = $getFactor->factor_name . '|B';
-                            if ($vals[$firstCombination] > $vals[$secondCombination]) {
-                                $combinationSegment[] = $factorElement1;
+                            
+                            if ((array_key_exists($firstCombination,$vals)) && (array_key_exists($secondCombination,$vals))){
+                                if ($vals[$firstCombination] > $vals[$secondCombination]) {
+                                    $combinationSegment[] = $factorElement1;
+                                } else {
+                                    $combinationSegment[] = $factorElement2;
+                                }
                             } else {
                                 $combinationSegment[] = $factorElement2;
                             }
                         }
                     }
+                    // Helper::pr($combinationSegment);
                     $combination = implode("", $combinationSegment);
                     $getCombination = SurveyCombinations::select('combination_description')->where('survey_id', '=', $id)->where('combination_code', '=', $combination)->where('status', '=', 1)->first();
                     if($getCombination){
                         $fields2 = [
-                            'user_id'           =>  $userId,
-                            'survey_id'         =>  $id,
-                            'score'             =>  0,
-                            'grade'             =>  $combination,
+                            'user_id'           => $userId,
+                            'survey_id'         => $id,
+                            'score'             => 0,
+                            'grade'             => $combination,
+                            'factor'            => (($getSurvey)?$getSurvey->title:''),
                             'grade_review'      => (($getCombination) ? $getCombination->combination_description : ''),
                         ];
                         // Helper::pr($fields2);die;
@@ -509,16 +568,20 @@ class DashboardController extends Controller
                     }
                 }
             }
+
+            $data['getSurvey']          = Survey::where('status', '=', 1)->where('id', '=', $id)->first();
             $data['surveyQuestions']    = SurveyQuestion::where('survey_id', '=', $id)->where('status', '=', 1)->get();
-            $title          = 'Survey Details';
-            $page_name      = 'survey-details';
+            $title                      = 'Survey Details';
+            $page_name                  = 'survey-details';
             echo $this->front_dashboard_layout($title, $page_name, $data);
         }
         public function surveyResult(Request $request, $id)
         {
             $userId                  = $request->session()->get('user_id');
             $id                      = Helper::decoded($id);
-            $data['getResult']       = SurveyResult::where('user_id', '=', $userId)->where('survey_id', '=', $id)->where('status', '=', 1)->first();
+            $data['getSurvey']       = Survey::where('status', '=', 1)->where('id', '=', $id)->first();
+            $data['surveyGrades']    = SurveyGrades::where('status', '=', 1)->where('survey_id', '=', $id)->first();
+            $data['getResults']      = SurveyResult::where('user_id', '=', $userId)->where('survey_id', '=', $id)->where('status', '=', 1)->get();
             $data['totalQuestions']  = SurveyQuestion::where('survey_id', '=', $id)->where('status', '=', 1)->count();
             $title                   = 'Survey Result';
             $page_name               = 'survey-result';
