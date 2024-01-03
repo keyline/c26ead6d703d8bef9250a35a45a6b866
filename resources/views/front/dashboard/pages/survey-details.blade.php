@@ -13,7 +13,9 @@
 				<button class="header-toggler px-md-0 me-md-3 d-md-none" type="button" onclick="coreui.Sidebar.getInstance(document.querySelector('#sidebar')).toggle()">
 					<i class="fa-solid fa-bars"></i>
 				</button>
-				<h4 class="pagestitle-item mb-0">Survey List</h4>
+				<h4 class="pagestitle-item mb-0"><?=(($getSurvey)?$getSurvey->title:'')?></h4>
+				<h5 class="pagestitle-item mb-0"><?=(($getSurvey)?$getSurvey->short_description:'')?></h5>
+				<h6 class="pagestitle-item mb-0"><?=(($getSurvey)?$getSurvey->guideline:'')?></h6>
 				<ul class="header-nav ms-auto"></ul>
 			</div>
 		</header>
@@ -57,7 +59,7 @@
 													foreach ($surveyQuestionOptions as $surveyQuestionOption) { ?>
 														<li>
 															<label for="option-<?=$surveyQuestionOption->option_id?>">
-															<input name="option<?=$q?>[]" value="<?=$surveyQuestionOption->option_id?>/<?=Helper::encoded($surveyQuestionOption->factor)?>/<?=Helper::encoded($surveyQuestionOption->option_weight)?>" type="radio" id="option-<?=$surveyQuestionOption->option_id?>" onchange="setAnswer(<?=$q?>);"> <?=$surveyQuestionOption->option_name; ?></label>
+															<input name="option<?=$q?>[]" value="<?=$surveyQuestionOption->option_id?>/<?=Helper::encoded($surveyQuestionOption->factor)?>/<?=Helper::encoded($surveyQuestionOption->option_weight)?>" type="radio" id="option-<?=$surveyQuestionOption->option_id?>" onchange="setAnswer(<?=$q?>);" required> <?=$surveyQuestionOption->option_name; ?></label>
 														</li>
 												<?php } } ?>
 											</ul>

@@ -1,5 +1,13 @@
 <?php
-	use App\Models\User;
+use App\Models\Survey;
+use App\Models\SurveyQuestion;
+use App\Models\SurveyFactor;
+use App\Models\SurveyGrades;
+use App\Models\SurveyQuestionOptions;
+use App\Models\SurveyResult;
+use App\Models\SurveyRecords;
+use App\Models\SurveyCombinations;
+use App\Models\User;
 ?>
 <div class="account_wrapper">
 	<?=$sidebar;?>
@@ -9,7 +17,7 @@
 				<button class="header-toggler px-md-0 me-md-3 d-md-none" type="button" onclick="coreui.Sidebar.getInstance(document.querySelector('#sidebar')).toggle()">
 					<i class="fa-solid fa-bars"></i>
 				</button>
-				<h4 class="pagestitle-item mb-0">Survey Result</h4>
+				<h4 class="pagestitle-item mb-0">Survey Result Of <?=(($getSurvey)?$getSurvey->title:'')?></h4>
 				<ul class="header-nav ms-auto"></ul>
 			</div>
 		</header>
@@ -36,10 +44,29 @@
 								<div class="survay_resulting_tick"><i class="fa-solid fa-check"></i></div>
 								<div class="survay_resulting_content">
 									<p>Thank you for Survey, you have finish all <strong><?=$totalQuestions;?></strong> questions. Your result given below:</p>
-									
-									<blockquote>
-										<?= $getResult->grade_review; ?> 
-									</blockquote>
+									<?php if($getSurvey){?>
+										<?php if($getSurvey->question_type == 1){?>
+											<?php if($getResults){ foreach($getResults as $getResult){?>
+												<blockquote>
+													You are <strong><?=$getResult->grade?></strong> in <strong><?=$getResult->factor?></strong>. It means <?=$getResult->grade_review?>
+												</blockquote>
+											<?php } }?>
+										<?php }?>
+										<?php if($getSurvey->question_type == 2){?>
+											<?php if($getResults){ foreach($getResults as $getResult){?>
+												<blockquote>
+													You are <strong><?=$getResult->grade?></strong> in <strong><?=$getResult->factor?></strong>. It means <?=$getResult->grade_review?>
+												</blockquote>
+											<?php } }?>
+										<?php }?>
+										<?php if($getSurvey->question_type == 3){?>
+											<?php if($getResults){ foreach($getResults as $getResult){?>
+												<blockquote>
+													You are <strong><?=$getResult->grade?></strong> in <strong><?=$getResult->factor?></strong>. You can continue in <?=$getResult->grade_review?>
+												</blockquote>
+											<?php } }?>
+										<?php }?>
+									<?php }?>
 								</div>
 							</div>
 						</div>
