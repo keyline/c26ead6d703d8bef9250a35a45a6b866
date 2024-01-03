@@ -285,6 +285,13 @@ Route::prefix('/admin')->namespace('App\Http\Controllers\Admin')->group(function
         Route::get('page/delete/{id}', 'PageController@delete');
         Route::get('page/change-status/{id}', 'PageController@change_status');
         /* page */
+        /* meta */
+        Route::get('meta/list', 'MetaController@list');
+        Route::match(['get', 'post'], 'meta/add', 'MetaController@add');
+        Route::match(['get', 'post'], 'meta/edit/{id}', 'MetaController@edit');
+        Route::get('meta/delete/{id}', 'MetaController@delete');
+        Route::get('meta/change-status/{id}', 'MetaController@change_status');
+        /* meta */
         /* FAQs */
         /* faq */
         Route::get('faq/list', 'FaqController@list');
