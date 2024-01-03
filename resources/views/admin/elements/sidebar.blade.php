@@ -157,6 +157,15 @@ $pageFunction = ((count($pageName)>2)?$pageName[2]:'');
     </a>
   </li><!-- End Profile Page Nav -->
   <?php }?>
+
+  <?php if((in_array(11, $module_id))) {?>
+  <li class="nav-item">
+    <a class="nav-link <?=(($pageSegment == 'meta')?'active':'')?>" href="{{ url('admin/meta/list') }}">
+      <i class="fa fa-file-text"></i>
+      <span>Meta Informations</span>
+    </a>
+  </li><!-- End Profile Page Nav -->
+  <?php }?>
   
   <?php if((in_array(12, $module_id)) || (in_array(29, $module_id))){?>
   <li class="nav-item">
