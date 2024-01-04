@@ -1,3 +1,15 @@
+<?php
+use App\Models\ServiceType;
+use App\Models\Service;
+use App\Models\ServiceAttribute;
+use App\Models\ServiceDetail;
+use App\Models\ServiceTypeAttribute;
+use App\Models\MentorAvailability;
+use App\Models\User;
+use App\Models\StudentProfile;
+use App\Models\MentorProfile;
+use App\Helpers\Helper;
+?>
 <!-- ********|| BANNER STARTS ||******** -->
 <div class="home_slider_section">
    <div class="container">
@@ -100,6 +112,7 @@
                               <h3><?=$mentor['name']?></h3>
                               <h5><?=$mentor['service_name']?></h5>
                               <h3><?=$mentor['qualification']?></h3>
+                              <h3><?=$mentor['experience']?> years experiences</h3>
                            </div>
                            <div class="homecare_info">
                               <a href="<?=url('mentor-details/'.$mentorDisplayName.'/'.Helper::encoded($mentorId))?>">View Profile</a>
@@ -214,30 +227,73 @@
       </div>
    </div>
 </section>
-<!-- ********|| Home Success Stories STARTS ||******** -->
-<section class="home_mentoer_section">
-   <div class="container">
-      <div class="row">
-         <div class="homemento_middle">
-            <div class="top_title text-center pt-2 pb-5">Featured Mentor</div>
-            <div class="row">
-               <div class="col-md-6">
-                  <img src="<?=env('FRONT_ASSETS_URL')?>assets/images/feature_img1.png" alt="">
-               </div>
-               <div class="col-md-6">
-                  <div class="metor_info">
-                     <h3 class="sitecolor">Yogesh Kashyap</h3>
-                     <h5>Mental Health, Career Counselling</h5>
-                     <h3>MSc.</h3>
-                     <a class="btn_orgfill mt-5" href="#">View Profile</a>
+<?php if($featured_mentor){?>
+   <!-- ********|| Home Success Stories STARTS ||******** -->
+   <section class="home_mentoer_section">
+      <div class="container">
+         <div class="row">
+            <div class="homemento_middle">
+               <div class="top_title text-center pt-2 pb-5">Featured Mentor</div>
+               <div class="row">
+                  <div class="col-md-6">
+                     <?php
+                     if($featured_mentor->profile_pic != ''){
+                        $imageLink = env('UPLOADS_URL') . 'user/' . $featured_mentor->profile_pic;
+                     } else {
+                        $imageLink = env('NO_IMAGE_AVATAR');
+                     }
+                     ?>
+                     <img src="<?=$imageLink?>" alt="<?=$featured_mentor->full_name?>">
+                  </div>
+                  <div class="col-md-6">
+                     <div class="metor_info">
+                        <h3 class="sitecolor"><?=$featured_mentor->full_name?></h3>
+                        <?php
+                        /* service details */
+                            $service_attribute_ids = [];
+                            $getServiceDetails = ServiceDetail::select('service_attribute_id')->where('mentor_user_id', '=', $featured_mentor->user_id)->where('status', '=', 1)->get();
+                            if ($getServiceDetails) {
+                                foreach ($getServiceDetails as $getServiceDetail) {
+                                    $service_attribute_ids[] = $getServiceDetail->service_attribute_id;
+                                }
+                            }
+                            $service_ids = [];
+                            if (!empty($service_attribute_ids)) {
+                                for ($s = 0; $s < count($service_attribute_ids); $s++) {
+                                    $getServiceDetails2 = ServiceTypeAttribute::select('service_id')->where('service_attribute_id', '=', $service_attribute_ids[$s])->where('is_active', '=', 1)->first();
+                                    if ($getServiceDetails2) {
+                                        if (!in_array($getServiceDetails2->service_id, $service_ids)) {
+                                            $service_ids[] = $getServiceDetails2->service_id;
+                                        }
+                                    }
+                                }
+                            }
+                            $serviceNames       = [];
+                            $serviceClassNames  = [];
+                            if (!empty($service_ids)) {
+                                for ($s = 0; $s < count($service_ids); $s++) {
+                                    $service = Service::select('name', 'class_name')->where('id', '=', $service_ids[$s])->where('status', '=', 1)->first();
+                                    if ($service) {
+                                        $serviceNames[]         = (($service) ? $service->name : '');
+                                        $serviceClassNames[]    = (($service) ? $service->class_name : '');
+                                    }
+                                }
+                            }
+                        /* service details */
+                        ?>
+                        <h5><?=implode(", ", $serviceNames)?></h5>
+                        <h3><?=implode(", ", json_decode($featured_mentor->edu_title))?></h3>
+                        <h3><?=$mentor['experience']?> years experiences</h3>
+                        <a class="btn_orgfill mt-5" href="<?=url('/mentor-details/'.$featured_mentor->display_name.'/'.Helper::encoded($featured_mentor->user_id))?>">View Profile</a>
+                     </div>
                   </div>
                </div>
             </div>
          </div>
       </div>
-   </div>
-</section>
-<!-- ********|| Home Success Stories End ||******** -->
+   </section>
+   <!-- ********|| Home Success Stories End ||******** -->
+<?php }?>
 <!-- ********|| Home 3 button Start ||******** -->
 <section class="home_faq_section">
    <div class="container">

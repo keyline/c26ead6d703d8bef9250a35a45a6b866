@@ -343,6 +343,7 @@ Route::prefix('/admin')->namespace('App\Http\Controllers\Admin')->group(function
         Route::get('mentor/payouts/{id}', 'MentorController@payouts');
         Route::get('mentor/delete/{id}', 'MentorController@delete');
         Route::get('mentor/change-status/{id}', 'MentorController@change_status');
+        Route::get('mentor/change-status-featured/{id}', 'MentorController@change_status_featured');
         Route::get('mentor/profile/{id}', 'MentorController@profile');
         Route::post('mentor/profile/{id}', 'MentorController@profile');
         Route::match(['get', 'post'], 'mentor/print-mentor-invoice/{id}', 'MentorController@printMentorInvoice');

@@ -158,6 +158,14 @@ class MentorController extends Controller
                 }
             }
         }
+        public function change_status_featured(Request $request, $id){
+            $id                             = Helper::decoded($id);
+            $is_featured                    = 1;
+            $msg                            = 'Featured';
+            MentorProfile::where('mobile', '!=', '')->update(['is_featured' => 0]);
+            MentorProfile::where('user_id', '=', $id)->update(['is_featured' => 1]);
+            return redirect("admin/" . $this->data['controller_route'] . "/list")->with('success_message', $this->data['title'].' Marked As '.$msg.' Successfully !!!');
+        }
     /* change status */
     /* availability */
         public function availability($id){

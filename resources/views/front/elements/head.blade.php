@@ -1,14 +1,46 @@
 <?php
 use Illuminate\Support\Facades\Route;
+use App\Models\GeneralSetting;
+use App\Models\MetaInformation;
+use App\Helpers\Helper;
 
 $routeName = Route::current();
 $pageName = ($pageName) ?? $routeName->uri();
-//dd($pageName);
+
+$page_link  = url()->current();
+$url        = url('/');
+$page_slug  = explode($url.'/', $page_link);
+$getPage    = MetaInformation::select('id', 'page_link', 'page_slug', 'page_title', 'meta_keyword', 'meta_description')
+    ->where('page_slug', '=', $page_slug[1])
+    ->first();
+// Helper::pr($getPage);
+if ($getPage) {
+    $meta_description   = $getPage->meta_description;
+    $meta_keyword       = $getPage->meta_keyword;
+} else {
+    // $route = Helper::myRoute($pageName, '{');
+    // $id = Helper::myRoute(request()->path(), '/');
+    // $meta = Helper::getMetaData($route, $id);
+
+    // if (count($meta)) {
+    //     $meta_description = $meta['description'];
+    //     $meta_keywords = $meta['keyword'];
+    // } else {
+    //     $meta_description = $generalSetting->meta_description;
+    //     $meta_keywords = $generalSetting->meta_keywords;
+    // }
+    $meta_description   = $generalSetting->meta_description;
+    $meta_keyword      = $generalSetting->meta_title;
+}
 ?>
 <!-- Required meta tags -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="csrf-token" content="{{ csrf_token() }}">
+
+<meta name="description" content="<?=$meta_description?>">
+<meta name="keywords" content="<?=$meta_keyword?>">
+<meta name="author" content="<?php echo $generalSetting->site_name;?>">
 
 <!-- Google Analytic Code -->
 <?php echo $generalSetting->google_analytics_code;?>
