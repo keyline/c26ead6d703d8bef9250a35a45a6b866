@@ -9,26 +9,19 @@ $pageName = ($pageName) ?? $routeName->uri();
 
 $page_link  = url()->current();
 $url        = url('/');
-$page_slug  = explode($url.'/', $page_link);
+if($page_link == $url){
+    $slugSearch = '/';
+} else {
+    $page_slug  = explode($url.'/', $page_link);
+    $slugSearch = $page_slug[1];
+}
 $getPage    = MetaInformation::select('id', 'page_link', 'page_slug', 'page_title', 'meta_keyword', 'meta_description')
-    ->where('page_slug', '=', $page_slug[1])
+    ->where('page_slug', '=', $slugSearch)
     ->first();
-// Helper::pr($getPage);
 if ($getPage) {
     $meta_description   = $getPage->meta_description;
     $meta_keyword       = $getPage->meta_keyword;
 } else {
-    // $route = Helper::myRoute($pageName, '{');
-    // $id = Helper::myRoute(request()->path(), '/');
-    // $meta = Helper::getMetaData($route, $id);
-
-    // if (count($meta)) {
-    //     $meta_description = $meta['description'];
-    //     $meta_keywords = $meta['keyword'];
-    // } else {
-    //     $meta_description = $generalSetting->meta_description;
-    //     $meta_keywords = $generalSetting->meta_keywords;
-    // }
     $meta_description   = $generalSetting->meta_description;
     $meta_keyword      = $generalSetting->meta_title;
 }
