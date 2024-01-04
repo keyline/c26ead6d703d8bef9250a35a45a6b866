@@ -1,10 +1,41 @@
+<?php
+use Illuminate\Support\Facades\Route;
+use App\Models\GeneralSetting;
+use App\Models\MetaInformation;
+use App\Helpers\Helper;
+
+$routeName = Route::current();
+$pageName = ($pageName) ?? $routeName->uri();
+
+$page_link  = url()->current();
+$url        = url('/');
+if($page_link == $url){
+    $slugSearch = '/';
+} else {
+    $page_slug  = explode($url.'/', $page_link);
+    $slugSearch = $page_slug[1];
+}
+$getPage    = MetaInformation::select('id', 'page_link', 'page_slug', 'page_title', 'meta_keyword', 'meta_description')
+    ->where('page_slug', '=', $slugSearch)
+    ->first();
+if ($getPage) {
+    $meta_description   = $getPage->meta_description;
+    $meta_keyword       = $getPage->meta_keyword;
+} else {
+    $meta_description   = $generalSetting->meta_description;
+    $meta_keyword      = $generalSetting->meta_title;
+}
+?>
+
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
 <meta name="csrf-token" content="{{ csrf_token() }}">
-<meta name="description" content="<?=$title;?>">
-<meta name="author" content="<?=$title;?>">
-<meta name="keyword" content="<?=$title;?>">
+
+<meta name="description" content="<?=$meta_description?>">
+<meta name="keywords" content="<?=$meta_keyword?>">
+<meta name="author" content="<?php echo $generalSetting->site_name;?>">
+
 <title><?=$title;?></title>
 <!-- Favicons -->
 <link href="<?=env('UPLOADS_URL').$generalSetting->site_favicon?>" rel="icon">
