@@ -604,14 +604,26 @@ ul.banner_btn {
     padding: 20px 20px 20px;
     text-align: center;
     border-radius: 24px;
-    min-height: 360px;
+    min-height: 410px;
 }
 .careercounselling .projec_homecare  {
     background: #c588d0;
     padding: 20px 20px 20px;
     text-align: center;
     border-radius: 24px;
-    min-height: 360px;
+    min-height: 410px;
+}
+a.viewallvendor_btn {
+    color: #fff;
+    background: #f9233f;
+    display: table;
+    margin: 35px auto 0;
+    padding: 7px 20px;
+    border-radius: 20px;
+    text-transform: uppercase;
+}
+a.viewallvendor_btn:hover{
+    background: #b31026;
 }
 .homecare_info {
     padding-top: 30px;
@@ -1144,6 +1156,7 @@ color: #fff;
     position: relative;
     border-radius: 10px;
 	transition: all .35s;
+    height: 400px;
 }
 .blog_latestview:before{
 	content: "";
@@ -1159,9 +1172,12 @@ color: #fff;
     border-radius: 20px;
     overflow: hidden;
 	transition: transform .35s;
+    height: 400px;
 }
 .blog_latestview .bloglate_img img{
 	transition: transform .35s;
+    object-fit: cover;
+    height: 100%;
 }
 .blog_latestview:hover .bloglate_img img{
 	transform: scale(1.1);
@@ -1421,9 +1437,16 @@ ul.blog_meta li i {
 	box-shadow: 0 0 10px 5px rgba(0,0,0,.03);
     border-radius: 6px;
 }
+.blogdetails_fullimage {
+    height: 350px;
+    overflow: hidden;
+}
 .blogdetails_fullimage img {
     border-radius: 10px;
     box-shadow: 0 0 10px 5px rgba(0,0,0,.06);
+    height: 100%;
+    object-fit: cover;
+    width: 100%;
 }
 
 /* ********|| Application End ||******** */
@@ -2232,4 +2255,11 @@ ul.listbullet li {
 }
 .static_section a.btn_orgfill {
     margin: 0 auto;
+}
+.static_boxarea {
+    padding: 20px;
+    background: radial-gradient(100.18% 50% at 100.18% 100%,#e1f6e8 0,#fff 100%);
+    border-top: 4px solid #9b8afb;
+    box-shadow: -1px 1px 5px 0px #999;
+    border-radius: 10px;
 }

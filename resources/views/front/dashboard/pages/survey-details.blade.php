@@ -13,12 +13,21 @@
 				<button class="header-toggler px-md-0 me-md-3 d-md-none" type="button" onclick="coreui.Sidebar.getInstance(document.querySelector('#sidebar')).toggle()">
 					<i class="fa-solid fa-bars"></i>
 				</button>
-				<h4 class="pagestitle-item mb-0"><?=(($getSurvey)?$getSurvey->title:'')?></h4>
-				<h5 class="pagestitle-item mb-0"><?=(($getSurvey)?$getSurvey->short_description:'')?></h5>
-				<h6 class="pagestitle-item mb-0"><?=(($getSurvey)?$getSurvey->guideline:'')?></h6>
-				<ul class="header-nav ms-auto"></ul>
+				
 			</div>
 		</header>
+		<div class="container my-4">
+			<div class="row justify-content-center">
+				<div class="col-md-10">
+					<div class="surbeydetails_boxarea">
+						<h4 class="pagestitle-item mb-0"><?=(($getSurvey)?$getSurvey->title:'')?></h4>
+						<h5 class="pagestitle-item mb-0"><?=(($getSurvey)?$getSurvey->short_description:'')?></h5>
+						<h6 class="pagestitle-item mb-0"><?=(($getSurvey)?$getSurvey->guideline:'')?></h6>
+						<ul class="header-nav ms-auto"></ul>
+					</div>
+				</div>
+			</div>
+		</div>
 		<div class="col-xl-12">
 		@if(session('success_message'))
 			<div class="alert alert-success bg-success text-light border-0 alert-dismissible fade show autohide" role="alert">

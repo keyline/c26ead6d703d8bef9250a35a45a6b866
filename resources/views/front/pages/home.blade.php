@@ -124,7 +124,7 @@ use App\Helpers\Helper;
                <!--element to hold filtered out items-->
                <div id="projects-hidden" class="hide"></div>
             </div>
-            <a href="<?=url('mentors/')?>">View All Vendors</a>
+            <a class="viewallvendor_btn" href="<?=url('mentors/')?>">View All Vendors</a>
          </div>
       </div>
    </div>
@@ -282,8 +282,8 @@ use App\Helpers\Helper;
                         /* service details */
                         ?>
                         <h5><?=implode(", ", $serviceNames)?></h5>
-                        <h3><?=implode(", ", json_decode($featured_mentor->edu_title))?></h3>
-                        <h3><?=$mentor['experience']?> years experiences</h3>
+                        <h6><?=implode(", ", json_decode($featured_mentor->edu_title))?></h6>
+                        <h6><?=$mentor['experience']?> years experiences</h6>
                         <a class="btn_orgfill mt-5" href="<?=url('/mentor-details/'.$featured_mentor->display_name.'/'.Helper::encoded($featured_mentor->user_id))?>">View Profile</a>
                      </div>
                   </div>

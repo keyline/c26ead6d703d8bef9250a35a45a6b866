@@ -37,7 +37,7 @@
                </div>
                
                <div id="links-box" class="blogdetial_infomation">
-                  <p><?=$firstBlog->description?></p>
+                  <div><?=$firstBlog->description?></div>
                   <?php if($blogContents){ foreach($blogContents as $blogContent){?>
                      <h2 id="<?=$blogContent->table_of_content_slug?>"><strong><?=$blogContent->table_of_content?></strong></h2>
 

@@ -28,8 +28,8 @@
 <section class="blog_listing">
    <div class="container">
       
-         <div class="row">
-            <div class="col-md-12">
+         <div class="row justify-content-center">
+            <div class="col-md-6">
                <div class="blog_latestview">
                   <a href="<?=url('/blog-details/'.$firstBlog->slug)?>">
                      <div class="bloglate_img"><img src="<?=env('UPLOADS_URL')?>blog/<?=$firstBlog->image?>" alt="<?=$firstBlog->title?>"></div>

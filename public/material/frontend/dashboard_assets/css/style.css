@@ -16092,3 +16092,23 @@ button.add-slot-btn {
     padding: 5px;
     background-color: #fff;
 }
+.surbeydetails_boxarea h4 {
+    text-align: center;
+    padding-bottom: 10px;
+    color: #f23b4e;
+}
+.surbeydetails_boxarea h5 {
+    font-size: 16px;
+    padding-bottom: 19px;
+    display: inline-block;
+}
+.surbeydetails_boxarea h6 {
+    font-weight: normal;
+}
+.surbeydetails_boxarea {
+    padding: 20px;
+    background: radial-gradient(100.18% 50% at 100.18% 100%,#e1f6e8 0,#fff 100%);
+    border-top: 4px solid #9b8afb;
+    box-shadow: -1px 1px 5px 0px #999;
+    border-radius: 10px;
+  }
