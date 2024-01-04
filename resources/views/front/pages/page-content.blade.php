@@ -1,8 +1,13 @@
+<?php if($page){?>
 <!-- ********|| BANNER STARTS ||******** -->
 <div class="inner_slider_section">
    <div class="container-fluid px-0">
       <div class="innerpage_banner">
-         <div class="innerbanner_img"><img src="<?=env('UPLOADS_URL')?>page/<?=$page->page_banner_image?>" alt="<?=$page->page_name?>"></div>
+         <div class="innerbanner_img">
+            <?php if($page->page_banner_image != ''){?>
+               <img src="<?=env('UPLOADS_URL')?>page/<?=$page->page_banner_image?>" alt="<?=$page->page_name?>">
+            <?php }?>
+         </div>
          <div class="innerbanner_bredcum">
             <h1><?=$page_header?></h1>
             <ul>
@@ -27,7 +32,9 @@
          <div class="col-md-6">
             <div class="rightvideop">
                <!-- <a href="https://player.vimeo.com/video/80629469" data-toggle="lightbox"> -->
-               <img src="<?=env('UPLOADS_URL')?>page/<?=$page->page_image?>" alt="<?=$page_header?>">
+               <?php if($page->page_image != ''){?>
+                  <img src="<?=env('UPLOADS_URL')?>page/<?=$page->page_image?>" alt="<?=$page_header?>">
+               <?php }?>
                <!-- <i class="fa-regular fa-circle-play"></i>
                </a> -->
             </div>
@@ -35,3 +42,4 @@
       </div>
    </div>
 </section>
+<?php }?>

@@ -101,6 +101,13 @@ $controllerRoute = $module['controller_route'];
                           <a target="_blank" href="<?=url('admin/' . $controllerRoute . '/assigned-services/'.Helper::encoded($row->user_id))?>" class="btn badge bg-primary" title="Edit <?=$module['title']?>"><i class="fa fa-wrench"></i> Assigned Services</a>
                           <a target="_blank" href="<?=url('admin/' . $controllerRoute . '/bookings/'.Helper::encoded($row->user_id))?>" class="btn badge bg-info" title="Edit <?=$module['title']?>"><i class="fa fa-list"></i> Bookings</a>
                           <a target="_blank" href="<?=url('admin/' . $controllerRoute . '/transactions/'.Helper::encoded($row->user_id))?>" class="btn badge bg-warning" title="Edit <?=$module['title']?>"><i class="fa fa-inr"></i> Transactions</a>
+
+                          <?php if($row->is_featured){?>
+                            <span class="badge bg-success">Marked As Featured</span>
+                          <?php } else {?>
+                            <!-- <a href="<?=url('admin/' . $controllerRoute . '/change-status-featured/'.Helper::encoded($row->user_id))?>" class="btn btn-outline-danger btn-xs" title="Featured <?=$module['title']?>"><i class="fa fa-check"></i> Mark Featured</a> -->
+                            <a href="<?=url('admin/' . $controllerRoute . '/change-status-featured/'.Helper::encoded($row->user_id))?>" class="btn btn-outline-danger btn-xs" title="Featured <?=$module['title']?>"><i class="fa fa-times"></i> Mark Featured</a>
+                          <?php }?>
                         </div>
 
                       </td>

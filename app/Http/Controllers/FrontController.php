@@ -57,6 +57,7 @@ class FrontController extends Controller
         $data['serviceTypes']           = ServiceType::where('status', '=', 1)->orderBy('rank', 'ASC')->get();
         $data['services']               = Service::where('status', '=', 1)->orderBy('rank', 'ASC')->get();
         $data['faqs']                   = Faq::where('status', '=', 1)->where('is_home_page', '=', 1)->orderBy('id', 'DESC')->limit(5)->get();
+        $data['featured_mentor']        = MentorProfile::where('is_featured', '=', 1)->first();
 
         $mentors                        = [];
         $mentorLists                    = User::select('mentor_profiles.*', 'users.role', 'users.valid', 'users.email', 'users.phone')->join('mentor_profiles', 'mentor_profiles.user_id', '=', 'users.id')->where('users.valid', '=', 1)->where('users.role', '=', 2)->inRandomOrder()->limit(6)->get();
@@ -590,7 +591,7 @@ class FrontController extends Controller
     /* page */
     public function page($slug)
     {
-        $data['page']                   = Page::where('page_slug', '=', $slug)->first();
+        $data['page']                   = Page::where('page_slug', '=', $slug)->where('status', '=', 1)->first();
         $title                          = (($data['page']) ? $data['page']->page_name : "Page");
         $page_name                      = 'page-content';
         echo $this->front_before_login_layout($title, $page_name, $data);

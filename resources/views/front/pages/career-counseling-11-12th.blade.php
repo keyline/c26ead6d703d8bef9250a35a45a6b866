@@ -60,6 +60,7 @@
                                           <h3><?=$mentor['name']?></h3>
                                           <h5><?=$mentor['service_name']?></h5>
                                           <h3><?=$mentor['qualification']?></h3>
+                                          <h3><?=$mentor['experience']?> years experiences</h3>
                                        </div>
                                        <div class="homecare_info">
                                           <a href="<?=url('mentor-details/'.$mentorDisplayName.'/'.Helper::encoded($mentorId))?>">View Profile</a>

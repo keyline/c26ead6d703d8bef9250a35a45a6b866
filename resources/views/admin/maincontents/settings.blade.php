@@ -67,19 +67,19 @@ $user_type = session('type');
             </li>
             <!-- <li class="nav-item">
               <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab9">Email Templates</button>
-            </li> -->
+            </li>
             <li class="nav-item">
               <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab5">SMS</button>
-            </li>
+            </li> -->
             <li class="nav-item">
               <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab6">Footer</button>
             </li>
             <li class="nav-item">
               <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab7">SEO</button>
             </li>
-            <li class="nav-item">
+            <!-- <li class="nav-item">
               <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab8">Payment</button>
-            </li>
+            </li> -->
             <?php }?>
           </ul>
           <div class="tab-content pt-2">
@@ -116,10 +116,7 @@ $user_type = session('type');
                       <img src="<?=env('NO_IMAGE')?>" alt="<?=$admin->name?>" class="img-thumbnail" style="width: 150px; height: 150px; margin-top: 10px;">
                     <?php }?>
                     
-                    <div class="pt-2">
-                      <!-- <a href="#profile_image" class="btn btn-primary btn-sm" title="Upload new profile image"><i class="bi bi-upload"></i></a> -->
-                      <a href="javascript:void(0);" class="btn btn-danger btn-sm" title="Remove my profile image"><i class="bi bi-trash"></i></a>
-                    </div>
+                    
                   </div>
                 </div>
                 <div class="text-center">
@@ -316,9 +313,7 @@ $user_type = session('type');
                       <img src="<?=env('NO_IMAGE')?>" alt="<?=$setting->site_name?>" class="img-thumbnail" style="width: 150px; height: 150px; margin-top: 10px;">
                     <?php }?>
                     
-                    <div class="pt-2">
-                      <a href="javascript:void(0);" class="btn btn-danger btn-sm" title="Remove Image"><i class="bi bi-trash"></i></a>
-                    </div>
+                    
                   </div>
                 </div>
                 <div class="row mb-3">
@@ -332,9 +327,7 @@ $user_type = session('type');
                       <img src="<?=env('NO_IMAGE')?>" alt="<?=$setting->site_name?>" class="img-thumbnail" style="width: 150px; height: 150px; margin-top: 10px;">
                     <?php }?>
                     
-                    <div class="pt-2">
-                      <a href="javascript:void(0);" class="btn btn-danger btn-sm" title="Remove Image"><i class="bi bi-trash"></i></a>
-                    </div>
+                    
                   </div>
                 </div>
                 <div class="row mb-3">
@@ -348,9 +341,7 @@ $user_type = session('type');
                       <img src="<?=env('NO_IMAGE')?>" alt="<?=$setting->site_name?>" class="img-thumbnail" style="width: 150px; height: 150px; margin-top: 10px;">
                     <?php }?>
                     
-                    <div class="pt-2">
-                      <a href="javascript:void(0);" class="btn btn-danger btn-sm" title="Remove Image"><i class="bi bi-trash"></i></a>
-                    </div>
+                    
                   </div>
                 </div>
                 <div class="text-center">
