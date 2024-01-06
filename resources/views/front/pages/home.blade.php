@@ -124,7 +124,7 @@ use App\Helpers\Helper;
                <!--element to hold filtered out items-->
                <div id="projects-hidden" class="hide"></div>
             </div>
-            <a class="viewallvendor_btn" href="<?=url('mentors/')?>">View All Vendors</a>
+            <a class="viewallvendor_btn" href="<?=url('mentors/')?>">View All Mentors</a>
          </div>
       </div>
    </div>
