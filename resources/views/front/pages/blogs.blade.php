@@ -46,11 +46,12 @@
             </div>
          </div>
 
+         <?php if($blogs){ $i=1;?>
          <div class="row">
             <div class="col-md-12">
                <div class="blog_resent_title">Recent articles</div>
             </div>
-            <?php if($blogs){ $i=1; foreach($blogs as $blog){?>
+            <?php foreach($blogs as $blog){?>
                <?php if($i > 1){?>
                   <div class="col-md-4 load-more-content">
                      <div class="blog_list_item">
@@ -72,17 +73,19 @@
                      </div>
                   </div>
                <?php } ?>
-            <?php $i++; } }?>
+            <?php $i++; }?>
             
          </div>
-      
-         <div class="row">
-            <div class="d-flex justify-content-center">
-               <div class="col-md-5">&nbsp;</div>
-               <div class="col-md-2"><button class="login-btn" id="load-more">Load More <img src="<?=env('FRONT_ASSETS_URL')?>assets/images/Pulse-1s-200px.gif" id="load-more-loader" style="width: 30px; display:none;"></button></div>
-               <div class="col-md-5">&nbsp;</div>
+         <?php if(count($blogs) > 4){?>
+            <div class="row">
+               <div class="d-flex justify-content-center">
+                  <div class="col-md-5">&nbsp;</div>
+                  <div class="col-md-2"><button class="login-btn" id="load-more">Load More <img src="<?=env('FRONT_ASSETS_URL')?>assets/images/Pulse-1s-200px.gif" id="load-more-loader" style="width: 30px; display:none;"></button></div>
+                  <div class="col-md-5">&nbsp;</div>
+               </div>
             </div>
-         </div>
+         <?php }?>
+         <?php }?>
    </div>
 </section>
 <!-- ********|| Home 3 button Start ||******** -->

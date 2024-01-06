@@ -582,7 +582,7 @@ class FrontController extends Controller
         $blog_category                      = (($data['firstBlog']) ? $data['firstBlog']->blog_category : '');
         $data['blogContents']               = BlogContent::where('blog_id', '=', $blog_id)->get();
         $data['recentBlogs']                = Blog::where('status', '=', 1)->orderBy('id', 'DESC')->limit(6)->get();
-        $data['relatedArticles']            = Blog::where('status', '=', 1)->where('blog_category', '=', $blog_category)->orderBy('id', 'DESC')->get();
+        $data['relatedArticles']            = Blog::where('status', '=', 1)->where('blog_category', '=', $blog_category)->where('id', '!=', $blog_id)->orderBy('id', 'DESC')->get();
         $title                              = (($data['firstBlog']) ? $data['firstBlog']->title : '');;
         $page_name                          = 'blog-details';
         echo $this->front_before_login_layout($title, $page_name, $data);

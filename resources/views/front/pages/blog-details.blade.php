@@ -83,19 +83,19 @@
          </div>
          <div class="col-md-12">
             <div id="blogdetails-recent" class="owl-carousel owl-theme">
-               <?php if($relatedArticles){ foreach($relatedArticles as $recentBlog){?>
+               <?php if($relatedArticles){ foreach($relatedArticles as $relatedArticle){?>
                   <div class="item">
                      <div class="blog_list_item">
-                        <a href="<?=url('/blog-details/'.$recentBlog->slug)?>">
+                        <a href="<?=url('/blog-details/'.$relatedArticle->slug)?>">
                            <div class="blogitem_img">
-                              <img src="<?=env('UPLOADS_URL')?>blog/<?=$recentBlog->image?>" alt="<?=$recentBlog->title?>" style="height: 250px;">
+                              <img src="<?=env('UPLOADS_URL')?>blog/<?=$relatedArticle->image?>" alt="<?=$relatedArticle->title?>" style="height: 250px;">
                            </div>
                            <div class="blogitem_detials">
                               <p class="u-text-p8 u-mb-sm u-mt-md u-text-gray-700">
-                                 <span class="pe-2"><?=$recentBlog->post_by?></span> | <span class="ps-2"><?=date_format(date_create($recentBlog->content_date), "M d, Y")?></span> | <span class="ps-2"><?=date_format(date_create($recentBlog->created_at), "h:i A")?></span>
+                                 <span class="pe-2"><?=$relatedArticle->post_by?></span> | <span class="ps-2"><?=date_format(date_create($relatedArticle->content_date), "M d, Y")?></span> | <span class="ps-2"><?=date_format(date_create($relatedArticle->created_at), "h:i A")?></span>
                               </p>
-                              <h3><?=$recentBlog->title?></h3>
-                              <p class="shortdes"><?= mb_strimwidth($recentBlog->short_description, 0, 180, "...."); ?></p>
+                              <h3><?=$relatedArticle->title?></h3>
+                              <p class="shortdes"><?= mb_strimwidth($relatedArticle->short_description, 0, 180, "...."); ?></p>
                            </div>
                         </a>
                      </div>
