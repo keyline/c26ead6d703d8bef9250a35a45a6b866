@@ -67,6 +67,7 @@ use App\Models\User;
 											<?php } }?>
 										<?php }?>
 									<?php }?>
+									<a class="btn_orgfill uppercase m-auto d-table" href="<?=url('mentors/')?>">Talk to Mentor</a>
 								</div>
 							</div>
 						</div>

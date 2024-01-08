@@ -325,6 +325,10 @@
 .mentor-profile-left li a{
     color: #fff;
     font-size: 25px;
+    text-transform: capitalize;
+}
+.mentor-profile .metor_goback h3 {
+    text-transform: capitalize;
 }
 .mentor-profile-left .rating{
     text-align: left;

@@ -1123,6 +1123,7 @@ color: #fff;
 }
 .homecare_info h3 {
     font-size: 20px;
+    text-transform: capitalize;
 }
 .homecare_info h5 {
     font-size: 16px;
@@ -2262,4 +2263,21 @@ ul.listbullet li {
     border-top: 4px solid #9b8afb;
     box-shadow: -1px 1px 5px 0px #999;
     border-radius: 10px;
+}
+#profile_newwelcome .modal-header {
+    border: none;
+    padding-bottom: 0;
+}
+#profile_newwelcome .modal-body h3 {
+    text-align: center;
+    font-size: 22px;
+}
+#profile_newwelcome .modal-body h4 {
+    text-align: center;
+    font-size: 22px;
+    text-transform: capitalize;
+    color: #f9233f;
+}
+#profile_newwelcome .modal-body {
+    padding-top: 0;
 }

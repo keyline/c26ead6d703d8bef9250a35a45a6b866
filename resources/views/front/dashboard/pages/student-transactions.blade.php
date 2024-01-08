@@ -40,7 +40,7 @@ use App\Helpers\Helper;
 										<th>Mentor Details<br>Transaction Date</th>
 										<th>Txn No</th>
 										<th>Payable/Payment Amount</th>
-										<th>Payment Method<br>Payment Mode<br>Payment Status</th>
+										<th>Payment Status</th>
 										<th>Action</th>
 									</tr>
 								</thead>

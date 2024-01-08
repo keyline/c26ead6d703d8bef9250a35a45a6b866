@@ -76,7 +76,7 @@
 									<?php $q++; }	} ?>
 								</ul>
 								<!-- <a class="btn_orgfill uppercase me-2" href="<?=url('user/survey-result')?>">PROCEED</a> -->
-								<button type="submit" class="btn_orgfill uppercase me-2">PROCEED</button>
+								<button type="submit" class="btn_orgfill uppercase me-2">Submit</button>
 							</div>
 							</form>
 						</div>

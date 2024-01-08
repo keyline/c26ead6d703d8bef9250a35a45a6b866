@@ -11,7 +11,7 @@
 				<button class="header-toggler px-md-0 me-md-3 d-md-none" type="button" onclick="coreui.Sidebar.getInstance(document.querySelector('#sidebar')).toggle()">
 					<i class="fa-solid fa-bars"></i>
 				</button>
-				<h4 class="pagestitle-item mb-0">Survey List</h4>
+				<h4 class="pagestitle-item mb-0">Psychological tests</h4>
 				<ul class="header-nav ms-auto"></ul>
 			</div>
 		</header>

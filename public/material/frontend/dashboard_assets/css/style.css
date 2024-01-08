@@ -16112,3 +16112,6 @@ button.add-slot-btn {
     box-shadow: -1px 1px 5px 0px #999;
     border-radius: 10px;
   }
+  table.dataTable tbody th, table.dataTable tbody td {
+    vertical-align: middle;
+}

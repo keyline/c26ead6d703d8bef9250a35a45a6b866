@@ -340,3 +340,24 @@ use App\Helpers\Helper;
    </div>
 </section>
 <!-- ********|| Home 3 button End ||******** -->
+
+<!-- Button trigger modal -->
+<!-- <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#profile_newwelcome">
+  porfile
+</button>
+
+
+<div class="modal fade" id="profile_newwelcome" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+            <h3>Welcome to onboard</h3>
+            <h4>Shuvadeep Chakraborty</h4>
+      </div>
+      
+    </div>
+  </div>
+</div> -->

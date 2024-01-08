@@ -55,9 +55,9 @@ use App\Helpers\Helper;
 											<thead>
 												<tr>
 													<th>#</th>
-													<th>Booking Number<br>Booking Date</th>
+													<th>Booking Details</th>
 													<th>Mentor Details</th>
-													<th>Service Type<br> Service</th>
+													<th>Service Type</th>
 													<th>Duration</th>
 													<th>Meeting Link</th>
 													<th>Action</th>
@@ -91,7 +91,7 @@ use App\Helpers\Helper;
 							                             	?>
 														</td>
 														<td><?=$booking->duration?> mins</td>
-														<td>
+														<td style="text-align: center;">
 															<!-- <?=number_format($booking->payable_amt,2)?> -->
 															<a href="<?=$booking->meeting_link?>" target="_blank" class="btn btn-primary btn-sm">Meeting Link</a>
 														</td>
@@ -144,9 +144,9 @@ use App\Helpers\Helper;
 											<thead>
 												<tr>
 													<th>#</th>
-													<th>Booking Number<br>Booking Date</th>
+													<th>Booking Details</th>
 													<th>Mentor Details</th>
-													<th>Service Type<br> Service</th>
+													<th>Service Type</th>
 													<th>Duration</th>
 													<th>Meeting Link</th>
 													<th>Action</th>
@@ -180,7 +180,7 @@ use App\Helpers\Helper;
 								                         	?>
 														</td>
 														<td><?=$booking->duration?> mins</td>
-														<td>
+														<td style="text-align: center;">
 															<!-- <?=number_format($booking->payable_amt,2)?> -->
 															<a href="<?=$booking->meeting_link?>" target="_blank" class="btn btn-primary btn-sm">Meeting Link</a>
 														</td>
