@@ -8,7 +8,7 @@ use App\Helpers\Helper;
          <div class="col-12">
             <div class="mentor-heading text-center mb-md-5">
                <h2>Our Mentors</h2>
-               <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Labore, eligendi.</p>
+               
             </div>
          </div>
       </div>
