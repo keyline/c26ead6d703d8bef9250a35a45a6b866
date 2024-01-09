@@ -17,6 +17,7 @@
 @include('front.elements.pagesCommonScripts')
 
 @stack('scripts')
+<div id="RecaptchaField1"></div>
 <script src="https://www.google.com/recaptcha/api.js?onload=onloadCallback&render=explicit" async defer></script>
 </body>
 </html>
