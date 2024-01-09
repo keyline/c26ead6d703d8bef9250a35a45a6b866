@@ -338,7 +338,11 @@ $pageName = $routeName->uri();
                 $('#togglePassword22').hide();
             }
         </script>
-        <div id="RecaptchaField1"></div>
-        <script src="https://www.google.com/recaptcha/api.js?onload=onloadCallback&render=explicit" async defer></script>
+        <!-- <div id="RecaptchaField1"></div>
+        <script src="https://www.google.com/recaptcha/api.js?onload=onloadCallback&render=explicit" async defer></script> -->
+        <form action="admin.php" method="POST" id="demo-form">
+            <br>
+            <button class="g-recaptcha" data-sitekey="6LfEu0opAAAAAIP82Q9XnG0dYN81-_DteAszQFMN" data-callback="onSubmit">Submit</button>
+        </form>
    </body>
 </html>
