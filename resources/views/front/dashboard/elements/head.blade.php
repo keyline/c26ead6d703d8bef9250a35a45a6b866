@@ -53,7 +53,7 @@ if ($getPage) {
     };
 
     var onloadCallback = function() {
-      grecaptcha.render('submit', {
+      grecaptcha.render('RecaptchaField1', {
         'sitekey' : '6LfEu0opAAAAAIP82Q9XnG0dYN81-_DteAszQFMN',
         'callback' : onSubmit
       });
