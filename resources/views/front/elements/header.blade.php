@@ -3,6 +3,7 @@ use App\Models\User;
 use App\Models\StudentProfile;
 use App\Models\MentorProfile;
 use App\Models\GeneralSetting;
+use App\Models\Survey;
 use App\Helpers\Helper;
 
 use Illuminate\Support\Facades\Route;;
@@ -55,8 +56,15 @@ $pageName = $routeName->uri();
                      <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">Free Career Tests</a>
                            <ul class="dropdown-menu">
+                              <?php
+                              $surveys = Survey::select('id', 'survey_sl_no', 'title')->where('status', '=', 1)->get();
+                              ?>
                               <?php if($surveys){ foreach($surveys as $survey){?>
-                              <li><a class="dropdown-item" href="<?=url('user/survey-details/'.Helper::encoded($survey->id))?>"> <?=$survey->title?></a></li>
+                                 <?php if(empty(session('is_user_login'))){?>
+                                    <li><a class="dropdown-item" href="<?=url('signin/')?>"> <?=$survey->title?></a></li>
+                                 <?php } else {?>
+                                    <li><a class="dropdown-item" href="<?=url('user/survey-details/'.Helper::encoded($survey->id))?>"> <?=$survey->title?></a></li>
+                                 <?php }?>
                               <?php } }?>
                            </ul>
                      </li>
