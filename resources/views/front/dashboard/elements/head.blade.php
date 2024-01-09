@@ -47,17 +47,11 @@ if ($getPage) {
 <link href="<?=env('FRONT_DASHBOARD_ASSETS_URL')?>css/style.css" rel="stylesheet">
 <link rel="stylesheet" type="text/css" href="<?=env('FRONT_DASHBOARD_ASSETS_URL')?>css/responsive.css">
 
+<script src='https://www.google.com/recaptcha/api.js'></script>
 <script>
-    var onSubmit = function(token) {
-      console.log('success!');
-    };
-
-    var onloadCallback = function() {
-      grecaptcha.render('RecaptchaField1', {
-        'sitekey' : '6LfEu0opAAAAAIP82Q9XnG0dYN81-_DteAszQFMN',
-        'callback' : onSubmit
-      });
-    };
+    function onSubmit() {
+        document.getElementById("demo-form").submit();
+    }
 </script>
 
 <style type="text/css">
