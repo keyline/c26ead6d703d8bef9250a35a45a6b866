@@ -84,6 +84,20 @@ if ($getPage) {
 <link rel="stylesheet" type="text/css" href="<?=env('FRONT_ASSETS_URL')?>assets/css/responsive.css">
 
 <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/css/toastr.css" rel="stylesheet"/>
+
+<script>
+    var onSubmit = function(token) {
+      console.log('success!');
+    };
+
+    var onloadCallback = function() {
+      grecaptcha.render('submit', {
+        'sitekey' : '6LfEu0opAAAAAIP82Q9XnG0dYN81-_DteAszQFMN',
+        'callback' : onSubmit
+      });
+    };
+</script>
+    
 <style type="text/css">    
     .toast-success {
         background-color: #000;
