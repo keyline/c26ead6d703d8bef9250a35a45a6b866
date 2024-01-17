@@ -207,6 +207,9 @@ ul.navbar-nav {
         padding-left: 15px;
         padding-right: 15px;
     }
+    .innerbanner_bredcum {
+        display: none;
+    }
     .homeslider_image{
         background: url(../img/homepage_banner_mobile.jpg) 0 0 no-repeat;
         background-size: cover;

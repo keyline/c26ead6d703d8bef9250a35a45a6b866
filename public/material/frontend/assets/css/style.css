@@ -253,6 +253,7 @@ ul.navbar-nav .dropdown-menu {
   border: none;
   border-radius: 0;
   background: #ccc;
+  margin-left: 20px;
 }
 
 .sticky-header .header nav.navbar {
@@ -262,14 +263,14 @@ ul.navbar-nav .dropdown-menu {
 .header_loginbtn ul li {
     margin: 0 10px;
 }
-.header_loginbtn ul {
+.header_loginbtn > ul {
     display: flex;
     align-items: center;
     left: auto;
     right: 0;
     min-width: 15rem;
 }
-.header_loginbtn ul h4 {
+.header_loginbtn > ul h4 {
     font-size: 16px;
     color: #f9233f;
 }
@@ -349,6 +350,14 @@ ul.navbar-nav .dropdown-menu {
   }
 }
 
+.dropdown:hover>.dropdown-menu {
+    display: block;
+  }
+  
+  .dropdown>.dropdown-toggle:active {
+    /*Without this, clicking will make it sticky*/
+      pointer-events: none;
+  }
 
 /* ********|| NAV BAR ENDS ||******** */
 
@@ -2083,27 +2092,27 @@ button.add-slot-btn {
 
     width:25%;
 }
-.header_loginbtn ul h4 {
+.header_loginbtn > ul h4 {
     font-size: 16px;
     color: #f9233f;
 }
-.header_loginbtn ul li {
+.header_loginbtn > ul > li {
     margin: 0 10px;
 }
-.header_loginbtn ul {
+.header_loginbtn > ul {
     display: flex;
     align-items: center;
     left: auto;
     right: 0;
     min-width: 15rem;
 }
-.header_loginbtn ul li.dropsub_link a {
+.header_loginbtn > ul > li.dropsub_link a {
     color: #000;
     padding: 5px 0;
     display: inline-block;
     width: 100%;
 }
-.header_loginbtn ul li.dropsub_link a:hover {
+.header_loginbtn > ul > li.dropsub_link a:hover {
     color: #f9233f;
 }
 .header_loginbtn a.dropdown-toggle {
