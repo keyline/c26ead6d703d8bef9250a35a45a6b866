@@ -59,16 +59,16 @@
                                             value="{{ !isset($current_mentor->social_url) ? (old('social_url') ? old('social_url') : '') : $current_mentor->social_url }}">
                                     </div>
                                     <div class="title">
-                                        <p>Your stumento page link</p>
+                                        <p>Your mentrovert page link</p>
                                     </div>
                                     <div class="input-group mb-3">
-                                        <span class="input-group-text" id="basic-addon1">stumento.com/</span>
+                                        <span class="input-group-text" id="basic-addon1">mentrovert.com/</span>
                                         <input type="text" class="form-control" name="profile_slug"
                                             value="{{ old('profile_slug') ?? $current_mentor->display_name }}"
                                             aria-describedby="basic-addon1">
                                     </div>
                                     <div class="title">
-                                        <p>How do you plan to use Stumento</p>
+                                        <p>How do you plan to use Mentrovert</p>
                                     </div>
 
                                     <div class="input-group mb-3">
