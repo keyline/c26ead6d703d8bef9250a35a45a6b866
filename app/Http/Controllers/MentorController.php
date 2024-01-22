@@ -213,10 +213,10 @@ class MentorController extends Controller
         $services = \App\Models\Service::all();
 
         $types =    \App\Models\ServiceType::with(['serviceAttributes' => function ($query) {
-            $query->where('service_id', '=', 1);
+            $query->where('service_id', '=', 1)->where('is_active', '=', 1);
         }])->get();
         $types2 =    \App\Models\ServiceType::with(['serviceAttributes' => function ($query) {
-            $query->where('service_id', '=', 2);
+            $query->where('service_id', '=', 2)->where('is_active', '=', 1);
         }])->get();
         $platformReviews        = PlatformRating::where('status', '=', 1)->inRandomOrder()->get();
         return \view('front.mentor.onboarding.create-step3', ['services' => $services, 'types' => $types, 'mental_health' => $types2, 'platformReviews' => $platformReviews]);
