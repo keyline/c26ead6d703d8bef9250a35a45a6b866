@@ -988,11 +988,21 @@ color: #fff;
 .innerpage_banner {
   position: relative;
 }
+.innerbanner_img {
+    height: 400px;
+    overflow: hidden;
+}
+.innerbanner_img img {
+    height: 100%;
+    object-fit: cover;
+}
 .innerbanner_bredcum {
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%,-50%);
+    background: rgba(0,0,0,0.5);
+    padding: 5px 20px;
 }
 .innerbanner_bredcum h1 {
     color: #fff;
