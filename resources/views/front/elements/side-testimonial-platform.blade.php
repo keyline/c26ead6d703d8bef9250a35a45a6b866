@@ -10,6 +10,7 @@ $platformReviews        = PlatformRating::where('status', '=', 1)->inRandomOrder
 ?>
 <?php if($platformReviews){ foreach($platformReviews as $row){?>
    <?php
+   $getUser = User::select('name')->where('id', '=', $row->user_id)->first();
    if($row->user_type == 'STUDENT'){
       $user = StudentProfile::select('profile_pic')->where('user_id', '=', $row->user_id)->first();
    } else {
@@ -28,7 +29,7 @@ $platformReviews        = PlatformRating::where('status', '=', 1)->inRandomOrder
             <?php }?>
          </div>
          <div class="testmori_name">
-            <h3><?=$row->name?></h3>
+            <h3><?=(($getUser)?$getUser->name:'')?></h3>
             <!-- <h5><?=$row->designation?></h5> -->
             <div class="m-left d-table">
                <?php for($i=1;$i<=$row->rating;$i++){?>
