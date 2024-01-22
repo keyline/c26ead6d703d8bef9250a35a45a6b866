@@ -38,7 +38,7 @@
                   <ul>
                      <?php
                      $footer_link_name3 = (($generalSetting->footer_link_name3 != '')?json_decode($generalSetting->footer_link_name3):[]);
-                     $footer_link3 = (($generalSetting->footer_link3 != '')?json_decode($generalSetting->footer_link2):[]);
+                     $footer_link3 = (($generalSetting->footer_link3 != '')?json_decode($generalSetting->footer_link3):[]);
                      if(!empty($footer_link_name3)){ for($i=0;$i<count($footer_link_name3);$i++){
                      ?>
                         <li><a href="<?=url('/')?>/<?=(($footer_link3[$i] == 'home')?'':$footer_link3[$i])?>"><?=$footer_link_name3[$i]?></a></li>
