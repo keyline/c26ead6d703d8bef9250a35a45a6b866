@@ -406,7 +406,7 @@ $(window).scroll(function() {
 	               //adding class
 	               iDivApply.classList.add('btn-apply-all');
 	               iAnchor.href= '#';
-	               iAnchor.appendChild(document.createTextNode('Apply To All'));
+	               // iAnchor.appendChild(document.createTextNode('Apply To All'));
 	               iDivApply.appendChild(iAnchor);
 	      
 	               iDiv.appendChild(iDivApply);
