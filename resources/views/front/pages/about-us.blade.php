@@ -155,7 +155,7 @@ use App\Helpers\Helper;
       </div>
       <div class="row">
          <div class="col-md-12">
-            <div id="ourteam-carousel" class="owl-carousel">
+            <div id="ourteam-carousel" class="owl-carousel" style="display: flex;justify-content: center;">
                <?php if($teamMembers){ foreach($teamMembers as $teamMember){?>
                   <div class="item">
                      <div class="project mentalhealth">

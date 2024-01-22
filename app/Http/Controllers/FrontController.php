@@ -1212,14 +1212,10 @@ class FrontController extends Controller
                     $subject              = $generalSetting->site_name . ' :: Email Verify';
                     $message              = view('email-templates.emailValidate', $data);
                     /* remove this die */
-                    //   echo $message;
-                    //   die;
+                      echo $message;
+                      die;
                     /* remove this die */
-                    try {
-                        $this->sendMail($requestData['email'], $subject, $message);
-                    } catch (\Throwable $th) {
-                        throw $th;
-                    }
+                    $this->sendMail($requestData['email'], $subject, $message);
                     /* email sent */
                     /* email log save */
                     $postData2 = [
