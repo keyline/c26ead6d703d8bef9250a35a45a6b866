@@ -215,10 +215,10 @@ brandSlider.on('translated.owl.carousel', function(event) {
     });
 	
 	$("#ourteam-carousel").owlCarousel({
-        loop: true,
+        loop: false,
         margin: 20,
 		dots: true,
-		nav: false,
+		nav: true,
         autoplay: false,
         autoplayTimeout: 4000,
         autoplayHoverPause: true,
