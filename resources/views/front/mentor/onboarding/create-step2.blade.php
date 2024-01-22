@@ -75,27 +75,26 @@
                                         <div class="button-group button-group--full-width">
                                             <label class="button-group__btn"><input type="radio"
                                                     name="registration_intent"
-                                                    value="I want to offer my expertise to my followers"
+                                                    value="I want to help and support students through my expertise"
                                                     {{ !isset($current_mentor->registration_intent)
-                                                        ? (old('registration_intent') == 'I want to offer my expertise to my followers'
+                                                        ? (old('registration_intent') == 'I want to help and support students through my expertise'
                                                             ? 'checked'
                                                             : '')
-                                                        : ($current_mentor->registration_intent == 'I want to offer my expertise to my followers'
+                                                        : ($current_mentor->registration_intent == 'I want to help and support students through my expertise'
                                                             ? 'checked'
                                                             : '') }} />
-                                                <span class="button-group__label">I want to offer my expertise to my
-                                                    followers</span></label>
+                                                <span class="button-group__label">I want to help and support students through my expertise</span></label>
                                             <label class="button-group__btn"><input type="radio"
-                                                    name="registration_intent" value="I want to monetise my audience"
+                                                    name="registration_intent" value="I want to monetise my time"
                                                     {{ !isset($current_mentor->registration_intent)
-                                                        ? (old('registration_intent') == 'I want to monetise my audience'
+                                                        ? (old('registration_intent') == 'I want to monetise my time'
                                                             ? 'checked'
                                                             : '')
-                                                        : ($current_mentor->registration_intent == 'I want to monetise my audience'
+                                                        : ($current_mentor->registration_intent == 'I want to monetise my time'
                                                             ? 'checked'
                                                             : '') }} />
                                                 <span class="button-group__label">I want to monetise my
-                                                    audience</span></label>
+                                                    time</span></label>
                                             <label class="button-group__btn"><input type="radio"
                                                     name="registration_intent" value="I'm just exploring"
                                                     {{ !isset($current_mentor->registration_intent)
