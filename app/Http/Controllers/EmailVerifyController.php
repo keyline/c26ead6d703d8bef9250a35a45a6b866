@@ -83,7 +83,7 @@ class EmailVerifyController extends Controller
             return redirect()->route('invalid-token');
         } else {
             $user->remember_token = null;
-            $user->valid = 1;
+            // $user->valid = 1;
             $user->email_verified_at = Carbon::now()->timestamp;
             $user->save();
             return redirect()->route('active-token');
