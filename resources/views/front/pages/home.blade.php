@@ -282,7 +282,7 @@ use App\Helpers\Helper;
                         /* service details */
                         ?>
                         <h5><?=implode(", ", $serviceNames)?></h5>
-                        <h6><?=implode(", ", json_decode($featured_mentor->edu_title))?></h6>
+                        <h6><?=(($featured_mentor->edu_title != '')?implode(", ", json_decode($featured_mentor->edu_title)):"")?></h6>
                         <h6><?=$mentor['experience']?> years experiences</h6>
                         <a class="btn_orgfill mt-5" href="<?=url('/mentor-details/'.$featured_mentor->display_name.'/'.Helper::encoded($featured_mentor->user_id))?>">View Profile</a>
                      </div>
