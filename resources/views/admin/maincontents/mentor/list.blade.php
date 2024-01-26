@@ -41,17 +41,16 @@ $controllerRoute = $module['controller_route'];
                     <th scope="col">Name<br>Team Meeting Link</th>
                     <th scope="col">Email</th>
                     <th scope="col">Phone</th>
-                    <!-- <th scope="col">Profile Pic</th> -->
                     <th scope="col">Social Link</th>
                     <th scope="col">Registered At</th>
                     <th scope="col">Balance</th>
-                    <!-- <th scope="col">Action</th> -->
+                    <th scope="col">Action</th>
                   </tr>
                 </thead>
                 <tbody>
                   <?php if($rows){ $sl=1; foreach($rows as $row){?>
                     <tr class="tableaction_border">
-                      <th scope="row"><?=$sl++?></th>
+                      <td><?=$sl++?></td>
                       <td>
                         <?=$row->first_name.' '.$row->last_name?><br>
                         <?php if($row->team_meeting_link){?>
