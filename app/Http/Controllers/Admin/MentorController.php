@@ -89,7 +89,7 @@ class MentorController extends Controller
             $id                             = Helper::decoded($id);
             $fields = [
                 'valid'             => 3,
-                'email'             => '',
+                'email'             => NULL,
             ];
             User::where($this->data['primary_key'], '=', $id)->update($fields);
             return redirect("admin/" . $this->data['controller_route'] . "/list")->with('success_message', $this->data['title'].' Deleted Successfully !!!');
