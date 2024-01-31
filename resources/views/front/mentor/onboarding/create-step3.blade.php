@@ -33,6 +33,7 @@
                         <div class="metor_information">
                             <h2>Let's add some services</h2>
                             <p class="text-muted mb-4">We‘ll help you get set up based on your expertise</p>
+                            <small class="text-danger">Star (*) marks fields are mandatory</small>
                             <div class="metor_step1_form">
                                 @if ($errors->any())
                                     <div class="alert alert-danger">
@@ -49,7 +50,7 @@
                             <form action="{{ route('mentor.create.step3') }}" method="POST">
                                 @csrf
                                 <div class="title">
-                                    <p>Select your expertise</p>
+                                    <p>Select your expertise <span class="text-danger">*</span></p>
                                 </div>
 
                                 <div class="input-group mb-3">
@@ -88,7 +89,7 @@
                                                     <div class="title">
                                                         <!-- <p>Popular <strong>1:1 services</strong>  in your expertise</p> -->
                                                         <p>Popular <strong>{{ $type->name }}</strong> in your
-                                                            expertise</p>
+                                                            expertise <span class="text-danger">*</span></p>
 
                                                     </div>
                                                     <div class="input-group mb-3">
@@ -121,7 +122,7 @@
                                                     <div class="title">
                                                         <!-- <p>Popular <strong>1:1 services</strong>  in your expertise</p> -->
                                                         <p>Popular <strong>{{ $type->name }}</strong> in your
-                                                            expertise</p>
+                                                            expertise <span class="text-danger">*</span></p>
 
                                                     </div>
                                                     <div class="input-group mb-3">

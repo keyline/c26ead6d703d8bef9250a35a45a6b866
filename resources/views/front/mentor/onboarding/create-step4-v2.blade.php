@@ -31,6 +31,7 @@
                <div class="metor_information">
                   <h2>Great! Now let's set your availability</h2>
                   <p class="text-muted mb-4">Let your audience know when you're available. You can edit this later</p>
+                  <small class="text-danger">Star (*) marks fields are mandatory</small>
                   <div class="metor_step1_form">
                   @if ($errors->any())         
                      <div class="invalid-feedback d-block" role="alert">
@@ -63,6 +64,7 @@
                                  </div>
                               </div>
                            </div>
+                           <span class="text-danger">*</span>
                            @foreach($days AS $day)
                            <div class="row slot-item">
                               <div class="col-md-3">
@@ -104,9 +106,11 @@
                                        </div>
                                        <div style="display: inline; margin: 0px 0.2em;">-</div>
                                        <div class="slot_endtime">
-                                        <input type="text" class="slot__endtime__txt" name="availability[to][{{ $day->id }}][]" value="{{ date('g:i A', strtotime($option['selected_to'])) }}" readonly="readonly">
-                                        </div>
-                                       <button class="add-slot-btn add__slot__parent" data-container="{{ strtolower($day->day_text) }}"><span style="pointer-events: none;"><i class="fa-solid fa-plus"></i></span></button>
+                                          <input type="text" class="slot__endtime__txt" name="availability[to][{{ $day->id }}][]" value="{{ date('g:i A', strtotime($option['selected_to'])) }}" readonly="readonly">
+                                       </div>
+                                       <button class="add-slot-btn add__slot__parent" data-container="{{ strtolower($day->day_text) }}">
+                                          <span style="pointer-events: none;"><i class="fa-solid fa-plus"></i></span>
+                                       </button>
                                     </div>
                                     @if($loop->index === 0)
                                     <!-- <div class="btn-apply-all"><a href="#">Apply To All</a></div> -->
@@ -114,8 +118,7 @@
                                     
                                  </div>
                                     @else
-                                    <div class="ant-typography slots-unavailable">Unavailable</div>
-
+                                       <div class="ant-typography slots-unavailable">Unavailable</div>
                                     @endif
                                     <div class="slot__items__component" id="item-list-container-{{ strtolower($day->day_text) }}">
                                     </div>

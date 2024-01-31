@@ -15,6 +15,16 @@
                         <img src="<?= env('FRONT_ASSETS_URL') ?>assets/images/lamp.webp" alt="">
                     </div>
                     <h3>Student Signup !</h3>
+                    <small class="text-danger">* All fields are mandatory</small>
+                    @if ($errors->any())
+                        <div class="alert alert-danger">
+                            <ul>
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
                     <form action="<?= url('signup') ?>" enctype="multipart/form-data" method="POST">
                         @csrf
                         <input type="hidden" class="form-control" name="key" id="key"
@@ -25,28 +35,25 @@
                                 <div class="form-group">
                                     <!-- <span class="text-danger">* Required</span> -->
                                     <input type="text" class="form-control" name="fname" id="fname"
-                                        placeholder="First name" data-check="First name" required>
+                                        placeholder="First name" data-check="First name" value="{{old('fname')}}" required>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <!-- <span class="text-danger">* Required</span> -->
                                     <input type="text" class="form-control" name="lname" id="lname"
-                                        placeholder="Last name" data-check="Last name">
+                                        placeholder="Last name" data-check="Last name" value="{{old('lname')}}">
                                 </div>
                             </div>
                         </div>
-
-
                         <div class="form-group">
                             <!-- <span class="text-danger">* Required</span> -->
                             <input type="email" class="form-control" name="email" id="email"
-                                placeholder="Email address" data-check="Email address" required>
+                                placeholder="Email address" data-check="Email address" required value="{{old('email')}}">
                         </div>
                         <div class="form-group">
                             <!-- <span class="text-danger">* Required</span> -->
-                            <input type="tel" class="form-control" name="phone" id="phone"
-                                placeholder="Phone number" data-check="Phone number" required>
+                            <input type="text" class="form-control" name="phone" id="phone" placeholder="Phone number" data-check="Phone number" required maxlength="10" minlength="10" onkeypress="return isNumber(event)" value="{{old('phone')}}">
                         </div>
                         <div class="form-group form_password ">
                             <!-- <span class="text-danger">* Required</span> -->
@@ -92,3 +99,13 @@
         </div>
     </div>
 </section>
+<script type="text/javascript">
+    function isNumber(evt) {
+        evt = (evt) ? evt : window.event;
+        var charCode = (evt.which) ? evt.which : evt.keyCode;
+        if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+            return false;
+        }
+        return true;
+    }
+</script>
