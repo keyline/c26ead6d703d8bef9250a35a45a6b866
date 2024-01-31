@@ -1,6 +1,5 @@
 @extends('front.layouts.master', ['title' => 'Mentor Signup', 'pageName' => 'mentor-signup-2'])
 @section('content')
-
     <section class="mentor_element">
         <div class="container">
             <div class="row">
@@ -35,6 +34,7 @@
                         <div class="metor_information">
                             <h2>Hello there!</h2>
                             <p class="text-muted mb-4">In a few moments you will be ready to share your expertise & time</p>
+                            <small class="text-danger">Star (*) marks fields are mandatory</small>
                             <div class="metor_step1_form">
                                 @if ($errors->any())
                                     <div class="alert alert-danger">
@@ -50,7 +50,6 @@
                                     <div class="title">
                                         <p>Connect your social account</p>
                                     </div>
-
                                     <div class="input-group mb-3">
                                         <span class="input-group-text" id="basic-addon1">https://</span>
                                         <input type="text" name="social_url"class="form-control"
@@ -58,8 +57,16 @@
                                             aria-label="LinkedIn, Twitter, Instagram" aria-describedby="basic-addon1"
                                             value="{{ !isset($current_mentor->social_url) ? (old('social_url') ? old('social_url') : '') : $current_mentor->social_url }}">
                                     </div>
+
                                     <div class="title">
-                                        <p>Your mentrovert page link</p>
+                                        <p>Team Meeting Link</p>
+                                    </div>
+                                    <div class="input-group mb-3">
+                                        <input type="text" name="team_meeting_link" class="form-control" placeholder="Team Meeting Link" value="{{ !isset($current_mentor->team_meeting_link) ? (old('team_meeting_link') ? old('team_meeting_link') : '') : $current_mentor->team_meeting_link }}">
+                                    </div>
+
+                                    <div class="title">
+                                        <p>Your mentrovert page link <span class="text-danger">*</span></p>
                                     </div>
                                     <div class="input-group mb-3">
                                         <span class="input-group-text" id="basic-addon1">mentrovert.com/</span>
@@ -68,9 +75,8 @@
                                             aria-describedby="basic-addon1">
                                     </div>
                                     <div class="title">
-                                        <p>How do you plan to use Mentrovert</p>
+                                        <p>How do you plan to use Mentrovert <span class="text-danger">*</span></p>
                                     </div>
-
                                     <div class="input-group mb-3">
                                         <div class="button-group button-group--full-width">
                                             <label class="button-group__btn"><input type="radio"
@@ -108,9 +114,8 @@
                                         </div>
                                     </div>
                                     <div class="title">
-                                        <p>What all do you plan to offer?</p>
+                                        <p>What all do you plan to offer? <span class="text-danger">*</span></p>
                                     </div>
-
                                     <div class="input-group mb-3">
                                         <div class="button-group button-group-2">
                                             @foreach ($serviceTypes as $type)

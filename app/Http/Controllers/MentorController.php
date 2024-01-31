@@ -61,7 +61,13 @@ class MentorController extends Controller
             'email'         => 'required|email|unique:users',
             'phone_number'  => 'required|max:10',
             'password'      => 'required|confirmed|min:6',
-
+        ], [], 
+        [
+            'first_name'    => 'First Name',
+            'last_name'     => 'Last Name',
+            'email'         => 'Email Address',
+            'phone_number'  => 'Phone Number',
+            'password'      => 'Password',
         ]);
         if ($validator->fails()) {
             return redirect('mentor/signup')->withErrors($validator)->withInput();
@@ -163,7 +169,6 @@ class MentorController extends Controller
     }
     public function postCreateStep2(Request $request)
     {
-
         if (empty($request->session()->get('mentor'))) {
             return \redirect('mentor/signup');
         }
@@ -171,23 +176,29 @@ class MentorController extends Controller
 
         $validator = Validator::make($request->all(), [
             // 'social_url'    => 'required',
-            'profile_slug'  => ['required', new UniqueProfileSlug($mentor->user_id)], // check other user's name slug.
-            'registration_intent' => 'required',
+            'profile_slug'          => ['required', new UniqueProfileSlug($mentor->user_id)], // check other user's name slug.
+            'registration_intent'   => 'required',
             'intended_service_type' => 'required',
+        ], [],
+        [
+            'profile_slug'                  => 'Mentrovert page link',
+            'registration_intent'           => 'How do you plan to use Mentrovert',
+            'intended_service_type'         => 'What all do you plan to offer'
         ]);
 
         if ($validator->fails()) {
             $username = $this->generateUniqueProfileSlug($mentor->display_name);
-            return redirect('mentor/step2')->withErrors($validator)->withInput(['profile_slug' => $username, 'social_url' => $request->social_url, 'registration_intent' => $request->registration_intent, 'intended_service_type' => $request->intended_service_type]);
+            return redirect('mentor/step2')->withErrors($validator)->withInput(['profile_slug' => $username, 'social_url' => $request->social_url, 'registration_intent' => $request->registration_intent, 'intended_service_type' => $request->intended_service_type, 'team_meeting_link' => $request->team_meeting_link]);
         }
         // Retrieve the validated input...
         $validated = $validator->validated();
 
         //process the form
-        $mentor->social_url = $request->social_url;
-        $mentor->display_name =  $validated['profile_slug'];
-        $mentor->registration_intent = $validated['registration_intent'];
-        $mentor->intended_service_type = json_encode($validated['intended_service_type']);
+        $mentor->social_url             = $request->social_url;
+        $mentor->team_meeting_link      = $request->team_meeting_link;
+        $mentor->display_name           = $validated['profile_slug'];
+        $mentor->registration_intent    = $validated['registration_intent'];
+        $mentor->intended_service_type  = json_encode($validated['intended_service_type']);
 
         //$request->session()->put('mentor', $mentor);
         //attaching service types to mentor
@@ -227,17 +238,16 @@ class MentorController extends Controller
         $validator = Validator::make($request->all(), [
             'service'     => 'required',
             'services'    => 'required',
-
+        ], [],
+        [
+            'service'     => 'Expertise',
+            'services'    => 'Popular services in your expertise',
         ]);
-
         if ($validator->fails()) {
-
             return redirect('mentor/step3')
                 ->withErrors($validator)
                 ->withInput();
         }
-
-
         // Retrieve the validated input...
         $validated = $validator->validated();
 
@@ -352,13 +362,18 @@ class MentorController extends Controller
         $document_head = $request->input('document_head');
         $request->validate(
             [
+                'day_of_week'       => 'required',
                 'docs_attachment.*' => 'nullable|mimes:jpeg,jpg,pdf,pdfs|max:1024',
             ],
             $messages = [
                 "docs_attachment.*.mimes" => "Only PDF, JPEG are allowed.",
                 "docs_attachment.*.max" => "Max file size must be 1Mb",
+            ],
+            [
+                'day_of_week'       => 'Atleast one day of week',
             ]
         );
+
         if ($request->hasfile('docs_attachment')) {
             $saveDocument = new \App\Models\UserDocument();
             foreach ($request->file('docs_attachment') as $key => $file) {

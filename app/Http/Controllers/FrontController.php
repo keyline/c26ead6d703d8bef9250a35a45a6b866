@@ -7,6 +7,12 @@ use Illuminate\Http\Request;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
+
+use Illuminate\Auth\Events\Validated;
+use Illuminate\Http\RedirectResponse;
+
+
+
 use App\Models\Country;
 use App\Models\GeneralSetting;
 use App\Models\Page;
@@ -1160,22 +1166,44 @@ class FrontController extends Controller
     public function signup(Request $request)
     {
         $requestData        = $request->all();
-        // Helper::pr($requestData);
-        $fname      = $requestData['fname'];
-        $lname      = $requestData['lname'];
-        $phone      = $requestData['phone'];
+        $validator = Validator::make($request->all(), [
+            'fname'         => 'required',
+            'lname'         => 'required',
+            'email'         => 'required|email|unique:users',
+            'phone'         => 'required|max:10',
+            'password'      => 'required_with:confirm_password|same:confirm_password|min:6',
+            'confirm_password'      => 'min:6',
+        ], [], 
+        [
+            'fname'         => 'First Name',
+            'lname'         => 'Last Name',
+            'email'         => 'Email Address',
+            'phone'         => 'Phone Number',
+            'password'      => 'Password',
+            'password'      => 'Confirm Password',
+        ]);
+        if ($validator->fails()) {
+            return redirect('student-signup')->withErrors($validator)->withInput();
+        }
+        // Retrieve the validated input data...
+        $validated = $validator->valid();
 
-        $checkEmail = User::where('email', '=', $requestData['email'])->first();
+        $fname      = $validated['fname'];
+        $lname      = $validated['lname'];
+        $phone      = $validated['phone'];
+        $email      = $validated['email'];
+
+        $checkEmail = User::where('email', '=', $validated['email'])->first();
         if (empty($checkEmail)) {
             $checkPhone = User::where('phone', '=', $phone)->count();
             if ($checkPhone <= 0) {
-                if ($requestData['password'] == $requestData['confirm_password']) {
+                if ($validated['password'] == $validated['confirm_password']) {
                     $verificationToken = Str::random(30) . Carbon::now()->timestamp;
                     $postData = [
                         'name'                  => $fname . ' ' . $lname,
-                        'email'                 => $requestData['email'],
+                        'email'                 => $validated['email'],
                         'phone'                 => $phone,
-                        'password'              => Hash::make($requestData['password']),
+                        'password'              => Hash::make($validated['password']),
                         'remember_token'        => $verificationToken,
                     ];
                     // Helper::pr($postData);
@@ -1205,29 +1233,25 @@ class FrontController extends Controller
                         'fname' => $fname,
                         'lname' => $lname,
                         'link' => $verificationLink,
-                        'email' => $requestData['email']
+                        'email' => $validated['email']
                     ];
 
-                    $requestData['email'] = $requestData['email'];
+                    $validated['email'] = $validated['email'];
                     $subject              = $generalSetting->site_name . ' :: Email Verify';
                     $message              = view('email-templates.emailValidate', $data);
-                    /* remove this die */
-                      echo $message;
-                      die;
-                    /* remove this die */
-                    $this->sendMail($requestData['email'], $subject, $message);
+                    // $this->sendMail($validated['email'], $subject, $message);
                     /* email sent */
                     /* email log save */
                     $postData2 = [
                         'name'                  => $fname . ' ' . $lname,
-                        'email'                 => $requestData['email'],
+                        'email'                 => $validated['email'],
                         'subject'               => $subject,
                         'message'               => $message
                     ];
                     EmailLog::insertGetId($postData2);
                     /* email log save */
                     /* run-time signin */
-                    if (Auth::guard('web')->attempt(['email' => $requestData['email'], 'password' => $requestData['password'], 'role' => 1])) {
+                    if (Auth::guard('web')->attempt(['email' => $validated['email'], 'password' => $validated['password'], 'role' => 1])) {
                         // Helper::pr(Auth::guard('web')->user());
                         $sessionData    = Auth::guard('web')->user();
                         $user_id        = $sessionData['id'];
