@@ -352,7 +352,7 @@ use App\Models\User;
 											@csrf
 												<input type="hidden" name="mode1" value="updateMobile">
 												<input type="hidden" name="student_id" value="<?=$profileDetail->id?>">
-												<input type="tel" class="form-control" name="mobile" id="mobile" placeholder="+91 9876543210" value="<?=(($getUserID->phone)?$getUserID->phone:'')?>">
+												<input type="text" class="form-control" name="mobile" id="mobile" placeholder="+91 9876543210" maxlength="10" minlength="10" onkeypress="return isNumber(event)" value="<?=(($getUserID->phone)?$getUserID->phone:'')?>">
 												<input type="submit" value="Save"></input>
 											</form>
 										</div>
@@ -386,26 +386,26 @@ use App\Models\User;
 										<div class="row mb-3">
 											<div class="col-md-12">
 												<label for="accountType" class="form-label">Account Type</label>
-												<input type="radio" id="savings" name="account_type" value="SAVINGS" <?=(($profileDetail->account_type == 'SAVINGS')?'checked':'')?> >
+												<input type="radio" id="savings" name="account_type" value="SAVINGS" <?=(($profileDetail->account_type == 'SAVINGS')?'checked':'')?> required>
 												<label for="savings">Savings</label>
-												<input type="radio" id="current" name="account_type" value="CURRENT" <?=(($profileDetail->account_type == 'CURRENT')?'checked':'')?>>
+												<input type="radio" id="current" name="account_type" value="CURRENT" <?=(($profileDetail->account_type == 'CURRENT')?'checked':'')?> required>
 												<label for="current">Current</label>
 											</div>
 											<div class="col-md-12">
 												<label for="bankName" class="form-label">Bank Name</label>
-												<input type="text" class="form-control" name="bank_name" id="bank_name" value="<?=(($profileDetail->bank_name)?$profileDetail->bank_name:'')?>">
+												<input type="text" class="form-control" name="bank_name" id="bank_name" value="<?=(($profileDetail->bank_name)?$profileDetail->bank_name:'')?>" required>
 											</div>
 											<div class="col-md-12">
 												<label for="branchName" class="form-label">Branch Name</label>
-												<input type="text" class="form-control" name="branch_name" id="branch_name" value="<?=(($profileDetail->branch_name)?$profileDetail->branch_name:'')?>">
+												<input type="text" class="form-control" name="branch_name" id="branch_name" value="<?=(($profileDetail->branch_name)?$profileDetail->branch_name:'')?>" required>
 											</div>
 											<div class="col-md-12">
 												<label for="accountNum" class="form-label">Account Number</label>
-												<input type="text" class="form-control" name="acct_num" id="acct_num" value="<?=(($profileDetail->account_number)?$profileDetail->account_number:'')?>">
+												<input type="text" class="form-control" name="acct_num" id="acct_num" value="<?=(($profileDetail->account_number)?$profileDetail->account_number:'')?>" onkeypress="return isNumber(event)" required>
 											</div>
 											<div class="col-md-12">
 												<label for="IfscCode" class="form-label">IFSC Code</label>
-												<input type="text" class="form-control" name="ifsc_code" id="ifsc_code" value="<?=(($profileDetail->ifsc_code)?$profileDetail->ifsc_code:'')?>" >
+												<input type="text" class="form-control" name="ifsc_code" id="ifsc_code" value="<?=(($profileDetail->ifsc_code)?$profileDetail->ifsc_code:'')?>" required>
 											</div>
 										</div>
 										<div class="col-md-12 mb-3">
@@ -421,6 +421,16 @@ use App\Models\User;
 		</div>
 	</div>
 </div>
+<script type="text/javascript">
+    function isNumber(evt) {
+        evt = (evt) ? evt : window.event;
+        var charCode = (evt.which) ? evt.which : evt.keyCode;
+        if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+            return false;
+        }
+        return true;
+    }
+</script>
 <script>
 	function myFunction() {
 		var copyText = document.getElementById("myInput");

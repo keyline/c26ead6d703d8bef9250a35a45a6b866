@@ -65,6 +65,9 @@
                               </div>
                            </div>
                            <span class="text-danger">*</span>
+                           <?php
+                           // echo '<pre>';print_r($days);
+                           ?>
                            @foreach($days AS $day)
                            <div class="row slot-item">
                               <div class="col-md-3">
