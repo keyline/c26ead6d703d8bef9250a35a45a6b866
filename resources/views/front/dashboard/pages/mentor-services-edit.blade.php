@@ -170,6 +170,7 @@ if($row){
                  	<div class="card mb-4 text-white bg-whitebg">
                   	<div class="card-body profile_cardbody">
                   		<div class="metor_service">
+                  			<small class="text-danger">All fields are mandatory</small>
                   			<form action="" method="POST" accept-charset="utf-8" enctype="multipart/form-data">
                     				@csrf
                   				<input type="hidden" name="mode" value="service">
@@ -177,7 +178,7 @@ if($row){
 										<input type="hidden" name="id" value="<?=$id?>">
                   				<div class="mb-3">
 	                  				<label for="service_attribute_id" class="form-label">Service Type</label>
-	                  				<select class="form-control" id="service_attribute_id" name="service_attribute_id" onchange="getServiceDetails(this.value);">
+	                  				<select class="form-control" id="service_attribute_id" name="service_attribute_id" onchange="getServiceDetails(this.value);" required>
 	                  					<option value="" selected>Select Service Type</option>
 	                  					<?php if($service_attrs){ foreach($service_attrs as $service_attr){?>
 	                  						<?php
@@ -191,15 +192,15 @@ if($row){
                   			  	</div>
                   			  	<div class="mb-3">
 	                  				<label for="title" class="form-label">Title</label>
-	                  				<input type="text" class="form-control" placeholder="Title of Service" id="title" name="title" value="<?=$title?>">
+	                  				<input type="text" class="form-control" placeholder="Title of Service" id="title" name="title" value="<?=$title?>" required>
                   			  	</div>
                   			  	<div class="mb-3">
 	                  				<label for="description" class="form-label">Description</label>
-	                  				<textarea class="form-control" placeholder="Description of Service" id="description" name="description" rows="5"><?=$description?></textarea>
+	                  				<textarea class="form-control" placeholder="Description of Service" id="description" name="description" rows="5" required><?=$description?></textarea>
                   			  	</div>
                   			  	<div class="mb-3">
 	                  				<label for="duration" class="form-label">Duration (mins)</label>
-	                  				<select class="form-control" id="duration" name="duration">
+	                  				<select class="form-control" id="duration" name="duration" required>
 	                  					<option value="" selected>Select Duration</option>
 	                  					<option value="30" <?=(($duration == 30)?'selected':'')?>>30 Mins</option>
 	                  					<option value="60" <?=(($duration == 60)?'selected':'')?>>60 Mins</option>
@@ -209,19 +210,19 @@ if($row){
                						<label for="slashed_amount" class="form-label">Mark-up Amount (₹)</label>
                					 	<div class="input-group">
                   					  	<span class="input-group-text" id="basic-addon1"><i class="fa-solid fa-indian-rupee-sign"></i></span>
-                  					  	<input type="text" class="form-control" id="slashed_amount" name="slashed_amount" value="<?=$slashed_amount?>" maxlength="4" minlength="4" onkeypress="return isNumber(event)">
+                  					  	<input type="text" class="form-control" id="slashed_amount" name="slashed_amount" value="<?=$slashed_amount?>" maxlength="4" minlength="4" onkeypress="return isNumber(event)" required>
                   					</div>
                   				</div>
                   				<div class="input-group mb-3">
                						<label for="total_amount_payable" class="form-label">Actual Amount (₹)</label>
                					 	<div class="input-group">
                   					  	<span class="input-group-text" id="basic-addon1"><i class="fa-solid fa-indian-rupee-sign"></i></span>
-                  					  	<input type="text" class="form-control" id="total_amount_payable" name="total_amount_payable" value="<?=$total_amount_payable?>" maxlength="4" minlength="4" onkeypress="return isNumber(event)">
+                  					  	<input type="text" class="form-control" id="total_amount_payable" name="total_amount_payable" value="<?=$total_amount_payable?>" maxlength="4" minlength="4" onkeypress="return isNumber(event)" required>
                   					</div>
                   				</div>
                   				<div class="mb-3">
 	                  				<label for="status" class="form-label">Display</label>
-	                  				<select class="form-control" id="status" name="status">
+	                  				<select class="form-control" id="status" name="status" required>
 	                  					<option value="" selected>Select Display</option>
 	                  					<option value="1" <?=(($status == 1)?'selected':'')?>>Public</option>
 	                  					<option value="0" <?=(($status == 0)?'selected':'')?>>Private</option>
