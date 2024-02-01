@@ -41,6 +41,7 @@ use App\Models\User;
 					<div class="col-sm-12 col-lg-6">
 						<div class="card mb-4 text-white bg-whitebg">
 							<div class="card-body profile_cardbody">
+								<small class="text-danger">Star (*) marks fields are mandatory</small>
 								<form method="POST" action="" enctype="multipart/form-data">
 									@csrf
 									<input type="hidden" name="mode10" value="updateData">
@@ -68,7 +69,7 @@ use App\Models\User;
 										<div class="mb-3">
 											<div class="col-md-12 profi_stumentlink">
 												<div class="profi_copylink">
-													<label for="basic-url" class="form-label">Your Stumento page link</label>
+													<label for="basic-url" class="form-label">Your Stumento page link <span class="text-danger">*</span></label>
 													<div class="input-group">
 														<span class="input-group-text" id="basic-addon3">mentrovert.com/mentor-profile/</span>
 														<input type="text" class="form-control" name="display_name" value="<?=(($profileDetail->display_name)?$profileDetail->display_name:'')?>" id="myInput" aria-describedby="basic-addon3 basic-addon4">
@@ -81,17 +82,17 @@ use App\Models\User;
 										</div>
 										<div class="row mb-3">
 											<div class="col-md-6">
-												<label for="formGroupExampleInput" class="form-label">First Name</label>
+												<label for="formGroupExampleInput" class="form-label">First Name <span class="text-danger">*</span></label>
 											<input type="text" class="form-control" placeholder="First name" name="fname" aria-label="First name" value="<?=(($profileDetail->first_name)?$profileDetail->first_name:'')?>" required>
 											</div>
 											<div class="col-md-6">
-												<label for="formGroupExampleInput" class="form-label">Last Name</label>
+												<label for="formGroupExampleInput" class="form-label">Last Name <span class="text-danger">*</span></label>
 											<input type="text" class="form-control" placeholder="Last name" name="lname" aria-label="Last name" value="<?=(($profileDetail->last_name)?$profileDetail->last_name:'')?>" required>
 											</div>
 										</div>
 										<div class="row mb-3">
 											<div class="col-md-12">
-												<label for="formGroupExampleInput" class="form-label">About yourself</label>
+												<label for="formGroupExampleInput" class="form-label">About yourself <span class="text-danger">*</span></label>
 											<textarea class="form-control" id="exampleFormControlTextarea1" name="description" rows="8" required><?=(($profileDetail->description)?$profileDetail->description:'')?></textarea>
 											</div>
 										</div>
@@ -379,32 +380,33 @@ use App\Models\User;
 							<div class="card-body ">
 								<div class="title_myaccount">
 									<h3>Your Payouts</h3>
+									<small class="text-danger">Star (*) marks fields are mandatory</small>
 									<form method="POST" action="" enctype="multipart/form-data">
 										@csrf
 										<input type="hidden" name="mode" value="updateBankDetails">
 										<input type="hidden" name="student_id" value="<?=$profileDetail->id?>">
 										<div class="row mb-3">
 											<div class="col-md-12">
-												<label for="accountType" class="form-label">Account Type</label>
+												<label for="accountType" class="form-label">Account Type <span class="text-danger">*</span></label>
 												<input type="radio" id="savings" name="account_type" value="SAVINGS" <?=(($profileDetail->account_type == 'SAVINGS')?'checked':'')?> required>
 												<label for="savings">Savings</label>
 												<input type="radio" id="current" name="account_type" value="CURRENT" <?=(($profileDetail->account_type == 'CURRENT')?'checked':'')?> required>
 												<label for="current">Current</label>
 											</div>
 											<div class="col-md-12">
-												<label for="bankName" class="form-label">Bank Name</label>
+												<label for="bankName" class="form-label">Bank Name <span class="text-danger">*</span></label>
 												<input type="text" class="form-control" name="bank_name" id="bank_name" value="<?=(($profileDetail->bank_name)?$profileDetail->bank_name:'')?>" required>
 											</div>
 											<div class="col-md-12">
-												<label for="branchName" class="form-label">Branch Name</label>
+												<label for="branchName" class="form-label">Branch Name <span class="text-danger">*</span></label>
 												<input type="text" class="form-control" name="branch_name" id="branch_name" value="<?=(($profileDetail->branch_name)?$profileDetail->branch_name:'')?>" required>
 											</div>
 											<div class="col-md-12">
-												<label for="accountNum" class="form-label">Account Number</label>
+												<label for="accountNum" class="form-label">Account Number <span class="text-danger">*</span></label>
 												<input type="text" class="form-control" name="acct_num" id="acct_num" value="<?=(($profileDetail->account_number)?$profileDetail->account_number:'')?>" onkeypress="return isNumber(event)" required>
 											</div>
 											<div class="col-md-12">
-												<label for="IfscCode" class="form-label">IFSC Code</label>
+												<label for="IfscCode" class="form-label">IFSC Code <span class="text-danger">*</span></label>
 												<input type="text" class="form-control" name="ifsc_code" id="ifsc_code" value="<?=(($profileDetail->ifsc_code)?$profileDetail->ifsc_code:'')?>" required>
 											</div>
 										</div>

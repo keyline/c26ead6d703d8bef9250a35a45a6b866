@@ -151,14 +151,15 @@ use App\Models\GeneralSetting;
                <div  class="col-sm-12 col-lg-6 card_scrollbox" >
                  	<div class="card mb-4  text-white bg-whitebg" id="sidebar-nav">
                   	<div class="card-body profile_cardbody" >
-                  		<div class="metor_service" >
+                  		<div class="metor_service">
+                  			<small class="text-danger">All fields are mandatory</small>
                   			<form  action="" method="POST" accept-charset="utf-8" enctype="multipart/form-data">
                     				<input type="hidden" name="_token" value="<?=csrf_token()?>">
                   				<input type="hidden" name="mode" value="service">
 										<input type="hidden" name="mentor_user_id" value="<?=$userId?>">
                   				<div class="mb-3">
 	                  				<label for="service_attribute_id" class="form-label">Service Type</label>
-	                  				<select class="form-control" id="service_attribute_id" name="service_attribute_id" onchange="getServiceDetails(this.value);">
+	                  				<select class="form-control" id="service_attribute_id" name="service_attribute_id" onchange="getServiceDetails(this.value);" required>
 	                  					<option value="" selected>Select Service Type</option>
 	                  					<?php if($service_attrs){ foreach($service_attrs as $service_attr){?>
 	                  						<?php
@@ -172,15 +173,15 @@ use App\Models\GeneralSetting;
                   			  	</div>
                   			  	<div class="mb-3">
 	                  				<label for="title" class="form-label">Title</label>
-	                  				<input type="text" class="form-control" placeholder="Title of Service" id="title" name="title">
+	                  				<input type="text" class="form-control" placeholder="Title of Service" id="title" name="title" required>
                   			  	</div>
                   			  	<div class="mb-3">
 	                  				<label for="description" class="form-label">Description</label>
-	                  				<textarea class="form-control" placeholder="Description of Service" id="description" name="description" rows="5"></textarea>
+	                  				<textarea class="form-control" placeholder="Description of Service" id="description" name="description" rows="5" required></textarea>
                   			  	</div>
                   			  	<div class="mb-3">
 	                  				<label for="duration" class="form-label">Duration (mins)</label>
-	                  				<select class="form-control" id="duration" name="duration">
+	                  				<select class="form-control" id="duration" name="duration" required>
 	                  					<option value="" selected>Select Duration</option>
 	                  					<option value="30">30 Mins</option>
 	                  					<option value="60">60 Mins</option>
@@ -190,19 +191,19 @@ use App\Models\GeneralSetting;
                						<label for="slashed_amount" class="form-label">Mark-up Amount (₹)</label>
                					 	<div class="input-group">
                   					  	<span class="input-group-text" id="basic-addon1"><i class="fa-solid fa-indian-rupee-sign"></i></span>
-                  					  	<input type="text" maxlength="4" minlength="4" onkeypress="return isNumber(event)" class="form-control" id="slashed_amount" name="slashed_amount">
+                  					  	<input type="text" maxlength="4" minlength="4" onkeypress="return isNumber(event)" class="form-control" id="slashed_amount" name="slashed_amount" required>
                   					</div>
                   				</div>
                   				<div class="input-group mb-3">
                						<label for="total_amount_payable" class="form-label">Actual Amount (₹)</label>
                					 	<div class="input-group">
                   					  	<span class="input-group-text" id="basic-addon1"><i class="fa-solid fa-indian-rupee-sign"></i></span>
-                  					  	<input type="text" maxlength="4" minlength="4" onkeypress="return isNumber(event)" class="form-control" id="total_amount_payable" name="total_amount_payable">
+                  					  	<input type="text" maxlength="4" minlength="4" onkeypress="return isNumber(event)" class="form-control" id="total_amount_payable" name="total_amount_payable" required>
                   					</div>
                   				</div>
                   				<div class="mb-3">
 	                  				<label for="status" class="form-label">Display</label>
-	                  				<select class="form-control" id="status" name="status">
+	                  				<select class="form-control" id="status" name="status" required>
 	                  					<option value="" selected>Select Display</option>
 	                  					<option value="1">Public</option>
 	                  					<option value="0">Private</option>
