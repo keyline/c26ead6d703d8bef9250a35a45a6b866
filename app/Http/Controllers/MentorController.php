@@ -424,7 +424,7 @@ class MentorController extends Controller
                 }
             }
         }
-
+        // Helper::pr($insert_schedule);die;
         if (empty($request->session()->get('mentor_availabilities'))) {
             $availability = new \App\Models\MentorAvailability();
             //$availabilityModel->fill($insert_schedule);

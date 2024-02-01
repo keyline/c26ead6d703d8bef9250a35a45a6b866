@@ -258,8 +258,8 @@ class DashboardController extends Controller
                                 'profile_pic'       => $image,
                                 'city'              => $postData['city'],
                                 'team_meeting_link' => $postData['team_meeting_link'],
-                                'languages'         => json_encode($postData['languages']),
-                                'subjects'          => json_encode($postData['subjects']),
+                                'languages'         => ((!empty($postData['languages']))?json_encode($postData['languages']):[]),
+                                'subjects'          => ((!empty($postData['subjects']))?json_encode($postData['subjects']):[]),
                                 'edu_institute'     => json_encode($edu_institute),
                                 'edu_title'         => json_encode($edu_title),
                                 'edu_year'          => json_encode($edu_year),
@@ -1001,6 +1001,20 @@ class DashboardController extends Controller
             ];
             Booking::where('id', '=', $id)->update($fields);
             return redirect('user/mentor-bookings/')->with('success_message', 'Booking Cancelled Successfully !!!');
+        }
+        /* mentor booking cancel */
+        /* mentor booking cancel */
+        public function mentorBookingComplete(Request $request, $id)
+        {
+            $userId                         = Session::get('user_id');
+            $id                             = Helper::decoded($id);
+            $fields                         = [
+                'status'                => 2,
+                'completed_by'          => $userId,
+                'completed_date_time'   => date('Y-m-d H:i:s'),
+            ];
+            Booking::where('id', '=', $id)->update($fields);
+            return redirect('user/mentor-bookings/')->with('success_message', 'Booking Marked As Completed Successfully !!!');
         }
         /* mentor booking cancel */
         /* mentor platform feedback */

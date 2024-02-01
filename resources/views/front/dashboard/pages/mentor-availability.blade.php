@@ -65,7 +65,7 @@ use App\Helpers\Helper;
 	                           <div class="slot_weeksday">
 	                            <div class="form-check">
 	                             	<input class="form-check-input chk__slots__show__hide" type="checkbox" name="day_of_week[{{ $day->id }}]" value="{{ $day->day }}" data-chkcontainer="{{ strtolower($day->day_text) }}" id="flexCheckChecked_{{ $loop->index }}"
-	                                {{ (in_array($day->day_index, $mentor_days)) ? 'checked' : '' }}>
+	                                {{ (in_array($day->id, $mentor_days)) ? 'checked' : '' }}>
 	                               <label class="form-check-label" for="flexCheckChecked_{{ $loop->index }}">
 	                                {{ $day->day_text }}
 	                               </label>
@@ -73,10 +73,10 @@ use App\Helpers\Helper;
 	                           </div>
 	                      	</div>
 	                        <div class="col-md-9 slots__parent">
-	                         	@if(in_array($day->day_index, $mentor_days))
+	                         	@if(in_array($day->id, $mentor_days))
 	                           	<div class="slots-section">
 	                           		<?php
-	                           		$mentorAvlDaywises      = MentorAvailability::select('day_of_week_id', 'duration', 'no_of_slot', 'avail_from', 'avail_to')->where('mentor_user_id', '=', $userId)->where('is_active', '=', 1)->where('day_of_week_id', '=', $day->day_index)->get();
+	                           		$mentorAvlDaywises      = MentorAvailability::select('day_of_week_id', 'duration', 'no_of_slot', 'avail_from', 'avail_to')->where('mentor_user_id', '=', $userId)->where('is_active', '=', 1)->where('day_of_week_id', '=', $day->id)->get();
 	                           		if($mentorAvlDaywises){ foreach($mentorAvlDaywises as $mentorAvlDaywise){
 	                           		?>
 		                              <div class="slots-select-box">

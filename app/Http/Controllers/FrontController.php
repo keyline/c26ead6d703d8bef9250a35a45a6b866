@@ -1461,67 +1461,83 @@ class FrontController extends Controller
             ];
             if ($this->validate($request, $rules)) {
 
-                if (Auth::guard('web')->attempt(['email' => $request->input('email'), 'password' => $request->input('password'), 'valid' => 1])) {
+                if (Auth::guard('web')->attempt(['email' => $request->input('email'), 'password' => $request->input('password')])) {
                     // Helper::pr(Auth::guard('web')->user());
                     $sessionData    = Auth::guard('web')->user();
                     $user_id        = $sessionData['id'];
                     $role           = $sessionData['role'];
-                    if ($role == 1) {
-                        $getUserProfile = StudentProfile::where('user_id', '=', $user_id)->first();
+                    $valid          = $sessionData['valid'];
+                    if($valid == 1){
+                        if ($role == 1) {
+                            $getUserProfile = StudentProfile::where('user_id', '=', $user_id)->first();
+                        } else {
+                            $getUserProfile = MentorProfile::where('user_id', '=', $user_id)->first();
+                        }
+                        $request->session()->put('user_id', $sessionData['id']);
+                        $request->session()->put('name', $sessionData['name']);
+                        $request->session()->put('fname', (($getUserProfile) ? $getUserProfile->first_name : ''));
+                        $request->session()->put('lname', (($getUserProfile) ? $getUserProfile->last_name : ''));
+                        $request->session()->put('email', $sessionData['email']);
+                        $request->session()->put('role', $sessionData['role']);
+                        $request->session()->put('is_user_login', 1);
+                        // Helper::pr($request->session()->all());die;
+
+                        /* user activity */
+                        $activityData = [
+                            'user_email'        => $sessionData['email'],
+                            'user_name'         => $sessionData['name'],
+                            'user_type'         => 'USER',
+                            'ip_address'        => $request->ip(),
+                            'activity_type'     => 1,
+                            'activity_details'  => 'Signin Success !!!',
+                            'platform_type'     => 'WEB',
+                        ];
+                        UserActivity::insert($activityData);
+                        /* user activity */
+                        return redirect('user/dashboard');
                     } else {
-                        $getUserProfile = MentorProfile::where('user_id', '=', $user_id)->first();
+                        /* user activity */
+                            $activityData = [
+                                'user_email'        => $sessionData['email'],
+                                'user_name'         => $sessionData['name'],
+                                'user_type'         => 'USER',
+                                'ip_address'        => $request->ip(),
+                                'activity_type'     => 0,
+                                'activity_details'  => 'User Not Admin Approved Yet !!!',
+                                'platform_type'     => 'WEB',
+                            ];
+                            UserActivity::insert($activityData);
+                        /* user activity */
+                        return redirect()->back()->with('error_message', 'You Are Not Admin Aproved Yet !!!');
                     }
-                    $request->session()->put('user_id', $sessionData['id']);
-                    $request->session()->put('name', $sessionData['name']);
-                    $request->session()->put('fname', (($getUserProfile) ? $getUserProfile->first_name : ''));
-                    $request->session()->put('lname', (($getUserProfile) ? $getUserProfile->last_name : ''));
-                    $request->session()->put('email', $sessionData['email']);
-                    $request->session()->put('role', $sessionData['role']);
-                    $request->session()->put('is_user_login', 1);
-                    // Helper::pr($request->session()->all());die;
-
-                    /* user activity */
-                    $activityData = [
-                        'user_email'        => $sessionData['email'],
-                        'user_name'         => $sessionData['name'],
-                        'user_type'         => 'USER',
-                        'ip_address'        => $request->ip(),
-                        'activity_type'     => 1,
-                        'activity_details'  => 'Signin Success !!!',
-                        'platform_type'     => 'WEB',
-                    ];
-                    UserActivity::insert($activityData);
-                    /* user activity */
-
-                    return redirect('user/dashboard');
                 } else {
                     /* email sent */
-                    $generalSetting             = GeneralSetting::find('1');
-                    $subject                    = $generalSetting->site_name . ' :: Failed Signin';
-                    $message                    = view('front.email-templates.failed-login', $postData);
-                    // echo $message;die;
-                    $this->sendMail($postData['email'], $subject, $message);
+                        $generalSetting             = GeneralSetting::find('1');
+                        $subject                    = $generalSetting->site_name . ' :: Failed Signin';
+                        $message                    = view('front.email-templates.failed-login', $postData);
+                        // echo $message;die;
+                        // $this->sendMail($postData['email'], $subject, $message);
                     /* email sent */
                     /* email log save */
-                    $postData2 = [
-                        'name'                  => '',
-                        'email'                 => $postData['email'],
-                        'subject'               => $subject,
-                        'message'               => $message
-                    ];
-                    EmailLog::insertGetId($postData2);
+                        $postData2 = [
+                            'name'                  => '',
+                            'email'                 => $postData['email'],
+                            'subject'               => $subject,
+                            'message'               => $message
+                        ];
+                        EmailLog::insertGetId($postData2);
                     /* email log save */
                     /* user activity */
-                    $activityData = [
-                        'user_email'        => $postData['email'],
-                        'user_name'         => '',
-                        'user_type'         => 'USER',
-                        'ip_address'        => $request->ip(),
-                        'activity_type'     => 0,
-                        'activity_details'  => 'Invalid Email Or Password !!!',
-                        'platform_type'     => 'WEB',
-                    ];
-                    UserActivity::insert($activityData);
+                        $activityData = [
+                            'user_email'        => $postData['email'],
+                            'user_name'         => '',
+                            'user_type'         => 'USER',
+                            'ip_address'        => $request->ip(),
+                            'activity_type'     => 0,
+                            'activity_details'  => 'Invalid Email Or Password !!!',
+                            'platform_type'     => 'WEB',
+                        ];
+                        UserActivity::insert($activityData);
                     /* user activity */
                     return redirect()->back()->with('error_message', 'Invalid Email Or Password !!!');
                 }

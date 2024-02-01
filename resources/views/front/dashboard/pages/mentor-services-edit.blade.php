@@ -209,14 +209,14 @@ if($row){
                						<label for="slashed_amount" class="form-label">Mark-up Amount (₹)</label>
                					 	<div class="input-group">
                   					  	<span class="input-group-text" id="basic-addon1"><i class="fa-solid fa-indian-rupee-sign"></i></span>
-                  					  	<input type="text" class="form-control" id="slashed_amount" name="slashed_amount" value="<?=$slashed_amount?>">
+                  					  	<input type="text" class="form-control" id="slashed_amount" name="slashed_amount" value="<?=$slashed_amount?>" maxlength="4" minlength="4" onkeypress="return isNumber(event)">
                   					</div>
                   				</div>
                   				<div class="input-group mb-3">
                						<label for="total_amount_payable" class="form-label">Actual Amount (₹)</label>
                					 	<div class="input-group">
                   					  	<span class="input-group-text" id="basic-addon1"><i class="fa-solid fa-indian-rupee-sign"></i></span>
-                  					  	<input type="text" class="form-control" id="total_amount_payable" name="total_amount_payable" value="<?=$total_amount_payable?>">
+                  					  	<input type="text" class="form-control" id="total_amount_payable" name="total_amount_payable" value="<?=$total_amount_payable?>" maxlength="4" minlength="4" onkeypress="return isNumber(event)">
                   					</div>
                   				</div>
                   				<div class="mb-3">
@@ -242,6 +242,16 @@ if($row){
       </div>
    </div>
 </div>
+<script type="text/javascript">
+    function isNumber(evt) {
+        evt = (evt) ? evt : window.event;
+        var charCode = (evt.which) ? evt.which : evt.keyCode;
+        if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+            return false;
+        }
+        return true;
+    }
+</script>
 <script type="text/javascript">
 	function getServiceDetails(service_attribute_id){
 	    $.ajax({

@@ -89,6 +89,14 @@ use App\Helpers\Helper;
 														<td>
 															<!-- <?=number_format($booking->payable_amt,2)?> -->
 															<a href="<?=$booking->meeting_link?>" target="_blank" class="btn btn-primary btn-sm">Meeting Link</a>
+															<?php if($booking->status == 1){?>
+																<?php
+																$currentDate = date('Y-m-d');
+																if($currentDate > $booking->booking_date){
+																?>
+																	<a href="<?=url('user/mentor-booking-complete/'.Helper::encoded($booking->id))?>" class="btn btn-success btn-sm" onclick="return confirm('Do you want to mark as meeting complete against this booking ?');">Mark As Meeting Done</a>
+																<?php }?>
+															<?php }?>
 														</td>
 														<td class="text-center">
 															<?php if($booking->status <= 1){?>
@@ -161,6 +169,14 @@ use App\Helpers\Helper;
 														<td>
 															<!-- <?=number_format($booking->payable_amt,2)?> -->
 															<a href="<?=$booking->meeting_link?>" target="_blank" class="btn btn-primary btn-sm">Meeting Link</a>
+															<?php if($booking->status == 1){?>
+																<?php
+																$currentDate = date('Y-m-d');
+																if($currentDate > $booking->booking_date){
+																?>
+																	<a href="<?=url('user/mentor-booking-complete/'.Helper::encoded($booking->id))?>" class="btn btn-success btn-sm" onclick="return confirm('Do you want to mark as meeting complete against this booking ?');">Mark As Meeting Done</a>
+																<?php }?>
+															<?php }?>
 														</td>
 														<td>
 															<?php if($booking->status <= 1){?>
