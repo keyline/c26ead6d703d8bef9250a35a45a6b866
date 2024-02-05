@@ -44,6 +44,42 @@ $pageName = $routeName->uri();
     <script src="<?= env('FRONT_ASSETS_URL') ?>assets/js/sweetalert2.all.min.js"></script>
     <script src="<?= env('FRONT_ASSETS_URL') ?>assets/js/common-function.js"></script>
     <script src="<?= env('FRONT_ASSETS_URL') ?>assets/js/stumento.js"></script>
+    <!-- <script src="<?= env('FRONT_DASHBOARD_ASSETS_URL') ?>js/jquery.sidebarFix.js"></script> -->
+    <script type="text/javascript">
+        $(function() {
+            var top = $('#sidebar-nav').offset().top - parseFloat($('#sidebar-nav').css('marginTop').replace(/auto/,
+                0));
+            var footTop = $('#footer').offset().top - parseFloat($('#footer').css('marginTop').replace(/auto/, 0));
+
+            var maxY = footTop - $('#sidebar-nav').outerHeight();
+
+            $(window).scroll(function(evt) {
+                var y = $(this).scrollTop();
+                if (y > top) {
+                    if (y < maxY) {
+                        $('#sidebar-nav').addClass('fixed').removeAttr('style');
+                    } else {
+                        $('#sidebar-nav').removeClass('fixed').css({
+                            position: 'absolute',
+                            top: (maxY - top) + 'px'
+                        });
+                    }
+                } else {
+                    $('#sidebar-nav').removeClass('fixed');
+                }
+            });
+        });
+
+
+        $(window).scroll(function() {
+            var scroll = $(window).scrollTop();
+            //>=, not <=
+            if (scroll >= 500) {
+                //clearHeader, not clearheader - caps H
+                $(".card_scrollbox").addClass("darkHeader");
+            }
+        }); //missing );
+    </script>
 </body>
 
 <<<<<<< HEAD
@@ -1098,6 +1134,8 @@ $(window).scroll(function() {
     const handleChangeNoOfSlots = (e) => {
 
         // Access the parent div
+
+
         var parentDiv = $(e.target).closest('.slots_section_parent');
         // var parentDiv = $(e.target).closest('.slots-section');
         // Check if the select element is the first child of its parent
@@ -1140,9 +1178,6 @@ $(window).scroll(function() {
         };
         updateOnChangeInput(postData).then((data) => {
             is1st = false;
-            // $('.select__no__ofslot').on('change', function() {
-            //     handleOptionChange(this);
-            // });
             parentEl = $(e.target).closest('div.slots-select-box');
             console.log(data.html);
             $(parentEl).html(data.html);
