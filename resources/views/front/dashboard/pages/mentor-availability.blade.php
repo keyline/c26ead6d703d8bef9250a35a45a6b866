@@ -26,13 +26,13 @@ use App\Helpers\Helper;
                   </div>
                   </div> -->
                <div class="col-sm-12 col-lg-12">
-                  @if ($errors->any())         
+                  @if ($errors->any())
                   <div class="invalid-feedback d-block" role="alert">
                      <ul>
                         @foreach (json_decode($errors) as $file_index => $error)
                         <li>
                            <strong>
-                              {{$file_index.': '}} 
+                              {{$file_index.': '}}
                               <ul>
                                  @foreach ($error as $error_item)
                                  <li>{{$error_item}}</li>
@@ -125,7 +125,7 @@ use App\Helpers\Helper;
 	                                 <div class="slot_starttime">
 	                                    <select class="select2-frm" name="availability[from][{{ $day->id }}][]">
 	                                       @foreach($slot_dropdown AS $option)
-	                                       <option value="{{ $option['value'] }}" 
+	                                       <option value="{{ $option['value'] }}"
 	                                       {{ ($option['selected_from'] == $option['value']) ? 'selected' : '' }}>
 	                                        {{ $option['name'] }}</option>
 	                                       @endforeach
@@ -160,7 +160,7 @@ use App\Helpers\Helper;
 	                        </div>
 	                     	</div>
                      	@endforeach
-                    </div>                  
+                    </div>
                     <div class="input-group ml-0 mb-3 mt-4">
                      	<button class="btn btn-primary"><i class="fa fa-paper-plane"></i> Save</button>
                     </div>

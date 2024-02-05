@@ -32,12 +32,12 @@
                   <h2>Great! Now let's set your availability</h2>
                   <p class="text-muted mb-4">Let your audience know when you're available. You can edit this later</p>
                   <div class="metor_step1_form">
-                  @if ($errors->any())         
+                  @if ($errors->any())
                      <div class="invalid-feedback d-block" role="alert">
-                        <ul>                        
+                        <ul>
                            @foreach (json_decode($errors) as $file_index => $error)
                            <li>
-                              <strong>{{$file_index.': '}} 
+                              <strong>{{$file_index.': '}}
                               <ul>
                                  @foreach ($error as $error_item)
                                     <li>{{$error_item}}</li>
@@ -70,9 +70,9 @@
                                     <div class="form-check">
                                        <input class="form-check-input chk__slots__show__hide" type="checkbox" name="day_of_week[{{ $day->id }}]" value="{{ $day->day }}" data-chkcontainer="{{ strtolower($day->day_text) }}" id="flexCheckChecked_{{ $loop->index }}"
                                         {{ (in_array($day->day_index, [])) ? 'checked' : '' }}>
-                                       
+
                                        <label class="form-check-label" for="flexCheckChecked">
-                                       
+
                                         {{ $day->day_text }}
                                        </label>
                                     </div>
@@ -85,7 +85,7 @@
                                        <div class="slot_starttime">
                                           <select class="select2-frm" name="availability[from][{{ $day->id }}][]">
                                              @foreach($slot_dropdown AS $option)
-                                             <option value="{{ $option['value'] }}" 
+                                             <option value="{{ $option['value'] }}"
                                              {{ ($option['selected_from'] == $option['value']) ? 'selected' : '' }}>
                                               {{ $option['name'] }}</option>
                                              @endforeach
@@ -111,7 +111,7 @@
                                     @if($loop->index === 0)
                                     <!-- <div class="btn-apply-all"><a href="#">Apply To All</a></div> -->
                                     @endif
-                                    
+
                                  </div>
                                     @else
                                     <div class="ant-typography slots-unavailable">Unavailable</div>
@@ -122,7 +122,7 @@
                               </div>
                            </div>
                            @endforeach
-                           
+
                         </div>
                         </br>
                         </br>
@@ -167,12 +167,12 @@
 <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 <script>
-//Initialize select2 
+//Initialize select2
 const noofslot= [
             {
                 "id": 1,
                 "text": 'x 1 slot',
-                
+
             },
             {
                 "id": 2,
@@ -209,7 +209,7 @@ const noofslot= [
             {
                 "id": 10,
                 "text": 'x 10 slots',
-                
+
             },
             {
                "id": 11,
@@ -227,7 +227,7 @@ const noofslot= [
                 "id": 60,
                 "text": '60 minutes',
                 "selected": true,
-                
+
             }
         ];
 
@@ -263,7 +263,7 @@ const selections = {};
 
 //For adding items with add button
 
-//collect data that is inserted 
+//collect data that is inserted
 const addSelectInput = (postData) => {
   return fetch("{{route('mentor.timeslot.item')}}", {
          method: 'POST',
@@ -307,7 +307,7 @@ const handleAddSlot = (e) =>{
       //event.stopPropagation();
       //Delete apply to all button
    const parent   = e.target.parentElement;
-      
+
 if (e.target.classList.contains('add__slot__parent')) {
    const postData= {
       'day': e.target.getAttribute("data-container"),
@@ -315,7 +315,7 @@ if (e.target.classList.contains('add__slot__parent')) {
    }
    //alert('clicked ' + postData.day);
    addSelectInput(postData).then((data) => {
-      
+
       //const el= document.getElementById('item-list-container-' + data.containerIdentity);
       //const el = document.querySelector('#item-list-container-' + data.containerIdentity);
       //el.insertAdjacentHTML('beforeend', data.html);
@@ -334,11 +334,11 @@ if (e.target.classList.contains('add__slot__parent')) {
 
 
    });
-   
+
 }
    return;
 
-   
+
 
 }
 const handleAddSlotFrmChkBtn= (e) => {
@@ -359,7 +359,7 @@ const handleAddSlotFrmChkBtn= (e) => {
 
          let el= e.target.closest('.slot-item').querySelector('.slots__parent');
          const iDiv = document.createElement('div');
-            
+
             iDiv.className = 'slots-section';
             el.insertAdjacentElement('afterbegin', iDiv);
             //el.appendChild(iDiv);
@@ -374,23 +374,23 @@ const handleAddSlotFrmChkBtn= (e) => {
 
          if(d){
             // Get all nested elements with the class "target-class"
-            
+
             //console.log({'parentElem': nestedElements});
             nestedElements.forEach(ele => {
                ele.innerText="";
             });
          }
-         
-      
+
+
          const postData= {
             'day': e.target.getAttribute("data-chkcontainer"),
             'action': 'stumentoAjx_new_slot_add'
          }
-         
-         
-         
+
+
+
          //.classList.add('invisible');
-         
+
          addSelectInput(postData).then((data)=>{
             //const el= e.currentTarget.querySelector('.slots-section');
             //iDiv.appendChild(data.html);
@@ -407,7 +407,7 @@ const handleAddSlotFrmChkBtn= (e) => {
                iAnchor.href= '#';
                // iAnchor.appendChild(document.createTextNode('Apply To All'));
                iDivApply.appendChild(iAnchor);
-      
+
                iDiv.appendChild(iDivApply);
             }
          });
@@ -419,7 +419,7 @@ const handleAddSlotFrmChkBtn= (e) => {
                slotSection.forEach(el => {
                   el.remove();
                });
-               
+
                if(Object.keys(nestedElements).length === 0)
                {
                   //create element
@@ -437,22 +437,22 @@ const handleAddSlotFrmChkBtn= (e) => {
                ele.innerText="Unavailable";
             });
                }
-               
+
            }
            //updating state of apply to button
            //if(Object.keys(selections).length === 1 && )
-           
+
       }
       //return false;
 
-   
+
 }
 
 const handleDeleteSlot = (e) =>{
-   //alert("You clicked me!");                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          
+   //alert("You clicked me!");
    // if user clicks on delete item, find and remove the parent article
    if (e.target.classList.contains('deleteItem')) {
-      
+
        //const list= e.currentTarget.parentElement;
        const parent = e.target.parentNode;
         //const list= e.currentTarget.querySelector('.slots_section_parent');
@@ -463,7 +463,7 @@ const handleDeleteSlot = (e) =>{
     } else {
         return;
     }
-    
+
 
 };
 function collectionContains(collection, searchText) {
@@ -478,31 +478,31 @@ function collectionContains(collection, searchText) {
 //function to initialize select2
 const initializeDurationSelect2 = (duration) => {
    // debugger;
-        
+
         $('.select__slot__duration').select2({
             data: duration,
         });
 
-        
 
-   
+
+
   }
 
   const initializeSlotNumberSelect2 = (noofslot) => {
-        
+
         $('.select__no__ofslot').select2({
             data: noofslot,
         });
 
-    
+
   }
 
-  
-  
+
+
   const handleCalculateTimeFrame= (e) => {
 
-    //if (e.target.classList.contains('deleteItem')) 
-    
+    //if (e.target.classList.contains('deleteItem'))
+
 
   }
 
@@ -521,7 +521,7 @@ const initializeDurationSelect2 = (duration) => {
             var endTimeData= $(endTimeEl).val();
 
             var currentDayEl= $(e.target).closest('div.slot-item');
-            
+
             var currentDay= $(currentDayEl).find('input[type="checkbox"]').val();
 
         }else{
@@ -543,12 +543,12 @@ const initializeDurationSelect2 = (duration) => {
          $('.select2-frm').select2();
          //initialize
          initializeDurationSelect2(data.durations);
-         
-         
-         
+
+
+
          //initialize
          initializeSlotNumberSelect2(data.slots);
-         
+
         });
 
 
@@ -567,10 +567,10 @@ const initializeDurationSelect2 = (duration) => {
             var durationData= $(durationEl).find(':selected').val();
             var endTimeData= $(endTimeEl).val();
             var currentDayEl= $(e.target).closest('div.slot-item');
-            
+
             var currentDay= $(currentDayEl).find('input[type="checkbox"]').val();
-            
-            
+
+
         }else{
          return;
         }
@@ -595,7 +595,7 @@ const initializeDurationSelect2 = (duration) => {
 
   function handleChangeTimeFrom (e) {
       // debugger;
-    
+
         if(e.target.classList.contains('select2-frm')){
             //collect data from origin
             var targetEl= e.params.data;
@@ -603,14 +603,14 @@ const initializeDurationSelect2 = (duration) => {
             var slotEl= $(e.target).parent().parent().find('.select__no__ofslot');
             var endTimeEl= $(e.target).parent().parent().find('.slot__endtime__txt');
             var currentDayEl= $(e.target).closest('div.slot-item');
-            
+
             var currentDay= $(currentDayEl).find('input[type="checkbox"]').val();
 
             var durationData= $(durationEl).find(':selected').val();
             var slotData= $(slotEl).find(':selected').val();
             var endTimeData= $(endTimeEl).val();
-            
-            
+
+
         }else{
          return;
         }
@@ -643,12 +643,12 @@ const initializeDurationSelect2 = (duration) => {
       //alert("clock");
   }
 
-  
+
 
 //this will check for a click event and create new list item
 addItmBtn.forEach(item => {
    item.addEventListener("click", handleAddSlot, false);
-      
+
 });
 
 
@@ -660,7 +660,7 @@ addFromChkBtn.forEach(item => {
             value: item.value
          };
    }
-   
+
    item.addEventListener("click", handleAddSlotFrmChkBtn);
 });
 
@@ -677,7 +677,7 @@ slotList.forEach((slot) => {
 
 document.addEventListener("DOMContentLoaded", (event) => {
     console.log("DOM fully loaded and parsed");
-    
+
     //initializeSlotNumberSelect2(noofslot);
 
     //initializeDurationSelect2(duration);
@@ -705,11 +705,11 @@ document.addEventListener("DOMContentLoaded", (event) => {
     })
 
    $('#document_head').change(function(e){
-      
+
       var select=$(this).find(':selected').val();
       $('.hide').hide();
       $('#' + select).show();
    });
-    
+
 </script>
 @endpush

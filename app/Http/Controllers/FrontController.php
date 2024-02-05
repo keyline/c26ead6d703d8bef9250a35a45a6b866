@@ -764,6 +764,7 @@ class FrontController extends Controller
         $phone      = $requestData['phone'];
 
         $checkEmail = User::where('email', '=', $requestData['email'])->first();
+
         if (empty($checkEmail)) {
             $checkPhone = User::where('phone', '=', $phone)->count();
             if ($checkPhone <= 0) {
@@ -813,11 +814,9 @@ class FrontController extends Controller
                     //   echo $message;
                     //   die;
                     /* remove this die */
-                    try {
-                        $this->sendMail($requestData['email'], $subject, $message);
-                    } catch (\Throwable $th) {
-                        throw $th;
-                    }
+
+                    $this->sendMail($requestData['email'], $subject, $message);
+
                     /* email sent */
                     /* email log save */
                     $postData2 = [
@@ -866,6 +865,8 @@ class FrontController extends Controller
             } else {
                 return redirect('student-signup')->with('error_message', 'Phone Already Registered !!!');
             }
+        } else {
+            return back()->with('error_message', 'email Already Registered !!!');
         }
     }
     public function signupOtp($id)

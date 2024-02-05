@@ -103,11 +103,9 @@ class MentorController extends Controller
         // echo $message;
         // die;
         /* remove this die */
-        try {
-            $this->sendMail($requestData['email'], $subject, $message);
-        } catch (\Throwable $th) {
-            throw $th;
-        }
+        // uncomment this before live
+        // $this->sendMail($requestData['email'], $subject, $message);
+
         /* email sent */
 
         $display_name = implode("_", [$validated['first_name'], $validated['last_name']]);
@@ -335,12 +333,14 @@ class MentorController extends Controller
         //dd($hours);
         //return \view('front.mentor.onboarding.create-step4', ['slot_dropdown' => $hours, 'days' => $daysOfWeek, 'documents' => $documents]);
         $platformReviews        = PlatformRating::where('status', '=', 1)->inRandomOrder()->get();
+
+        //   dd($sortedDaysOfWeek->toArray());
         return \view('front.mentor.onboarding.create-step4-v2', ['slot_dropdown' => $hours, 'days' => $sortedDaysOfWeek, 'documents' => $documents, 'platformReviews' => $platformReviews]);
     }
 
     public function postCreateStep4(Request $request)
     {
-        //dd($request->all());
+
         if (empty($request->session()->get('mentor'))) {
             return \redirect('mentor/signup');
         }
@@ -432,8 +432,6 @@ class MentorController extends Controller
         /*  Direct login after signup complete start */
         // DB::table('users as U');
         $user = User::select('name', 'email', 'id', 'role')->where('id', $mentor->user_id)->where('role', 2)->first();
-
-
 
         if ($user != null && Auth::guard('web')->attempt(['email' => $user->email, 'password' => session('pwd'), 'role' => 2])) {
             /* remove mentor signup data */
