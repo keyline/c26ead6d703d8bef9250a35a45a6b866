@@ -1188,12 +1188,17 @@ class FrontController extends Controller
         // Retrieve the validated input data...
         $validated = $validator->valid();
 
+<<<<<<< HEAD
         $fname      = $validated['fname'];
         $lname      = $validated['lname'];
         $phone      = $validated['phone'];
         $email      = $validated['email'];
 
         $checkEmail = User::where('email', '=', $validated['email'])->first();
+=======
+        $checkEmail = User::where('email', '=', $requestData['email'])->first();
+
+>>>>>>> shubha-local
         if (empty($checkEmail)) {
             $checkPhone = User::where('phone', '=', $phone)->count();
             if ($checkPhone <= 0) {
@@ -1239,7 +1244,17 @@ class FrontController extends Controller
                     $validated['email'] = $validated['email'];
                     $subject              = $generalSetting->site_name . ' :: Email Verify';
                     $message              = view('email-templates.emailValidate', $data);
+<<<<<<< HEAD
                     // $this->sendMail($validated['email'], $subject, $message);
+=======
+                    /* remove this die */
+                    //   echo $message;
+                    //   die;
+                    /* remove this die */
+
+                    $this->sendMail($requestData['email'], $subject, $message);
+
+>>>>>>> shubha-local
                     /* email sent */
                     /* email log save */
                     $postData2 = [
@@ -1288,6 +1303,8 @@ class FrontController extends Controller
             } else {
                 return redirect('student-signup')->with('error_message', 'Phone Already Registered !!!');
             }
+        } else {
+            return back()->with('error_message', 'email Already Registered !!!');
         }
     }
     public function signupOtp($id)
