@@ -547,8 +547,6 @@ $pageName = $routeName->uri();
     const handleChangeNoOfSlots = (e) => {
 
         // Access the parent div
-
-
         var parentDiv = $(e.target).closest('.slots_section_parent');
         // var parentDiv = $(e.target).closest('.slots-section');
         // Check if the select element is the first child of its parent
@@ -591,6 +589,9 @@ $pageName = $routeName->uri();
         };
         updateOnChangeInput(postData).then((data) => {
             is1st = false;
+            // $('.select__no__ofslot').on('change', function() {
+            //     handleOptionChange(this);
+            // });
             parentEl = $(e.target).closest('div.slots-select-box');
             console.log(data.html);
             $(parentEl).html(data.html);
