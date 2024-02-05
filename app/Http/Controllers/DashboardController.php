@@ -402,9 +402,10 @@ class DashboardController extends Controller
         $data['id']         = $id;
         if ($request->isMethod('post')) {
             $postData = $request->all();
-            // Helper::pr($postData);
+
             if ($postData['question_type'] == 1) {
                 $noOfQuestions = SurveyQuestion::where('survey_id', '=', $id)->count();
+
                 for ($i = 1; $i <= $noOfQuestions; $i++) {
                     // $options            = $postData['option'.$i];
                     $answer             = explode("/", $postData['option' . $i][0]);
@@ -486,10 +487,12 @@ class DashboardController extends Controller
             }
             if ($postData['question_type'] == 3) {
                 //MBTI
+
                 $noOfQuestions = SurveyQuestion::where('survey_id', '=', $id)->count();
                 $survey_result_array    = [];
                 $survey_result_weight   = [];
                 for ($i = 1; $i <= $noOfQuestions; $i++) {
+
                     $answer             = explode("/", $postData['option' . $i][0]);
                     $optionId           = $answer[0];
                     $factor             = Helper::decoded($answer[1]);
@@ -709,7 +712,8 @@ class DashboardController extends Controller
                     $day_id = $key;
                     $data   = [];
                     if (is_array($availabilities['from'][$day_id])) {
-                        $data['day_of_week_id'] = ($day_id - 1);
+                        // $data['day_of_week_id'] = ($day_id - 1);
+                        $data['day_of_week_id'] = $day_id;
                         // $duration               = $durations[$day_id];
                         // $no_of_slot             = $no_of_slots[$day_id];
                         foreach ($availabilities['from'][$day_id] as $key => $value) {

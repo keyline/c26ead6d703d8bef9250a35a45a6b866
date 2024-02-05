@@ -74,9 +74,9 @@ $controllerRoute = $module['controller_route'];
           <ul class="list-group">
             <?php if($answersRecords){ $sl=1; foreach($answersRecords as $answersRecord){ ?>
               <li class="list-group-item">
-                <?php 
-                  $getData     = SurveyQuestionOptions:: where('option_id', '=', $answersRecord->option_id)->where('status','=',1)->first(); 
-                  $getquestion = SurveyQuestion:: where('question_id', '=', $getData->question_id)->where('status','=',1)->first(); 
+                <?php
+                  $getData     = SurveyQuestionOptions:: where('option_id', '=', $answersRecord->option_id)->where('status','=',1)->first();
+                  $getquestion = SurveyQuestion:: where('question_id', '=', $getData->question_id)->where('status','=',1)->first();
                 ?>
                 <h5>Q.<?=$sl++ . '.' ?> <?=$getquestion->question_name;?></h5>
                 <h5>Ans: <?=$getData->option_name;?></h5>

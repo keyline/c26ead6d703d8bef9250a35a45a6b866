@@ -63,6 +63,7 @@
                                  </div>
                               </div>
                            </div>
+
                            @foreach($days AS $day)
                            <div class="row slot-item">
                               <div class="col-md-3">

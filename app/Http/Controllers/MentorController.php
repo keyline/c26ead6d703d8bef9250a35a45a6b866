@@ -104,7 +104,7 @@ class MentorController extends Controller
         // die;
         /* remove this die */
         // uncomment this before live
-        // $this->sendMail($requestData['email'], $subject, $message);
+        $this->sendMail($requestData['email'], $subject, $message);
 
         /* email sent */
 

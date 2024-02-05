@@ -62,8 +62,8 @@ class Controller extends BaseController
         if (!empty($file)) :
             $mailLibrary->AddAttachment($file);
         endif;
-        return true;
-        // return (!$mailLibrary->send()) ? false : true;
+
+        return (!$mailLibrary->send()) ? false : true;
     }
     // single file upload
     public function upload_single_file($fieldName, $fileName, $uploadedpath, $uploadType)
