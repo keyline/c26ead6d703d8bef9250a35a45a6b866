@@ -30,10 +30,10 @@ $pageName = $routeName->uri();
                         <a class="nav-link" href="<?=url('/')?>">Home</a>
                      </li> -->
                      <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">Mentorship for Exams</a>
+                        <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">Mentorship For Exams</a>
                            <ul class="dropdown-menu">
-                              <li><a class="dropdown-item" href="<?=url('mentors-for-10th-board')?>"> Mentors for 10th board</a></li>
-                              <li><a class="dropdown-item" href="<?=url('mentors-for-12th-board')?>"> Mentors for 12th board </a></li>
+                              <li><a class="dropdown-item" href="<?=url('mentors-for-10th-board')?>"> Mentors For 10th Board</a></li>
+                              <li><a class="dropdown-item" href="<?=url('mentors-for-12th-board')?>"> Mentors For 12th Board </a></li>
                            </ul>
                      </li>
                      <li class="nav-item dropdown">
