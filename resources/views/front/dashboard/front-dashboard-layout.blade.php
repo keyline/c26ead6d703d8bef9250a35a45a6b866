@@ -679,6 +679,91 @@ $(window).scroll(function() {
 	        }else{
 	         return;
 	        }
+        // Check if the select element is in the first child of its parent
+        var isFirstChild = is1st = parentDiv.is(':first-child');
+        // alert(">>" + isFirstChild);
+
+        // Log the result to the console (for demonstration purposes)
+        // console.log("Is the select element in the first child?", isFirstChild);
+    }
+
+    const handleChangeNoOfSlots = (e) => {
+
+        // Access the parent div
+        // var parentDiv = $(e.target).closest('.slots_section_parent');
+
+
+        // var parentDiv = $(e.target).closest('.slots-section');
+        // Check if the select element is the first child of its parent
+
+
+
+        // console.log("changed automatically", e.params.data);
+        if (e.target.classList.contains('select__no__ofslot')) {
+            //collect data from origin
+            var targetEl = e.params.data;
+            var fromTimeEl = $(e.target).parent().parent().find('.select2-frm');
+            var durationEl = $(e.target).parent().parent().find('.select__slot__duration');
+            var endTimeEl = $(e.target).parent().parent().find('.slot__endtime__txt');
+
+            var fromTimeData = $(fromTimeEl).find(':selected').val();
+            var durationData = $(durationEl).find(':selected').val();
+            var endTimeData = $(endTimeEl).val();
+            var currentDayEl = $(e.target).closest('div.slot-item');
+
+            var currentDay = $(currentDayEl).find('input[type="checkbox"]').val();
+            // __________________________  is it 1st div  ____________________________
+            let targetDiv = '.slots-select-box'
+            var parentDiv = $(e.target).closest(targetDiv);
+            var isFirstChild = parentDiv.is(':first-child');
+            // ______________________________________________________
+        } else {
+            return;
+        }
+        console.log({
+            'one': targetEl.id,
+            'two': durationData,
+            'three': fromTimeData,
+            'four': endTimeData
+        });
+        const postData = {
+            'day': currentDay,
+            'fromTime': fromTimeData,
+            'duration': durationData,
+            'slots': targetEl.id,
+            'endTime': endTimeData,
+            // 'action': is1st || isFirstChild ? 'stumento__ajax__add__slot' : 'stumento__ajax__update__slot',
+            'action':  isFirstChild ? 'stumento__ajax__add__slot' : 'stumento__ajax__update__slot',
+            //'action': 'stumento__ajax__update__slot'
+        };
+        updateOnChangeInput(postData).then((data) => {
+            is1st = false;
+            parentEl = $(e.target).closest('div.slots-select-box');
+            console.log(data.html);
+            $(parentEl).html(data.html);
+            $('.select2-frm').select2();
+            initializeDurationSelect2(data.durations);
+            initializeSlotNumberSelect2(data.slots);
+        });
+
+    }
+
+    function handleChangeTimeFrom(e) {
+        // debugger;
+
+        if (e.target.classList.contains('select2-frm')) {
+            //collect data from origin
+            var targetEl = e.params.data;
+            var durationEl = $(e.target).parent().parent().find('.select__slot__duration');
+            var slotEl = $(e.target).parent().parent().find('.select__no__ofslot');
+            var endTimeEl = $(e.target).parent().parent().find('.slot__endtime__txt');
+            var currentDayEl = $(e.target).closest('div.slot-item');
+
+            var currentDay = $(currentDayEl).find('input[type="checkbox"]').val();
+
+            var durationData = $(durationEl).find(':selected').val();
+            var slotData = $(slotEl).find(':selected').val();
+            var endTimeData = $(endTimeEl).val();
 
 	        //console.log({'one': targetEl.id, 'two': fromTimeData, 'three': slotData, 'four': endTimeData});
 	        const postData= {
