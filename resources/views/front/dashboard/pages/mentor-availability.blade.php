@@ -65,8 +65,8 @@ use App\Helpers\Helper;
                                     </div>
                                 </div>
                                 {{-- @dd($mentor_days) --}}
-                                @foreach ($days as $day)
-                                    <div class="row slot-item">
+                                @foreach ($days as $key => $day)
+                                    <div class="row slot-item targetDiv{{ $day->day }}">
                                         <div class="col-md-3">
                                             <div class="slot_weeksday">
                                                 <div class="form-check">
@@ -121,9 +121,8 @@ use App\Helpers\Helper;
                                                         <div style="display: inline; margin: 0px 0.2em;">-</div>
 
                                                         <div class="no__of__slots">
-                                                            <select
-                                                                onchange="handleOptionChange(this)"
-                                                                class="select__no__ofslot"
+                                                            {{-- onchange="handleOptionChange(this)" --}}
+                                                            <select class="select__no__ofslot"
                                                                 name="no_of_slot[{{ $day->id }}][]"
                                                                 style="width: 50%">
                                                                 <option value="1"

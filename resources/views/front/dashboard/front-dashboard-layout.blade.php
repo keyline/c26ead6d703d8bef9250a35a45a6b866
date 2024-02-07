@@ -583,14 +583,14 @@ $pageName = $routeName->uri();
     const handleChangeNoOfSlots = (e) => {
 
         // Access the parent div
+        // var parentDiv = $(e.target).closest('.slots_section_parent');
 
 
-        var parentDiv = $(e.target).closest('.slots_section_parent');
         // var parentDiv = $(e.target).closest('.slots-section');
         // Check if the select element is the first child of its parent
-        var isFirstChild = parentDiv.is(':first-child');
 
-        // alert(isFirstChild)
+
+
         // console.log("changed automatically", e.params.data);
         if (e.target.classList.contains('select__no__ofslot')) {
             //collect data from origin
@@ -605,8 +605,11 @@ $pageName = $routeName->uri();
             var currentDayEl = $(e.target).closest('div.slot-item');
 
             var currentDay = $(currentDayEl).find('input[type="checkbox"]').val();
-
-
+            // __________________________  is it 1st div  ____________________________
+            let targetDiv = '.slots-select-box'
+            var parentDiv = $(e.target).closest(targetDiv);
+            var isFirstChild = parentDiv.is(':first-child');
+            // ______________________________________________________
         } else {
             return;
         }
@@ -622,7 +625,8 @@ $pageName = $routeName->uri();
             'duration': durationData,
             'slots': targetEl.id,
             'endTime': endTimeData,
-            'action': is1st || isFirstChild ? 'stumento__ajax__add__slot' : 'stumento__ajax__update__slot',
+            // 'action': is1st || isFirstChild ? 'stumento__ajax__add__slot' : 'stumento__ajax__update__slot',
+            'action':  isFirstChild ? 'stumento__ajax__add__slot' : 'stumento__ajax__update__slot',
             //'action': 'stumento__ajax__update__slot'
         };
         updateOnChangeInput(postData).then((data) => {
