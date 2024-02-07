@@ -27,59 +27,6 @@ use App\Helpers\Helper;
                   </ul>
                   </div>
                   </div> -->
-<<<<<<< HEAD
-               <div class="col-sm-12 col-lg-12">
-                  @if ($errors->any())         
-                  <div class="invalid-feedback d-block" role="alert">
-                     <ul>
-                        @foreach (json_decode($errors) as $file_index => $error)
-                        <li>
-                           <strong>
-                              {{$file_index.': '}} 
-                              <ul>
-                                 @foreach ($error as $error_item)
-                                 <li>{{$error_item}}</li>
-                                 @endforeach
-                              </ul>
-                           </strong>
-                        </li>
-                        @endforeach
-                     </ul>
-                  </div>
-                  @endif
-                  <form action="" method="POST" accept-charset="utf-8" enctype="multipart/form-data">
-                    @csrf
-                    <div class="ant-col ant-col-24 add-slots mentoe_admin_section">
-								<div class="row slot-item hide_tabmobile">
-									<div class="col-md-3"></div>
-									<div class="col-md-9">
-										<div class="row">
-											<div class="col-md-3 text-left"><span class="fw-bold" style="color: #f9233f;">Start</span></div>
-											<div class="col-md-3 text-left"><span class="fw-bold" style="color: #f9233f;">Duration</span></div>
-											<div class="col-md-3 text-left"><span class="fw-bold" style="color: #f9233f;">No. Of Slots</span></div>
-											<div class="col-md-3 text-left"><span class="fw-bold" style="color: #f9233f;">End</span></div>
-											<div class="col-md-3 text-left"><span class="fw-bold" style="color: #f9233f;"></span></div>
-										</div>
-									</div>
-								</div>
-                     	@foreach($days AS $day)
-	                     	<div class="row slot-item">
-	                        <div class="col-md-3">
-	                           <div class="slot_weeksday">
-	                            <div class="form-check">
-	                             	<input class="form-check-input chk__slots__show__hide" type="checkbox" name="day_of_week[{{ $day->id }}]" value="{{ $day->day }}" data-chkcontainer="{{ strtolower($day->day_text) }}" id="flexCheckChecked_{{ $loop->index }}"
-	                                {{ (in_array($day->id, $mentor_days)) ? 'checked' : '' }}>
-	                               <label class="form-check-label" for="flexCheckChecked_{{ $loop->index }}">
-	                                {{ $day->day_text }}
-	                               </label>
-	                            </div>
-	                           </div>
-	                      	</div>
-	                        <div class="col-md-9 slots__parent">
-	                         	@if(in_array($day->id, $mentor_days))
-	                           	<div class="slots-section">
-	                           		<?php
-=======
                     <div class="col-sm-12 col-lg-12">
                         @if ($errors->any())
                             <div class="invalid-feedback d-block" role="alert">
@@ -140,7 +87,6 @@ use App\Helpers\Helper;
                                             @if (in_array($day->id, $mentor_days))
                                                 <div class="slots-section">
                                                     <?php
->>>>>>> shubha-local
 	                           		$mentorAvlDaywises      = MentorAvailability::select('day_of_week_id', 'duration', 'no_of_slot', 'avail_from', 'avail_to')->where('mentor_user_id', '=', $userId)->where('is_active', '=', 1)->where('day_of_week_id', '=', $day->id)->get();
 	                           		if($mentorAvlDaywises){ foreach($mentorAvlDaywises as $mentorAvlDaywise){
 	                           		?>
@@ -244,32 +190,6 @@ use App\Helpers\Helper;
  <div style="display: inline; margin: 0px 0.5em;">-</div>
 
 <<<<<<< HEAD
-	                                 <div class="no__of__slots">
-	                                  <select class="select__no__ofslot" name="no_of_slot[{{ $day->id }}]" style="width: 50%">
-	                                  </select>
-	                                 </div>
-	                                 <div style="display: inline; margin: 0px 0.5em;">-</div>
-	                                 <div class="slot_endtime">
-	                                  <input type="text" class="slot__endtime__txt" name="availability[to][{{ $day->id }}][]" value="{{ date('g:i A', strtotime($option['selected_to'])) }}" readonly="readonly">
-	                                  </div>
-	                                 <button class="add-slot-btn add__slot__parent" data-container="{{ strtolower($day->day_text) }}"><span style="pointer-events: none;"><i class="fa-solid fa-plus"></i></span></button>
-	                              </div> -->
-	                              
-	                              <!-- <div class="btn-apply-all"><a href="#">Apply To All</a></div> -->
-	                              
-	                           	</div>
-	                          @else
-	                          	<div class="ant-typography slots-unavailable">Unavailable</div>
-	                          @endif
-	                          <div class="slot__items__component" id="item-list-container-{{ strtolower($day->day_text) }}">
-	                          </div>
-	                        </div>
-	                     	</div>
-                     	@endforeach
-                    </div>                  
-                    <div class="input-group ml-0 mb-3 mt-4">
-                     	<button class="btn btn-primary"><i class="fa fa-paper-plane"></i> Save</button>
-=======
  <div class="no__of__slots">
  <select class="select__no__ofslot" name="no_of_slot[{{ $day->id }}]" style="width: 50%">
  </select>
@@ -280,9 +200,9 @@ use App\Helpers\Helper;
  </div>
  <button class="add-slot-btn add__slot__parent" data-container="{{ strtolower($day->day_text) }}"><span style="pointer-events: none;"><i class="fa-solid fa-plus"></i></span></button>
  </div> -->
-                                                    @if ($loop->index === 0)
-                                                        <!-- <div class="btn-apply-all"><a href="#">Apply To All</a></div> -->
-                                                    @endif
+
+                                                    <!-- <div class="btn-apply-all"><a href="#">Apply To All</a></div> -->
+
                                                 </div>
                                             @else
                                                 <div class="ant-typography slots-unavailable">Unavailable</div>
@@ -296,11 +216,43 @@ use App\Helpers\Helper;
                             </div>
                             <div class="input-group ml-0 mb-3 mt-4">
                                 <button class="btn btn-primary"><i class="fa fa-paper-plane"></i> Save</button>
-                            </div>
-                        </form>
->>>>>>> shubha-local
+                                =======
+                                <div class="no__of__slots">
+                                    <select class="select__no__ofslot" name="no_of_slot[{{ $day->id }}]"
+                                        style="width: 50%">
+                                    </select>
+                                </div>
+                                <div style="display: inline; margin: 0px 0.5em;">-</div>
+                                <div class="slot_endtime">
+                                    <input type="text" class="slot__endtime__txt"
+                                        name="availability[to][{{ $day->id }}][]"
+                                        value="{{ date('g:i A', strtotime($option['selected_to'])) }}"
+                                        readonly="readonly">
+                                </div>
+                                <button class="add-slot-btn add__slot__parent"
+                                    data-container="{{ strtolower($day->day_text) }}"><span
+                                        style="pointer-events: none;"><i class="fa-solid fa-plus"></i></span></button>
+                            </div> -->
+                            @if ($loop->index === 0)
+                                <!-- <div class="btn-apply-all"><a href="#">Apply To All</a></div> -->
+                            @endif
                     </div>
-                    <!-- <div class="col-sm-12 col-lg-4">
+                @else
+                    <div class="ant-typography slots-unavailable">Unavailable</div>
+                    @endif
+                    <div class="slot__items__component" id="item-list-container-{{ strtolower($day->day_text) }}">
+                    </div>
+                </div>
+            </div>
+            @endforeach
+        </div>
+        <div class="input-group ml-0 mb-3 mt-4">
+            <button class="btn btn-primary"><i class="fa fa-paper-plane"></i> Save</button>
+        </div>
+        </form>
+        >>>>>>> shubha-local
+    </div>
+    <!-- <div class="col-sm-12 col-lg-4">
                   <div class="card mb-4 text-white bg-whitebg">
                      <div class="card-body ">
                         <div class="col-md-12">
@@ -341,8 +293,8 @@ use App\Helpers\Helper;
                      </div>
                   </div>
                </div> -->
-                </div>
-            </div>
-        </div>
-    </div>
+</div>
+</div>
+</div>
+</div>
 </div>

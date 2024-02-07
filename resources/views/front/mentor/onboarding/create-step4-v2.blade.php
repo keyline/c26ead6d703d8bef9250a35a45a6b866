@@ -64,14 +64,6 @@
                                  </div>
                               </div>
                            </div>
-<<<<<<< HEAD
-                           <span class="text-danger">*</span>
-                           <?php
-                           // echo '<pre>';print_r($days);
-                           ?>
-=======
-
->>>>>>> shubha-local
                            @foreach($days AS $day)
                            <div class="row slot-item">
                               <div class="col-md-3">
