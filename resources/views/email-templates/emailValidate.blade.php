@@ -61,6 +61,9 @@ $generalSetting             = GeneralSetting::find('1');
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
             margin-bottom: 20px;
         }
+        .verify-email-btn, .verify-email-btn:hover {
+            color: #fff !important;
+        }
     </style>
 </head>
 
@@ -82,7 +85,7 @@ $generalSetting             = GeneralSetting::find('1');
         </p>
 
         <p>
-            <a href="{{ $emailData['link'] }}" class="btn" target="_blank">Verify Email</a>
+            <a href="{{ $emailData['link'] }}" class="btn verify-email-btn" target="_blank">Verify Email</a>
         </p>
 
         <p>
