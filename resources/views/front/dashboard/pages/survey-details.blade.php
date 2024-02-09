@@ -1,6 +1,6 @@
 <?php
 use App\Models\User;
-use App\Models\surveyQuestionOptions;
+use App\Models\SurveyQuestionOptions;
 use App\Models\SurveyResult;
 use App\Models\Survey;
 use App\Helpers\Helper;
