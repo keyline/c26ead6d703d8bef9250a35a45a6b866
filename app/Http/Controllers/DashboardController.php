@@ -225,24 +225,18 @@ class DashboardController extends Controller
                     $getDetail  = StudentProfile::where('id', '=', $getStudentId->id)->first();
                 }
 
-
                 $rules = [];
                 if ($role == 2) {
                     $rules =  [
-                        'fname'             => 'required|string|max:255|min:3|regex:/^[A-Za-z0-9 ]+$/',
-                        'lname'             => 'required|string|regex:/^[A-Za-z0-9 ]+$/',
-                        'description'       => 'required|string|max:255|min:3|regex:/^[A-Za-z0-9 ]+$/',
-                        'languages'         => 'required',
-                        'subjects'          => 'required',
+                        'fname'             => 'required|string',
+                        'lname'             => 'required|string',
                     ];
                 } else {
                     $rules =  [
-                        'fname'             => 'required|string|max:255|min:3|regex:/^[A-Za-z0-9 ]+$/',
-                        'lname'             => 'required|string|regex:/^[A-Za-z0-9 ]+$/',
-                        'description'       => 'required|string|max:255|min:3|regex:/^[A-Za-z0-9 ]+$/',
+                        'fname'             => 'required|string',
+                        'lname'             => 'required|string',
                     ];
                 }
-
 
                 $validator = Validator::make($request->all(), $rules);
 
