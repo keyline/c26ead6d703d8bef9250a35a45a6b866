@@ -36,6 +36,7 @@ use App\Models\UserDocument;
 use App\Models\BookingRating;
 use App\Models\PlatformRating;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\DB;
 use Hash;
 use Auth;
 use Session;
@@ -389,7 +390,7 @@ class DashboardController extends Controller
     /* survey */
     public function surveyList()
     {
-        $data['surveys']    = Survey::where('status', '=', 1)->get();
+        $data['surveyList']    = Survey::where('status', '=', 1)->get();
         $title              = 'Survey List';
         $page_name          = 'survey-list';
         echo $this->front_dashboard_layout($title, $page_name, $data);
@@ -552,9 +553,10 @@ class DashboardController extends Controller
     }
     public function surveyResult(Request $request, $id)
     {
-        $userId                  = $request->session()->get('user_id');
-        $id                      = Helper::decoded($id);
-        $data['getResult']       = SurveyResult::where('user_id', '=', $userId)->where('survey_id', '=', $id)->where('status', '=', 1)->first();
+        $userId                     = $request->session()->get('user_id');
+        $id                         = Helper::decoded($id);
+        $data['getResults']         = SurveyResult::where('user_id', '=', $userId)->where('survey_id', '=', $id)->where('status', '=', 1)->get();
+        $data['getSurvey']          = DB::table('surveys')->where('id', '=', $id)->first();
         $data['totalQuestions']  = SurveyQuestion::where('survey_id', '=', $id)->where('status', '=', 1)->count();
         $title                   = 'Survey Result';
         $page_name               = 'survey-result';
