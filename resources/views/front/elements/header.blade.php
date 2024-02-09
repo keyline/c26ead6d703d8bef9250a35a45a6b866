@@ -175,10 +175,10 @@ $pageName = $routeName->uri();
                                   <?php if ($getUser->profile_pic != '') {?>
                                       <img class="avatar-img" src="<?= $imageLink ?>" alt="{{ session('name') }}">
                                   <?php } else {?>
-                                      <span style="border: 1px solid #f9233f;height: 43px;width: 80px;padding: 9px 15px;border-radius: 50%;"><?= $imageLink ?></span>
+                                      <span style="border: 1px solid #f9233f;height: 43px;width: 80px;padding: 9px 15px;border-radius: 50%;    background: #999;"><?= $imageLink ?></span>
                                   <?php }?>
                               <?php } else {?>
-                                  <span style="border: 1px solid #f9233f;height: 43px;width: 80px;padding: 9px 15px;border-radius: 50%;"><?= $imageLink ?></span>
+                                  <span style="border: 1px solid #f9233f;height: 43px;width: 80px;padding: 9px 15px;border-radius: 50%; background: #999;"><?= $imageLink ?></span>
                               <?php }?>
                            </div>
                         </a>
