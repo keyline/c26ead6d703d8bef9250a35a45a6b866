@@ -352,7 +352,7 @@ use App\Models\User;
                                             @csrf
                                                 <input type="hidden" name="mode1" value="updateMobile">
                                                 <input type="hidden" name="student_id" value="<?=$profileDetail->id?>">
-                                                <input type="tel" class="form-control" name="mobile" id="mobile" placeholder="+91 9876543210" value="<?=(($getUserID->phone)?$getUserID->phone:'')?>">
+                                                <input type="tel" class="form-control" name="mobile" id="mobile" placeholder="+91 9876543210" value="<?=(($getUserID->phone)?$getUserID->phone:'')?>" maxlength="10" minlength="10" onkeypress="return isNumber(event)">
                                                 <input type="submit" value="Save"></input>
                                             </form>
                                         </div>
@@ -401,7 +401,7 @@ use App\Models\User;
                                             </div>
                                             <div class="col-md-12">
                                                 <label for="accountNum" class="form-label">Account Number</label>
-                                                <input type="text" class="form-control" name="acct_num" id="acct_num" value="<?=(($profileDetail->account_number)?$profileDetail->account_number:'')?>">
+                                                <input type="text" class="form-control" name="acct_num" id="acct_num" value="<?=(($profileDetail->account_number)?$profileDetail->account_number:'')?>" onkeypress="return isNumber(event)">
                                             </div>
                                             <div class="col-md-12">
                                                 <label for="IfscCode" class="form-label">IFSC Code</label>
@@ -422,6 +422,14 @@ use App\Models\User;
     </div>
 </div>
 <script>
+    function isNumber(evt) {
+        evt = (evt) ? evt : window.event;
+        var charCode = (evt.which) ? evt.which : evt.keyCode;
+        if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+            return false;
+        }
+        return true;
+    }
     function myFunction() {
         var copyText = document.getElementById("myInput");
         copyText.select();

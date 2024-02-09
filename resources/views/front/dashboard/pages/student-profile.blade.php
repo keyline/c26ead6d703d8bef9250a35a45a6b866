@@ -229,7 +229,7 @@ use App\Models\RequireDocument;
                                             @csrf
                                                 <input type="hidden" name="mode1" value="updateMobile">
                                                 <input type="hidden" name="student_id" value="<?=$profileDetail->id?>">
-                                                <input type="tel" class="form-control" name="mobile" id="mobile" placeholder="+91 9876543210" value="<?=(($getUserID->phone)?$getUserID->phone:'')?>">
+                                                <input type="tel" class="form-control" name="mobile" id="mobile" placeholder="+91 9876543210" value="<?=(($getUserID->phone)?$getUserID->phone:'')?>" maxlength="10" minlength="10" onkeypress="return isNumber(event)">
                                                 <input type="submit" value="Save"></input>
                                             </form>
                                         </div>
@@ -259,6 +259,14 @@ use App\Models\RequireDocument;
     </div>
 </div>
 <script>
+    function isNumber(evt) {
+        evt = (evt) ? evt : window.event;
+        var charCode = (evt.which) ? evt.which : evt.keyCode;
+        if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+            return false;
+        }
+        return true;
+    }
     function myFunction() {
         var copyText = document.getElementById("myInput");
         copyText.select();
