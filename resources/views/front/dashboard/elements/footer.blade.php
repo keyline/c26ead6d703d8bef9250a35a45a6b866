@@ -4,7 +4,7 @@
             <div class="col-lg-4 col-md-6">
                 <div class="footer_left">
                     <div class="footer_logo">
-                        <a href="#"><img class="img-fluid" src="<?=env('FRONT_DASHBOARD_ASSETS_URL')?>assets/img/footer_logo.png" alt="logo"></a>
+                        <a href="<?=url('/')?>"><img class="img-fluid" src="<?=env('UPLOADS_URL').$generalSetting->site_footer_logo?>" alt="<?=$generalSetting->site_name?>"></a>
                     </div>
                     <div class="foot-righttop">
                         <ul>
