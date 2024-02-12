@@ -696,7 +696,7 @@ class DashboardController extends Controller
 
         if ($request->isMethod('post')) {
             $postData = $request->all();
-            // Helper::pr($postData);
+            // Helper::pr($postData);die;
 
             $days           = $request->input('day_of_week');
             $availabilities = $request->input('availability');
@@ -719,11 +719,26 @@ class DashboardController extends Controller
                             $data['avail_to']       = date('H:i:s', strtotime($availabilities['to'][$day_id][$key]));
                             $data['mentor_user_id'] = $userId;
                             $data['is_active']      = 1;
-                            MentorAvailability::insert($data);
+
+                            $avail_from = date('H:i:s', strtotime($value));
+                            $avail_to = date('H:i:s', strtotime($availabilities['to'][$day_id][$key]));
+                            // Helper::pr($data,0);
+                            // DB::enableQueryLog();
+                            $checkSameDaySameTimeSlotExist = MentorAvailability::where('mentor_user_id', '=', $userId)->where('day_of_week_id', '=', $day_id)->where('avail_from', 'LIKE', '%'.$avail_from.'%')->where('is_active', '=', 1)->count();
+                            // ->where('avail_to', '=', $avail_to)->where('is_active', '=', 1)
+                            
+                            // $query = DB::getQueryLog();
+                            // dd($query);
+                            // echo $checkSameDaySameTimeSlotExist;
+                            // echo '<br>';
+                            if($checkSameDaySameTimeSlotExist <= 0){
+                                MentorAvailability::insert($data);
+                            }
                         }
                     }
                 }
             }
+            // die;
             /* mentor slots add on approval of mentor */
             $id         = $userId;
             $mentorAvls = MentorAvailability::select('id', 'day_of_week_id', 'duration', 'no_of_slot', 'avail_from', 'avail_to')->where('is_active', '=', 1)->where('mentor_user_id', '=', $id)->get();

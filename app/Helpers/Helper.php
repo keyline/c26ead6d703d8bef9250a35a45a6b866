@@ -193,20 +193,20 @@ class Helper{
     // get short day name
     public static function getShortDayName($dayNo){
         $day_name = '';
-        if($dayNo == 0){
-            $day_name = 'Sun';
-        } elseif($dayNo == 1){
-            $day_name = 'Mon';
+        if($dayNo == 1){
+            $day_name = 'Sunday';
         } elseif($dayNo == 2){
-            $day_name = 'Tue';
+            $day_name = 'Monday';
         } elseif($dayNo == 3){
-            $day_name = 'Wed';
+            $day_name = 'Tuesday';
         } elseif($dayNo == 4){
-            $day_name = 'Thu';
+            $day_name = 'Wednesday';
         } elseif($dayNo == 5){
-            $day_name = 'Fri';
+            $day_name = 'Thursday';
         } elseif($dayNo == 6){
-            $day_name = 'Sat';
+            $day_name = 'Friday';
+        } elseif($dayNo == 7){
+            $day_name = 'Saturday';
         }
         return $day_name;
     }
@@ -214,19 +214,19 @@ class Helper{
     public static function getDayNo($dayName){
         $day_no = '';
         if($dayName == 'Sun'){
-            $day_no = 0;
-        } elseif($dayName == 'Mon'){
             $day_no = 1;
-        } elseif($dayName == 'Tue'){
+        } elseif($dayName == 'Mon'){
             $day_no = 2;
-        } elseif($dayName == 'Wed'){
+        } elseif($dayName == 'Tue'){
             $day_no = 3;
-        } elseif($dayName == 'Thu'){
+        } elseif($dayName == 'Wed'){
             $day_no = 4;
-        } elseif($dayName == 'Fri'){
+        } elseif($dayName == 'Thu'){
             $day_no = 5;
-        } elseif($dayName == 'Sat'){
+        } elseif($dayName == 'Fri'){
             $day_no = 6;
+        } elseif($dayName == 'Sat'){
+            $day_no = 7;
         }
         return $day_no;
     }

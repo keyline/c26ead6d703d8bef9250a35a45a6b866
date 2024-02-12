@@ -272,6 +272,7 @@ $pageName = $routeName->uri();
                         }
                         $(".time-picker-list").html(html);
                     }else{
+                        $(".time-picker-list").empty();
                         toastAlert("error", res.message);
                     }
                 },

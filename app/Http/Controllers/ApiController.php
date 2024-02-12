@@ -738,7 +738,7 @@ class ApiController extends Controller
                     $apiExtraField                      = 'response_code';
                     $apiExtraData                       = http_response_code();
                 } else {
-                    $apiStatus                          = TRUE;
+                    $apiStatus                          = FALSE;
                     http_response_code(200);
                     $apiMessage                         = 'Slots Not Available !!!';
                     $apiExtraField                      = 'response_code';
