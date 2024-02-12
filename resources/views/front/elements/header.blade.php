@@ -187,7 +187,7 @@ $pageName = $routeName->uri();
                            <li><h4><?=(($user)?$user->full_name:'')?></h4></li>
                            <li><hr class="dropdown-divider"></li>
                            <li class="dropsub_link"><a href="<?=url('user/profile')?>"><i class="fa fa-user"></i> Profile</a></li>
-                           <li class="dropsub_link"><a href="<?=url('user/survey-list')?>"><i class="fa fa-poll"></i> Survey List</a></li>
+                           <!-- <li class="dropsub_link"><a href="<?=url('user/survey-list')?>"><i class="fa fa-poll"></i> Survey List</a></li> -->
                            <li class="dropsub_link"><a href="<?=url('user/logout')?>"><i class="fa fa-sign-out"></i> Sign Out</a></li>
                         </ul>
                      </div>
