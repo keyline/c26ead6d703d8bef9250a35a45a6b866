@@ -1,3 +1,16 @@
+<?php
+use App\Models\MentorAvailability;
+use App\Helpers\Helper;
+?>
+<style type="text/css">
+  .item {
+    margin: 0 5px;
+  }
+  .item.disabled {
+    background-color: #9e9e9e6e;
+    pointer-events: none;
+  }
+</style>
 <!-- mentor details start -->
 <section class="mentor-details-section">
   <div class="container">
@@ -84,13 +97,25 @@
               <h4>Available Timings</h4>
               <div id="timing-slider" class="owl-carousel owl-theme">
                 <?php if($date_range){ foreach($date_range as $date_range_row){?>
-                  <div class="item" onclick="getTimeSlots('<?=$date_range_row['actual_date']?>');">
-                    <!-- <div class="timing-box active"> -->
-                    <div class="timing-box" id="cal<?=$date_range_row['actual_date']?>" data-id="<?=$date_range_row['actual_date']?>">
-                      <p><?=$date_range_row['date_day']?></p>
-                      <h6><?=$date_range_row['display_date']?></h6>
+                  <?php
+                  $date_day       = $date_range_row['date_day'];
+                  $dayNo          = Helper::getDayNo($date_day);
+                  $checkTimeSlots = MentorAvailability::where('mentor_user_id', '=', $mentorService['mentor_id'])->where('day_of_week_id', '=', $dayNo)->where('duration', '=', $mentorService['duration'])->where('is_active', '=', 1)->count();
+                  //if($checkTimeSlots > 0){
+                  ?>
+                    <div class="item <?=(($checkTimeSlots <= 0)?'disabled':'')?>" onclick="getTimeSlots('<?=$date_range_row['actual_date']?>');">
+                      <!-- <div class="timing-box active"> -->
+                      <div class="timing-box" id="cal<?=$date_range_row['actual_date']?>" data-id="<?=$date_range_row['actual_date']?>">
+                        <p><?=$date_range_row['date_day']?></p>
+                        <h6><?=$date_range_row['display_date']?></h6>
+                        <?php if($checkTimeSlots <= 0){?>
+                          <small class="text-danger">Slot Not Available</small>
+                        <?php } else {?>
+                          <small class="text-success">Slot Available</small>
+                        <?php }?>
+                      </div>
                     </div>
-                  </div>
+                  <?php //}?>
                 <?php } }?>
               </div>
               <br>

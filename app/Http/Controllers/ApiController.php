@@ -734,13 +734,13 @@ class ApiController extends Controller
                     $apiResponse                        = $mentor_slots;
                     $apiStatus                          = TRUE;
                     http_response_code(200);
-                    $apiMessage                         = 'Slots Available !!!';
+                    $apiMessage                         = $duration.' Mins Slots Available !!!';
                     $apiExtraField                      = 'response_code';
                     $apiExtraData                       = http_response_code();
                 } else {
                     $apiStatus                          = FALSE;
                     http_response_code(200);
-                    $apiMessage                         = 'Slots Not Available !!!';
+                    $apiMessage                         = $duration.' Mins Slots Not Available !!!';
                     $apiExtraField                      = 'response_code';
                     $apiExtraData                       = http_response_code();
                 }
