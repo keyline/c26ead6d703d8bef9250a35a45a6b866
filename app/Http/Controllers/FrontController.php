@@ -640,7 +640,8 @@ class FrontController extends Controller
                 }
                 /* service details */
                 /* availability */
-                $todayNo        = date('w');
+                $todayDayShort = date('D');
+                $todayNo        = Helper::getDayNo($todayDayShort);
                 $checkMentorAvl = MentorAvailability::where('mentor_user_id', '=', $mentorList->user_id)->where('day_of_week_id', '=', $todayNo)->count();
                 /* availability */
                 /* rating */
