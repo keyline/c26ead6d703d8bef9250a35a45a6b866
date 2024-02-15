@@ -1,11 +1,11 @@
 var origin   = window.location.origin;
-//alert(origin);
-if(origin == 'https://stumento.keylines.net.in'){
-    var base_url    = 'https://stumento.keylines.net.in/api/';
-    var baseURL     = 'https://stumento.keylines.net.in/';
+// alert(origin);
+if(origin == 'https://mentrovert.com'){
+    var base_url    = 'https://mentrovert.com/api/';
+    var baseURL     = 'https://mentrovert.com/';
 } else {
-    var base_url    = 'http://localhost/c26ead6d703d8bef9250a35a45a6b866/api/';
-    var baseURL     = 'http://localhost/c26ead6d703d8bef9250a35a45a6b866/';
+    var base_url    = 'http://localhost/stumento/api/';
+    var baseURL     = 'http://localhost/stumento/';
 }
 var projectKey  = 'facb6e0a6fcbe200dca2fb60dec75be7';
 var source      = 'WEB';
