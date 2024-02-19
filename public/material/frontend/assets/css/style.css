@@ -334,6 +334,8 @@ ul.navbar-nav .dropdown-menu {
   .dropdown:hover .dropdown-menu {
     display: block;
     margin-top: 0;
+    right: 0;
+    min-width: 15rem
   }
   .dropdown .dropdown-menu {
     display: none;
@@ -348,6 +350,21 @@ ul.navbar-nav .dropdown-menu {
     border-top: 0;
     border-bottom: 0.3em solid;
   }
+}
+.header_loginbtn ul li.dropsub_link a {
+    display: inline-block;
+    width: 100%;
+    padding: 5px 10px;
+    color: #4f5d73;
+}
+.header_loginbtn ul li.dropsub_link {
+    margin:0;
+}
+.header_loginbtn ul.dropdown-menu li h4 {
+    font-size: 18px;
+}
+.header_loginbtn ul li.dropsub_link a:hover{
+    background:#d8dbe0 ;
 }
 
 .dropdown:hover>.dropdown-menu {
@@ -613,14 +630,24 @@ ul.banner_btn {
     padding: 20px 20px 20px;
     text-align: center;
     border-radius: 24px;
-    min-height: 410px;
+    min-height: 485px;
+    position: relative;
 }
 .careercounselling .projec_homecare  {
     background: #c588d0;
     padding: 20px 20px 20px;
     text-align: center;
     border-radius: 24px;
-    min-height: 410px;
+    min-height: 485px;
+    position: relative;
+}
+.projec_homecare .book-btn-div {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translate(-50%,0);
+    width: 100%;
+    padding-bottom: 10px;
 }
 a.viewallvendor_btn {
     color: #fff;

@@ -15911,6 +15911,13 @@ button.student_feedback {
     display: table;
     color: #fff;
     margin: 10px auto 0;
+    background: #f9233f;
+    border-color: #f9233f;
+}
+button.student_feedback:hover {
+    background: #b31026;
+    border-color: #b31026;
+    color: #fff;
 }
 .feedstar {
     margin: auto;
@@ -16114,4 +16121,9 @@ button.add-slot-btn {
   }
   table.dataTable tbody th, table.dataTable tbody td {
     vertical-align: middle;
+}
+.btn-primary {
+    background: #76c7ea !important;
+    border-color:#76c7ea !important;
+    color: #000;
 }
