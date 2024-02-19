@@ -16122,8 +16122,12 @@ button.add-slot-btn {
   table.dataTable tbody th, table.dataTable tbody td {
     vertical-align: middle;
 }
-.btn-primary {
+.btn-primary, .btn-success {
     background: #76c7ea !important;
     border-color:#76c7ea !important;
     color: #000;
+}
+.slot-item .form-check-input {
+    background-color: #f9233f;
+    border-color:#f9233f;
 }

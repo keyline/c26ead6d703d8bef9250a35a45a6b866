@@ -182,7 +182,7 @@ $pageName = $routeName->uri();
                               <?php }?>
                            </div>
                         </a>
-                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                        <ul class="dropdown-menu afterlogin_dash" aria-labelledby="dropdownMenuLink">
                            <li>Welcome</li>
                            <li><h4><?=(($user)?$user->full_name:'')?></h4></li>
                            <li><hr class="dropdown-divider"></li>

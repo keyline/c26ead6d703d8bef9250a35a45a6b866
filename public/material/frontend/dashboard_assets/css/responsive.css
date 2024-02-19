@@ -5,7 +5,7 @@
 /*LARGE PC VERSION*/
 @media screen and (min-width: 1300px) {
     .dataresposnive_width {
-        max-width: 1220px;
+        /* max-width: 1220px; */
     }
     #sidebar-nav.fixed {
         position: fixed;

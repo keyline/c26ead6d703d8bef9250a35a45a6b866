@@ -334,9 +334,10 @@ ul.navbar-nav .dropdown-menu {
   .dropdown:hover .dropdown-menu {
     display: block;
     margin-top: 0;
-    right: 0;
-    min-width: 15rem
+   
+    
   }
+  .dropdown:hover .afterlogin_dash.dropdown-menu{min-width: 15rem; right: 0;}
   .dropdown .dropdown-menu {
     display: none;
   }
