@@ -66,7 +66,7 @@ class FrontController extends Controller
         $data['featured_mentor']        = MentorProfile::where('is_featured', '=', 1)->first();
 
         $mentors                        = [];
-        $mentorLists                    = User::select('mentor_profiles.*', 'users.role', 'users.valid', 'users.email', 'users.phone')->join('mentor_profiles', 'mentor_profiles.user_id', '=', 'users.id')->where('users.valid', '=', 1)->where('users.role', '=', 2)->inRandomOrder()->limit(6)->get();
+        $mentorLists                    = User::select('mentor_profiles.*', 'users.role', 'users.valid', 'users.email', 'users.phone')->join('mentor_profiles', 'mentor_profiles.user_id', '=', 'users.id')->where('users.valid', '=', 1)->where('users.role', '=', 2)->inRandomOrder()->limit(10)->get();
         if ($mentorLists) {
             foreach ($mentorLists as $mentorList) {
                 /* service details */

@@ -60,10 +60,28 @@
                                           <h3><?=$mentor['name']?></h3>
                                           <h5><?=$mentor['service_name']?></h5>
                                           <h3><?=$mentor['qualification']?></h3>
-                                          <h3><?=$mentor['experience']?> years experiences</h3>
+                                          <h6><?=(($mentor['experience'] > 0)?$mentor['experience'].' Year Experience':'<br>')?></h6>
+                                          <div class="rating">
+                                             <?=$mentor['avg_rating']?>
+                                          </div>
+                                          <div class="mentor-list">
+                                             <ul class="d-flex justify-content-center flex-column flex-wrap">
+                                                <?php if($mentor['last_review'] != ''){?>
+                                                   <li>
+                                                      <i class="fas fa-comment"></i> <?=substr($mentor['last_review'], 0, 40).' ...'?>
+                                                   </li>
+                                                <?php } ?>
+                                                <li class="<?=(($mentor['avl_today'])?'available':'not-available')?>">
+                                                   <i class="fas fa-clipboard"></i> <?=(($mentor['avl_today'])?'Available Today':'Not Available Today')?>
+                                                </li>
+                                             </ul>
+                                          </div>
                                        </div>
-                                       <div class="homecare_info">
-                                          <a href="<?=url('mentor-details/'.$mentorDisplayName.'/'.Helper::encoded($mentorId))?>">View Profile</a>
+                                       <!-- <div class="book-btn-div">
+                                          <a href="<?=url('mentor-details/'.$mentorDisplayName.'/'.Helper::encoded($mentorId))?>" class="book-btn"><i class="fas fa-plus"></i> Book Your Slots</a>
+                                       </div> -->
+                                       <div class="book-btn-div">
+                                          <a href="<?=url('mentor-details/'.$mentorDisplayName.'/'.Helper::encoded($mentorId))?>" class="book-btn"><i class="fas fa-plus"></i> Book Your Slots</a>
                                        </div>
                                     </div>
                                  </div>
