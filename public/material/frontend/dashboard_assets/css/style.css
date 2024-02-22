@@ -16131,3 +16131,10 @@ button.add-slot-btn {
     background-color: #f9233f;
     border-color:#f9233f;
 }
+.profile_cardbody button.btn-black {
+    background: #76c7ea;
+}
+.profile_cardbody button.btn-black:hover {
+    background: #56a8cc;
+    color: #fff;
+}
