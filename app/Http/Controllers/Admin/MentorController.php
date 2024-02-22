@@ -355,14 +355,14 @@ class MentorController extends Controller
     /*profile*/
 
 
-        /* mentor data export */
-        public function mentorExport()
-        {
-            $data['title']                  = 'Mentors Data Export';
-            $page_name                      = 'mentors-export';
-            $data['rows']                   = User::select('mentor_profiles.*', 'users.email', 'users.phone', 'users.created_at')->join('mentor_profiles', 'mentor_profiles.user_id', '=', 'users.id')->where('users.valid', '!=', 3)->where('users.role', '=', 2)->orderBy('users.id', 'DESC')->get();
+    /* mentor data export */
+    public function mentorExport()
+    {
+        $data['title']                  = 'Mentors Data Export';
+        $page_name                      = 'mentors-export';
+        $data['rows']                   = User::select('mentor_profiles.*', 'users.email', 'users.phone', 'users.created_at')->join('mentor_profiles', 'mentor_profiles.user_id', '=', 'users.id')->where('users.valid', '!=', 3)->where('users.role', '=', 2)->orderBy('users.id', 'DESC')->get();
 
 
-            return view('admin.maincontents.' . $page_name, $data);
-        }
+        return view('admin.maincontents.' . $page_name, $data);
+    }
 }

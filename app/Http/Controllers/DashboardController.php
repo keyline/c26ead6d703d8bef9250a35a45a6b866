@@ -874,6 +874,8 @@ class DashboardController extends Controller
                 $admin_commision            = (($total_amount_payable * $stumento_commision_percent) / 100);
                 $mentor_commision           = ($total_amount_payable - $admin_commision);
 
+                $is_30_slot                 = (($postData['is_30_slot'] == 'on')?1:0);
+
                 $fields                 = [
                     'service_attribute_id'      => $postData['service_attribute_id'],
                     'mentor_user_id'            => $postData['mentor_user_id'],
@@ -892,8 +894,31 @@ class DashboardController extends Controller
                     'countryid'                 => 101,
                     'status'                    => $postData['status'],
                 ];
-                // Helper::pr($fields);
+                if($is_30_slot){
+                    $fields2                 = [
+                        'service_attribute_id'      => $postData['service_attribute_id'],
+                        'mentor_user_id'            => $postData['mentor_user_id'],
+                        'title'                     => $postData['title'],
+                        'description'               => $postData['description'],
+                        'duration'                  => 30,
+                        'slashed_amount'            => $postData['slashed_amount'],
+                        'sgst_amount'               => $sgst_amount,
+                        'cgst_amount'               => $cgst_amount,
+                        'igst_amount'               => $igst_amount,
+                        'total_amount_payable'      => $total_amount_payable,
+                        'platform_charges'          => $admin_commision,
+                        'mentor_payout_amount'      => $mentor_commision,
+                        'promised_response_time'    => 30,
+                        'sort_order'                => 1,
+                        'countryid'                 => 101,
+                        'status'                    => $postData['status'],
+                    ];
+                }
+                // Helper::pr($fields,0);
+                // Helper::pr($fields2,0);
+                // die;
                 ServiceDetail::insert($fields);
+                ServiceDetail::insert($fields2);
                 return redirect()->back()->with('success_message', 'Service Added Successfully !!!');
             }
             $title                              = 'Mentor Services';

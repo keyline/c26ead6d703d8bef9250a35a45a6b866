@@ -163,7 +163,7 @@ use App\Models\GeneralSetting;
 	                  					<option value="" selected>Select Service Type</option>
 	                  					<?php if($service_attrs){ foreach($service_attrs as $service_attr){?>
 	                  						<?php
-	                  						$checkMentorService = ServiceDetail::where('mentor_user_id', '=', $userId)->where('service_attribute_id', '=', $service_attr->id)->count();
+	                  						$checkMentorService = ServiceDetail::where('mentor_user_id', '=', $userId)->where('service_attribute_id', '=', $service_attr->id)->where('status', '!=', 3)->count();
 	                  						if($checkMentorService <= 0){
 	                  						?>
 			                  					<option value="<?=$service_attr->id?>"><?=$service_attr->title?></option>
@@ -181,6 +181,10 @@ use App\Models\GeneralSetting;
                   			  	</div>
                   			  	<div class="mb-3">
 	                  				<label for="duration" class="form-label">Duration (mins)</label>
+	                  				<p id="30_min_check" style="display: none;">
+	                  					<input type="checkbox" id="is_30_slot" name="is_30_slot">
+	                  					<label for="is_30_slot">Is 30 Mins Slots Add On The Go ?</label>
+	                  				</p>
 	                  				<select class="form-control" id="duration" name="duration" required>
 	                  					<option value="" selected>Select Duration</option>
 	                  					<option value="30">30 Mins</option>
@@ -234,6 +238,7 @@ use App\Models\GeneralSetting;
         return true;
     }
 </script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <script type="text/javascript">
 	function getServiceDetails(service_attribute_id){
 	    $.ajax({
@@ -261,5 +266,15 @@ use App\Models\GeneralSetting;
 	        }
 	    });
 	}
+	$(function(){
+		$('#duration').on('change', function(){
+			var duration = $('#duration').val();
+			if(duration == 60){
+				$('#30_min_check').show();
+			} else {
+				$('#30_min_check').hide();
+			}
+		});
+	})
 </script>
 

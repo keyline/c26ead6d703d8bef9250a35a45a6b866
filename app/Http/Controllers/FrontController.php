@@ -752,6 +752,7 @@ class FrontController extends Controller
                 if ($getServiceDetails2) {
                     $service = Service::select('name')->where('id', '=', $getServiceDetails2->service_id)->where('status', '=', 1)->first();
                     if ($service) {
+                        $checkMentorSlotAvl = MentorAvailability::where('duration', '=', $getServiceDetail->duration)->where('mentor_user_id', '=', $user_id)->where('is_active', '=', 1)->count();
                         $mentor_services[] = [
                             'mentor_service_id'         => $getServiceDetail->id,
                             'service_id'                => $getServiceDetails2->service_id,
@@ -762,11 +763,13 @@ class FrontController extends Controller
                             'service_duration'          => $getServiceDetail->duration,
                             'service_amount'            => $getServiceDetail->total_amount_payable,
                             'service_slashed_amount'    => $getServiceDetail->slashed_amount,
+                            'is_slot_available'         => (($checkMentorSlotAvl > 0)?1:0),
                         ];
                     }
                 }
             }
         }
+        // Helper::pr($mentor_services);
         $data['mentor_services']        = $mentor_services;
 
         $title                          = 'Mentor Details';

@@ -151,6 +151,11 @@ use App\Helpers\Helper;
                                   <span style="display: inline-block;"><i class="fa fa-clock"></i> <?=$mentor_service['service_duration']?> Mins</span>
                                 </div>
                               </div>
+                              <?php if($mentor_service['is_slot_available']){?>
+                                <small class="text-success" style="float: right;">Slot Available</small>
+                              <?php } else {?>
+                                <small class="text-danger" style="float: right;">Slot Not Available</small>
+                              <?php }?>
                             </div>
                           </div>
                             </div>
