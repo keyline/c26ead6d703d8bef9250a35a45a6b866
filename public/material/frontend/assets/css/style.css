@@ -233,8 +233,8 @@ header.header {
   font-size: 18px !important;
   font-weight: 500;
   color: #000 !important;
-    padding-left: 19px !important;
-    padding-right: 19px !important;
+    padding-left: 10px !important;
+    padding-right: 10px !important;
 }
 .header nav ul.navbar-nav .dropdown-item.active {
   background: #ddd;
