@@ -4,12 +4,12 @@
       <div class="innerpage_banner">
          <div class="innerbanner_img"><img src="<?=env('FRONT_ASSETS_URL')?>assets/images/career-counseling-9-10th-banner.jpg" alt="banner"></div>
          <div class="innerbanner_bredcum">
-            <h1>Career Counseling 9-10th</h1>
+            <!-- <h1>Career Counseling 9-10th</h1>
             <ul>
                <li><a href="<?=url('/')?>">Home</a></li>
                <li>/</li>
                <li>Career Counseling 9-10th</li>
-            </ul>
+            </ul> -->
          </div>
       </div>
    </div>

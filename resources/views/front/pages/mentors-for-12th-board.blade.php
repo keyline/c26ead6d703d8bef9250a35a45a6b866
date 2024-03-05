@@ -4,12 +4,12 @@
       <div class="innerpage_banner">
          <div class="innerbanner_img"><img src="<?=env('FRONT_ASSETS_URL')?>assets/images/mentors-for-12th-board-banner.jpg" alt="banner"></div>
          <div class="innerbanner_bredcum">
-            <h1>Mentors for 12th Board</h1>
+            <!-- <h1>Mentors for 12th Board</h1>
             <ul>
                <li><a href="<?=url('/')?>">Home</a></li>
                <li>/</li>
                <li>Mentors for 12th Board</li>
-            </ul>
+            </ul> -->
          </div>
       </div>
    </div>

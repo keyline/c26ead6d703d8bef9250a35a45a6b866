@@ -4,12 +4,12 @@
       <div class="innerpage_banner">
          <div class="innerbanner_img"><img src="<?=env('FRONT_ASSETS_URL')?>assets/images/mental-health-counselling-banner.jpg" alt="banner"></div>
          <div class="innerbanner_bredcum">
-            <h1>Mental Health Counselling</h1>
+            <!-- <h1>Mental Health Counselling</h1>
             <ul>
                <li><a href="<?=url('/')?>">Home</a></li>
                <li>/</li>
                <li>Mental Health Counselling</li>
-            </ul>
+            </ul> -->
          </div>
       </div>
    </div>
