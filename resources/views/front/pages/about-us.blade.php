@@ -7,13 +7,13 @@ use App\Helpers\Helper;
       <div class="innerpage_banner">
          <div class="innerbanner_img"><img src="<?=env('UPLOADS_URL')?>page/<?=$page->page_banner_image?>" alt="<?=$page->page_name?>"></div>
          <div class="innerbanner_bredcum">
-            <h1><?=$page_header?></h1>
+            <!-- <h1><?=$page_header?></h1>
             <ul>
                <li><a href="<?=url('/')?>">Home</a></li>
                <li>/</li>
                <li><?=$page_header?></li>
             </ul>
-         </div>
+         </div> -->
       </div>
    </div>
 </div>

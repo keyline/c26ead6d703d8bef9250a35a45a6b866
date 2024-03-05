@@ -125,11 +125,11 @@ $pageFunction = ((count($pageName)>2)?$pageName[2]:'');
       </li>
       <?php }?>
       <?php if(in_array(28, $module_id)){?>
-      <!-- <li>
+      <li>
         <a class="<?=(($pageSegment == 'testimonial')?'active':'')?>" href="{{ url('admin/testimonial/list') }}">
           <i class="bi bi-arrow-right"></i><span>Testimonials</span>
         </a>
-      </li> -->
+      </li>
       <?php }?>
       <?php if(in_array(31, $module_id)){?>
       <li>

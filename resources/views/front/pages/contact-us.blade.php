@@ -17,12 +17,12 @@
       <div class="innerpage_banner">
          <div class="innerbanner_img"><img src="<?=env('FRONT_ASSETS_URL')?>assets/images/contactbanner.jpg" alt="banner"></div>
          <div class="innerbanner_bredcum">
-            <h1><?=$page_header?></h1>
+            <!-- <h1><?=$page_header?></h1>
             <ul>
                <li><a href="<?=url('/')?>">Home</a></li>
                <li>/</li>
                <li><?=$page_header?></li>
-            </ul>
+            </ul> -->
          </div>
       </div>
    </div>
