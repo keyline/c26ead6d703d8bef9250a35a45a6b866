@@ -53,7 +53,7 @@ $controllerRoute = $module['controller_route'];
                   <td><?=date_format(date_create($row->created_at), "M d, Y h:i A")?></td>
                   <td>
                     <!-- <a href="<?=url('admin/' . $controllerRoute . '/edit/'.Helper::encoded($row->user_id))?>" class="btn btn-outline-primary btn-sm" title="Edit <?=$module['title']?>"><i class="fa fa-edit"></i></a> -->
-                    <!-- <a href="<?=url('admin/' . $controllerRoute . '/delete/'.Helper::encoded($row->user_id))?>" class="btn btn-outline-danger btn-sm" title="Delete <?=$module['title']?>" onclick="return confirm('Do You Want To Delete This <?=$module['title']?>');"><i class="fa fa-trash"></i></a> -->
+                    <a href="<?=url('admin/' . $controllerRoute . '/delete/'.Helper::encoded($row->user_id))?>" class="btn btn-outline-danger btn-sm" title="Delete <?=$module['title']?>" onclick="return confirm('Do You Want To Delete This <?=$module['title']?>');"><i class="fa fa-trash"></i></a>
                     <?php if($row->valid){?>
                       <a href="<?=url('admin/' . $controllerRoute . '/change-status/'.Helper::encoded($row->user_id))?>" class="btn btn-success btn-sm" title="Activate <?=$module['title']?>"><i class="fa fa-check"></i> Click To Disapprove</a>
                     <?php } else {?>
