@@ -60,11 +60,11 @@
 														echo $QuestionCount; ?>
 													</td>
 													<td>
-														<?php $checkResult = SurveyResult::where('status','=',1)->where('survey_id','=',$row->id)->first(); 
+														<?php $checkResult = SurveyResult::where('user_id','=',$user_id)->where('status','=',1)->where('survey_id','=',$row->id)->first(); 
 														if($checkResult){	?>
 															<!-- <span class="badge bg-primary">Already Participated</span> -->
 															<a href="<?=url('user/survey-result/'.Helper::encoded($row->id))?>" class="btn btn-primary uppercase"> View Result</a>
-														<?php }else{	?>
+														<?php }else{ ?>
 															<a href="<?=url('user/survey-details/'.Helper::encoded($row->id))?>" class="btn_orgfill uppercase"> View</a>
 														<?php } ?>
 													</td>

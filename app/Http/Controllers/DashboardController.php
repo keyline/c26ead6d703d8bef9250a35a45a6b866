@@ -384,7 +384,9 @@ class DashboardController extends Controller
     /* survey */
         public function surveyList()
         {
-            $data['surveyList']    = Survey::where('status', '=', 1)->get();
+            $userId             = $request->session()->get('user_id');
+            $data['user_id']    = $userId;
+            $data['surveyList'] = Survey::where('status', '=', 1)->get();
             $title              = 'Survey List';
             $page_name          = 'survey-list';
             echo $this->front_dashboard_layout($title, $page_name, $data);
