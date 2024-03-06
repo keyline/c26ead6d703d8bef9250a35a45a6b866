@@ -382,7 +382,7 @@ class DashboardController extends Controller
         /* logout*/
     /* common */
     /* survey */
-        public function surveyList()
+        public function surveyList(Request $request)
         {
             $userId             = $request->session()->get('user_id');
             $data['user_id']    = $userId;
